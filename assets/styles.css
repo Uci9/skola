@@ -174,8 +174,7 @@ p { margin: 0 0 1.15em; }
   background-color: var(--navy);
   background-image:
     linear-gradient(rgba(12, 24, 40, .58), rgba(12, 24, 40, .62)),
-    url("assets/img/skola.jpg"),
-    url("https://elektropg.online/static/media/skola.b1b6c22e24221a3381a2.jpg");
+    url("img/skola.jpg");
   background-size: cover;
   background-position: center;
   color: #fff;
@@ -464,7 +463,7 @@ html.js .hero.is-ready .hero-actions { animation: veil-rise .8s ease .48s forwar
 
 /* Blago primicanje fotografije u pozadini */
 .hero { animation: hero-settle 9s ease-out forwards; }
-@keyframes hero-settle { from { background-size: 108% auto, cover, cover; } to { background-size: 100% auto, cover, cover; } }
+@keyframes hero-settle { from { background-size: auto, 108%; } to { background-size: auto, 100%; } }
 
 /* ---------- Otkrivanje pri skrolovanju ---------- */
 html.js .reveal { opacity: 0; transform: translateY(26px); }
