@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="sr-ME" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JU Srednja elektrotehnička škola „Vaso Aligrudić“ — Podgorica</title>
+<meta name="description" content="Javna ustanova Srednja elektrotehnička škola „Vaso Aligrudić“, Podgorica. Obrazovni programi, upis, oglasna tabla, dokumenti i kontakt.">
+<link rel="stylesheet" href="assets/styles.css">
+<script>
+  // Postavlja se prije iscrtavanja: bez ovoga sadržaj bi zatreperio.
+  (function () {
+    var el = document.documentElement;
+    el.className = el.className.replace('no-js', 'js');
+    // ?intro=1 uvijek pušta uvodnu animaciju ponovo (korisno za prikazivanje).
+    var force = location.search.indexOf('intro=1') > -1;
+    try {
+      if (!force && sessionStorage.getItem('etsVeil') === '1') { el.className += ' veil-seen'; }
+      else { sessionStorage.setItem('etsVeil', '1'); }
+    } catch (e) { /* privatni režim — zavjesa se prikazuje svaki put */ }
+  })();
+</script>
+</head>
+<body>
+
+<!-- ===== Uvodna zavjesa ===== -->
+<div class="intro-veil" id="introVeil" aria-hidden="true">
+  <div>
+    <span class="veil-mark">
+      <img src="https://elektropg.online/static/media/logo.d0d24655fab252e6fdaf741db1371507.svg" alt=""
+           onerror="this.outerHTML='&lt;b&gt;ETŠ&lt;/b&gt;'">
+    </span>
+    <p class="intro-veil-name">JU Srednja elektrotehnička škola<br>„Vaso Aligrudić“</p>
+    <span class="intro-veil-bar"><i></i></span>
+  </div>
+</div>
+
+<!-- ===== Utility bar ===== -->
+<div class="utility">
+  <div class="wrap">
+    <div class="utility-info">
+      <span>Vasa Raičkovića 26, 81000 Podgorica</span>
+      <a href="tel:+38220237120">020 237 120</a>
+      <a href="mailto:skola@ets-pg.edu.me">skola@ets-pg.edu.me</a>
+    </div>
+    <div class="utility-links">
+      <a href="#">Latinica</a>
+      <a href="#">English</a>
+      <a href="#">e-Dnevnik</a>
+      <span class="utility-social">
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6A22 22 0 0 0 14.3 3.5c-2.4 0-4 1.45-4 4.1v2.3H7.6V13h2.7v8Z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.75-1.77C18.3 5 12 5 12 5s-6.3 0-7.85.43A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.75 1.77C5.7 19 12 19 12 19s6.3 0 7.85-.43a2.5 2.5 0 0 0 1.75-1.77A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8ZM10 15.1V8.9l5.2 3.1Z"/></svg></a>
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Header ===== -->
+<header class="site-header">
+  <div class="wrap">
+    <div class="nav-row">
+      <ul class="nav-list" id="navLeft">
+        <li><a href="#pocetna" class="is-active">Početna</a></li>
+        <li><a href="#o-skoli">O školi</a></li>
+        <li><a href="#programi">Obrazovni programi</a></li>
+        <li><a href="#upis">Upis</a></li>
+      </ul>
+
+      <a class="emblem" href="#pocetna" aria-label="Početna strana">
+        <img src="https://elektropg.online/static/media/logo.d0d24655fab252e6fdaf741db1371507.svg"
+             alt="Grb škole"
+             onerror="this.outerHTML='&lt;span class=&quot;emblem-fallback&quot;&gt;ETŠ&lt;/span&gt;'">
+      </a>
+
+      <ul class="nav-list is-right" id="navRight">
+        <li><a href="#oglasna">Oglasna tabla</a></li>
+        <li><a href="#dokumenti">Dokumenti</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+      </ul>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Otvori meni" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Hero ===== -->
+<section class="hero" id="pocetna">
+  <div class="hero-inner">
+    <p class="hero-kicker">Javna ustanova · Osnovana 1946. godine</p>
+    <h1>Srednja elektrotehnička škola<br>„Vaso Aligrudić“</h1>
+    <p>Srednje stručno i tehničko obrazovanje u Podgorici — šest obrazovnih programa,
+       savremeni kabineti i praktična nastava u saradnji s privredom.</p>
+    <div class="hero-actions">
+      <a href="#programi" class="btn btn-accent">Obrazovni programi</a>
+      <a href="#kontakt" class="btn btn-outline">Kontakt</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Quick bar ===== -->
+<nav class="quickbar" aria-label="Brzi pristup">
+  <ul>
+    <li><a href="#"><strong>e-Dnevnik</strong><span>Ocjene i izostanci</span></a></li>
+    <li><a href="#"><strong>Moodle</strong><span>Platforma za učenje</span></a></li>
+    <li><a href="#"><strong>Raspored časova</strong><span>Po odjeljenjima</span></a></li>
+    <li><a href="#upis"><strong>Kalkulator poena</strong><span>Upis u I razred</span></a></li>
+    <li><a href="#dokumenti"><strong>Dokumenti</strong><span>Statut i pravilnici</span></a></li>
+  </ul>
+</nav>
+
+<!-- ===== Intro / O školi ===== -->
+<section class="section" id="o-skoli">
+  <div class="wrap">
+    <div class="intro-grid reveal">
+      <div>
+        <h2>Osamdeset godina elektrotehnike u Podgorici</h2>
+        <div class="rule-under is-left"></div>
+        <p>Prateći strategiju razvoja stručnog obrazovanja u Crnoj Gori, Srednja elektrotehnička škola
+           „Vaso Aligrudić“ koristi savremene obrazovne programe i tehnologije, sprovodi radionice i obuke
+           kako bi unaprijedila kvalitet nastave i omogućila kontinuirani stručni razvoj nastavnika.</p>
+        <p>Kroz organizaciju i učešće na domaćim i međunarodnim takmičenjima škola pokazuje da su i učenici
+           i nastavnici spremni da odgovore na izazove tržišta rada. Škola je licencirana i za obrazovanje
+           odraslih, sa programima iz oblasti elektronskih sigurnosnih sistema, elektrokomunikacionih
+           sistema i održavanja elektronskih uređaja.</p>
+        <p><a href="#" class="btn btn-line">Više o školi</a></p>
+      </div>
+
+      <figure class="intro-figure">
+        <img src="https://elektropg.online/static/media/skola.b1b6c22e24221a3381a2.jpg"
+             alt="Zgrada Elektrotehničke škole „Vaso Aligrudić“ u Podgorici">
+        <figcaption>Zgrada škole u ulici Vasa Raičkovića 26, Podgorica.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Stats ===== -->
+<section class="stats">
+  <div class="wrap">
+    <ul class="reveal-stagger">
+      <li><b>1946.</b><span>Godina osnivanja</span></li>
+      <li><b>1120</b><span>Učenika</span></li>
+      <li><b>123</b><span>Zaposlenih</span></li>
+      <li><b>6</b><span>Obrazovnih programa</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== Obrazovni programi ===== -->
+<section class="section section-warm" id="programi">
+  <div class="wrap">
+    <h2 class="section-title reveal">Obrazovni programi</h2>
+    <div class="rule-under"></div>
+    <p class="lede-center reveal">
+      Četvorogodišnji programi vode ka diplomi tehničara i pravu na nastavak školovanja,
+      a trogodišnji ka zanimanju s kojim se odmah može raditi.
+    </p>
+
+    <div class="programs reveal-stagger">
+      <details open>
+        <summary>Elektrotehničar računara <span class="prog-level">IV stepen</span></summary>
+        <div class="prog-body">
+          <p>Računarski hardver, računarske mreže, operativni sistemi i programiranje. Program priprema
+             učenike za studije informatike i elektrotehnike, ali i za neposredan rad u struci.</p>
+          <ul class="prog-facts">
+            <li>Trajanje: <b>4 godine</b></li>
+            <li>Odjeljenja: <b>2</b></li>
+            <li>Završetak: <b>stručna matura</b></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Elektrotehničar elektronike <span class="prog-level">IV stepen</span></summary>
+        <div class="prog-body">
+          <p>Analogna i digitalna elektronika, mikrokontroleri, električna mjerenja i projektovanje uređaja.
+             Osnova za dalje usmjeravanje ka automatici i razvoju ugrađenih sistema.</p>
+          <ul class="prog-facts">
+            <li>Trajanje: <b>4 godine</b></li>
+            <li>Odjeljenja: <b>1</b></li>
+            <li>Završetak: <b>stručna matura</b></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Elektrotehničar energetike <span class="prog-level">IV stepen</span></summary>
+        <div class="prog-body">
+          <p>Proizvodnja, prenos i distribucija električne energije, električne instalacije i mašine,
+             te obnovljivi izvori energije.</p>
+          <ul class="prog-facts">
+            <li>Trajanje: <b>4 godine</b></li>
+            <li>Odjeljenja: <b>2</b></li>
+            <li>Završetak: <b>stručna matura</b></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Elektrotehničar telekomunikacija <span class="prog-level">IV stepen</span></summary>
+        <div class="prog-body">
+          <p>Prenos signala, optičke i bežične mreže, telekomunikacioni sistemi i njihovo održavanje,
+             uz praktičnu nastavu kod telekomunikacionih operatera.</p>
+          <ul class="prog-facts">
+            <li>Trajanje: <b>4 godine</b></li>
+            <li>Odjeljenja: <b>1</b></li>
+            <li>Završetak: <b>stručna matura</b></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Elektroinstalater <span class="prog-level">III stepen</span></summary>
+        <div class="prog-body">
+          <p>Izvođenje i održavanje električnih instalacija u objektima, uz praktičnu nastavu kod
+             poslodavaca i mogućnost nastavka školovanja.</p>
+          <ul class="prog-facts">
+            <li>Trajanje: <b>3 godine</b></li>
+            <li>Odjeljenja: <b>1</b></li>
+            <li>Završetak: <b>stručni ispit</b></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Elektromehaničar <span class="prog-level">III stepen</span></summary>
+        <div class="prog-body">
+          <p>Montaža, servisiranje i popravka električnih uređaja i mašina. Dio nastave realizuje se
+             kroz dualno obrazovanje, neposredno u preduzećima.</p>
+          <ul class="prog-facts">
+            <li>Trajanje: <b>3 godine</b></li>
+            <li>Odjeljenja: <b>1</b></li>
+            <li>Završetak: <b>stručni ispit</b></li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Upis ===== -->
+<section class="section" id="upis">
+  <div class="wrap">
+    <h2 class="section-title reveal">Upis u prvi razred</h2>
+    <div class="rule-under"></div>
+
+    <div class="steps reveal-stagger">
+      <div class="step">
+        <span class="step-num">01</span>
+        <h3>Broj poena</h3>
+        <p>Uspjeh iz VII, VIII i IX razreda osnovne škole i rezultat eksterne provjere znanja.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <h3>Dokumentacija</h3>
+        <p>Izvod iz matične knjige rođenih, svjedočanstva i uvjerenje o završenoj osnovnoj školi.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <h3>Predaja prijave</h3>
+        <p>Prijava se predaje u sekretarijatu škole ili elektronski, u okviru upisnog roka.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <h3>Rang-lista</h3>
+        <p>Rezultati se objavljuju na oglasnoj tabli i na sajtu škole, nakon čega slijedi upis.</p>
+      </div>
+    </div>
+
+    <p style="text-align:center;margin-top:38px">
+      <a href="#" class="btn btn-navy">Kalkulator poena</a>
+    </p>
+  </div>
+</section>
+
+<!-- ===== Oglasna tabla ===== -->
+<section class="section section-warm" id="oglasna">
+  <div class="wrap">
+    <div class="section-head-row reveal">
+      <div>
+        <span class="section-eyebrow">Novosti iz škole</span>
+        <h2>Oglasna tabla</h2>
+      </div>
+      <a href="#" class="btn btn-line">Sva obavještenja</a>
+    </div>
+
+    <div class="notices reveal-stagger">
+      <a class="notice" href="#">
+        <time datetime="2026-08-20">20. 08. 2026.</time>
+        <div class="notice-body">
+          <span class="notice-cat">Upis</span>
+          <h3>Rang-lista za naknadni upis u prvi razred</h3>
+          <p>Lista kandidata objavljena je na oglasnoj tabli škole. Upis se obavlja do 15.00 časova.</p>
+        </div>
+      </a>
+
+      <a class="notice" href="#">
+        <time datetime="2026-08-15">15. 08. 2026.</time>
+        <div class="notice-body">
+          <span class="notice-cat">Obavještenje</span>
+          <h3>Raspored polaganja popravnih ispita</h3>
+          <p>Termini po predmetima i odjeljenjima dostupni su u sekretarijatu i u e-Dnevniku.</p>
+        </div>
+      </a>
+
+      <a class="notice" href="#">
+        <time datetime="2026-07-02">02. 07. 2026.</time>
+        <div class="notice-body">
+          <span class="notice-cat">Projekti</span>
+          <h3>Opremanje radionica kroz projekat RCF</h3>
+          <p>Kroz Regionalni Challenge Fond škola dobija novu opremu i kabinete-radionice, uz saradnju
+             s vodećim kompanijama u regionu.</p>
+        </div>
+      </a>
+
+      <a class="notice" href="#">
+        <time datetime="2026-06-12">12. 06. 2026.</time>
+        <div class="notice-body">
+          <span class="notice-cat">Takmičenja</span>
+          <h3>Rezultati državnog takmičenja iz elektronike</h3>
+          <p>Učenici škole ostvarili su plasman na regionalno takmičenje.</p>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== Projekti ===== -->
+<section class="section">
+  <div class="wrap">
+    <h2 class="section-title reveal">Projekti i partneri</h2>
+    <div class="rule-under"></div>
+    <div class="projects reveal-stagger">
+      <div class="project">
+        <h3>VET for Western Balkans (V4WB)</h3>
+        <p>Jačanje saradnje između zemalja Zapadnog Balkana i država članica Evropske unije kroz
+           zajedničke radne grupe, razvoj nastavnog plana i programa i nove strategije stručnog obrazovanja.</p>
+      </div>
+      <div class="project">
+        <h3>Regionalni Challenge Fond (RCF)</h3>
+        <p>Jačanje relevantnosti stručnog obrazovanja na tržištu rada kroz finansiranje opreme i
+           infrastrukture, uz uključivanje preduzeća u aktivnosti obuke učenika.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Dokumenti ===== -->
+<section class="section section-warm" id="dokumenti">
+  <div class="wrap">
+    <h2 class="section-title reveal">Dokumenti</h2>
+    <div class="rule-under"></div>
+    <div class="docs reveal-stagger">
+      <a class="doc" href="#"><span class="doc-type">PDF</span><span class="doc-name">Statut škole</span><span class="doc-size">1,2 MB</span></a>
+      <a class="doc" href="#"><span class="doc-type">PDF</span><span class="doc-name">Godišnji plan rada za 2026/27. godinu</span><span class="doc-size">3,4 MB</span></a>
+      <a class="doc" href="#"><span class="doc-type">PDF</span><span class="doc-name">Plan integriteta</span><span class="doc-size">640 KB</span></a>
+      <a class="doc" href="#"><span class="doc-type">PDF</span><span class="doc-name">Pravilnik o ponašanju učenika</span><span class="doc-size">480 KB</span></a>
+      <a class="doc" href="#"><span class="doc-type">PDF</span><span class="doc-name">Plan javnih nabavki</span><span class="doc-size">2,1 MB</span></a>
+      <a class="doc" href="#"><span class="doc-type">PDF</span><span class="doc-name">Školski kalendar 2026/27.</span><span class="doc-size">320 KB</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Kontakt ===== -->
+<section class="section" id="kontakt">
+  <div class="wrap">
+    <h2 class="section-title reveal">Kontakt</h2>
+    <div class="rule-under"></div>
+
+    <div class="contact-grid reveal">
+      <div>
+        <table class="contact-table">
+          <tbody>
+            <tr><th>Naziv ustanove</th><td>JU Srednja elektrotehnička škola „Vaso Aligrudić“</td></tr>
+            <tr><th>Adresa</th><td>ul. Vasa Raičkovića 26, 81000 Podgorica</td></tr>
+            <tr><th>Telefon</th><td><a href="tel:+38220237120">(+382) 020 237 120</a></td></tr>
+            <tr><th>E-pošta</th><td><a href="mailto:skola@ets-pg.edu.me">skola@ets-pg.edu.me</a></td></tr>
+            <tr><th>Djelatnost</th><td>8532 — srednje stručno i tehničko obrazovanje</td></tr>
+            <tr><th>Sekretarijat</th><td>Ponedjeljak — petak, 08.00 — 14.00 časova</td></tr>
+          </tbody>
+        </table>
+        <a href="mailto:skola@ets-pg.edu.me" class="btn btn-navy">Pošaljite poruku</a>
+      </div>
+
+      <div class="map-slot">
+        <div>
+          <strong style="display:block;color:var(--ink);font-family:var(--serif);font-size:1.1rem;margin-bottom:8px">Mapa lokacije</strong>
+          Mjesto za ugrađenu Google ili OpenStreetMap kartu.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <strong>JU Srednja elektrotehnička škola<br>„Vaso Aligrudić“</strong>
+        <p>Vasa Raičkovića 26, 81000 Podgorica<br>
+           Telefon: 020 237 120<br>
+           E-pošta: skola@ets-pg.edu.me</p>
+      </div>
+
+      <div>
+        <h4>Škola</h4>
+        <ul>
+          <li><a href="#o-skoli">O školi</a></li>
+          <li><a href="#">Uprava škole</a></li>
+          <li><a href="#">Školski odbor</a></li>
+          <li><a href="#">Nastavnici i saradnici</a></li>
+          <li><a href="#">Ritam radnog dana</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Učenici</h4>
+        <ul>
+          <li><a href="#">e-Dnevnik</a></li>
+          <li><a href="#">Moodle</a></li>
+          <li><a href="#">Raspored časova</a></li>
+          <li><a href="#">Praktična nastava</a></li>
+          <li><a href="#">Vannastavne aktivnosti</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Roditelji</h4>
+        <ul>
+          <li><a href="#upis">Upis u prvi razred</a></li>
+          <li><a href="#">Savjet roditelja</a></li>
+          <li><a href="#dokumenti">Dokumenti</a></li>
+          <li><a href="#oglasna">Oglasna tabla</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <span id="year">2026</span> JU Srednja elektrotehnička škola „Vaso Aligrudić“, Podgorica</span>
+      <span>Obrazovanje odraslih · Javne nabavke · Zaštita podataka</span>
+    </div>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="Nazad na vrh strane">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('navToggle');
+    var lists  = [document.getElementById('navLeft'), document.getElementById('navRight')];
+
+    toggle.addEventListener('click', function () {
+      var open = !lists[0].classList.contains('is-open');
+      lists.forEach(function (l) { l.classList.toggle('is-open', open); });
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+
+    var links = [];
+    lists.forEach(function (l) {
+      l.addEventListener('click', function (e) {
+        if (e.target.tagName === 'A') {
+          lists.forEach(function (x) { x.classList.remove('is-open'); });
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+      links = links.concat(Array.prototype.slice.call(l.querySelectorAll('a[href^="#"]')));
+    });
+
+    var sections = links
+      .map(function (a) { return document.querySelector(a.getAttribute('href')); })
+      .filter(Boolean);
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          links.forEach(function (a) {
+            a.classList.toggle('is-active', a.getAttribute('href') === '#' + entry.target.id);
+          });
+        });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      sections.forEach(function (s) { io.observe(s); });
+    }
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* ---- Sistemsko podešavanje za smanjeno kretanje ---- */
+    var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ---- Uvodna zavjesa ---- */
+    var hero = document.querySelector('.hero');
+    var veil = document.getElementById('introVeil');
+    var seen = document.documentElement.classList.contains('veil-seen');
+
+    function startHero() { if (hero) hero.classList.add('is-ready'); }
+
+    if (calm || seen || !veil) {
+      startHero();
+      if (veil) veil.remove();
+    } else {
+      // Sadržaj heroja kreće tek kad se zavjesa podigne.
+      setTimeout(startHero, 1750);
+      // Sigurnosna kočnica: zavjesa se uklanja i ako animacija ne završi.
+      var removed = false;
+      function dropVeil() {
+        if (removed) return;
+        removed = true;
+        veil.remove();
+        startHero();
+      }
+      veil.addEventListener('animationend', function (e) {
+        if (e.animationName === 'veil-lift') dropVeil();
+      });
+      setTimeout(dropVeil, 3200);
+    }
+
+    /* ---- Otkrivanje sekcija pri skrolovanju ---- */
+    var revealed = document.querySelectorAll('.reveal, .reveal-stagger');
+    if (calm || !('IntersectionObserver' in window)) {
+      Array.prototype.forEach.call(revealed, function (el) { el.classList.add('is-visible'); });
+    } else {
+      var revealObserver = new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        });
+      }, { rootMargin: '0px 0px -12% 0px', threshold: .12 });
+      Array.prototype.forEach.call(revealed, function (el) { revealObserver.observe(el); });
+    }
+
+    /* ---- Zaglavlje i dugme za povratak na vrh ---- */
+    var header = document.querySelector('.site-header');
+    var toTop  = document.getElementById('toTop');
+    var ticking = false;
+
+    function onScroll() {
+      var y = window.pageYOffset;
+      header.classList.toggle('is-stuck', y > 90);
+      toTop.classList.toggle('is-shown', y > 700);
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(onScroll);
+    }, { passive: true });
+    onScroll();
+
+    toTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: calm ? 'auto' : 'smooth' });
+    });
+  })();
+</script>
+
+</body>
+</html>
