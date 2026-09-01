@@ -7,22 +7,18 @@
 <meta name="description" content="Javna ustanova Srednja elektrotehnička škola „Vaso Aligrudić“, Podgorica. Obrazovni programi, upis, oglasna tabla, dokumenti i kontakt.">
 <link rel="stylesheet" href="assets/styles.css">
 <script>
-  // Postavlja se prije iscrtavanja: bez ovoga sadržaj bi zatreperio.
-  (function () {
-    var el = document.documentElement;
-    el.className = el.className.replace('no-js', 'js');
-    // ?intro=1 uvijek pušta uvodnu animaciju ponovo (korisno za prikazivanje).
-    var force = location.search.indexOf('intro=1') > -1;
-    try {
-      if (!force && sessionStorage.getItem('etsVeil') === '1') { el.className += ' veil-seen'; }
-      else { sessionStorage.setItem('etsVeil', '1'); }
-    } catch (e) { /* privatni režim — zavjesa se prikazuje svaki put */ }
-  })();
+const html = document.documentElement;
+html.classList.replace('no-js', 'js');
+
+const opet = location.search.includes('intro=1');
+try {
+  if (!opet && sessionStorage.getItem('etsVeil')) html.classList.add('veil-seen');
+  else sessionStorage.setItem('etsVeil', '1');
+} catch (e) {}
 </script>
 </head>
 <body>
 
-<!-- ===== Uvodna zavjesa ===== -->
 <div class="intro-veil" id="introVeil" aria-hidden="true">
   <div>
     <span class="veil-mark">
@@ -34,7 +30,6 @@
   </div>
 </div>
 
-<!-- ===== Utility bar ===== -->
 <div class="utility">
   <div class="wrap">
     <div class="utility-info">
@@ -55,7 +50,6 @@
   </div>
 </div>
 
-<!-- ===== Header ===== -->
 <header class="site-header">
   <div class="wrap">
     <div class="nav-row">
@@ -67,8 +61,7 @@
       </ul>
 
       <a class="emblem" href="#pocetna" aria-label="Početna strana">
-        <img src="assets/img/grb.svg"
-             alt="Grb škole"
+        <img src="assets/img/grb.svg" alt="Grb škole"
              onerror="this.outerHTML='&lt;span class=&quot;emblem-fallback&quot;&gt;ETŠ&lt;/span&gt;'">
       </a>
 
@@ -83,7 +76,6 @@
   </div>
 </header>
 
-<!-- ===== Hero ===== -->
 <section class="hero" id="pocetna">
   <div class="hero-inner">
     <p class="hero-kicker">Javna ustanova · Osnovana 1946. godine</p>
@@ -97,7 +89,6 @@
   </div>
 </section>
 
-<!-- ===== Quick bar ===== -->
 <nav class="quickbar" aria-label="Brzi pristup">
   <ul>
     <li><a href="#"><strong>e-Dnevnik</strong><span>Ocjene i izostanci</span></a></li>
@@ -108,7 +99,6 @@
   </ul>
 </nav>
 
-<!-- ===== Intro / O školi ===== -->
 <section class="section" id="o-skoli">
   <div class="wrap">
     <div class="intro-grid reveal">
@@ -134,7 +124,6 @@
   </div>
 </section>
 
-<!-- ===== Stats ===== -->
 <section class="stats">
   <div class="wrap">
     <ul class="reveal-stagger">
@@ -146,7 +135,6 @@
   </div>
 </section>
 
-<!-- ===== Obrazovni programi ===== -->
 <section class="section section-warm" id="programi">
   <div class="wrap">
     <h2 class="section-title reveal">Obrazovni programi</h2>
@@ -238,7 +226,6 @@
   </div>
 </section>
 
-<!-- ===== Upis ===== -->
 <section class="section" id="upis">
   <div class="wrap">
     <h2 class="section-title reveal">Upis u prvi razred</h2>
@@ -273,7 +260,6 @@
   </div>
 </section>
 
-<!-- ===== Oglasna tabla ===== -->
 <section class="section section-warm" id="oglasna">
   <div class="wrap">
     <div class="section-head-row reveal">
@@ -326,7 +312,6 @@
   </div>
 </section>
 
-<!-- ===== Projekti ===== -->
 <section class="section">
   <div class="wrap">
     <h2 class="section-title reveal">Projekti i partneri</h2>
@@ -346,7 +331,6 @@
   </div>
 </section>
 
-<!-- ===== Dokumenti ===== -->
 <section class="section section-warm" id="dokumenti">
   <div class="wrap">
     <h2 class="section-title reveal">Dokumenti</h2>
@@ -362,7 +346,6 @@
   </div>
 </section>
 
-<!-- ===== Kontakt ===== -->
 <section class="section" id="kontakt">
   <div class="wrap">
     <h2 class="section-title reveal">Kontakt</h2>
@@ -393,7 +376,6 @@
   </div>
 </section>
 
-<!-- ===== Footer ===== -->
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-grid">
@@ -452,112 +434,97 @@
 </button>
 
 <script>
-  (function () {
-    var toggle = document.getElementById('navToggle');
-    var lists  = [document.getElementById('navLeft'), document.getElementById('navRight')];
+const navBtn = document.getElementById('navToggle');
+const menus = [document.getElementById('navLeft'), document.getElementById('navRight')];
 
-    toggle.addEventListener('click', function () {
-      var open = !lists[0].classList.contains('is-open');
-      lists.forEach(function (l) { l.classList.toggle('is-open', open); });
-      toggle.setAttribute('aria-expanded', String(open));
+function meni(otvoren) {
+  menus.forEach(m => m.classList.toggle('is-open', otvoren));
+  navBtn.setAttribute('aria-expanded', otvoren);
+}
+
+navBtn.addEventListener('click', () => meni(!menus[0].classList.contains('is-open')));
+
+menus.forEach(m => m.addEventListener('click', e => {
+  if (e.target.tagName === 'A') meni(false);
+}));
+
+const links = [...document.querySelectorAll('.nav-list a[href^="#"]')];
+const sekcije = links.map(a => document.querySelector(a.hash)).filter(Boolean);
+
+if ('IntersectionObserver' in window) {
+  const spy = new IntersectionObserver(ulazi => {
+    ulazi.forEach(u => {
+      if (!u.isIntersecting) return;
+      links.forEach(a => a.classList.toggle('is-active', a.hash === '#' + u.target.id));
     });
+  }, { rootMargin: '-45% 0px -50% 0px' });
 
-    var links = [];
-    lists.forEach(function (l) {
-      l.addEventListener('click', function (e) {
-        if (e.target.tagName === 'A') {
-          lists.forEach(function (x) { x.classList.remove('is-open'); });
-          toggle.setAttribute('aria-expanded', 'false');
-        }
-      });
-      links = links.concat(Array.prototype.slice.call(l.querySelectorAll('a[href^="#"]')));
+  sekcije.forEach(s => spy.observe(s));
+}
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const smireno = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const hero = document.querySelector('.hero');
+const veil = document.getElementById('introVeil');
+const pusti = () => hero.classList.add('is-ready');
+
+if (smireno || !veil || document.documentElement.classList.contains('veil-seen')) {
+  pusti();
+  if (veil) veil.remove();
+} else {
+  setTimeout(pusti, 1750);
+  let skinuta = false;
+  function skini() {
+    if (skinuta) return;
+    skinuta = true;
+    veil.remove();
+    pusti();
+  }
+  veil.addEventListener('animationend', e => {
+    if (e.animationName === 'veil-lift') skini();
+  });
+  setTimeout(skini, 3200);}
+
+const zaOtkrivanje = document.querySelectorAll('.reveal, .reveal-stagger');
+
+if (smireno || !('IntersectionObserver' in window)) {
+  zaOtkrivanje.forEach(el => el.classList.add('is-visible'));
+} else {
+  const io = new IntersectionObserver((ulazi, obs) => {
+    ulazi.forEach(u => {
+      if (!u.isIntersecting) return;
+      u.target.classList.add('is-visible');
+      obs.unobserve(u.target);
     });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: .12 });
 
-    var sections = links
-      .map(function (a) { return document.querySelector(a.getAttribute('href')); })
-      .filter(Boolean);
+  zaOtkrivanje.forEach(el => io.observe(el));
+}
 
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          links.forEach(function (a) {
-            a.classList.toggle('is-active', a.getAttribute('href') === '#' + entry.target.id);
-          });
-        });
-      }, { rootMargin: '-45% 0px -50% 0px' });
-      sections.forEach(function (s) { io.observe(s); });
-    }
+const header = document.querySelector('.site-header');
+const toTop = document.getElementById('toTop');
+let ceka = false;
 
-    document.getElementById('year').textContent = new Date().getFullYear();
+function skrol() {
+  const y = window.scrollY;
+  header.classList.toggle('is-stuck', y > 90);
+  toTop.classList.toggle('is-shown', y > 700);
+  ceka = false;
+}
 
-    /* ---- Sistemsko podešavanje za smanjeno kretanje ---- */
-    var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+window.addEventListener('scroll', () => {
+  if (ceka) return;
+  ceka = true;
+  requestAnimationFrame(skrol);
+}, { passive: true });
 
-    /* ---- Uvodna zavjesa ---- */
-    var hero = document.querySelector('.hero');
-    var veil = document.getElementById('introVeil');
-    var seen = document.documentElement.classList.contains('veil-seen');
+skrol();
 
-    function startHero() { if (hero) hero.classList.add('is-ready'); }
-
-    if (calm || seen || !veil) {
-      startHero();
-      if (veil) veil.remove();
-    } else {
-      // Sadržaj heroja kreće tek kad se zavjesa podigne.
-      setTimeout(startHero, 1750);
-      // Sigurnosna kočnica: zavjesa se uklanja i ako animacija ne završi.
-      var removed = false;
-      function dropVeil() {
-        if (removed) return;
-        removed = true;
-        veil.remove();
-        startHero();
-      }
-      veil.addEventListener('animationend', function (e) {
-        if (e.animationName === 'veil-lift') dropVeil();
-      });
-      setTimeout(dropVeil, 3200);
-    }
-
-    /* ---- Otkrivanje sekcija pri skrolovanju ---- */
-    var revealed = document.querySelectorAll('.reveal, .reveal-stagger');
-    if (calm || !('IntersectionObserver' in window)) {
-      Array.prototype.forEach.call(revealed, function (el) { el.classList.add('is-visible'); });
-    } else {
-      var revealObserver = new IntersectionObserver(function (entries, obs) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add('is-visible');
-          obs.unobserve(entry.target);
-        });
-      }, { rootMargin: '0px 0px -12% 0px', threshold: .12 });
-      Array.prototype.forEach.call(revealed, function (el) { revealObserver.observe(el); });
-    }
-
-    /* ---- Zaglavlje i dugme za povratak na vrh ---- */
-    var header = document.querySelector('.site-header');
-    var toTop  = document.getElementById('toTop');
-    var ticking = false;
-
-    function onScroll() {
-      var y = window.pageYOffset;
-      header.classList.toggle('is-stuck', y > 90);
-      toTop.classList.toggle('is-shown', y > 700);
-      ticking = false;
-    }
-    window.addEventListener('scroll', function () {
-      if (ticking) return;
-      ticking = true;
-      window.requestAnimationFrame(onScroll);
-    }, { passive: true });
-    onScroll();
-
-    toTop.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: calm ? 'auto' : 'smooth' });
-    });
-  })();
+toTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: smireno ? 'auto' : 'smooth' });
+});
 </script>
 
 </body>

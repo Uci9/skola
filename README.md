@@ -1,31 +1,31 @@
 # Sajt ETŠ „Vaso Aligrudić“
 
-Statički sajt Javne ustanove Srednja elektrotehnička škola „Vaso Aligrudić“, Podgorica.
+Sajt Elektrotehničke škole „Vaso Aligrudić“ u Podgorici. Obična statika —
+jedan HTML, jedan CSS, nema builda ni npm-a.
 
-## Pokretanje lokalno
-
-Nije potreban build ni instalacija paketa:
+## Pokretanje
 
 ```bash
 python3 -m http.server 8080
 ```
 
-Zatim otvoriti <http://localhost:8080>.
+pa <http://localhost:8080>. Duplim klikom na fajl ne valja, slike i CSS idu
+preko relativnih putanja.
 
-## Struktura
+## Fajlovi
 
 ```
-index.html          jedina strana — sve sekcije su na njoj
-assets/styles.css   svi stilovi
-assets/img/         grb škole i fotografija zgrade
+index.html          cijela strana
+assets/styles.css   stilovi
+assets/img/         grb + slika zgrade
 ```
 
-## Napomene za dalji rad
+## Šta još fali
 
-- Slike (`assets/img/grb.svg`, `assets/img/skola.jpg`) preuzete su sa ranijeg
-  sajta škole i sada se nalaze u repozitorijumu — sajt ne zavisi od spoljnih adresa.
-- **Sadržaj koji treba zamijeniti stvarnim podacima:** obrazovni programi
-  (nazivi, broj odjeljenja, opisi), obavještenja, upisni rokovi i spisak dokumenata.
-- Uvodna animacija se prikazuje jednom po sesiji. Za ponovno prikazivanje
-  dodati `?intro=1` na adresu.
-- Poštuje se sistemsko podešavanje `prefers-reduced-motion`.
+- pravi PDF-ovi za sekciju Dokumenti, za sad su svi linkovi `#`
+- provjeriti broj odjeljenja po programu u sekretarijatu, ovi brojevi su lanjski
+- obavještenja su ukucana ručno; kad bude admin panel ide iz baze
+- mapa u kontaktu — treba ubaciti iframe
+
+Uvodna zavjesa se pušta jednom po sesiji (pamti se u sessionStorage).
+Za ponovno gledanje dodaj `?intro=1` na adresu.

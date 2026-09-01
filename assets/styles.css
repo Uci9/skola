@@ -1,22 +1,20 @@
-/* JU Srednja elektrotehnička škola "Vaso Aligrudić" — Podgorica */
-
 :root {
-  --navy:        #16283F;
-  --navy-dark:   #0F1D2E;
-  --ink:         #1C2B3D;
-  --body:        #4E5C6E;
-  --muted:       #7A8697;
-  --accent:      #C0821F;
+  --navy: #16283F;
+  --navy-dark: #0F1D2E;
+  --ink: #1C2B3D;
+  --body: #4E5C6E;
+  --muted: #7A8697;
+  --accent: #C0821F;
   --accent-dark: #9A6714;
 
-  --paper:       #FFFFFF;
-  --paper-warm:  #F7F6F3;
+  --paper: #FFFFFF;
+  --paper-warm: #F7F6F3;
   --paper-warm2: #EFEDE8;
-  --rule:        #E0DDD6;
+  --rule: #E0DDD6;
   --rule-strong: #C9C5BC;
 
   --serif: Georgia, "Times New Roman", "Liberation Serif", serif;
-  --sans:  "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
 
   --maxw: 1160px;
   --gutter: 26px;
@@ -73,7 +71,6 @@ p { margin: 0 0 1.15em; }
 }
 .rule-under.is-left { margin-left: 0; }
 
-/* ---------- Buttons: flat, square, uppercase ---------- */
 .btn {
   display: inline-block;
   padding: 13px 30px;
@@ -96,7 +93,6 @@ p { margin: 0 0 1.15em; }
 .btn-line    { background: transparent; color: var(--ink); border-color: var(--rule-strong); }
 .btn-line:hover { border-color: var(--accent); color: var(--accent-dark); }
 
-/* ---------- Utility bar ---------- */
 .utility {
   background: var(--navy-dark);
   color: #A9B6C6;
@@ -110,7 +106,6 @@ p { margin: 0 0 1.15em; }
 .utility-links { display: flex; gap: 22px; }
 .utility-links a { text-transform: uppercase; letter-spacing: .08em; font-size: .72rem; font-weight: 600; }
 
-/* ---------- Header: split nav with centred emblem ---------- */
 .site-header {
   position: sticky; top: 0; z-index: 80;
   background: var(--paper);
@@ -163,7 +158,6 @@ p { margin: 0 0 1.15em; }
 .nav-toggle span::before { top: -6px; margin-left: 0; left: 0; }
 .nav-toggle span::after  { top: 6px;  margin-left: 0; left: 0; }
 
-/* ---------- Hero ---------- */
 .hero {
   position: relative;
   min-height: 560px;
@@ -202,7 +196,6 @@ p { margin: 0 0 1.15em; }
 }
 .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
-/* ---------- Quick strip ---------- */
 .quickbar { background: var(--navy); }
 .quickbar ul {
   list-style: none; margin: 0; padding: 0;
@@ -220,7 +213,6 @@ p { margin: 0 0 1.15em; }
 }
 .quickbar span { font-size: .8rem; color: #93A2B5; }
 
-/* ---------- Intro ---------- */
 .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
 .intro-grid h2 { font-size: 1.85rem; }
 .intro-figure { border: 1px solid var(--rule); margin: 0; }
@@ -230,7 +222,6 @@ p { margin: 0 0 1.15em; }
   background: var(--paper-warm); border-top: 1px solid var(--rule);
 }
 
-/* ---------- Programs: accordion ---------- */
 .programs { max-width: 860px; margin: 0 auto; }
 .programs details {
   background: var(--paper);
@@ -268,7 +259,6 @@ p { margin: 0 0 1.15em; }
 .prog-facts { list-style: none; margin: 0; padding: 0; display: flex; gap: 30px; flex-wrap: wrap; font-size: .86rem; }
 .prog-facts b { color: var(--ink); }
 
-/* ---------- Steps ---------- */
 .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--rule); }
 .step { padding: 30px 26px 26px; border-bottom: 1px solid var(--rule); }
 .step + .step { border-left: 1px solid var(--rule); }
@@ -279,7 +269,6 @@ p { margin: 0 0 1.15em; }
 .step h3 { font-size: 1.05rem; margin-bottom: 8px; }
 .step p { font-size: .92rem; margin: 0; }
 
-/* ---------- Notices / oglasna tabla ---------- */
 .notices { max-width: 900px; margin: 0 auto; border-top: 1px solid var(--rule); }
 .notice {
   display: flex; gap: 26px; align-items: baseline;
@@ -301,7 +290,6 @@ p { margin: 0 0 1.15em; }
 }
 .notices-more { text-align: center; margin-top: 38px; }
 
-/* ---------- Stats band ---------- */
 .stats { background: var(--navy); color: #fff; padding: 58px 0; }
 .stats ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); }
 .stats li { text-align: center; padding: 0 20px; }
@@ -309,13 +297,11 @@ p { margin: 0 0 1.15em; }
 .stats b { display: block; font-family: var(--serif); font-size: 2.4rem; line-height: 1; color: #fff; }
 .stats span { display: block; margin-top: 10px; font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: #93A2B5; }
 
-/* ---------- Projects ---------- */
 .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
 .project { border-top: 3px solid var(--navy); padding-top: 22px; }
 .project h3 { font-size: 1.18rem; }
 .project p { font-size: .95rem; margin: 0; }
 
-/* ---------- Documents ---------- */
 .docs { max-width: 860px; margin: 0 auto; border-top: 1px solid var(--rule); }
 .doc {
   display: flex; align-items: center; gap: 16px;
@@ -330,7 +316,6 @@ p { margin: 0 0 1.15em; }
 .doc-name { font-size: .98rem; }
 .doc-size { margin-left: auto; font-size: .82rem; color: var(--muted); }
 
-/* ---------- Contact ---------- */
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
 .contact-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
 .contact-table th, .contact-table td {
@@ -349,7 +334,6 @@ p { margin: 0 0 1.15em; }
   color: var(--muted); font-size: .9rem;
 }
 
-/* ---------- Footer ---------- */
 .site-footer { background: var(--navy-dark); color: #94A3B5; padding: 62px 0 0; font-size: .9rem; }
 .footer-grid {
   display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 44px;
@@ -370,7 +354,6 @@ p { margin: 0 0 1.15em; }
   font-size: .8rem; color: #6E7D91;
 }
 
-/* ---------- Responsive ---------- */
 @media (max-width: 1000px) {
   .intro-grid, .contact-grid, .projects { grid-template-columns: 1fr; gap: 34px; }
   .quickbar ul { grid-template-columns: repeat(3, 1fr); }
@@ -384,7 +367,6 @@ p { margin: 0 0 1.15em; }
 }
 @media (max-width: 760px) {
   .section { padding: 54px 0; }
-  /* Grb i dugme u jednom redu; obje liste padaju ispod, pune širine. */
   .nav-row {
     display: flex; flex-wrap: wrap; align-items: center;
     justify-content: space-between; gap: 0; min-height: 74px;
@@ -426,7 +408,6 @@ p { margin: 0 0 1.15em; }
   .contact-table th { width: 118px; font-size: .68rem; }
   .contact-table th, .contact-table td { padding: 12px 0; }
 
-  /* Akordeon: oznaka stepena ide u svoj red ispod naziva programa. */
   .programs summary { flex-wrap: wrap; align-items: flex-start; gap: 0 12px; padding: 15px 16px; font-size: .82rem; }
   .programs summary::before { width: 18px; line-height: 1.5; }
   .programs .prog-name { flex: 1 1 0; min-width: 0; }
@@ -434,12 +415,10 @@ p { margin: 0 0 1.15em; }
   .prog-body { padding: 4px 16px 20px 46px; }
   .prog-facts { gap: 4px 18px; }
 
-  /* Dokumenti: dugačak naziv smije da se prelomi, veličina ostaje desno. */
   .doc { flex-wrap: wrap; gap: 10px; }
   .doc-name { flex: 1 1 auto; min-width: 0; font-size: .93rem; }
   .doc-size { flex: none; }
 
-  /* Naslov sa dugmetom: dugme puno širine ispod naslova. */
   .section-head-row { align-items: flex-start; gap: 18px; }
   .section-head-row .btn { width: 100%; text-align: center; }
 
@@ -450,11 +429,6 @@ p { margin: 0 0 1.15em; }
   .map-slot { min-height: 220px; }
 }
 
-/* ============================================================
-   Uvodna animacija, otkrivanje pri skrolovanju i sitne dopune
-   ============================================================ */
-
-/* ---------- Uvodna zavjesa ---------- */
 .intro-veil {
   position: fixed; inset: 0; z-index: 999;
   background: var(--navy-dark);
@@ -491,10 +465,8 @@ p { margin: 0 0 1.15em; }
 @keyframes veil-lift {
   to { transform: translateY(-100%); visibility: hidden; pointer-events: none; }
 }
-/* Zavjesa se prikazuje samo pri prvom dolasku u sesiji */
 html.veil-seen .intro-veil { display: none; }
 
-/* ---------- Ulazak sadržaja u heroju ---------- */
 html.js .hero-kicker,
 html.js .hero h1,
 html.js .hero p,
@@ -504,7 +476,6 @@ html.js .hero.is-ready h1            { animation: veil-rise .8s ease .18s forwar
 html.js .hero.is-ready p             { animation: veil-rise .8s ease .34s forwards; }
 html.js .hero.is-ready .hero-actions { animation: veil-rise .8s ease .48s forwards; }
 
-/* ---------- Otkrivanje pri skrolovanju ---------- */
 html.js .reveal { opacity: 0; transform: translateY(26px); }
 html.js .reveal.is-visible {
   opacity: 1; transform: none;
@@ -522,7 +493,6 @@ html.js .reveal-stagger.is-visible > *:nth-child(4) { transition-delay: .28s; }
 html.js .reveal-stagger.is-visible > *:nth-child(5) { transition-delay: .36s; }
 html.js .reveal-stagger.is-visible > *:nth-child(6) { transition-delay: .44s; }
 
-/* ---------- Zaglavlje koje se skuplja ---------- */
 .site-header { transition: box-shadow .25s ease; }
 .site-header .nav-row { transition: min-height .28s ease; }
 .site-header .emblem img, .site-header .emblem-fallback { transition: width .28s ease, height .28s ease; }
@@ -530,7 +500,6 @@ html.js .reveal-stagger.is-visible > *:nth-child(6) { transition-delay: .44s; }
 .site-header.is-stuck .nav-row { min-height: 70px; }
 .site-header.is-stuck .emblem img, .site-header.is-stuck .emblem-fallback { width: 48px; height: 48px; }
 
-/* ---------- Naslov sekcije sa nadnaslovom i radnjom ---------- */
 .section-head-row {
   display: flex; align-items: flex-end; justify-content: space-between;
   gap: 26px; flex-wrap: wrap; margin-bottom: 40px;
@@ -545,12 +514,10 @@ html.js .reveal-stagger.is-visible > *:nth-child(6) { transition-delay: .44s; }
   letter-spacing: .04em; text-transform: uppercase; margin: 0;
 }
 
-/* ---------- Društvene mreže u gornjoj traci ---------- */
 .utility-social { display: flex; gap: 14px; align-items: center; }
 .utility-social a { display: grid; place-items: center; }
 .utility-social svg { width: 15px; height: 15px; }
 
-/* ---------- Povratak na vrh ---------- */
 .to-top {
   position: fixed; right: 26px; bottom: 26px; z-index: 70;
   width: 46px; height: 46px; display: grid; place-items: center;
@@ -562,7 +529,6 @@ html.js .reveal-stagger.is-visible > *:nth-child(6) { transition-delay: .44s; }
 .to-top:hover { background: var(--accent); }
 .to-top svg { width: 17px; height: 17px; }
 
-/* ---------- Poštovanje sistemskog podešavanja za smanjeno kretanje ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .intro-veil { display: none; }
