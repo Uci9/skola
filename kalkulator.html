@@ -7,18 +7,19 @@
 <meta name="description" content="Izračunaj bodove za upis u prvi razred srednje stručne škole u Crnoj Gori. Prag je 48,00 poena.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
 </head>
 <body>
-<header class="top">
-  <div class="wrap top-in">
-    <a class="mark" href="index.html">
-      <img src="assets/img/grb.svg" alt="">
-      <span><b>ETŠ</b><em>„Vaso Aligrudić“ · Podgorica</em></span>
-    </a>
-    <nav class="nav" id="nav">
+<header class="head">
+  <div class="shell">
+    <div class="head-in">
+      <a class="brand" href="index.html">
+        <img src="assets/img/grb.svg" alt="">
+        <span><b>ETŠ „Vaso Aligrudić“</b><span>Podgorica · od 1946.</span></span>
+      </a>
+      <nav class="menu" id="meni">
         <a href="index.html#programi">Programi</a>
         <a href="index.html#upis">Upis</a>
         <a href="profesori.html">Profesori</a>
@@ -26,37 +27,37 @@
         <a href="poslodavci.html">Poslodavci</a>
         <a href="novosti.html">Novosti</a>
         <a href="index.html#kontakt">Kontakt</a>
-    </nav>
-    <a class="btn btn-solid" href="kalkulator.html">Izračunaj poene</a>
-    <button class="burger" id="burger" aria-label="Meni" aria-expanded="false"><i></i></button>
+      </nav>
+      <a class="btn btn-fill" href="kalkulator.html">Izračunaj poene</a>
+      <button class="hamb" id="hamb" aria-label="Meni" aria-expanded="false"><i></i></button>
+    </div>
   </div>
 </header>
-<section class="page-top">
-  <div class="wrap">
-    <span class="label">Upis u prvi razred</span>
-    <h1>Kalkulator poena</h1>
-    <p>Popuni ocjene i rezultate, pa vidi koliko poena nosiš. Prag za srednje stručne škole je 48,00.</p>
+<section class="crown blk-cobalt">
+  <div class="shell">
+    <h1>Koliko <span class="it">poena</span> nosiš</h1>
+    <p>Popuni ocjene i rezultate, pa vidi gdje stojiš. Prag za srednje stručne škole je 48,00.</p>
   </div>
 </section>
 
-<section class="band">
-  <div class="wrap">
-    <form class="calc" id="kalkulator">
+<section class="blk">
+  <div class="shell">
+    <form class="form" id="kalkulator">
 
-      <fieldset class="calc-set">
+      <fieldset class="fset">
         <legend>Opšti uspjeh u posljednjem ciklusu</legend>
-        <div class="calc-grid calc-3">
-        <label class="calc-f">
+        <div class="fgrid f3">
+        <label class="f">
           <span>Sedmi razred</span>
           <input required class="prosjek" type="number" step="0.01" min="1" max="5" placeholder="4.25">
           <small>srednja ocjena, dvije decimale</small>
         </label>
-        <label class="calc-f">
+        <label class="f">
           <span>Osmi razred</span>
           <input required class="prosjek" type="number" step="0.01" min="1" max="5" placeholder="4.25">
           <small>srednja ocjena, dvije decimale</small>
         </label>
-        <label class="calc-f">
+        <label class="f">
           <span>Deveti razred</span>
           <input required class="prosjek" type="number" step="0.01" min="1" max="5" placeholder="4.25">
           <small>srednja ocjena, dvije decimale</small>
@@ -64,10 +65,10 @@
         </div>
       </fieldset>
 
-      <fieldset class="calc-set">
+      <fieldset class="fset">
         <legend>Eksterna provjera znanja</legend>
-        <div class="calc-grid calc-3">
-        <label class="calc-f">
+        <div class="fgrid f3">
+        <label class="f">
           <span>Maternji jezik i književnost</span>
           <select required class="eksterna">
             <option value="">— ocjena na testiranju —</option>
@@ -78,7 +79,7 @@
             <option value="0">nedovoljan (1)</option>
           </select>
         </label>
-        <label class="calc-f">
+        <label class="f">
           <span>Matematika</span>
           <select required class="eksterna">
             <option value="">— ocjena na testiranju —</option>
@@ -89,7 +90,7 @@
             <option value="0">nedovoljan (1)</option>
           </select>
         </label>
-        <label class="calc-f">
+        <label class="f">
           <span>Izborni predmet</span>
           <select required class="eksterna">
             <option value="">— ocjena na testiranju —</option>
@@ -103,10 +104,10 @@
         </div>
       </fieldset>
 
-      <fieldset class="calc-set">
+      <fieldset class="fset">
         <legend>Takmičenja</legend>
-        <div class="calc-grid calc-2">
-        <label class="calc-f">
+        <div class="fgrid f2">
+        <label class="f">
           <span>Međunarodna takmičenja</span>
           <select required class="bod">
             <option value="">— nagrada na međunarodnom —</option>
@@ -116,7 +117,7 @@
             <option value="0">Bez učešća ili nagrade</option>
           </select>
         </label>
-        <label class="calc-f">
+        <label class="f">
           <span>Republička takmičenja</span>
           <select required class="bod">
             <option value="">— nagrada na republičkom —</option>
@@ -129,12 +130,12 @@
         </div>
       </fieldset>
 
-      <fieldset class="calc-set">
+      <fieldset class="fset">
         <legend>Ocjene iz predmeta od značaja</legend>
-        <div class="calc-grid calc-2">
-          <div class="calc-stack">
+        <div class="fgrid f2">
+          <div class="fstack">
             <span>Matematika</span>
-        <label class="calc-f">
+        <label class="f">
           <select required class="bod">
             <option value="">— sedmi razred —</option>
             <option value="5">odličan (5)</option>
@@ -144,7 +145,7 @@
             <option value="1">nedovoljan (1)</option>
           </select>
         </label>
-        <label class="calc-f">
+        <label class="f">
           <select required class="bod">
             <option value="">— osmi razred —</option>
             <option value="5">odličan (5)</option>
@@ -154,7 +155,7 @@
             <option value="1">nedovoljan (1)</option>
           </select>
         </label>
-        <label class="calc-f">
+        <label class="f">
           <select required class="bod">
             <option value="">— deveti razred —</option>
             <option value="5">odličan (5)</option>
@@ -165,9 +166,9 @@
           </select>
         </label>
           </div>
-          <div class="calc-stack">
+          <div class="fstack">
             <span>Fizika</span>
-        <label class="calc-f">
+        <label class="f">
           <select required class="bod">
             <option value="">— sedmi razred —</option>
             <option value="5">odličan (5)</option>
@@ -177,7 +178,7 @@
             <option value="1">nedovoljan (1)</option>
           </select>
         </label>
-        <label class="calc-f">
+        <label class="f">
           <select required class="bod">
             <option value="">— osmi razred —</option>
             <option value="5">odličan (5)</option>
@@ -187,7 +188,7 @@
             <option value="1">nedovoljan (1)</option>
           </select>
         </label>
-        <label class="calc-f">
+        <label class="f">
           <select required class="bod">
             <option value="">— deveti razred —</option>
             <option value="5">odličan (5)</option>
@@ -201,34 +202,34 @@
         </div>
       </fieldset>
 
-      <fieldset class="calc-set">
+      <fieldset class="fset">
         <legend>Ostalo</legend>
-        <div class="calc-grid calc-2">
-          <div class="calc-pick">
+        <div class="fgrid f2">
+          <div class="fpick">
             <label><input required type="radio" name="luca" value="12" class="izbor"> Nosilac diplome „Luča“</label>
             <label><input required type="radio" name="luca" value="0" class="izbor"> Nije nosilac diplome „Luča“</label>
           </div>
-          <div class="calc-pick">
+          <div class="fpick">
             <label><input required type="radio" name="re" value="6" class="izbor"> Pripadnik romske ili egipatske populacije</label>
             <label><input required type="radio" name="re" value="0" class="izbor"> Nije pripadnik romske ili egipatske populacije</label>
           </div>
         </div>
       </fieldset>
 
-      <button class="btn btn-lit calc-go" type="submit">Izračunaj</button>
+      <button class="btn btn-butter go" type="submit">Izračunaj</button>
     </form>
 
-    <div class="score" id="ishod" hidden></div>
+    <div class="result" id="ishod" hidden></div>
 
-    <p class="foot-note">Bodovanje je isto kao na <a href="https://elektropg.online/kalkulator.html">kalkulatoru na sajtu škole</a>.</p>
+    <p class="tail">Bodovanje je isto kao na <a href="https://elektropg.online/kalkulator.html">kalkulatoru na sajtu škole</a>.</p>
   </div>
 </section>
 
-<footer class="foot">
-  <div class="wrap">
-    <div class="foot-grid">
-      <div class="foot-id">
-        <strong>Srednja elektrotehnička škola<br>„Vaso Aligrudić“</strong>
+<footer class="base">
+  <div class="shell">
+    <div class="base-grid">
+      <div class="base-id">
+        <strong>Srednja elektrotehnička<br>škola „Vaso Aligrudić“</strong>
         <p>Vasa Raičkovića 26, 81000 Podgorica<br>
            020 237 120<br>
            skola@ets-pg.edu.me</p>
@@ -261,39 +262,38 @@
         </ul>
       </div>
     </div>
-    <div class="foot-end">
+    <div class="base-end">
       <span>© <span id="god">2026</span> JU Srednja elektrotehnička škola „Vaso Aligrudić“</span>
       <span><a href="https://instagram.com/elektrotehnicka_skola_pg">Instagram</a> · <a href="https://www.facebook.com/elektropg">Facebook</a> · <a href="https://youtube.com/@elektropg1946">YouTube</a> · <a href="https://elektropg.online/ets/course/view.php?id=1782">Pristup informacijama</a></span>
     </div>
   </div>
 </footer>
-<button class="up" id="up" aria-label="Na vrh">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+<button class="top-btn" id="gore" aria-label="Na vrh">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
 <script>
-const burger = document.getElementById('burger');
-const nav = document.getElementById('nav');
+const hamb = document.getElementById('hamb');
+const meni = document.getElementById('meni');
 
-burger.addEventListener('click', () => {
-  const otvoren = nav.classList.toggle('open');
-  burger.setAttribute('aria-expanded', otvoren);
+hamb.addEventListener('click', () => {
+  hamb.setAttribute('aria-expanded', meni.classList.toggle('open'));
 });
 
-nav.addEventListener('click', e => {
+meni.addEventListener('click', e => {
   if (e.target.tagName === 'A') {
-    nav.classList.remove('open');
-    burger.setAttribute('aria-expanded', false);
+    meni.classList.remove('open');
+    hamb.setAttribute('aria-expanded', false);
   }
 });
 
 document.getElementById('god').textContent = new Date().getFullYear();
 
 const smireno = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const up = document.getElementById('up');
+const gore = document.getElementById('gore');
 let ceka = false;
 
 function skrol() {
-  up.classList.toggle('on', window.scrollY > 600);
+  gore.classList.toggle('show', window.scrollY > 700);
   ceka = false;
 }
 
@@ -305,7 +305,7 @@ window.addEventListener('scroll', () => {
 
 skrol();
 
-up.addEventListener('click', () => {
+gore.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: smireno ? 'auto' : 'smooth' });
 });
 
@@ -331,8 +331,8 @@ forma.addEventListener('submit', e => {
   const prolaz = ukupno >= 47.5;
 
   ishod.hidden = false;
-  ishod.classList.toggle('pass', prolaz);
-  ishod.classList.toggle('fail', !prolaz);
+  ishod.classList.toggle('yes', prolaz);
+  ishod.classList.toggle('no', !prolaz);
 
   if (Number.isNaN(ukupno)) {
     ishod.innerHTML = '<p>Neki podatak nije dobro unesen.</p>';
