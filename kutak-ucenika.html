@@ -4,142 +4,112 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kutak učenika — ETŠ „Vaso Aligrudić“</title>
-<meta name="description" content="Najljepši trenuci učenika Elektrotehničke škole „Vaso Aligrudić“ — takmičenja, radionice, ekskurzije i svečanosti.">
+<meta name="description" content="Takmičenja, radionice, ekskurzije i svečanosti učenika Elektrotehničke škole „Vaso Aligrudić“.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
-<script>
-const html = document.documentElement;
-html.classList.replace('no-js', 'js');
-</script>
+<script>document.documentElement.classList.replace('no-js', 'js');</script>
 </head>
 <body>
-<div class="utility">
-  <div class="wrap">
-    <div class="utility-info">
-      <span>Vasa Raičkovića 26, 81000 Podgorica</span>
-      <a href="tel:+38220237120">020 237 120</a>
-      <a href="mailto:skola@ets-pg.edu.me">skola@ets-pg.edu.me</a>
-    </div>
-    <div class="utility-links">
-      <a href="https://elektropg.online/ets/">Moodle</a>
-      <a href="https://elektropg.online/ets/course/index.php?categoryid=170">Obavještenja</a>
-      <a href="kalkulator.html">Kalkulator</a>
-      <span class="utility-social">
-        <a href="https://www.facebook.com/elektropg" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.25-1.5 1.55-1.5h1.65V3.6A22 22 0 0 0 14.3 3.5c-2.4 0-4 1.45-4 4.1v2.3H7.6V13h2.7v8Z"/></svg></a>
-        <a href="https://instagram.com/elektrotehnicka_skola_pg" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
-        <a href="https://youtube.com/@elektropg1946" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.75-1.77C18.3 5 12 5 12 5s-6.3 0-7.85.43A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.75 1.77C5.7 19 12 19 12 19s6.3 0 7.85-.43a2.5 2.5 0 0 0 1.75-1.77A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8ZM10 15.1V8.9l5.2 3.1Z"/></svg></a>
-      </span>
-    </div>
-  </div>
-</div>
-<header class="site-header">
-  <div class="wrap">
-    <div class="nav-row">
-      <ul class="nav-list" id="navLeft">
-        <li><a href="index.html">Početna</a></li>
-        <li><a href="index.html#o-skoli">O školi</a></li>
-        <li><a href="index.html#programi">Obrazovni programi</a></li>
-        <li><a href="index.html#upis">Upis</a></li>
-      </ul>
-
-      <a class="emblem" href="index.html" aria-label="Početna strana">
-        <img src="assets/img/grb.svg" alt="Grb škole"
-             onerror="this.outerHTML='&lt;span class=&quot;emblem-fallback&quot;&gt;ETŠ&lt;/span&gt;'">
-      </a>
-
-      <ul class="nav-list is-right" id="navRight">
-        <li><a href="profesori.html">Profesori</a></li>
-        <li><a href="kutak-ucenika.html" class="is-active">Kutak učenika</a></li>
-        <li><a href="novosti.html">Novosti</a></li>
-        <li><a href="index.html#kontakt">Kontakt</a></li>
-      </ul>
-
-      <button class="nav-toggle" id="navToggle" aria-label="Otvori meni" aria-expanded="false"><span></span></button>
-    </div>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="mark" href="index.html">
+      <img src="assets/img/grb.svg" alt="">
+      <span><b>ETŠ</b><em>„Vaso Aligrudić“ · Podgorica</em></span>
+    </a>
+    <nav class="nav" id="nav">
+        <a href="index.html#programi">Programi</a>
+        <a href="index.html#upis">Upis</a>
+        <a href="profesori.html">Profesori</a>
+        <a href="kutak-ucenika.html" class="here">Kutak učenika</a>
+        <a href="poslodavci.html">Poslodavci</a>
+        <a href="novosti.html">Novosti</a>
+        <a href="index.html#kontakt">Kontakt</a>
+    </nav>
+    <a class="btn btn-solid" href="kalkulator.html">Izračunaj poene</a>
+    <button class="burger" id="burger" aria-label="Meni" aria-expanded="false"><i></i></button>
   </div>
 </header>
-<section class="page-hero">
+<section class="page-top">
   <div class="wrap">
-    <span class="page-eyebrow">Đački život</span>
+    <span class="label">Đački život</span>
     <h1>Kutak učenika</h1>
-    <p>Takmičenja, radionice, ekskurzije i svečanosti — trenuci koje učenici pamte.</p>
+    <p>Ono što se dešava između časova, na takmičenjima i u radionicama.</p>
   </div>
 </section>
 
-<section class="section">
+<section class="band">
   <div class="wrap">
-    <p class="empty-note reveal">Galerija se popunjava. Fotografije i kratke priče uz njih dostavljaju
-       odjeljenjske starješine i učenički parlament — do tada stoje prazna mjesta.</p>
-    <div class="gallery reveal-stagger">
-      <figure class="shot">
-        <span class="shot-slot" aria-hidden="true"></span>
-        <figcaption><span class="shot-cat">Takmičenja</span>Državno takmičenje iz elektronike</figcaption>
+    <p class="hold-note lift">Galerija čeka fotografije. Šalju ih odjeljenjske starješine
+       i učenički parlament — do tada okviri stoje prazni.</p>
+    <div class="frames lift-kids">
+      <figure class="frame">
+        <span class="frame-hold"></span>
+        <figcaption><span>Takmičenja</span><b>Državno takmičenje iz elektronike</b></figcaption>
       </figure>
-      <figure class="shot">
-        <span class="shot-slot" aria-hidden="true"></span>
-        <figcaption><span class="shot-cat">Praktična nastava</span>Radionica u kabinetu za računarske mreže</figcaption>
+      <figure class="frame">
+        <span class="frame-hold"></span>
+        <figcaption><span>Praktična nastava</span><b>Radionica u kabinetu za mreže</b></figcaption>
       </figure>
-      <figure class="shot">
-        <span class="shot-slot" aria-hidden="true"></span>
-        <figcaption><span class="shot-cat">Škola</span>Dan škole</figcaption>
+      <figure class="frame">
+        <span class="frame-hold"></span>
+        <figcaption><span>Škola</span><b>Dan škole</b></figcaption>
       </figure>
-      <figure class="shot">
-        <span class="shot-slot" aria-hidden="true"></span>
-        <figcaption><span class="shot-cat">Đački život</span>Ekskurzija maturanata</figcaption>
+      <figure class="frame">
+        <span class="frame-hold"></span>
+        <figcaption><span>Đački život</span><b>Ekskurzija maturanata</b></figcaption>
       </figure>
-      <figure class="shot">
-        <span class="shot-slot" aria-hidden="true"></span>
-        <figcaption><span class="shot-cat">Projekti</span>Sajam nauke</figcaption>
+      <figure class="frame">
+        <span class="frame-hold"></span>
+        <figcaption><span>Projekti</span><b>Sajam nauke</b></figcaption>
       </figure>
-      <figure class="shot">
-        <span class="shot-slot" aria-hidden="true"></span>
-        <figcaption><span class="shot-cat">Škola</span>Prvi dan škole</figcaption>
+      <figure class="frame">
+        <span class="frame-hold"></span>
+        <figcaption><span>Škola</span><b>Prvi dan škole</b></figcaption>
       </figure>
-      <figure class="shot">
-        <span class="shot-slot" aria-hidden="true"></span>
-        <figcaption><span class="shot-cat">Sport</span>Sportski dan</figcaption>
+      <figure class="frame">
+        <span class="frame-hold"></span>
+        <figcaption><span>Sport</span><b>Sportski dan</b></figcaption>
       </figure>
-      <figure class="shot">
-        <span class="shot-slot" aria-hidden="true"></span>
-        <figcaption><span class="shot-cat">Svečanosti</span>Dodjela diploma</figcaption>
+      <figure class="frame">
+        <span class="frame-hold"></span>
+        <figcaption><span>Svečanosti</span><b>Dodjela diploma</b></figcaption>
       </figure>
     </div>
   </div>
 </section>
 
-<section class="section section-warm">
+<section class="band">
   <div class="wrap">
-    <div class="section-head-row reveal">
-      <div>
-        <span class="section-eyebrow">Pošalji svoju fotografiju</span>
-        <h2>Imaš trenutak vrijedan pamćenja?</h2>
-      </div>
-      <a href="mailto:skola@ets-pg.edu.me" class="btn btn-line">Pošalji na e-poštu</a>
+    <div class="band-head lift">
+      <span class="label">Pošalji svoju</span>
+      <h2>Imaš fotografiju vrijednu pamćenja?</h2>
+      <p>Sa takmičenja, radionice, priredbe ili ekskurzije. Uz fotografiju dopiši
+         datum, povod i ko je na njoj.</p>
     </div>
-    <p class="lede-left reveal">Fotografije sa takmičenja, radionica, priredbi i ekskurzija šalju se
-       na adresu škole. Uz fotografiju dopisati datum, povod i imena učenika koji su na njoj.</p>
+    <p><a href="mailto:skola@ets-pg.edu.me" class="btn btn-solid">Pošalji na e-poštu škole</a></p>
   </div>
 </section>
 
-<footer class="site-footer">
+<footer class="foot">
   <div class="wrap">
-    <div class="footer-grid">
-      <div class="footer-about">
-        <strong>JU Srednja elektrotehnička škola<br>„Vaso Aligrudić“</strong>
+    <div class="foot-grid">
+      <div class="foot-id">
+        <strong>Srednja elektrotehnička škola<br>„Vaso Aligrudić“</strong>
         <p>Vasa Raičkovića 26, 81000 Podgorica<br>
-           Telefon: 020 237 120<br>
-           E-pošta: skola@ets-pg.edu.me</p>
+           020 237 120<br>
+           skola@ets-pg.edu.me</p>
       </div>
-
       <div>
         <h4>Škola</h4>
         <ul>
-          <li><a href="index.html#o-skoli">O školi</a></li>
+          <li><a href="index.html#programi">Obrazovni programi</a></li>
           <li><a href="profesori.html">Nastavnici i osoblje</a></li>
           <li><a href="profesori.html#uprava">Uprava škole</a></li>
           <li><a href="poslodavci.html">Poslodavci i partneri</a></li>
         </ul>
       </div>
-
       <div>
         <h4>Učenici</h4>
         <ul>
@@ -149,71 +119,65 @@ html.classList.replace('no-js', 'js');
           <li><a href="https://elektropg.online/ets/course/index.php?categoryid=169">Dokumenti u Moodle-u</a></li>
         </ul>
       </div>
-
       <div>
-        <h4>Roditelji</h4>
+        <h4>Upis</h4>
         <ul>
-          <li><a href="index.html#upis">Upis u prvi razred</a></li>
+          <li><a href="index.html#upis">Kako se upisuje</a></li>
           <li><a href="kalkulator.html">Kalkulator poena</a></li>
           <li><a href="novosti.html">Novosti</a></li>
           <li><a href="index.html#kontakt">Kontakt</a></li>
         </ul>
       </div>
     </div>
-
-    <div class="footer-bottom">
-      <span>© <span id="year">2026</span> JU Srednja elektrotehnička škola „Vaso Aligrudić“, Podgorica</span>
-      <span><a href="https://elektropg.online/ets/course/view.php?id=1782">Pristup informacijama</a> · <a href="https://elektropg.online/ets/course/view.php?id=1773">Javni pozivi</a> · <a href="https://elektropg.online/ets/course/view.php?id=1774">Etički kodeks</a></span>
+    <div class="foot-end">
+      <span>© <span id="god">2026</span> JU Srednja elektrotehnička škola „Vaso Aligrudić“</span>
+      <span><a href="https://instagram.com/elektrotehnicka_skola_pg">Instagram</a> · <a href="https://www.facebook.com/elektropg">Facebook</a> · <a href="https://youtube.com/@elektropg1946">YouTube</a> · <a href="https://elektropg.online/ets/course/view.php?id=1782">Pristup informacijama</a></span>
     </div>
   </div>
 </footer>
-<button class="to-top" id="toTop" aria-label="Nazad na vrh strane">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M12 19V5M5 12l7-7 7 7"/>
-  </svg>
+<button class="up" id="up" aria-label="Na vrh">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
 <script>
-const navBtn = document.getElementById('navToggle');
-const menus = [document.getElementById('navLeft'), document.getElementById('navRight')];
+const burger = document.getElementById('burger');
+const nav = document.getElementById('nav');
 
-function meni(otvoren) {
-  menus.forEach(m => m.classList.toggle('is-open', otvoren));
-  navBtn.setAttribute('aria-expanded', otvoren);
-}
+burger.addEventListener('click', () => {
+  const otvoren = nav.classList.toggle('open');
+  burger.setAttribute('aria-expanded', otvoren);
+});
 
-navBtn.addEventListener('click', () => meni(!menus[0].classList.contains('is-open')));
+nav.addEventListener('click', e => {
+  if (e.target.tagName === 'A') {
+    nav.classList.remove('open');
+    burger.setAttribute('aria-expanded', false);
+  }
+});
 
-menus.forEach(m => m.addEventListener('click', e => {
-  if (e.target.tagName === 'A') meni(false);
-}));
-
-document.getElementById('year').textContent = new Date().getFullYear();
+document.getElementById('god').textContent = new Date().getFullYear();
 
 const smireno = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const zaOtkrivanje = document.querySelectorAll('.reveal, .reveal-stagger');
+const zaDizanje = document.querySelectorAll('.lift, .lift-kids');
 
 if (smireno || !('IntersectionObserver' in window)) {
-  zaOtkrivanje.forEach(el => el.classList.add('is-visible'));
+  zaDizanje.forEach(el => el.classList.add('in'));
 } else {
-  const io = new IntersectionObserver((ulazi, obs) => {
+  const oko = new IntersectionObserver((ulazi, obs) => {
     ulazi.forEach(u => {
       if (!u.isIntersecting) return;
-      u.target.classList.add('is-visible');
+      u.target.classList.add('in');
       obs.unobserve(u.target);
     });
-  }, { rootMargin: '0px 0px -12% 0px', threshold: .12 });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: .1 });
 
-  zaOtkrivanje.forEach(el => io.observe(el));
+  zaDizanje.forEach(el => oko.observe(el));
 }
 
-const header = document.querySelector('.site-header');
-const toTop = document.getElementById('toTop');
+const up = document.getElementById('up');
 let ceka = false;
 
 function skrol() {
-  const y = window.scrollY;
-  header.classList.toggle('is-stuck', y > 90);
-  toTop.classList.toggle('is-shown', y > 700);
+  up.classList.toggle('on', window.scrollY > 600);
   ceka = false;
 }
 
@@ -225,7 +189,7 @@ window.addEventListener('scroll', () => {
 
 skrol();
 
-toTop.addEventListener('click', () => {
+up.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: smireno ? 'auto' : 'smooth' });
 });
 </script>

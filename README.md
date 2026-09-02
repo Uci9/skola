@@ -25,6 +25,22 @@ assets/styles.css     stilovi za sve strane
 assets/img/           grb + slika zgrade
 ```
 
+## Dizajn
+
+Instrument-siva podloga, blizu-crna i amber. Naslovi Archivo, tekst Source Serif 4,
+podaci i oznake IBM Plex Mono — sve preko Google Fonts.
+
+Otpornik u heroju nije ukras: četiri trake su godina osnivanja ispisana
+otporničkim kodom (smeđa 1, bijela 9, žuta 4, plava 6).
+
+Stari dizajn — mornarsko plava i Georgia — stoji na grani `dizajn-klasicni`.
+Vraća se sa:
+
+```bash
+git checkout dizajn-klasicni -- index.html profesori.html kutak-ucenika.html \
+  poslodavci.html novosti.html kalkulator.html assets/styles.css
+```
+
 ## Odakle podaci
 
 Spisak zaposlenih je iz dokumenta „Spisak zaposlenih sa zvanjima“ sa
