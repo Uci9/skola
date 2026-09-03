@@ -134,32 +134,29 @@ p { margin: 0 0 1.1em; }
 .hamb i::before { top: -6px; left: 0; }
 .hamb i::after { top: 6px; left: 0; }
 
-.hero { padding: 18px 0 96px; }
-.hero-panel {
+.hero {
   position: relative;
-  min-height: 620px;
-  display: flex;
-  align-items: center;
-  border-radius: var(--r);
   overflow: hidden;
-  box-shadow: var(--shadow-up);
-  isolation: isolate;
+  min-height: 660px;
+  display: flex;
 }
-.hero-panel > img {
+.hero-bg {
   position: absolute; inset: 0; z-index: 0;
   width: 100%; height: 100%; object-fit: cover;
 }
-.hero-panel::after {
+.hero::after {
   content: ""; position: absolute; inset: 0; z-index: 1;
   background:
-    linear-gradient(100deg, rgba(8,11,17,.90) 0%, rgba(8,11,17,.78) 44%, rgba(8,11,17,.30) 100%),
-    linear-gradient(rgba(8,11,17,.28), rgba(8,11,17,0) 45%);
+    linear-gradient(100deg, rgba(8,11,17,.90) 0%, rgba(8,11,17,.76) 46%, rgba(8,11,17,.26) 100%),
+    linear-gradient(rgba(8,11,17,.30), rgba(8,11,17,0) 42%);
 }
-.hero-copy {
+.hero-in {
   position: relative; z-index: 2;
-  max-width: 760px;
-  padding: 108px 60px 112px;
+  width: 100%;
+  display: flex; align-items: center;
+  padding-top: 104px; padding-bottom: 104px;
 }
+.hero-copy { max-width: 720px; }
 .hero h1 { color: var(--white); margin-bottom: 26px; }
 .hero h1 em {
   font-family: var(--serif); font-style: italic; font-weight: 400;
@@ -169,7 +166,7 @@ p { margin: 0 0 1.1em; }
 .hero-do { display: flex; gap: 12px; flex-wrap: wrap; }
 
 .hero-chip {
-  position: absolute; z-index: 2; right: 34px; bottom: 34px;
+  position: absolute; right: 26px; bottom: 46px;
   background: rgba(255,255,255,.95);
   backdrop-filter: blur(10px);
   border-radius: var(--r-sm);
@@ -428,7 +425,7 @@ html.js .hero-chip { animation-delay: .34s; }
 
 @media (max-width: 1040px) {
   .pair { grid-template-columns: 1fr; gap: 48px; }
-  .hero-copy { padding: 86px 40px 92px; max-width: none; }
+  .hero-copy { max-width: none; }
   .cards, .folks, .folks-many, .shots { grid-template-columns: repeat(2, 1fr); }
   .flow { grid-template-columns: 1fr 1fr; row-gap: 38px; }
   .tally { grid-template-columns: 1fr 1fr; gap: 34px; }
@@ -440,15 +437,13 @@ html.js .hero-chip { animation-delay: .34s; }
   body { font-size: 16px; }
   .blk { padding: 66px 0; }
   .blk-tight { padding: 48px 0; }
-  .hero { padding: 10px 0 60px; }
-  .hero-panel { min-height: 0; flex-direction: column; align-items: flex-start; }
-  .hero-copy { padding: 56px 26px 30px; }
-  .hero-chip { position: static; margin: 0 26px 30px; }
+  .hero { min-height: 0; }
+  .hero-in { flex-direction: column; align-items: flex-start; padding-top: 62px; padding-bottom: 34px; }
   .hero p { font-size: 1.05rem; }
-  .hero-panel::after {
-    background: linear-gradient(rgba(8,11,17,.62), rgba(8,11,17,.90) 55%);
+  .hero::after {
+    background: linear-gradient(rgba(8,11,17,.58), rgba(8,11,17,.90) 58%);
   }
-  .hero-chip { right: 18px; bottom: 18px; padding: 13px 18px; }
+  .hero-chip { position: static; margin-bottom: 30px; padding: 13px 18px; }
   .hero-chip b { font-size: 1.5rem; }
   .crown { padding: 58px 0 54px; }
   .menu {
