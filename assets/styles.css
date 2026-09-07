@@ -497,15 +497,20 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
   .panel p { font-size: 1rem; margin-bottom: 22px; }
   .panel h1 { margin-bottom: 18px; }
   .panel h2 { font-size: 1.55rem; margin-bottom: 14px; }
-  .reel { margin-top: 0; height: auto; }
-  .reel-stage { position: static; height: auto; min-height: 0; display: block; padding: 54px 0; }
-  .reel-slot { display: block; }
-  .panel { grid-area: auto; opacity: 1; visibility: visible; transform: none; transition: none; max-width: none; }
-  .panel + .panel { margin-top: 30px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,.16); }
-  .panel-list a { padding: 12px 18px; }
+  .reel { margin-top: -92px; height: 360vh; }
+  .reel-stage { height: 100vh; height: 100svh; min-height: 470px; padding: 0; }
+  .panel { max-width: none; }
+  .panel-list a { padding: 11px 16px; }
+  .panel-list b { font-size: .96rem; }
+  .panel-list span { font-size: .84rem; }
+  .panel-list { gap: 8px; }
+  .panel-facts { gap: 9px; }
   .panel-facts li { padding-bottom: 9px; }
-  .panel-facts b { width: 104px; font-size: .82rem; }
-  .reel-dots, .reel-cue { display: none; }
+  .panel-facts b { width: 96px; font-size: .8rem; }
+  .panel-facts span { font-size: .94rem; }
+  .reel-dots { right: 12px; gap: 9px; }
+  .reel-dots i { width: 7px; height: 7px; }
+  .reel-cue { bottom: 20px; font-size: .78rem; }
 
   .menu {
     display: none; position: absolute; left: 0; right: 0; top: calc(100% + 10px);
