@@ -447,7 +447,6 @@ kvake[0].classList.add('on');
 
 let trajanje = 0;
 let cilj = 0;
-let sada = 0;
 let vrti = false;
 let tekuci = 0;
 
@@ -470,12 +469,17 @@ function napredak() {
 }
 
 function petlja() {
-  const razlika = cilj - sada;
-  if (Math.abs(razlika) < 0.004) { vrti = false; return; }
-  sada += razlika * 0.14;
-  if (film.readyState >= 1) {
-    try { film.currentTime = sada; } catch (e) {}
+  if (film.readyState < 1) { vrti = false; return; }
+
+  if (film.seeking) {
+    requestAnimationFrame(petlja);
+    return;
   }
+
+  const razlika = cilj - film.currentTime;
+  if (Math.abs(razlika) < 0.02) { vrti = false; return; }
+
+  try { film.currentTime = cilj; } catch (e) {}
   requestAnimationFrame(petlja);
 }
 
@@ -497,7 +501,7 @@ function pomjeri() {
 
   if (trajanje) {
     cilj = p * trajanje;
-    if (!vrti) { vrti = true; requestAnimationFrame(petlja); }
+    if (!vrti) { vrti = true; petlja(); }
   }
 }
 
