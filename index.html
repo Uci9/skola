@@ -34,22 +34,67 @@
   </div>
 </header>
 
-<section class="hero">
-  <img class="hero-bg" src="assets/img/skola.jpg" alt="Zgrada Elektrotehničke škole „Vaso Aligrudić“ u Podgorici">
-  <div class="shell hero-in">
-    <div class="hero-copy">
-      <h1>Struja, mreže i mašine <em>od 1946.</em></h1>
-      <p>Šest programa iz elektrotehnike, elektronike, energetike i telekomunikacija —
-         sa praksom u pravim pogonima, a ne samo na papiru.</p>
-      <div class="hero-do">
-        <a href="#programi" class="btn btn-butter">Pogledaj programe</a>
-        <a href="kalkulator.html" class="btn btn-onwhite">Izračunaj poene</a>
+<section class="reel" id="reel">
+  <div class="reel-stage">
+    <video class="reel-video" id="film" muted playsinline preload="none" disablepictureinpicture
+           poster="assets/img/skola.jpg" aria-hidden="true" tabindex="-1">
+      <source src="assets/video/ulaz.mp4" type="video/mp4">
+    </video>
+    <div class="reel-shade"></div>
+
+    <div class="shell reel-deck">
+      <div class="reel-slot">
+        <article class="panel on">
+          <h1>Struja, mreže i mašine <em>od 1946.</em></h1>
+          <p>Šest programa iz elektrotehnike, elektronike, energetike i telekomunikacija —
+             sa praksom u pravim pogonima, a ne samo na papiru.</p>
+          <div class="panel-do">
+            <a href="#programi" class="btn btn-butter">Pogledaj programe</a>
+            <a href="kalkulator.html" class="btn btn-onwhite">Izračunaj poene</a>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h2>Škola koja <em>pravi</em> ljude za struku</h2>
+          <p>Elektrotehnička škola igra važnu ulogu u razvoju tehnologije i inovacija.
+             Učenici koji je pohađaju mogu da razviju nove ideje i tehnologije koje pomažu
+             u rješavanju problema u društvu i industriji.</p>
+        </article>
+
+        <article class="panel">
+          <h2>Šta ti je <em>potrebno?</em></h2>
+          <ul class="panel-list">
+            <li><a href="kalkulator.html"><b>Kalkulator poena</b><span>za upis u I razred</span></a></li>
+            <li><a href="https://elektropg.online/ets/"><b>Moodle</b><span>platforma za učenje</span></a></li>
+            <li><a href="https://elektropg.online/ets/course/index.php?categoryid=170"><b>Obavještenja</b><span>budi na vrijeme obaviješten</span></a></li>
+            <li><a href="https://elektropg.online/ets/course/index.php?categoryid=169"><b>Dokumenti</b><span>pravilnici, planovi, javni pozivi</span></a></li>
+          </ul>
+        </article>
+
+        <article class="panel">
+          <h2>Ne radimo <em>sami</em></h2>
+          <p>Kroz VET for Western Balkans škola radi sa zemljama Zapadnog Balkana i članicama
+             Evropske unije. Kroz Regionalni Challenge Fond stiže oprema i infrastruktura,
+             uz preduzeća koja uzimaju učenike na obuku.</p>
+          <div class="panel-do">
+            <a href="poslodavci.html" class="btn btn-onwhite">Poslodavci i partneri</a>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h2>Osnovne <em>informacije</em></h2>
+          <ul class="panel-facts">
+            <li><b>Ustanova</b><span>JU SEŠ „Vaso Aligrudić“</span></li>
+            <li><b>Adresa</b><span>Vasa Raičkovića 26, 81000 Podgorica</span></li>
+            <li><b>Djelatnost</b><span>8532 — srednje stručno i tehničko obrazovanje</span></li>
+            <li><b>Telefon</b><span><a href="tel:+38220237120">(+382) 020 237 120</a></span></li>
+          </ul>
+        </article>
       </div>
     </div>
-    <div class="hero-chip">
-      <b>6</b>
-      <span>obrazovnih programa</span>
-    </div>
+
+    <div class="reel-dots" id="tacke" aria-hidden="true"></div>
+    <div class="reel-cue" id="mig"><i></i><span>Skroluj</span></div>
   </div>
 </section>
 
@@ -388,6 +433,102 @@ if (smireno || !('IntersectionObserver' in window)) {
   }, { rootMargin: '0px 0px -8% 0px', threshold: .1 });
 
   zaDizanje.forEach(el => oko.observe(el));
+}
+
+const reel = document.getElementById('reel');
+const film = document.getElementById('film');
+const paneli = [...document.querySelectorAll('.panel')];
+const tacke = document.getElementById('tacke');
+const mig = document.getElementById('mig');
+
+paneli.forEach(() => tacke.insertAdjacentHTML('beforeend', '<i></i>'));
+const kvake = [...tacke.children];
+kvake[0].classList.add('on');
+
+let trajanje = 0;
+let cilj = 0;
+let sada = 0;
+let vrti = false;
+let tekuci = 0;
+
+function sveOdjednom() {
+  paneli.forEach(p => p.classList.add('on'));
+  reel.classList.add('bez-filma');
+  const izvor = film.querySelector('source');
+  if (izvor) izvor.remove();
+}
+
+function statican() {
+  return smireno || matchMedia('(max-width: 820px)').matches;
+}
+
+function napredak() {
+  const r = reel.getBoundingClientRect();
+  const hod = r.height - innerHeight;
+  if (hod <= 0) return 0;
+  return Math.min(1, Math.max(0, -r.top / hod));
+}
+
+function petlja() {
+  const razlika = cilj - sada;
+  if (Math.abs(razlika) < 0.004) { vrti = false; return; }
+  sada += razlika * 0.14;
+  if (film.readyState >= 1) {
+    try { film.currentTime = sada; } catch (e) {}
+  }
+  requestAnimationFrame(petlja);
+}
+
+function pomjeri() {
+  if (statican()) return;
+
+  const p = napredak();
+  const koji = Math.min(paneli.length - 1, Math.floor(p * paneli.length));
+
+  if (koji !== tekuci) {
+    paneli[tekuci].classList.remove('on');
+    kvake[tekuci].classList.remove('on');
+    paneli[koji].classList.add('on');
+    kvake[koji].classList.add('on');
+    tekuci = koji;
+  }
+
+  mig.classList.toggle('gone', p > 0.02);
+
+  if (trajanje) {
+    cilj = p * trajanje;
+    if (!vrti) { vrti = true; requestAnimationFrame(petlja); }
+  }
+}
+
+function bezFilma() {
+  reel.classList.add('bez-filma');
+  trajanje = 0;
+}
+
+film.addEventListener('loadedmetadata', () => {
+  trajanje = film.duration || 0;
+  film.pause();
+  pomjeri();
+});
+
+film.addEventListener('error', bezFilma);
+
+setTimeout(() => {
+  if (film.readyState < 1) bezFilma();
+}, 9000);
+
+if (statican()) {
+  sveOdjednom();
+} else {
+  film.preload = 'auto';
+  film.load();
+  window.addEventListener('scroll', pomjeri, { passive: true });
+  window.addEventListener('resize', () => {
+    if (statican()) sveOdjednom();
+    else pomjeri();
+  });
+  pomjeri();
 }
 </script>
 

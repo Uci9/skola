@@ -23,6 +23,7 @@ novosti.html          obavještenja
 kalkulator.html       bodovi za upis u I razred
 assets/styles.css     stilovi za sve strane
 assets/img/           grb + slika zgrade
+assets/video/ulaz.mp4 video za uvodni ekran (4,6 MB)
 ```
 
 ## Dizajn
@@ -47,6 +48,21 @@ Spisak zaposlenih je iz dokumenta „Spisak zaposlenih sa zvanjima“ sa
 elektropg.online. Dokumenti i obavještenja vode u Moodle škole na
 `elektropg.online/ets`. Kalkulator računa po istoj formuli kao onaj na
 starom sajtu.
+
+## Uvodni ekran
+
+Video ide preko cijelog ekrana, skrol ga premotava, a tekst se smjenjuje kroz pet
+panela. Ako se video ne učita, ostaje fotografija zgrade i tekst se i dalje smjenjuje.
+Na telefonima i uz „smanjeno kretanje" u sistemu paneli se slažu jedan ispod drugog,
+a video se uopšte ne preuzima.
+
+Video je H.264 (`avc1.640020`), 1376x768, 5,88 s. Ima samo jedan ključni kadar, pa
+premotavanje unazad zna da zastane. Ako zatreba glađe, sa `ffmpeg`:
+
+```bash
+ffmpeg -i ulaz.mp4 -c:v libx264 -g 1 -crf 24 -movflags +faststart -an ulaz-gladak.mp4
+ffmpeg -i ulaz.mp4 -c:v libvpx-vp9 -g 1 -crf 34 -b:v 0 -an ulaz.webm
+```
 
 ## Šta još fali
 
