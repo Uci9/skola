@@ -514,9 +514,27 @@ film.addEventListener('loadedmetadata', () => {
 
 film.addEventListener('error', bezFilma);
 
+let stiglo = false;
+['loadeddata', 'progress', 'canplay', 'suspend'].forEach(dogadjaj => {
+  film.addEventListener(dogadjaj, () => { stiglo = true; });
+});
+
 setTimeout(() => {
-  if (film.readyState < 1) bezFilma();
-}, 9000);
+  if (!stiglo && film.readyState < 1) bezFilma();
+}, 25000);
+
+let probudjen = false;
+function probudi() {
+  if (probudjen) return;
+  probudjen = true;
+  const p = film.play();
+  if (p && p.then) p.then(() => film.pause()).catch(() => {});
+  else film.pause();
+}
+
+['touchstart', 'pointerdown', 'wheel', 'keydown'].forEach(dogadjaj => {
+  window.addEventListener(dogadjaj, probudi, { once: true, passive: true });
+});
 
 if (statican()) {
   sveOdjednom();
