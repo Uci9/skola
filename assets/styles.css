@@ -142,10 +142,9 @@ p { margin: 0 0 1.1em; }
   display: flex; align-items: center;
   background: #080B11 url("img/skola.jpg") center / cover no-repeat;
 }
-.reel.bez-filma .reel-video { display: none; }
-.reel-video {
+.reel-canvas {
   position: absolute; inset: 0; z-index: 0;
-  width: 100%; height: 100%; object-fit: cover;
+  display: block; width: 100%; height: 100%;
 }
 .reel-shade {
   position: absolute; inset: 0; z-index: 1;

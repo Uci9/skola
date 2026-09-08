@@ -23,7 +23,8 @@ novosti.html          obavještenja
 kalkulator.html       bodovi za upis u I razred
 assets/styles.css     stilovi za sve strane
 assets/img/           grb + slika zgrade
-assets/video/ulaz.mp4 video za uvodni ekran (4,6 MB)
+assets/kadrovi/s/     141 slika za telefon, 720px (4,2 MB)
+assets/kadrovi/l/     141 slika za desktop, 1200px (7,5 MB)
 ```
 
 ## Dizajn
@@ -51,17 +52,22 @@ starom sajtu.
 
 ## Uvodni ekran
 
-Video ide preko cijelog ekrana, skrol ga premotava, a tekst se smjenjuje kroz pet
-panela. Ako se video ne učita, ostaje fotografija zgrade i tekst se i dalje smjenjuje.
-Na telefonima i uz „smanjeno kretanje" u sistemu paneli se slažu jedan ispod drugog,
-a video se uopšte ne preuzima.
+Pozadina nije video nego niz od 141 slike izvučene iz snimka prilaza školi.
+Skrol bira koju sliku iscrtati na canvas — nema premotavanja ni dekodiranja,
+pa se iscrtava u istom trenutku kad se skroluje. Tekst se smjenjuje kroz pet
+panela.
 
-Video je H.264 (`avc1.640020`), 1376x768, 5,88 s. Ima samo jedan ključni kadar, pa
-premotavanje unazad zna da zastane. Ako zatreba glađe, sa `ffmpeg`:
+Telefoni uzimaju manji niz (720px), desktop veći (1200px). Slike se učitavaju
+u dva prolaza: prvo svaka šesta, pa ostale, da se nešto vidi odmah.
+
+Ako slike ne stignu, ostaje fotografija zgrade kao pozadina. Uz „smanjeno
+kretanje" u sistemu paneli se slažu jedan ispod drugog.
+
+Slike se prave iz videa ovako:
 
 ```bash
-ffmpeg -i ulaz.mp4 -c:v libx264 -g 1 -crf 24 -movflags +faststart -an ulaz-gladak.mp4
-ffmpeg -i ulaz.mp4 -c:v libvpx-vp9 -g 1 -crf 34 -b:v 0 -an ulaz.webm
+ffmpeg -i ulaz.mp4 -vf "scale=720:-2"  -q:v 13 assets/kadrovi/s/k%03d.jpg
+ffmpeg -i ulaz.mp4 -vf "scale=1200:-2" -q:v 16 assets/kadrovi/l/k%03d.jpg
 ```
 
 ## Šta još fali

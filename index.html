@@ -36,10 +36,7 @@
 
 <section class="reel" id="reel">
   <div class="reel-stage">
-    <video class="reel-video" id="film" muted playsinline preload="none" disablepictureinpicture
-           poster="assets/img/skola.jpg" aria-hidden="true" tabindex="-1">
-      <source src="assets/video/ulaz.mp4" type="video/mp4">
-    </video>
+    <canvas class="reel-canvas" id="platno" aria-hidden="true"></canvas>
     <div class="reel-shade"></div>
 
     <div class="shell reel-deck">
@@ -435,8 +432,10 @@ if (smireno || !('IntersectionObserver' in window)) {
   zaDizanje.forEach(el => oko.observe(el));
 }
 
+const KADROVA = 141;
 const reel = document.getElementById('reel');
-const film = document.getElementById('film');
+const platno = document.getElementById('platno');
+const kist = platno.getContext('2d', { alpha: false });
 const paneli = [...document.querySelectorAll('.panel')];
 const tacke = document.getElementById('tacke');
 const mig = document.getElementById('mig');
@@ -445,50 +444,93 @@ paneli.forEach(() => tacke.insertAdjacentHTML('beforeend', '<i></i>'));
 const kvake = [...tacke.children];
 kvake[0].classList.add('on');
 
-let trajanje = 0;
-let cilj = 0;
-let vrti = false;
+const folder = matchMedia('(max-width: 900px)').matches
+  ? 'assets/kadrovi/s/'
+  : 'assets/kadrovi/l/';
+
+const slike = new Array(KADROVA);
+let nacrtan = -1;
+let trazeni = 0;
 let tekuci = 0;
 
-function sveOdjednom() {
-  paneli.forEach(p => p.classList.add('on'));
-  reel.classList.add('bez-filma');
-  const izvor = film.querySelector('source');
-  if (izvor) izvor.remove();
+function putanja(i) {
+  return folder + 'k' + String(i + 1).padStart(3, '0') + '.jpg';
 }
+
+function razmjeri() {
+  const gustina = Math.min(window.devicePixelRatio || 1, 2);
+  const w = platno.clientWidth;
+  const h = platno.clientHeight;
+  if (!w || !h) return;
+  platno.width = Math.round(w * gustina);
+  platno.height = Math.round(h * gustina);
+  nacrtan = -1;
+  nacrtaj(trazeni);
+}
+
+function najblizaSpremna(i) {
+  if (slike[i] && slike[i].spremna) return i;
+  for (let k = 1; k < KADROVA; k++) {
+    if (slike[i - k] && slike[i - k].spremna) return i - k;
+    if (slike[i + k] && slike[i + k].spremna) return i + k;
+  }
+  return -1;
+}
+
+function nacrtaj(i) {
+  const k = najblizaSpremna(i);
+  if (k < 0 || k === nacrtan) return;
+  nacrtan = k;
+
+  const s = slike[k];
+  const cw = platno.width;
+  const ch = platno.height;
+  const odnos = Math.max(cw / s.naturalWidth, ch / s.naturalHeight);
+  const w = s.naturalWidth * odnos;
+  const h = s.naturalHeight * odnos;
+  kist.drawImage(s, (cw - w) / 2, (ch - h) / 2, w, h);
+}
+
+function ucitaj(i) {
+  if (slike[i]) return;
+  const s = new Image();
+  s.decoding = 'async';
+  s.spremna = false;
+  s.onload = () => { s.spremna = true; nacrtaj(trazeni); };
+  s.onerror = () => {};
+  slike[i] = s;
+  s.src = putanja(i);
+}
+
+const redosled = [0];
+for (let i = 6; i < KADROVA; i += 6) redosled.push(i);
+for (let i = 1; i < KADROVA; i++) if (i % 6) redosled.push(i);
+redosled.forEach(ucitaj);
 
 function statican() {
   return smireno;
 }
 
-function napredak() {
-  const r = reel.getBoundingClientRect();
-  const hod = r.height - innerHeight;
-  if (hod <= 0) return 0;
-  return Math.min(1, Math.max(0, -r.top / hod));
+function sveOdjednom() {
+  paneli.forEach(p => p.classList.add('on'));
 }
 
-function petlja() {
-  if (film.readyState < 1) { vrti = false; return; }
-
-  if (film.seeking) {
-    requestAnimationFrame(petlja);
-    return;
-  }
-
-  const razlika = cilj - film.currentTime;
-  if (Math.abs(razlika) < 0.02) { vrti = false; return; }
-
-  try { film.currentTime = cilj; } catch (e) {}
-  requestAnimationFrame(petlja);
+function napredak() {
+  const r = reel.getBoundingClientRect();
+  const hod = r.height - window.innerHeight;
+  if (hod <= 0) return 0;
+  return Math.min(1, Math.max(0, -r.top / hod));
 }
 
 function pomjeri() {
   if (statican()) return;
 
   const p = napredak();
-  const koji = Math.min(paneli.length - 1, Math.floor(p * paneli.length));
 
+  trazeni = Math.round(p * (KADROVA - 1));
+  nacrtaj(trazeni);
+
+  const koji = Math.min(paneli.length - 1, Math.floor(p * paneli.length));
   if (koji !== tekuci) {
     paneli[tekuci].classList.remove('on');
     kvake[tekuci].classList.remove('on');
@@ -498,60 +540,28 @@ function pomjeri() {
   }
 
   mig.classList.toggle('gone', p > 0.02);
-
-  if (trajanje) {
-    cilj = p * trajanje;
-    if (!vrti) { vrti = true; petlja(); }
-  }
 }
 
-function bezFilma() {
-  reel.classList.add('bez-filma');
-  trajanje = 0;
-}
-
-film.addEventListener('loadedmetadata', () => {
-  trajanje = film.duration || 0;
-  film.pause();
-  pomjeri();
-});
-
-film.addEventListener('error', bezFilma);
-
-let stiglo = false;
-['loadeddata', 'progress', 'canplay', 'suspend'].forEach(dogadjaj => {
-  film.addEventListener(dogadjaj, () => { stiglo = true; });
-});
-
-setTimeout(() => {
-  if (!stiglo && film.readyState < 1) bezFilma();
-}, 25000);
-
-let probudjen = false;
-function probudi() {
-  if (probudjen) return;
-  probudjen = true;
-  const p = film.play();
-  if (p && p.then) p.then(() => film.pause()).catch(() => {});
-  else film.pause();
-}
-
-['touchstart', 'pointerdown', 'wheel', 'keydown'].forEach(dogadjaj => {
-  window.addEventListener(dogadjaj, probudi, { once: true, passive: true });
-});
+let zakazano = false;
 
 if (statican()) {
   sveOdjednom();
+  razmjeri();
 } else {
-  film.preload = 'auto';
-  film.load();
-  window.addEventListener('scroll', pomjeri, { passive: true });
-  window.addEventListener('resize', () => {
-    if (statican()) sveOdjednom();
-    else pomjeri();
-  });
+  razmjeri();
+  window.addEventListener('scroll', () => {
+    if (zakazano) return;
+    zakazano = true;
+    requestAnimationFrame(() => { zakazano = false; pomjeri(); });
+  }, { passive: true });
   pomjeri();
 }
+
+window.addEventListener('resize', () => {
+  razmjeri();
+  if (statican()) sveOdjednom();
+  else pomjeri();
+});
 </script>
 
 </body>
