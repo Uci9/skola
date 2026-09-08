@@ -134,10 +134,12 @@ p { margin: 0 0 1.1em; }
 .hamb i::before { top: -6px; left: 0; }
 .hamb i::after { top: 6px; left: 0; }
 
-.reel { position: relative; margin-top: -76px; height: 460vh; }
+.reel { position: relative; margin-top: -76px; height: 460vh; background: #080B11; }
 .reel-stage {
   position: sticky; top: 0;
-  height: 100vh; min-height: 560px;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 560px;
   overflow: hidden;
   display: flex; align-items: center;
   background: #080B11 url("img/skola.jpg") center / cover no-repeat;
@@ -234,7 +236,7 @@ p { margin: 0 0 1.1em; }
 }
 @keyframes cue { 0%,100% { transform: translateY(0); opacity: 1; } 55% { transform: translateY(9px); opacity: .2; } }
 
-.tally { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px; }
+.tally { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; }
 .tally b {
   display: block; font-family: var(--grot); font-weight: 800;
   font-size: clamp(2.6rem, 5vw, 4.1rem); letter-spacing: -.05em; line-height: .9;
@@ -476,7 +478,7 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
   .pair { grid-template-columns: 1fr; gap: 48px; }
   .cards, .folks, .folks-many, .shots { grid-template-columns: repeat(2, 1fr); }
   .flow { grid-template-columns: 1fr 1fr; row-gap: 38px; }
-  .tally { grid-template-columns: 1fr 1fr; gap: 34px; }
+  .tally { grid-template-columns: repeat(4, 1fr); gap: 14px; }
   .duet { grid-template-columns: 1fr; }
   .base-grid { grid-template-columns: 1fr 1fr; }
 }
@@ -497,7 +499,7 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
   .panel h1 { margin-bottom: 18px; }
   .panel h2 { font-size: 1.55rem; margin-bottom: 14px; }
   .reel { margin-top: -92px; height: 360vh; }
-  .reel-stage { height: 100vh; height: 100svh; min-height: 470px; padding: 0; }
+  .reel-stage { height: 100vh; height: 100dvh; min-height: 470px; padding: 0; }
   .panel { max-width: none; }
   .panel-list a { padding: 11px 16px; }
   .panel-list b { font-size: .96rem; }
@@ -545,9 +547,9 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
   .flow { grid-template-columns: 1fr; row-gap: 22px; }
   .flow-item { padding-top: 0; padding-left: 46px; }
   .flow-item b { font-size: 2rem; top: -4px; }
-  .tally { grid-template-columns: 1fr 1fr; gap: 20px; }
-  .tally b { font-size: 2.3rem; }
-  .tally span { font-size: .86rem; margin-top: 5px; }
+  .tally { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .tally b { font-size: 1.5rem; letter-spacing: -.04em; }
+  .tally span { font-size: .68rem; margin-top: 4px; line-height: 1.25; }
 
   .stack { gap: 8px; }
   .tile { flex-direction: column; align-items: flex-start; gap: 7px; padding: 14px 16px; }
@@ -594,7 +596,9 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
 
 @media (max-width: 400px) {
   .shell { padding: 0 16px; }
-  .tally { gap: 16px; }
+  .tally { gap: 7px; }
+  .tally b { font-size: 1.3rem; }
+  .tally span { font-size: .62rem; }
   .base-grid { grid-template-columns: 1fr; }
 }
 
