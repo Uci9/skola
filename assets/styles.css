@@ -849,3 +849,114 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   .ucitavanje-znak { width: 76px; height: 76px; padding: 11px; }
   .ucitavanje-platno { width: 88vw; height: 30vh; }
 }
+
+.ljudi { display: grid; grid-template-columns: repeat(auto-fill, minmax(272px, 1fr)); gap: 22px; }
+.osoba {
+  display: block; width: 100%; text-align: left;
+  background: #000; color: var(--white);
+  border: 0; border-radius: 18px; padding: 0;
+  overflow: hidden; cursor: pointer; font: inherit;
+  transition: transform .2s cubic-bezier(.2,.8,.3,1), box-shadow .2s;
+}
+.osoba:hover { transform: translateY(-4px); box-shadow: var(--shadow-up); }
+.osoba-slika {
+  position: relative; display: block; height: 268px; overflow: hidden;
+  border-radius: 18px;
+}
+.osoba-slika img {
+  width: 100%; height: 100%; object-fit: cover; object-position: top;
+  transition: transform .3s ease;
+}
+.osoba:hover .osoba-slika img { transform: scale(1.05); }
+.osoba-inicijali {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  font-family: var(--grot); font-weight: 800; font-size: 3.6rem;
+  letter-spacing: -.04em; color: rgba(255,255,255,.92);
+  background: linear-gradient(150deg, hsl(var(--ton) 58% 38%), hsl(var(--ton) 62% 16%));
+}
+.osoba-slika::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 60%;
+  background: linear-gradient(to top, #000, transparent);
+  pointer-events: none;
+}
+.osoba-telo { display: block; padding: 0 18px 18px; }
+.osoba-bio {
+  display: block; padding-bottom: 16px;
+  border-bottom: 1px solid #3A3A3A;
+  font-size: .95rem; font-weight: 500; color: #D6D9DE; line-height: 1.45;
+}
+.osoba-bio.prazna { color: #6E7480; font-style: italic; }
+.osoba-ime { display: block; margin-top: 15px; font-size: 1rem; color: var(--white); }
+.osoba-uloga {
+  display: block; margin-top: 3px; font-size: .84rem; font-weight: 600;
+  background: linear-gradient(90deg, #5B6BFF, #FF5B39 55%, #FFD23F);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+.trazilica { max-width: 420px; margin: 0 0 26px; position: relative; }
+.trazilica input {
+  width: 100%; padding: 14px 44px 14px 18px;
+  font-family: var(--sans); font-size: .96rem; color: var(--ink);
+  background: var(--white); border: 1px solid var(--line); border-radius: var(--pill);
+}
+.trazilica input:hover { border-color: #C3C9D8; }
+.trazilica b {
+  position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
+  font-size: .82rem; font-weight: 500; color: var(--ink-2); pointer-events: none;
+}
+.nista { color: var(--ink-2); font-size: .96rem; }
+
+.zavjesa {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(8,11,17,.72); backdrop-filter: blur(6px);
+  display: grid; place-items: center; padding: 24px;
+}
+.zavjesa-karta {
+  width: min(520px, 100%); max-height: 86vh; overflow: auto;
+  background: #000; color: var(--white); border-radius: 20px;
+  position: relative;
+}
+.zavjesa-slika { position: relative; height: 300px; overflow: hidden; border-radius: 20px 20px 0 0; }
+.zavjesa-slika img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.zavjesa-slika .osoba-inicijali { font-size: 4.4rem; border-radius: 20px 20px 0 0; }
+.zavjesa-slika::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 55%;
+  background: linear-gradient(to top, #000, transparent);
+}
+.zavjesa-telo { padding: 0 26px 28px; }
+.zavjesa-telo h3 { color: var(--white); font-size: 1.5rem; margin: 0 0 4px; }
+.zavjesa-uloga {
+  display: block; margin-bottom: 18px; font-size: .9rem; font-weight: 600;
+  background: linear-gradient(90deg, #5B6BFF, #FF5B39 55%, #FFD23F);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.zavjesa-telo p { color: #C3C7CE; font-size: .98rem; }
+.zavjesa-telo p.prazna { color: #6E7480; font-style: italic; }
+.zavjesa-x {
+  position: absolute; top: 14px; right: 14px; z-index: 3;
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 0; cursor: pointer; font-size: 1.3rem; line-height: 1;
+  background: rgba(0,0,0,.55); color: var(--white);
+  backdrop-filter: blur(4px);
+}
+.zavjesa-x:hover { background: rgba(0,0,0,.8); }
+
+@media (max-width: 820px) {
+  .ljudi { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .osoba-slika { height: 148px; border-radius: 14px; }
+  .osoba { border-radius: 14px; }
+  .osoba-inicijali { font-size: 2.2rem; }
+  .osoba-telo { padding: 0 12px 14px; }
+  .osoba-bio { font-size: .84rem; padding-bottom: 11px; }
+  .osoba-ime { margin-top: 11px; font-size: .92rem; }
+  .osoba-uloga { font-size: .76rem; }
+  .zavjesa { padding: 14px; }
+  .zavjesa-slika { height: 220px; }
+  .zavjesa-telo { padding: 0 20px 22px; }
+}
+@media (max-width: 400px) {
+  .osoba-slika { height: 132px; }
+  .osoba-inicijali { font-size: 1.9rem; }
+  .osoba-bio { font-size: .8rem; }
+}
