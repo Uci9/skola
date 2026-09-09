@@ -22,6 +22,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; scroll-padding-top: 100px; }
 
 body {
@@ -391,13 +392,17 @@ a.tile:hover .tile-go, a.tile:hover .tile-name { color: var(--cobalt); }
 .f3 { grid-template-columns: repeat(3, 1fr); }
 .f > span { display: block; margin-bottom: 8px; font-size: .92rem; font-weight: 500; color: var(--ink); }
 .f small { display: block; margin-top: 6px; font-size: .8rem; color: var(--ink-2); }
-.form select, .form input[type="number"] {
+.form select,
+.form textarea,
+.form input:not([type="file"]):not([type="radio"]):not([type="checkbox"]) {
   width: 100%; padding: 14px 16px;
   font-family: var(--sans); font-size: .96rem; color: var(--ink);
   background: var(--white); border: 1px solid var(--line); border-radius: var(--r-sm);
   transition: border-color .15s, box-shadow .15s;
 }
-.form select:hover, .form input[type="number"]:hover { border-color: #C3C9D8; }
+.form select:hover,
+.form textarea:hover,
+.form input:not([type="file"]):not([type="radio"]):not([type="checkbox"]):hover { border-color: #C3C9D8; }
 .fstack > span { display: block; margin-bottom: 10px; font-size: .92rem; font-weight: 500; color: var(--ink); }
 .fstack .f + .f { margin-top: 10px; }
 .fpick { display: grid; gap: 10px; }
@@ -626,4 +631,107 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
 @media (max-width: 820px) {
   .claim { padding: 30px 24px; }
   .claim h3 { font-size: 1.45rem; }
+}
+
+.kutija {
+  max-width: 560px;
+  background: var(--white);
+  border-radius: var(--r);
+  padding: 34px 32px;
+  box-shadow: var(--shadow);
+}
+.form.uska { max-width: none; }
+.uska .f + .f { margin-top: 16px; }
+.uska .go { margin-top: 24px; }
+
+.tabovi { display: flex; gap: 6px; margin-bottom: 26px; flex-wrap: wrap; }
+.tabovi button {
+  padding: 10px 18px; border-radius: var(--pill);
+  border: 1px solid var(--line); background: var(--white);
+  font-family: var(--sans); font-size: .92rem; font-weight: 500;
+  color: var(--ink-2); cursor: pointer;
+  transition: background-color .15s, color .15s, border-color .15s;
+}
+.tabovi button:hover { border-color: var(--ink); color: var(--ink); }
+.tabovi button.on { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+.glas {
+  margin: 18px 0 0; padding: 13px 18px;
+  border-radius: var(--r-sm); font-size: .94rem;
+  background: var(--paper); color: var(--ink-2);
+}
+.glas.dobro { background: var(--butter); color: var(--ink); }
+.glas.lose { background: #FFE6DF; color: #7A2410; }
+.glas code { font-family: ui-monospace, monospace; font-size: .9em; }
+
+.strazar {
+  max-width: 560px; background: var(--white); border-radius: var(--r);
+  padding: 36px 32px; box-shadow: var(--shadow);
+}
+.strazar h2 { font-size: 1.7rem; margin-bottom: 12px; }
+.strazar p { margin-bottom: 14px; }
+.strazar code { font-family: ui-monospace, monospace; font-size: .9em; }
+
+.admin-vrh {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap; margin-bottom: 28px;
+}
+.admin-vrh h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin-bottom: 6px; }
+.pozdrav { margin: 0; font-size: .95rem; }
+.pozdrav b { color: var(--ink); font-weight: 600; }
+
+.admin-mreza { display: grid; grid-template-columns: 400px 1fr; gap: 24px; align-items: start; }
+.admin-forma, .admin-spisak {
+  background: var(--white); border-radius: var(--r);
+  padding: 26px 24px; box-shadow: var(--shadow);
+}
+.admin-forma h3, .admin-spisak h3 { font-size: 1.2rem; margin-bottom: 18px; }
+.broj {
+  display: inline-block; margin-left: 6px; padding: 2px 10px;
+  border-radius: var(--pill); background: var(--paper);
+  font-family: var(--sans); font-size: .8rem; font-weight: 500; color: var(--ink-2);
+}
+.forma-dno { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+.btn.mali { padding: 8px 15px; font-size: .84rem; border-width: 1px; }
+
+.form textarea {
+  width: 100%; padding: 14px 16px;
+  font-family: var(--sans); font-size: .96rem; color: var(--ink);
+  background: var(--white); border: 1px solid var(--line); border-radius: var(--r-sm);
+  resize: vertical;
+}
+.form textarea:hover { border-color: #C3C9D8; }
+.polje-slika > span { display: block; margin-bottom: 8px; font-size: .92rem; font-weight: 500; color: var(--ink); }
+.slika-red { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.slika-pregled { width: 64px; height: 64px; object-fit: cover; border-radius: var(--r-sm); }
+.slika-ulaz { font-size: .86rem; max-width: 100%; }
+
+.admin-stavka {
+  display: flex; align-items: center; gap: 14px;
+  padding: 13px 0; border-bottom: 1px solid var(--line);
+}
+.admin-stavka:last-child { border-bottom: 0; }
+.admin-stavka img { width: 46px; height: 46px; object-fit: cover; border-radius: 10px; flex: none; }
+.admin-tekst { flex: 1 1 auto; min-width: 0; }
+.admin-tekst b { display: block; font-size: .98rem; color: var(--ink); font-weight: 600; }
+.admin-tekst span { display: block; font-size: .85rem; color: var(--ink-2); }
+.admin-radnje { display: flex; gap: 8px; align-items: center; flex: none; flex-wrap: wrap; }
+.znak {
+  padding: 3px 11px; border-radius: var(--pill);
+  background: var(--paper); font-size: .76rem; color: var(--ink-2);
+}
+.znak.admin { background: var(--butter); color: var(--ink); font-weight: 600; }
+.prazno { color: #AFB6C1; font-size: .95rem; margin: 0; }
+.admin-spisak.siroko { max-width: 820px; }
+
+@media (max-width: 1040px) {
+  .admin-mreza { grid-template-columns: 1fr; }
+}
+@media (max-width: 820px) {
+  .kutija, .strazar { padding: 24px 20px; }
+  .admin-forma, .admin-spisak { padding: 20px 18px; }
+  .admin-stavka { flex-wrap: wrap; gap: 10px; }
+  .admin-radnje { width: 100%; }
+  .tabovi { gap: 5px; }
+  .tabovi button { padding: 9px 14px; font-size: .86rem; }
 }
