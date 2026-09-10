@@ -52,8 +52,8 @@
   const PERIOD = TAU / FREQ;
   const DISTANCE = 8;
 
-  const OSNOVA = [0.30, 0.35, 0.50];
-  const ODSJAJ = [1.0, 0.824, 0.247];
+  const OSNOVA = [0.09, 0.34, 0.74];
+  const ODSJAJ = [0.247, 0.808, 0.706];
 
   function m4() {
     const o = new Float32Array(16);
