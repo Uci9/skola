@@ -121,7 +121,7 @@
   <div class="shell">
     <div class="rise">
       <h2>Šta možeš da upišeš</h2>
-      <p class="lede">Četvorogodišnji vode ka diplomi tehničara i pravu na fakultet.
+      <p class="lede">Četvorogodišnji vode ka <span class="isticanje" data-akcija="podvuci">diplomi tehničara i pravu na fakultet</span>.
          Trogodišnji ka zanimanju s kojim se odmah radi.</p>
     </div>
     <div class="cards rise-kids">
@@ -270,7 +270,7 @@
   <div class="shell">
     <div class="rise">
       <h2>Česta pitanja</h2>
-      <p class="lede">Ono što nas roditelji i osmaci najviše pitaju.</p>
+      <p class="lede">Ono što nas <span class="isticanje" data-akcija="podvuci">roditelji i osmaci</span> najviše pitaju.</p>
     </div>
 
     <div class="pitanja rise">
@@ -355,7 +355,7 @@
   <div class="shell">
     <div class="rise">
       <h2>Šta je novo</h2>
-      <p class="lede">Tekuća obavještenja škola objavljuje u Moodle-u.</p>
+      <p class="lede">Tekuća obavještenja škola objavljuje <span class="isticanje" data-akcija="oboji">u Moodle-u</span>.</p>
     </div>
     <div class="stack rise">
       <a class="tile" href="https://elektropg.online/ets/course/index.php?categoryid=170">
@@ -386,7 +386,7 @@
   <div class="shell">
     <div class="rise">
       <h2>Gdje učenici rade</h2>
-      <p class="lede">Praktična nastava i dualno obrazovanje, kroz projekte i preduzeća.</p>
+      <p class="lede"><span class="isticanje" data-akcija="oboji">Praktična nastava i dualno obrazovanje</span>, kroz projekte i preduzeća.</p>
     </div>
     <div class="duet rise-kids">
       <article class="mate">
@@ -409,7 +409,7 @@
   <div class="shell">
     <div class="rise">
       <h2>Dokumenti</h2>
-      <p class="lede">Statut, pravilnici, javni pozivi i planovi — sve javno dostupno.</p>
+      <p class="lede">Statut, pravilnici, javni pozivi i planovi — <span class="isticanje" data-akcija="podvuci">sve javno dostupno</span>.</p>
     </div>
     <div class="stack rise">
       <a class="tile" href="https://elektropg.online/ets/course/view.php?id=775"><span class="tile-chip">Moodle</span><span class="tile-name">Obrazovni programi</span><span class="tile-go">Otvori &rarr;</span></a>
@@ -673,6 +673,7 @@ function pomjeri() {
     paneli[koji].classList.add('on');
     kvake[koji].classList.add('on');
     tekuci = koji;
+    if (window.maglaPusti) window.maglaPusti(paneli[koji]);
   }
 
   mig.classList.toggle('gone', p > 0.02);

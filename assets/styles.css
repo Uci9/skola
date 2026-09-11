@@ -1042,24 +1042,15 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   transition-delay: calc(var(--r) * 26ms);
 }
 
-.isticanje { position: relative; display: inline-block; }
-.isticanje::before {
-  content: ""; position: absolute; z-index: -1;
-  left: -.1em; right: -.1em;
-  transform: scaleX(0); transform-origin: left;
+.isticanje { position: relative; display: inline; }
+.potez {
+  position: absolute; z-index: 0;
+  overflow: visible; pointer-events: none;
+  clip-path: inset(0 100% 0 0);
 }
-.isticanje.vidi::before { transform: scaleX(1); transition: transform .55s cubic-bezier(.4,0,.2,1); }
-.isticanje[data-akcija="podvuci"]::before {
-  bottom: -.06em; height: .22em;
-  border-radius: .12em;
-  background: var(--isticaj, var(--tirkiz));
-  opacity: .85;
-}
-.isticanje[data-akcija="oboji"]::before {
-  top: -.06em; bottom: -.08em;
-  border-radius: .18em;
-  background: var(--isticaj, var(--tirkiz));
-  opacity: .28;
+.isticanje.vidi .potez {
+  clip-path: inset(0 -2% 0 0);
+  transition: clip-path .62s cubic-bezier(.35,0,.2,1);
 }
 
 .okvir-leca { position: relative; overflow: hidden; cursor: zoom-in; touch-action: pan-y; }
