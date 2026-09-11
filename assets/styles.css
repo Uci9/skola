@@ -31,6 +31,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 100px; }
 
 body {
   margin: 0;
+  overflow-x: clip;
   background: var(--paper);
   color: var(--ink-2);
   font-family: var(--sans);
@@ -63,11 +64,11 @@ p { margin: 0 0 1.1em; }
 .blk { padding: 108px 0; }
 .blk-tight { padding: 72px 0; }
 .blk-cobalt { background: var(--cobalt); color: #CFE0FF; }
-.blk-cobalt h2, .blk-cobalt h3 { color: var(--white); }
+.blk-cobalt h1, .blk-cobalt h2, .blk-cobalt h3 { color: var(--white); }
 .blk-tirkiz { background: var(--tirkiz); color: var(--ink); }
-.blk-tirkiz h2, .blk-tirkiz h3 { color: var(--ink); }
+.blk-tirkiz h1, .blk-tirkiz h2, .blk-tirkiz h3 { color: var(--ink); }
 .blk-ink { background: var(--ink); color: var(--celik-svijetli); }
-.blk-ink h2, .blk-ink h3 { color: var(--white); }
+.blk-ink h1, .blk-ink h2, .blk-ink h3 { color: var(--white); }
 .blk-white { background: var(--white); }
 
 .lede { font-size: 1.16rem; max-width: 46ch; margin: 0 0 44px; }
@@ -143,7 +144,7 @@ p { margin: 0 0 1.1em; }
 .reel-stage {
   position: sticky; top: 0;
   height: 100vh;
-  height: 100dvh;
+  height: 100svh;
   min-height: 560px;
   overflow: hidden;
   display: flex; align-items: center;
@@ -535,7 +536,7 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
   .panel h1 { margin-bottom: 18px; }
   .panel h2 { font-size: 1.55rem; margin-bottom: 14px; }
   .reel { margin-top: -92px; height: 360vh; }
-  .reel-stage { height: 100vh; height: 100dvh; min-height: 470px; padding: 0; }
+  .reel-stage { height: 100vh; height: 100svh; min-height: 470px; padding: 0; }
   .panel { max-width: none; }
   .panel-list a { padding: 11px 16px; }
   .panel-list b { font-size: .96rem; }
@@ -772,7 +773,7 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
 .sirenje { position: relative; height: 260vh; background: var(--ink); }
 .sirenje-scena {
   position: sticky; top: 0;
-  height: 100vh; height: 100dvh;
+  height: 100vh; height: 100svh;
   overflow: hidden;
   display: grid; place-items: center;
 }
@@ -1042,16 +1043,14 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   transition-delay: calc(var(--r) * 26ms);
 }
 
-.isticanje { position: relative; display: inline; }
-.potez {
-  position: absolute; z-index: 0;
-  overflow: visible; pointer-events: none;
-  clip-path: inset(0 100% 0 0);
+.isticanje {
+  display: inline;
+  background-repeat: no-repeat;
+  background-size: 0 var(--potez-v, .42em);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
-.isticanje.vidi .potez {
-  clip-path: inset(0 -2% 0 0);
-  transition: clip-path .62s cubic-bezier(.35,0,.2,1);
-}
+.isticanje.vidi { background-size: 100% var(--potez-v, .42em); transition: background-size .6s cubic-bezier(.35,0,.2,1); }
 
 .okvir-leca { position: relative; overflow: hidden; cursor: zoom-in; touch-action: pan-y; }
 .leca {

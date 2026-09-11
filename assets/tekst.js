@@ -70,8 +70,6 @@
     });
   }
 
-  const NS = 'http://www.w3.org/2000/svg';
-
   function sjeme(tekst) {
     let z = 7;
     for (const c of tekst) z = (z * 31 + c.charCodeAt(0)) % 99991;
@@ -81,76 +79,45 @@
     };
   }
 
+  function svgUrl(sadrzaj, visina) {
+    const svg = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 " + visina +
+      "' preserveAspectRatio='none'>" + sadrzaj + "</svg>";
+    return 'url("data:image/svg+xml,' + encodeURIComponent(svg).replace(/"/g, "'") + '")';
+  }
+
   function potez(el) {
     if (el.dataset.nacrtano) return;
-    const okviri = [...el.getClientRects()];
-    if (!okviri.length) return;
     el.dataset.nacrtano = '1';
 
-    const svoj = el.getBoundingClientRect();
-    const akcija = el.dataset.akcija === 'oboji' ? 'oboji' : 'podvuci';
     const boja = el.dataset.boja ||
       getComputedStyle(el).getPropertyValue('--isticaj').trim() || '#0E8F7E';
     const slucaj = sjeme(el.textContent);
 
-    okviri.forEach((o, i) => {
-      const w = o.width, h = o.height;
-      if (w < 4) return;
-
-      const svg = document.createElementNS(NS, 'svg');
-      svg.setAttribute('class', 'potez');
-      svg.setAttribute('viewBox', '0 0 ' + w + ' ' + (h + 8));
-      svg.setAttribute('preserveAspectRatio', 'none');
-      svg.setAttribute('aria-hidden', 'true');
-      svg.style.left = (o.left - svoj.left - 3) + 'px';
-      svg.style.top = (o.top - svoj.top - 2) + 'px';
-      svg.style.width = (w + 6) + 'px';
-      svg.style.height = (h + 8) + 'px';
-      svg.style.animationDelay = (i * 90) + 'ms';
-
-      if (akcija === 'podvuci') {
-        const y = h + 1;
-        const a = 1 + slucaj() * 1.5;
-        const b = y - 1 - slucaj() * 2.5;
-        const c = y + 1 + slucaj() * 1.5;
-        const d = y - slucaj() * 2;
-        const put = document.createElementNS(NS, 'path');
-        put.setAttribute('d',
-          'M ' + a + ' ' + b +
-          ' C ' + (w * 0.3) + ' ' + (b + 2.5) +
-          ', ' + (w * 0.62) + ' ' + (c - 3) +
-          ', ' + (w - 1) + ' ' + d);
-        put.setAttribute('fill', 'none');
-        put.setAttribute('stroke', boja);
-        put.setAttribute('stroke-width', '3.2');
-        put.setAttribute('stroke-linecap', 'round');
-        svg.appendChild(put);
-
-        const drugi = put.cloneNode();
-        drugi.setAttribute('d',
-          'M ' + (a + 3) + ' ' + (b + 2.2) +
-          ' C ' + (w * 0.38) + ' ' + (b + 4.2) +
-          ', ' + (w * 0.7) + ' ' + (c - 0.6) +
-          ', ' + (w - 4) + ' ' + (d + 1.8));
-        drugi.setAttribute('stroke-width', '1.6');
-        drugi.setAttribute('opacity', '.55');
-        svg.appendChild(drugi);
-      } else {
-        const gore = 2 + slucaj() * 2.5;
-        const dolje = h + 1 - slucaj() * 1.5;
-        const put = document.createElementNS(NS, 'path');
-        put.setAttribute('d',
-          'M 0 ' + (gore + 2.5) +
-          ' L ' + (w * 0.985) + ' ' + gore +
-          ' L ' + w + ' ' + dolje +
-          ' L ' + (w * 0.012) + ' ' + (dolje + 2) + ' Z');
-        put.setAttribute('fill', boja);
-        put.setAttribute('opacity', '.34');
-        svg.appendChild(put);
-      }
-
-      el.appendChild(svg);
-    });
+    if (el.dataset.akcija === 'oboji') {
+      const g1 = 1 + slucaj() * 2.5;
+      const g2 = 1 + slucaj() * 2;
+      const d1 = 18 - slucaj() * 1.5;
+      const d2 = 19 - slucaj() * 1.5;
+      const oblik = "<path d='M0 " + g1 + " L100 " + g2 + " L100 " + d1 +
+        " L0 " + d2 + " Z' fill='" + boja + "' opacity='.32'/>";
+      el.style.backgroundImage = svgUrl(oblik, 20);
+      el.style.setProperty('--potez-v', '1.15em');
+      el.style.backgroundPosition = '0 50%';
+    } else {
+      const a = 7 + slucaj() * 1.2;
+      const b = 10.5 - slucaj() * 1.5;
+      const c = 5 + slucaj() * 1.5;
+      const d = 7.5 + slucaj() * 1.2;
+      const oblik =
+        "<path d='M1.5 " + a + " C 28 " + b + ", 62 " + c + ", 98.5 " + d +
+        "' fill='none' stroke='" + boja + "' stroke-width='2.6' stroke-linecap='round'/>" +
+        "<path d='M5 " + (a + 2.2) + " C 34 " + (b + 1.4) + ", 68 " + (c + 2.4) +
+        ", 95 " + (d + 1.6) + "' fill='none' stroke='" + boja +
+        "' stroke-width='1.3' stroke-linecap='round' opacity='.5'/>";
+      el.style.backgroundImage = svgUrl(oblik, 12);
+      el.style.setProperty('--potez-v', '.42em');
+      el.style.backgroundPosition = '0 100%';
+    }
   }
 
   const istaknuto = [...document.querySelectorAll('.isticanje')];
@@ -165,8 +132,9 @@
         requestAnimationFrame(() => u.target.classList.add('vidi'));
         obs.unobserve(u.target);
       });
-    }, { threshold: .85 });
+    }, { threshold: .6 });
 
     istaknuto.forEach(el => oko2.observe(el));
   }
+
 })();
