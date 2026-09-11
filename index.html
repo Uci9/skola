@@ -11,6 +11,8 @@
 <link rel="stylesheet" href="assets/styles.css">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
 <script type="module" src="assets/nalog.js"></script>
+<script src="assets/tekst.js" defer></script>
+<script src="assets/leca.js" defer></script>
 <script src="assets/ucitavanje.js" defer></script>
 </head>
 <body>
@@ -51,9 +53,9 @@
     <div class="shell reel-deck">
       <div class="reel-slot">
         <article class="panel on">
-          <h1>Struja, mreže i mašine <em>od 1946.</em></h1>
+          <h1 data-magla>Struja, mreže i mašine <em>od 1946.</em></h1>
           <p>Šest programa iz elektrotehnike, elektronike, energetike i telekomunikacija —
-             sa praksom u pravim pogonima, a ne samo na papiru.</p>
+             sa <span class="isticanje" data-akcija="oboji">praksom u pravim pogonima</span>, a ne samo na papiru.</p>
           <div class="panel-do">
             <a href="#programi" class="btn btn-tirkiz">Pogledaj programe</a>
             <a href="kalkulator.html" class="btn btn-onwhite">Izračunaj poene</a>
@@ -61,14 +63,14 @@
         </article>
 
         <article class="panel">
-          <h2>Škola koja <em>pravi</em> ljude za struku</h2>
+          <h2 data-magla>Škola koja <em>pravi</em> ljude za struku</h2>
           <p>Elektrotehnička škola igra važnu ulogu u razvoju tehnologije i inovacija.
              Učenici koji je pohađaju mogu da razviju nove ideje i tehnologije koje pomažu
              u rješavanju problema u društvu i industriji.</p>
         </article>
 
         <article class="panel">
-          <h2>Šta ti je <em>potrebno?</em></h2>
+          <h2 data-magla>Šta ti je <em>potrebno?</em></h2>
           <ul class="panel-list">
             <li><a href="kalkulator.html"><b>Kalkulator poena</b><span>za upis u I razred</span></a></li>
             <li><a href="https://elektropg.online/ets/"><b>Moodle</b><span>platforma za učenje</span></a></li>
@@ -78,7 +80,7 @@
         </article>
 
         <article class="panel">
-          <h2>Ne radimo <em>sami</em></h2>
+          <h2 data-magla>Ne radimo <em>sami</em></h2>
           <p>Kroz VET for Western Balkans škola radi sa zemljama Zapadnog Balkana i članicama
              Evropske unije. Kroz Regionalni Challenge Fond stiže oprema i infrastruktura,
              uz preduzeća koja uzimaju učenike na obuku.</p>
@@ -88,7 +90,7 @@
         </article>
 
         <article class="panel">
-          <h2>Osnovne <em>informacije</em></h2>
+          <h2 data-magla>Osnovne <em>informacije</em></h2>
           <ul class="panel-facts">
             <li><b>Ustanova</b><span>JU SEŠ „Vaso Aligrudić“</span></li>
             <li><b>Adresa</b><span>Vasa Raičkovića 26, 81000 Podgorica</span></li>
@@ -233,7 +235,7 @@
 <section class="blk blk-tirkiz" id="upis">
   <div class="shell">
     <div class="rise">
-      <span class="kicker">Prag je 48,00 poena</span>
+      <span class="kicker">Prag je <span class="isticanje" data-akcija="podvuci" style="--isticaj:var(--tirkiz-svijetli)">48,00 poena</span></span>
       <h2>Četiri koraka do upisa</h2>
       <p class="lede">Prije nego predaš prijavu, provjeri koliko poena nosiš.</p>
     </div>
@@ -275,7 +277,8 @@
       <details class="pitanje">
         <summary>Koliko poena treba za upis?</summary>
         <div class="pitanje-tijelo">
-          <p>Prag za upis u srednje stručne škole je <b>48,00 poena</b>. Koliko ih nosiš,
+          <p>Prag za upis u srednje stručne škole je
+             <span class="isticanje" data-akcija="oboji"><b>48,00 poena</b></span>. Koliko ih nosiš,
              provjeri <a href="kalkulator.html">kalkulatorom</a> prije nego što predaš prijavu.</p>
         </div>
       </details>
