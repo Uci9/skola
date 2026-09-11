@@ -144,7 +144,7 @@ p { margin: 0 0 1.1em; }
 .reel-stage {
   position: sticky; top: 0;
   height: 100vh;
-  height: 100svh;
+  height: 100lvh;
   min-height: 560px;
   overflow: hidden;
   display: flex; align-items: center;
@@ -212,7 +212,8 @@ p { margin: 0 0 1.1em; }
 .panel-facts a:hover { color: var(--tirkiz); border-color: var(--tirkiz); }
 
 .reel-dots {
-  position: absolute; z-index: 3; right: 30px; top: 50%;
+  position: absolute; z-index: 3; right: 30px;
+  top: 50%; top: calc(50svh);
   transform: translateY(-50%);
   display: grid; gap: 11px;
 }
@@ -223,7 +224,8 @@ p { margin: 0 0 1.1em; }
 .reel-dots i.on { background: var(--tirkiz-svijetli); transform: scale(1.45); }
 
 .reel-cue {
-  position: absolute; z-index: 3; left: 50%; bottom: 30px;
+  position: absolute; z-index: 3; left: 50%;
+  bottom: 30px; bottom: calc(100lvh - 100svh + 26px);
   transform: translateX(-50%);
   display: flex; align-items: center; gap: 10px;
   font-size: .84rem; color: #C6CEDA;
@@ -536,7 +538,7 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
   .panel h1 { margin-bottom: 18px; }
   .panel h2 { font-size: 1.55rem; margin-bottom: 14px; }
   .reel { margin-top: -92px; height: 360vh; }
-  .reel-stage { height: 100vh; height: 100svh; min-height: 470px; padding: 0; }
+  .reel-stage { height: 100vh; height: 100lvh; min-height: 470px; padding: 0; }
   .panel { max-width: none; }
   .panel-list a { padding: 11px 16px; }
   .panel-list b { font-size: .96rem; }
@@ -548,7 +550,7 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
   .panel-facts span { font-size: .94rem; }
   .reel-dots { right: 12px; gap: 9px; }
   .reel-dots i { width: 7px; height: 7px; }
-  .reel-cue { bottom: 20px; font-size: .78rem; }
+  .reel-cue { bottom: 20px; bottom: calc(100lvh - 100svh + 16px); font-size: .78rem; }
 
   .menu {
     display: none; position: absolute; left: 0; right: 0; top: calc(100% + 10px);
@@ -773,7 +775,7 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
 .sirenje { position: relative; height: 260vh; background: var(--ink); }
 .sirenje-scena {
   position: sticky; top: 0;
-  height: 100vh; height: 100svh;
+  height: 100vh; height: 100lvh;
   overflow: hidden;
   display: grid; place-items: center;
 }
