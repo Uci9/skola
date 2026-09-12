@@ -1582,7 +1582,7 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   position: sticky; top: 0;
   height: 100vh; height: 100svh;
   display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-  padding-top: clamp(46px, 8vh, 96px);
+  padding-top: clamp(24px, 4vh, 60px);
   overflow: hidden;
 }
 .mek-naslov {
@@ -1594,7 +1594,11 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   font-family: var(--serif); font-style: italic; font-weight: 400;
   color: var(--tirkiz-svijetli);
 }
-.mek-uredjaj { position: relative; display: flex; flex-direction: column; align-items: center; }
+.mek-uredjaj {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center;
+  transform: scale(.76); transform-origin: top center;
+}
 .mek-sprava { position: relative; perspective: 800px; }
 .mek-zatvoren {
   position: relative; width: 512px; height: 192px;
@@ -1686,15 +1690,15 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   background: linear-gradient(to top, #050505, #272729);
 }
 
-@media (max-height: 860px) and (min-width: 821px) {
-  .mek-uredjaj { transform: scale(.82); }
+@media (max-height: 820px) and (min-width: 821px) {
+  .mek-uredjaj { transform: scale(.66); }
 }
 
 @media (max-width: 820px) {
   .mek { height: 150vh; }
-  .mek-scena { height: 68vh; height: 68svh; padding-top: 76px; }
-  .mek-uredjaj { transform: scale(.78); transform-origin: top center; margin-bottom: -120px; }
-  .mek-naslov { font-size: 1.32rem; margin-bottom: 16px; }
+  .mek-scena { height: 76vh; height: 76svh; padding-top: 92px; }
+  .mek-uredjaj { transform: scale(.52); }
+  .mek-naslov { font-size: 1.28rem; margin-bottom: 14px; }
   .mek-stit { font-size: .72rem; }
 }
 

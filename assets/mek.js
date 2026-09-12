@@ -77,9 +77,9 @@
     const p = Math.min(1, Math.max(0, -m.top / hod));
     const usko = matchMedia('(max-width: 820px)').matches;
 
-    const sx = odsjecak(p, 0, 0.34, 1.2, usko ? 1 : 1.14);
-    const sy = odsjecak(p, 0, 0.34, 0.6, usko ? 1 : 1.14);
-    const pomak = odsjecak(p, 0.34, 0.78, 0, usko ? 128 : 168);
+    const sx = odsjecak(p, 0, 0.34, 1.2, 1);
+    const sy = odsjecak(p, 0, 0.34, 0.6, 1);
+    const pomak = odsjecak(p, 0.34, 0.86, 0, 568);
     const zaokret = odsjecak(p, 0.04, 0.34, -28, 0);
 
     poklopac.style.transform =
