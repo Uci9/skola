@@ -1219,6 +1219,17 @@
     if (window.vrteskaFiltriraj) window.vrteskaFiltriraj(nadjene);
   }
 
+  addEventListener('DOMContentLoaded', () => {
+    const izUrl = new URLSearchParams(location.search).get('grupa');
+    if (!izUrl) return;
+    const tab = grupe.querySelector('[data-grupa="' + izUrl + '"]');
+    if (!tab) return;
+    grupe.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+    tab.classList.add('on');
+    grupa = izUrl;
+    filtriraj();
+  });
+
   polje.addEventListener('input', filtriraj);
   grupe.addEventListener('click', ev => {
     const t = ev.target.closest('.tab');
@@ -1296,7 +1307,7 @@
           <li><a href="index.html#o-skoli">O nama</a></li>
           <li><a href="index.html#programi">Obrazovni programi</a></li>
           <li><a href="profesori.html">Nastavnici i osoblje</a></li>
-          <li><a href="profesori.html#uprava">Uprava škole</a></li>
+          <li><a href="profesori.html?grupa=uprava">Uprava škole</a></li>
           <li><a href="poslodavci.html">Poslodavci i partneri</a></li>
         </ul>
       </div>
