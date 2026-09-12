@@ -107,8 +107,9 @@
   const DOCEK = 3;
   const smireno = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const SIRINA = 1400;
-  const VISINA = 986;
+  const USKO = matchMedia('(max-width: 820px)').matches;
+  const SIRINA = USKO ? 1000 : 1600;
+  const VISINA = Math.round(SIRINA / 1.4194);
   const LIJEVI = 0.051;
   const DESNI = 0.949;
   const GORNJI = 0.218;
@@ -123,6 +124,11 @@
     });
   }
 
+  function podloga(k) {
+    k.fillStyle = '#F7F2EA';
+    k.fillRect(0, 0, SIRINA, VISINA);
+  }
+
   function papir(k, x, y, s, v) {
     const preliv = k.createLinearGradient(x, y, x + s, y);
     preliv.addColorStop(0, '#F3EDDF');
@@ -132,12 +138,13 @@
     preliv.addColorStop(1, '#F3EDDF');
 
     k.save();
-    k.shadowColor = 'rgba(48,36,18,.28)';
-    k.shadowBlur = 26;
-    k.shadowOffsetY = 10;
+    k.shadowColor = 'rgba(48,36,18,.30)';
+    k.shadowBlur = VISINA * 0.06;
+    k.shadowOffsetY = VISINA * 0.022;
     k.fillStyle = preliv;
     k.beginPath();
     k.roundRect(x, y, s, v, 7);
+    k.fill();
     k.fill();
     k.restore();
 
@@ -190,21 +197,22 @@
   }
 
   function crtajStranu(k, strana, x, y, s, v) {
-    const uvlaka = 46;
+    const mj = SIRINA / 1400;
+    const uvlaka = 46 * mj;
     const px = x + uvlaka;
     const py = y + uvlaka;
     const ps = s - uvlaka * 2;
-    let vrh = py + 16;
+    let vrh = py + 16 * mj;
 
     k.fillStyle = 'rgba(64,50,26,.55)';
-    k.font = '500 15px "Instrument Sans", sans-serif';
+    k.font = '500 ' + (15 * mj).toFixed(1) + 'px "Instrument Sans", sans-serif';
     k.fillText(strana.nadnaslov.toUpperCase(), px, vrh);
-    vrh += 34;
+    vrh += 34 * mj;
 
     k.fillStyle = '#2B2721';
-    k.font = 'italic 46px "Instrument Serif", Georgia, serif';
-    k.fillText(strana.naslov, px, vrh + 18);
-    vrh += 58;
+    k.font = 'italic ' + (46 * mj).toFixed(1) + 'px "Instrument Serif", Georgia, serif';
+    k.fillText(strana.naslov, px, vrh + 18 * mj);
+    vrh += 58 * mj;
 
     k.strokeStyle = 'rgba(72,56,30,.22)';
     k.lineWidth = 1;
@@ -212,26 +220,27 @@
     k.moveTo(px, vrh);
     k.lineTo(px + ps * 0.44, vrh);
     k.stroke();
-    vrh += 34;
+    vrh += 34 * mj;
 
     k.fillStyle = 'rgba(43,39,33,.88)';
-    k.font = '400 19px "Instrument Sans", sans-serif';
+    k.font = '400 ' + (19 * mj).toFixed(1) + 'px "Instrument Sans", sans-serif';
 
     strana.redovi.forEach(red => {
       lomi(k, red, ps).forEach(dio => {
         k.fillText(dio, px, vrh);
-        vrh += 31;
+        vrh += 31 * mj;
       });
-      vrh += 16;
+      vrh += 16 * mj;
     });
   }
 
   function crtajSliku(k, slika, strana, x, y, s, v) {
-    const uvlaka = 42;
+    const mj = SIRINA / 1400;
+    const uvlaka = 42 * mj;
     const rx = x + uvlaka;
     const ry = y + uvlaka;
     const rs = s - uvlaka * 2;
-    const rv = v - uvlaka * 2 - 34;
+    const rv = v - uvlaka * 2 - 34 * mj;
 
     k.save();
     k.beginPath();
@@ -259,8 +268,8 @@
     k.stroke();
 
     k.fillStyle = 'rgba(64,50,26,.62)';
-    k.font = 'italic 17px "Instrument Serif", Georgia, serif';
-    k.fillText(strana.potpis, rx, ry + rv + 24);
+    k.font = 'italic ' + (17 * mj).toFixed(1) + 'px "Instrument Serif", Georgia, serif';
+    k.fillText(strana.potpis, rx, ry + rv + 24 * mj);
   }
 
   async function napraviStranu(strana) {
@@ -274,17 +283,37 @@
     const y = VISINA * GORNJI;
     const v = VISINA * (DONJI - GORNJI);
 
+    podloga(k);
     papir(k, x, y, s, v);
 
     const slika = await ucitajSliku(strana.slika);
     crtajStranu(k, strana, x, y, s / 2, v);
     crtajSliku(k, slika, strana, x + s / 2, y, s / 2, v);
 
+    return izvezi(platno);
+  }
+
+  function radiLi(adresa) {
     return new Promise(kraj => {
-      platno.toBlob(dio => {
-        kraj(dio ? URL.createObjectURL(dio) : platno.toDataURL('image/png'));
-      }, 'image/webp', 0.9);
+      const s = new Image();
+      s.onload = () => kraj(true);
+      s.onerror = () => kraj(false);
+      s.src = adresa;
     });
+  }
+
+  async function izvezi(platno) {
+    if (platno.toBlob) {
+      const dio = await new Promise(kraj => platno.toBlob(kraj, 'image/jpeg', 0.86));
+      if (dio) {
+        const adresa = URL.createObjectURL(dio);
+        if (await radiLi(adresa)) return adresa;
+        URL.revokeObjectURL(adresa);
+      }
+    }
+    const rezervna = platno.toDataURL('image/jpeg', 0.82);
+    if (await radiLi(rezervna)) return rezervna;
+    throw new Error('strana');
   }
 
   const N = 18;
@@ -752,7 +781,8 @@
   let lupaCilj = null;
 
   function precnikLupe() {
-    return Math.round(Math.max(165, Math.min(262, knjiga.clientWidth * 0.235)));
+    const najmanji = knjiga.clientWidth < 560 ? 104 : 165;
+    return Math.round(Math.max(najmanji, Math.min(262, knjiga.clientWidth * 0.235)));
   }
 
   function kutija() {
@@ -761,8 +791,9 @@
 
   function spustiLupu() {
     const b = kutija();
-    lx = b.x + b.s * 0.88;
-    ly = b.y + b.v * 0.855;
+    const uz = knjiga.clientWidth < 560;
+    lx = b.x + b.s * (uz ? 0.78 : 0.88);
+    ly = b.y + b.v * (uz ? 0.80 : 0.855);
     postaviLupu();
   }
 

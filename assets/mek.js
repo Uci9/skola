@@ -3,6 +3,7 @@
   if (!okvir) return;
 
   const naslov = okvir.querySelector('.mek-naslov');
+  const stit = document.getElementById('mek-stit');
   const poklopac = okvir.querySelector('.mek-poklopac');
   const tastatura = okvir.querySelector('.mek-tastatura');
   if (!poklopac || !tastatura) return;
@@ -50,6 +51,10 @@
     tastatura.appendChild(r);
   });
 
+  if (stit) {
+    stit.addEventListener('click', () => okvir.classList.add('ziva'));
+  }
+
   const smireno = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (smireno) {
@@ -66,15 +71,15 @@
 
   function crtaj() {
     const m = okvir.getBoundingClientRect();
-    const hod = m.height;
+    const hod = m.height - innerHeight;
     if (hod <= 0) return;
     const p = Math.min(1, Math.max(0, -m.top / hod));
     const usko = matchMedia('(max-width: 820px)').matches;
 
-    const sx = odsjecak(p, 0, 0.3, 1.2, usko ? 1 : 1.5);
-    const sy = odsjecak(p, 0, 0.3, 0.6, usko ? 1 : 1.5);
-    const pomak = p * 1500;
-    const zaokret = p < 0.12 ? -28 : odsjecak(p, 0.12, 0.3, -28, 0);
+    const sx = odsjecak(p, 0, 0.34, 1.2, usko ? 1 : 1.5);
+    const sy = odsjecak(p, 0, 0.34, 0.6, usko ? 1 : 1.5);
+    const pomak = odsjecak(p, 0.34, 1, 0, usko ? 420 : 760);
+    const zaokret = odsjecak(p, 0.04, 0.34, -28, 0);
 
     poklopac.style.transform =
       'translateY(' + pomak.toFixed(1) + 'px)' +
@@ -82,8 +87,8 @@
       ' scale(' + sx.toFixed(3) + ', ' + sy.toFixed(3) + ')';
 
     if (naslov) {
-      naslov.style.transform = 'translateY(' + odsjecak(p, 0, 0.3, 0, 100).toFixed(1) + 'px)';
-      naslov.style.opacity = odsjecak(p, 0, 0.2, 1, 0).toFixed(3);
+      naslov.style.transform = 'translateY(' + odsjecak(p, 0.06, 0.4, 0, 60).toFixed(1) + 'px)';
+      naslov.style.opacity = odsjecak(p, 0.1, 0.34, 1, 0).toFixed(3);
     }
   }
 

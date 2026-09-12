@@ -90,7 +90,7 @@
     el.dataset.nacrtano = '1';
 
     const boja = el.dataset.boja ||
-      getComputedStyle(el).getPropertyValue('--isticaj').trim() || '#0E8F7E';
+      getComputedStyle(el).getPropertyValue('--isticaj').trim() || '#C9A66B';
     const slucaj = sjeme(el.textContent);
 
     if (el.dataset.akcija === 'oboji') {

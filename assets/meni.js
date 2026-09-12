@@ -1,11 +1,11 @@
 (function () {
   const meni = document.getElementById('meni');
   if (!meni) return;
-  if (!matchMedia('(min-width: 901px)').matches) return;
 
   const stavke = [...meni.querySelectorAll('.stavka')];
   if (!stavke.length) return;
 
+  const siroko = matchMedia('(min-width: 901px)');
   let zatvaranje = null;
 
   function otvori(stavka) {
@@ -25,24 +25,36 @@
   }
 
   stavke.forEach(stavka => {
-    stavka.addEventListener('mouseenter', () => otvori(stavka));
-    stavka.querySelector('button').addEventListener('click', ev => {
+    const tipka = stavka.querySelector('button');
+
+    stavka.addEventListener('mouseenter', () => {
+      if (siroko.matches) otvori(stavka);
+    });
+
+    tipka.addEventListener('click', ev => {
       ev.preventDefault();
       if (stavka.classList.contains('otvorena')) zatvori();
       else otvori(stavka);
     });
-    stavka.addEventListener('focusin', () => otvori(stavka));
+
+    stavka.addEventListener('focusin', () => {
+      if (siroko.matches) otvori(stavka);
+    });
   });
 
   meni.addEventListener('mouseleave', () => {
+    if (!siroko.matches) return;
     zatvaranje = setTimeout(zatvori, 120);
   });
 
   meni.addEventListener('focusout', ev => {
+    if (!siroko.matches) return;
     if (!meni.contains(ev.relatedTarget)) zatvori();
   });
 
   document.addEventListener('keydown', ev => {
     if (ev.key === 'Escape') zatvori();
   });
+
+  siroko.addEventListener('change', zatvori);
 })();

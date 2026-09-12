@@ -28,7 +28,7 @@
 
   function mjere() {
     return matchMedia('(max-width: 820px)').matches
-      ? { domet: 420, od: -450, do: 260 }
+      ? { domet: 420, od: -450, do: 250 }
       : { domet: 1000, od: -700, do: 500 };
   }
 

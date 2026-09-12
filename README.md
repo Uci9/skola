@@ -25,7 +25,7 @@ assets/styles.css     stilovi za sve strane
 assets/blok.js        skicen-blok na početnoj (O nama)
 assets/mek.js         laptop u kontaktu
 assets/paralaks.js    slike koje se slažu na skrol (kutak učenika)
-assets/traka.js       traka slika koja ubrzava sa skrolom (kutak, desktop)
+assets/kursor.js      pokazivač koji klizi za mišem (desktop)
 assets/ispis.js       tekst koji se ispisuje riječ po riječ
 assets/img/           grb + slika zgrade
 assets/kadrovi/s/     141 slika za telefon, 720px (4,2 MB)
@@ -34,7 +34,8 @@ assets/kadrovi/l/     141 slika za desktop, 1200px (7,5 MB)
 
 ## Dizajn
 
-Boja u punim blokovima — kobalt, koral, puter — umjesto jedne podloge sa akcentom.
+Boja u punim blokovima — vinska #5A1A2B, zlatna #C9A66B, krem #F7F2EA i bijela —
+umjesto jedne podloge sa akcentom.
 Naslovi Bricolage Grotesque, po koja riječ u Instrument Serif kurzivu, tekst
 Instrument Sans. Meka zaobljenja, sjenke, fotografija koja se preklapa sa karticom.
 
@@ -88,9 +89,10 @@ Ako canvas ne prođe, umjesto bloka se pokaže običan tekst (`#blok-rezerva`).
 
 ## Kontakt
 
-Sekcija „Gdje smo“ je laptop koji se otvara na skrol — ekran izlazi iz
-kućišta dok se strana pomjera. Ispod stoji tabela sa podacima i dugme za
-mapu.
+Sekcija „Gdje smo“ je laptop koji stoji zakovan nasred ekrana dok se strana
+pomjera: poklopac se otvara, ekran raste i izlazi iz kućišta. Na ekranu je
+Google mapa sa adresom škole; prvi klik je oživljava, do tada je štit preko
+nje da ne otme skrol. Ispod stoji tabela sa podacima.
 
 ## Šta još fali
 
@@ -98,7 +100,7 @@ mapu.
 - fotografije za kutak učenika — stoje prazna mjesta
 - spisak preduzeća za praktičnu nastavu — vodi ga organizator praktičnog obrazovanja
 - vijesti u novosti.html — dopisuju se ručno
-- slike u traci na kutku su privremene, sa Unsplasha
+- slike u paralaksu na kutku su privremene, uzete iz uvodnog niza
 
 Uvodna zavjesa se pušta jednom po sesiji (sessionStorage). Za ponovno
 gledanje dodaj `?intro=1` na adresu.
