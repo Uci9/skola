@@ -56,6 +56,25 @@
     stit.addEventListener('click', () => okvir.classList.add('ziva'));
   }
 
+  const uredjaj = okvir.querySelector('.mek-uredjaj');
+  const UKUPNO = 568 + 384;
+
+  function razmjeri() {
+    if (!uredjaj || !scena) return;
+    const vrh = parseFloat(getComputedStyle(scena).paddingTop) || 0;
+    let zauzeto = vrh + 38;
+    if (naslov) {
+      zauzeto += naslov.offsetHeight + (parseFloat(getComputedStyle(naslov).marginBottom) || 0);
+    }
+    const slobodno = scena.clientHeight - zauzeto;
+    const najveca = matchMedia('(max-width: 820px)').matches ? 0.6 : 0.82;
+    const razmjera = Math.max(0.3, Math.min(najveca, slobodno / UKUPNO));
+    uredjaj.style.transform = 'scale(' + razmjera.toFixed(3) + ')';
+  }
+
+  razmjeri();
+  addEventListener('resize', razmjeri);
+
   const smireno = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (smireno) {
