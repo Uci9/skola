@@ -931,6 +931,11 @@ html.ucitava, html.ucitava body { overflow: hidden; }
 }
 
 .trazilica { max-width: 420px; margin: 0 0 26px; position: relative; }
+.trazilica-red {
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-bottom: 26px;
+}
+.trazilica-red .trazilica { margin: 0; flex: 1 1 260px; }
+.trazilica-red .tabovi { margin: 0; }
 .trazilica input {
   width: 100%; padding: 14px 44px 14px 18px;
   font-family: var(--sans); font-size: .96rem; color: var(--ink);
@@ -953,7 +958,7 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   background: #000; color: var(--white); border-radius: 20px;
   position: relative;
 }
-.zavjesa-slika { position: relative; height: 300px; overflow: hidden; border-radius: 20px 20px 0 0; }
+.zavjesa-slika { display: block; position: relative; height: 300px; overflow: hidden; border-radius: 20px 20px 0 0; }
 .zavjesa-slika img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
 .zavjesa-slika .osoba-inicijali { font-size: 4.4rem; border-radius: 20px 20px 0 0; }
 .zavjesa-slika::after {
@@ -1068,3 +1073,155 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   transition: opacity .18s ease, transform .18s cubic-bezier(.2,.8,.3,1);
 }
 .sa-lecom .leca { opacity: 1; transform: scale(1); }
+
+.pozornica {
+  --pointer-x: 50%;
+  position: relative;
+  width: 100%;
+  height: min(70vh, 600px);
+  min-height: 440px;
+  overflow: hidden;
+  isolation: isolate;
+  perspective: 1450px;
+  cursor: ew-resize;
+  touch-action: pan-y;
+  user-select: none;
+  border-radius: var(--r);
+  background:
+    linear-gradient(90deg, rgba(11,18,32,.06) 1px, transparent 1px) 50% 0 / 25% 100%,
+    repeating-linear-gradient(0deg, transparent 0, transparent 109px, rgba(11,18,32,.09) 110px, transparent 111px),
+    radial-gradient(circle at var(--pointer-x) 48%, rgba(255,255,255,.92), transparent 34%),
+    var(--paper);
+}
+.pozornica.vuce { cursor: grabbing; }
+.pozornica::before {
+  content: ""; position: absolute; inset: 0; z-index: 5;
+  pointer-events: none; opacity: .27;
+  background:
+    repeating-radial-gradient(circle at 12% 18%, rgba(11,18,32,.14) 0 .5px, transparent .7px 4px),
+    repeating-radial-gradient(circle at 78% 71%, rgba(255,255,255,.35) 0 .5px, transparent .8px 5px);
+  mix-blend-mode: multiply;
+}
+.pozornica::after {
+  content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background: linear-gradient(90deg, rgba(11,18,32,.16), transparent 14%, transparent 86%, rgba(11,18,32,.16));
+}
+
+.paluba { position: absolute; inset: 0; z-index: 2; transform-style: preserve-3d; }
+
+.karta {
+  --focus: 0;
+  position: absolute; top: 50%; left: 50%;
+  width: clamp(154px, 16.8vw, 238px);
+  aspect-ratio: .72;
+  padding: 7px;
+  overflow: hidden;
+  border: 1px solid rgba(11,18,32,.3);
+  border-radius: 4px;
+  color: var(--white);
+  background: #EFEBE1;
+  box-shadow:
+    0 calc(10px + var(--focus) * 24px) calc(18px + var(--focus) * 36px)
+      rgba(11,18,32, calc(.2 + var(--focus) * .26)),
+    inset 0 0 0 1px rgba(255,255,255,.64);
+  appearance: none;
+  outline: none;
+  font: inherit;
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+  cursor: pointer;
+}
+.karta::before {
+  content: ""; position: absolute; inset: 5px; z-index: 3;
+  border: 1px solid rgba(11,18,32, calc(.12 + var(--focus) * .12));
+  pointer-events: none;
+}
+.karta:focus-visible {
+  box-shadow: 0 26px 50px rgba(11,18,32,.42), 0 0 0 4px rgba(63,206,180,.5);
+}
+
+.portret {
+  position: absolute; inset: 7px 7px 25%;
+  overflow: hidden;
+  background: linear-gradient(150deg, hsl(var(--ton) 58% 38%), hsl(var(--ton) 62% 16%));
+}
+.portret img {
+  display: block; width: 100%; height: 100%; object-fit: cover;
+  transform: scale(calc(1.04 + (1 - var(--focus)) * .06));
+  filter: saturate(calc(.66 + var(--focus) * .34)) contrast(1.04);
+}
+.portret b {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-family: var(--grot); font-weight: 800;
+  font-size: clamp(1.5rem, 3.4vw, 2.6rem); letter-spacing: -.04em;
+  color: rgba(255,255,255,.92);
+}
+
+.podnozje-karte {
+  position: absolute; right: 7px; bottom: 7px; left: 7px;
+  height: calc(25% - 7px);
+  display: grid; grid-template-columns: clamp(26px, 3.2vw, 43px) 1fr;
+  align-items: center; gap: clamp(6px, .7vw, 11px);
+  padding: clamp(7px, .8vw, 12px);
+  color: #E7ECF3; background: var(--ink);
+  text-align: left;
+}
+.redni {
+  display: grid; width: clamp(23px, 2.7vw, 37px); aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid var(--tirkiz-svijetli); border-radius: 50%;
+  color: var(--tirkiz-svijetli);
+  font: 600 clamp(7px, .68vw, 11px)/1 ui-monospace, "SFMono-Regular", monospace;
+}
+.podaci { min-width: 0; }
+.ime-karte, .uloga-karte {
+  display: block; overflow: hidden; text-overflow: ellipsis;
+  text-transform: uppercase; white-space: nowrap;
+}
+.ime-karte {
+  color: #F2F5F8; font-size: clamp(9px, .9vw, 13.5px);
+  font-weight: 800; letter-spacing: .07em; line-height: 1.1;
+}
+.uloga-karte {
+  margin-top: clamp(3px, .35vw, 5px); color: var(--tirkiz-svijetli);
+  font-size: clamp(6.5px, .56vw, 8.5px); font-weight: 700;
+  letter-spacing: .13em; line-height: 1;
+}
+
+.natpis {
+  display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+  margin-top: 22px; min-height: 52px;
+}
+.natpis-broj {
+  font: 600 .8rem/1 ui-monospace, "SFMono-Regular", monospace;
+  color: var(--ink-2); letter-spacing: .1em; flex: none;
+}
+.natpis-ime {
+  font-family: var(--grot); font-weight: 700; font-size: 1.35rem;
+  letter-spacing: -.02em; color: var(--ink);
+}
+.natpis-uloga { color: var(--ink-2); font-size: .95rem; }
+.natpis .btn { margin-left: auto; }
+
+.uputa {
+  margin-top: 10px; font-size: .88rem; color: var(--ink-2);
+}
+
+@media (max-width: 650px) {
+  .pozornica {
+    height: 62vh; min-height: 430px;
+    background:
+      linear-gradient(90deg, rgba(11,18,32,.06) 1px, transparent 1px) 50% 0 / 50% 100%,
+      repeating-linear-gradient(0deg, transparent 0, transparent 87px, rgba(11,18,32,.09) 88px, transparent 89px),
+      radial-gradient(circle at 50% 50%, rgba(255,255,255,.92), transparent 35%),
+      var(--paper);
+  }
+  .karta { width: clamp(138px, 42vw, 176px); }
+  .natpis { margin-top: 16px; gap: 10px; }
+  .natpis-ime { font-size: 1.15rem; }
+  .natpis .btn { margin-left: 0; width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .karta { will-change: auto; }
+}

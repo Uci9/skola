@@ -13,6 +13,7 @@
 <script type="module" src="assets/nalog.js"></script>
 <script src="assets/tekst.js" defer></script>
 <script src="assets/leca.js" defer></script>
+<script src="assets/vrteska.js" defer></script>
 </head>
 <body>
 <header class="head">
@@ -40,1068 +41,1232 @@
 <section class="crown blk-cobalt">
   <div class="shell">
     <h1>Sto ljudi <span class="it">na jednoj</span> zgradi</h1>
-    <p>73 nastavnika, 11 u upravi i stručnoj službi, 4 asistenata i 12 na održavanju. <span class="isticanje" data-akcija="podvuci" data-boja="#3FCEB4">Klikni na bilo koga za biografiju.</span></p>
+    <p>73 nastavnika, 11 u upravi i stručnoj službi, 4 asistenata i 12 na održavanju. <span class="isticanje" data-akcija="podvuci" data-boja="#3FCEB4">Prevuci kroz spisak, pa klikni na osobu za biografiju.</span></p>
   </div>
 </section>
 
-<section class="blk" id="uprava">
+<section class="blk" id="osoblje">
   <div class="shell">
-    <div class="rise">
-      <h2>Uprava i stručna služba</h2>
-      <p class="lede">Za upis, svjedočanstva i papirologiju — sekretarijat. Za sve ostalo, ljudi ispod.</p>
+    <div class="rise trazilica-red">
+      <label class="trazilica">
+        <input type="search" id="trazi" placeholder="Traži po imenu ili predmetu" autocomplete="off">
+        <b id="brojac">100 od 100</b>
+      </label>
+      <div class="tabovi" id="grupe" role="group" aria-label="Grupe osoblja">
+        <button class="tab on" data-grupa="sve" type="button">Svi</button>
+        <button class="tab" data-grupa="uprava" type="button">Uprava</button>
+        <button class="tab" data-grupa="nastavnici" type="button">Nastavnici</button>
+        <button class="tab" data-grupa="asistenti" type="button">Asistenti</button>
+        <button class="tab" data-grupa="pomocno" type="button">Održavanje</button>
+      </div>
     </div>
-    <div class="ljudi rise-kids">
-      <button class="osoba" data-ime="Marija Babović" data-zvanje="v.d. direktora škole" data-ton="266" data-inicijali="MB" data-trazi="marija babovic v.d. direktora skole">
-        <span class="osoba-slika" style="--ton:266">
-          <span class="osoba-inicijali">MB</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Marija Babović</span>
-          <span class="osoba-uloga">v.d. direktora škole</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Semir Ljaljević" data-zvanje="Pomoćnik direktora škole" data-ton="204" data-inicijali="SL" data-trazi="semir ljaljevic pomocnik direktora skole">
-        <span class="osoba-slika" style="--ton:204">
-          <span class="osoba-inicijali">SL</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Semir Ljaljević</span>
-          <span class="osoba-uloga">Pomoćnik direktora škole</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Svetlana Miranović" data-zvanje="Pomoćnica direktora škole" data-ton="202" data-inicijali="SM" data-trazi="svetlana miranovic pomocnica direktora skole">
-        <span class="osoba-slika" style="--ton:202">
-          <span class="osoba-inicijali">SM</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Svetlana Miranović</span>
-          <span class="osoba-uloga">Pomoćnica direktora škole</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Selma Šabotić" data-zvanje="Pedagogica" data-ton="202" data-inicijali="SŠ" data-trazi="selma sabotic pedagogica">
-        <span class="osoba-slika" style="--ton:202">
-          <span class="osoba-inicijali">SŠ</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Selma Šabotić</span>
-          <span class="osoba-uloga">Pedagogica</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Ivana Rabrenović" data-zvanje="Psihološkinja" data-ton="246" data-inicijali="IR" data-trazi="ivana rabrenovic psiholoskinja">
-        <span class="osoba-slika" style="--ton:246">
-          <span class="osoba-inicijali">IR</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Ivana Rabrenović</span>
-          <span class="osoba-uloga">Psihološkinja</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Maja Ivanović" data-zvanje="Bibliotekarka" data-ton="324" data-inicijali="MI" data-trazi="maja ivanovic bibliotekarka">
-        <span class="osoba-slika" style="--ton:324">
-          <span class="osoba-inicijali">MI</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Maja Ivanović</span>
-          <span class="osoba-uloga">Bibliotekarka</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Milena Nedović Đuričanin" data-zvanje="Sekretarka" data-ton="357" data-inicijali="MĐ" data-trazi="milena nedovic duricanin sekretarka">
-        <span class="osoba-slika" style="--ton:357">
-          <span class="osoba-inicijali">MĐ</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Milena Nedović Đuričanin</span>
-          <span class="osoba-uloga">Sekretarka</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Azra Pepić" data-zvanje="Računovotkinja" data-ton="161" data-inicijali="AP" data-trazi="azra pepic racunovotkinja">
-        <span class="osoba-slika" style="--ton:161">
-          <span class="osoba-inicijali">AP</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Azra Pepić</span>
-          <span class="osoba-uloga">Računovotkinja</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Filip Španjević" data-zvanje="ICT koordinator" data-ton="156" data-inicijali="FŠ" data-trazi="filip spanjevic ict koordinator">
-        <span class="osoba-slika" style="--ton:156">
-          <span class="osoba-inicijali">FŠ</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Filip Španjević</span>
-          <span class="osoba-uloga">ICT koordinator</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Željka Žarković" data-zvanje="Organizator praktičnog obrazovanja" data-ton="38" data-inicijali="ŽŽ" data-trazi="zeljka zarkovic organizator prakticnog obrazovanja">
-        <span class="osoba-slika" style="--ton:38">
-          <span class="osoba-inicijali">ŽŽ</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Željka Žarković</span>
-          <span class="osoba-uloga">Organizator praktičnog obrazovanja</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Miloš Ljumović" data-zvanje="Laborant" data-ton="281" data-inicijali="ML" data-trazi="milos ljumovic laborant">
-        <span class="osoba-slika" style="--ton:281">
-          <span class="osoba-inicijali">ML</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Miloš Ljumović</span>
-          <span class="osoba-uloga">Laborant</span>
-        </span>
-      </button>
-    </div>
-  </div>
-</section>
 
-<section class="blk blk-white" id="nastavnici">
-  <div class="shell">
-    <div class="rise">
-      <h2>Nastavno osoblje</h2>
-      <p class="lede">73 nastavnika, po abecedi.</p>
+    <div class="pozornica rise" id="pozornica" tabindex="0"
+         aria-label="Spisak zaposlenih, kartica po kartica">
+      <div class="paluba" id="paluba">
+      <button class="karta" type="button" data-ime="Marija Babović" data-zvanje="v.d. direktora škole" data-grupa="uprava"
+              data-trazi="marija babovic v.d. direktora skole" data-ton="266" aria-label="Prikaži Marija Babović, v.d. direktora škole">
+        <span class="portret" style="--ton:266"><b>MB</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">01</span>
+          <span class="podaci">
+            <span class="ime-karte">Marija Babović</span>
+            <span class="uloga-karte">v.d. direktora škole</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Semir Ljaljević" data-zvanje="Pomoćnik direktora škole" data-grupa="uprava"
+              data-trazi="semir ljaljevic pomocnik direktora skole" data-ton="204" aria-label="Prikaži Semir Ljaljević, Pomoćnik direktora škole">
+        <span class="portret" style="--ton:204"><b>SL</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">02</span>
+          <span class="podaci">
+            <span class="ime-karte">Semir Ljaljević</span>
+            <span class="uloga-karte">Pomoćnik direktora škole</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Svetlana Miranović" data-zvanje="Pomoćnica direktora škole" data-grupa="uprava"
+              data-trazi="svetlana miranovic pomocnica direktora skole" data-ton="202" aria-label="Prikaži Svetlana Miranović, Pomoćnica direktora škole">
+        <span class="portret" style="--ton:202"><b>SM</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">03</span>
+          <span class="podaci">
+            <span class="ime-karte">Svetlana Miranović</span>
+            <span class="uloga-karte">Pomoćnica direktora škole</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Selma Šabotić" data-zvanje="Pedagogica" data-grupa="uprava"
+              data-trazi="selma sabotic pedagogica" data-ton="202" aria-label="Prikaži Selma Šabotić, Pedagogica">
+        <span class="portret" style="--ton:202"><b>SŠ</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">04</span>
+          <span class="podaci">
+            <span class="ime-karte">Selma Šabotić</span>
+            <span class="uloga-karte">Pedagogica</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Ivana Rabrenović" data-zvanje="Psihološkinja" data-grupa="uprava"
+              data-trazi="ivana rabrenovic psiholoskinja" data-ton="246" aria-label="Prikaži Ivana Rabrenović, Psihološkinja">
+        <span class="portret" style="--ton:246"><b>IR</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">05</span>
+          <span class="podaci">
+            <span class="ime-karte">Ivana Rabrenović</span>
+            <span class="uloga-karte">Psihološkinja</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Maja Ivanović" data-zvanje="Bibliotekarka" data-grupa="uprava"
+              data-trazi="maja ivanovic bibliotekarka" data-ton="324" aria-label="Prikaži Maja Ivanović, Bibliotekarka">
+        <span class="portret" style="--ton:324"><b>MI</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">06</span>
+          <span class="podaci">
+            <span class="ime-karte">Maja Ivanović</span>
+            <span class="uloga-karte">Bibliotekarka</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Milena Nedović Đuričanin" data-zvanje="Sekretarka" data-grupa="uprava"
+              data-trazi="milena nedovic duricanin sekretarka" data-ton="357" aria-label="Prikaži Milena Nedović Đuričanin, Sekretarka">
+        <span class="portret" style="--ton:357"><b>MĐ</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">07</span>
+          <span class="podaci">
+            <span class="ime-karte">Milena Nedović Đuričanin</span>
+            <span class="uloga-karte">Sekretarka</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Azra Pepić" data-zvanje="Računovotkinja" data-grupa="uprava"
+              data-trazi="azra pepic racunovotkinja" data-ton="161" aria-label="Prikaži Azra Pepić, Računovotkinja">
+        <span class="portret" style="--ton:161"><b>AP</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">08</span>
+          <span class="podaci">
+            <span class="ime-karte">Azra Pepić</span>
+            <span class="uloga-karte">Računovotkinja</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Filip Španjević" data-zvanje="ICT koordinator" data-grupa="uprava"
+              data-trazi="filip spanjevic ict koordinator" data-ton="156" aria-label="Prikaži Filip Španjević, ICT koordinator">
+        <span class="portret" style="--ton:156"><b>FŠ</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">09</span>
+          <span class="podaci">
+            <span class="ime-karte">Filip Španjević</span>
+            <span class="uloga-karte">ICT koordinator</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Željka Žarković" data-zvanje="Organizator praktičnog obrazovanja" data-grupa="uprava"
+              data-trazi="zeljka zarkovic organizator prakticnog obrazovanja" data-ton="38" aria-label="Prikaži Željka Žarković, Organizator praktičnog obrazovanja">
+        <span class="portret" style="--ton:38"><b>ŽŽ</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">10</span>
+          <span class="podaci">
+            <span class="ime-karte">Željka Žarković</span>
+            <span class="uloga-karte">Organizator praktičnog obrazovanja</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Miloš Ljumović" data-zvanje="Laborant" data-grupa="uprava"
+              data-trazi="milos ljumovic laborant" data-ton="281" aria-label="Prikaži Miloš Ljumović, Laborant">
+        <span class="portret" style="--ton:281"><b>ML</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">11</span>
+          <span class="podaci">
+            <span class="ime-karte">Miloš Ljumović</span>
+            <span class="uloga-karte">Laborant</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Adilović Alen" data-zvanje="spec. primijenjenog računarstva" data-grupa="nastavnici"
+              data-trazi="adilovic alen spec. primijenjenog racunarstva" data-ton="41" aria-label="Prikaži Adilović Alen, spec. primijenjenog računarstva">
+        <span class="portret" style="--ton:41"><b>AA</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">12</span>
+          <span class="podaci">
+            <span class="ime-karte">Adilović Alen</span>
+            <span class="uloga-karte">spec. primijenjenog računarstva</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Agić Azra" data-zvanje="spec. elektronike, telekomunikacija i računara" data-grupa="nastavnici"
+              data-trazi="agic azra spec. elektronike, telekomunikacija i racunara" data-ton="236" aria-label="Prikaži Agić Azra, spec. elektronike, telekomunikacija i računara">
+        <span class="portret" style="--ton:236"><b>AA</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">13</span>
+          <span class="podaci">
+            <span class="ime-karte">Agić Azra</span>
+            <span class="uloga-karte">spec. elektronike, telekomunikacija i računara</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Bećirović Emsada" data-zvanje="dipl. matematičar" data-grupa="nastavnici"
+              data-trazi="becirovic emsada dipl. matematicar" data-ton="65" aria-label="Prikaži Bećirović Emsada, dipl. matematičar">
+        <span class="portret" style="--ton:65"><b>BE</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">14</span>
+          <span class="podaci">
+            <span class="ime-karte">Bećirović Emsada</span>
+            <span class="uloga-karte">dipl. matematičar</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Bošković Marko" data-zvanje="spec.energetike i automatike" data-grupa="nastavnici"
+              data-trazi="boskovic marko spec.energetike i automatike" data-ton="262" aria-label="Prikaži Bošković Marko, spec.energetike i automatike">
+        <span class="portret" style="--ton:262"><b>BM</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">15</span>
+          <span class="podaci">
+            <span class="ime-karte">Bošković Marko</span>
+            <span class="uloga-karte">spec.energetike i automatike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Božović Radovan" data-zvanje="spec.elektronike, telekomunikacija i računara" data-grupa="nastavnici"
+              data-trazi="bozovic radovan spec.elektronike, telekomunikacija i racunara" data-ton="183" aria-label="Prikaži Božović Radovan, spec.elektronike, telekomunikacija i računara">
+        <span class="portret" style="--ton:183"><b>BR</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">16</span>
+          <span class="podaci">
+            <span class="ime-karte">Božović Radovan</span>
+            <span class="uloga-karte">spec.elektronike, telekomunikacija i računara</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Brajović Olga" data-zvanje="spec. primijenjenog računarstva" data-grupa="nastavnici"
+              data-trazi="brajovic olga spec. primijenjenog racunarstva" data-ton="209" aria-label="Prikaži Brajović Olga, spec. primijenjenog računarstva">
+        <span class="portret" style="--ton:209"><b>BO</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">17</span>
+          <span class="podaci">
+            <span class="ime-karte">Brajović Olga</span>
+            <span class="uloga-karte">spec. primijenjenog računarstva</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Budrak Aleksandra" data-zvanje="dipl. ekonomista" data-grupa="nastavnici"
+              data-trazi="budrak aleksandra dipl. ekonomista" data-ton="177" aria-label="Prikaži Budrak Aleksandra, dipl. ekonomista">
+        <span class="portret" style="--ton:177"><b>BA</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">18</span>
+          <span class="podaci">
+            <span class="ime-karte">Budrak Aleksandra</span>
+            <span class="uloga-karte">dipl. ekonomista</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Bulajić Sandra" data-zvanje="prof. srpskog jezika i književnosti" data-grupa="nastavnici"
+              data-trazi="bulajic sandra prof. srpskog jezika i knjizevnosti" data-ton="155" aria-label="Prikaži Bulajić Sandra, prof. srpskog jezika i književnosti">
+        <span class="portret" style="--ton:155"><b>BS</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">19</span>
+          <span class="podaci">
+            <span class="ime-karte">Bulajić Sandra</span>
+            <span class="uloga-karte">prof. srpskog jezika i književnosti</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Bulatović Dijana" data-zvanje="dipl. matematičar" data-grupa="nastavnici"
+              data-trazi="bulatovic dijana dipl. matematicar" data-ton="286" aria-label="Prikaži Bulatović Dijana, dipl. matematičar">
+        <span class="portret" style="--ton:286"><b>BD</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">20</span>
+          <span class="podaci">
+            <span class="ime-karte">Bulatović Dijana</span>
+            <span class="uloga-karte">dipl. matematičar</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Cimbaljević Drago" data-zvanje="prof. fizičke kulture" data-grupa="nastavnici"
+              data-trazi="cimbaljevic drago prof. fizicke kulture" data-ton="22" aria-label="Prikaži Cimbaljević Drago, prof. fizičke kulture">
+        <span class="portret" style="--ton:22"><b>CD</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">21</span>
+          <span class="podaci">
+            <span class="ime-karte">Cimbaljević Drago</span>
+            <span class="uloga-karte">prof. fizičke kulture</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Danilović Milika" data-zvanje="spec. primjenjenog računarstva" data-grupa="nastavnici"
+              data-trazi="danilovic milika spec. primjenjenog racunarstva" data-ton="206" aria-label="Prikaži Danilović Milika, spec. primjenjenog računarstva">
+        <span class="portret" style="--ton:206"><b>DM</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">22</span>
+          <span class="podaci">
+            <span class="ime-karte">Danilović Milika</span>
+            <span class="uloga-karte">spec. primjenjenog računarstva</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Dašić Nada" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="dasic nada dipl. ing. elektrotehnike" data-ton="150" aria-label="Prikaži Dašić Nada, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:150"><b>DN</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">23</span>
+          <span class="podaci">
+            <span class="ime-karte">Dašić Nada</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Delić Ana" data-zvanje="MA engleskog jezika i književnosti" data-grupa="nastavnici"
+              data-trazi="delic ana ma engleskog jezika i knjizevnosti" data-ton="349" aria-label="Prikaži Delić Ana, MA engleskog jezika i književnosti">
+        <span class="portret" style="--ton:349"><b>DA</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">24</span>
+          <span class="podaci">
+            <span class="ime-karte">Delić Ana</span>
+            <span class="uloga-karte">MA engleskog jezika i književnosti</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Gardašević Nada" data-zvanje="spec. energetike i automatike" data-grupa="nastavnici"
+              data-trazi="gardasevic nada spec. energetike i automatike" data-ton="293" aria-label="Prikaži Gardašević Nada, spec. energetike i automatike">
+        <span class="portret" style="--ton:293"><b>GN</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">25</span>
+          <span class="podaci">
+            <span class="ime-karte">Gardašević Nada</span>
+            <span class="uloga-karte">spec. energetike i automatike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Ivanović Olivera" data-zvanje="dipl. fizičar" data-grupa="nastavnici"
+              data-trazi="ivanovic olivera dipl. fizicar" data-ton="289" aria-label="Prikaži Ivanović Olivera, dipl. fizičar">
+        <span class="portret" style="--ton:289"><b>IO</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">26</span>
+          <span class="podaci">
+            <span class="ime-karte">Ivanović Olivera</span>
+            <span class="uloga-karte">dipl. fizičar</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Jelena Babić" data-zvanje="spec. primijenjenog računarstva" data-grupa="nastavnici"
+              data-trazi="jelena babic spec. primijenjenog racunarstva" data-ton="112" aria-label="Prikaži Jelena Babić, spec. primijenjenog računarstva">
+        <span class="portret" style="--ton:112"><b>JB</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">27</span>
+          <span class="podaci">
+            <span class="ime-karte">Jelena Babić</span>
+            <span class="uloga-karte">spec. primijenjenog računarstva</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Joldić Jovana" data-zvanje="dipl.prof. fizičkog vaspitanja i sporta" data-grupa="nastavnici"
+              data-trazi="joldic jovana dipl.prof. fizickog vaspitanja i sporta" data-ton="320" aria-label="Prikaži Joldić Jovana, dipl.prof. fizičkog vaspitanja i sporta">
+        <span class="portret" style="--ton:320"><b>JJ</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">28</span>
+          <span class="podaci">
+            <span class="ime-karte">Joldić Jovana</span>
+            <span class="uloga-karte">dipl.prof. fizičkog vaspitanja i sporta</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Jovanović Jelena" data-zvanje="prof. sociologije" data-grupa="nastavnici"
+              data-trazi="jovanovic jelena prof. sociologije" data-ton="100" aria-label="Prikaži Jovanović Jelena, prof. sociologije">
+        <span class="portret" style="--ton:100"><b>JJ</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">29</span>
+          <span class="podaci">
+            <span class="ime-karte">Jovanović Jelena</span>
+            <span class="uloga-karte">prof. sociologije</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Knežević Svetlana" data-zvanje="dipl. matematičar" data-grupa="nastavnici"
+              data-trazi="knezevic svetlana dipl. matematicar" data-ton="327" aria-label="Prikaži Knežević Svetlana, dipl. matematičar">
+        <span class="portret" style="--ton:327"><b>KS</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">30</span>
+          <span class="podaci">
+            <span class="ime-karte">Knežević Svetlana</span>
+            <span class="uloga-karte">dipl. matematičar</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Kojović Nikola" data-zvanje="spec.elektronike, telekomunikacija i računara" data-grupa="nastavnici"
+              data-trazi="kojovic nikola spec.elektronike, telekomunikacija i racunara" data-ton="97" aria-label="Prikaži Kojović Nikola, spec.elektronike, telekomunikacija i računara">
+        <span class="portret" style="--ton:97"><b>KN</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">31</span>
+          <span class="podaci">
+            <span class="ime-karte">Kojović Nikola</span>
+            <span class="uloga-karte">spec.elektronike, telekomunikacija i računara</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Kočović Mitra" data-zvanje="spec.energetike i automatike" data-grupa="nastavnici"
+              data-trazi="kocovic mitra spec.energetike i automatike" data-ton="293" aria-label="Prikaži Kočović Mitra, spec.energetike i automatike">
+        <span class="portret" style="--ton:293"><b>KM</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">32</span>
+          <span class="podaci">
+            <span class="ime-karte">Kočović Mitra</span>
+            <span class="uloga-karte">spec.energetike i automatike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Krgušić Žana" data-zvanje="prof. srpskohrvatskog jezika i južnoslovenske književnosti" data-grupa="nastavnici"
+              data-trazi="krgusic zana prof. srpskohrvatskog jezika i juznoslovenske knjizevnosti" data-ton="77" aria-label="Prikaži Krgušić Žana, prof. srpskohrvatskog jezika i južnoslovenske književnosti">
+        <span class="portret" style="--ton:77"><b>KŽ</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">33</span>
+          <span class="podaci">
+            <span class="ime-karte">Krgušić Žana</span>
+            <span class="uloga-karte">prof. srpskohrvatskog jezika i južnoslovenske književnosti</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Krunić Snežana" data-zvanje="spec. primjenjenog računarstva" data-grupa="nastavnici"
+              data-trazi="krunic snezana spec. primjenjenog racunarstva" data-ton="46" aria-label="Prikaži Krunić Snežana, spec. primjenjenog računarstva">
+        <span class="portret" style="--ton:46"><b>KS</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">34</span>
+          <span class="podaci">
+            <span class="ime-karte">Krunić Snežana</span>
+            <span class="uloga-karte">spec. primjenjenog računarstva</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Lazarević Lidija" data-zvanje="prof. engleskog jezika i književnosti" data-grupa="nastavnici"
+              data-trazi="lazarevic lidija prof. engleskog jezika i knjizevnosti" data-ton="164" aria-label="Prikaži Lazarević Lidija, prof. engleskog jezika i književnosti">
+        <span class="portret" style="--ton:164"><b>LL</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">35</span>
+          <span class="podaci">
+            <span class="ime-karte">Lazarević Lidija</span>
+            <span class="uloga-karte">prof. engleskog jezika i književnosti</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Leposavić Bogdan" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="leposavic bogdan dipl. ing. elektrotehnike" data-ton="137" aria-label="Prikaži Leposavić Bogdan, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:137"><b>LB</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">36</span>
+          <span class="podaci">
+            <span class="ime-karte">Leposavić Bogdan</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Lopičić Predrag" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="lopicic predrag dipl. ing. elektrotehnike" data-ton="262" aria-label="Prikaži Lopičić Predrag, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:262"><b>LP</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">37</span>
+          <span class="podaci">
+            <span class="ime-karte">Lopičić Predrag</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Lučić Mileva" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="lucic mileva dipl. ing. elektrotehnike" data-ton="38" aria-label="Prikaži Lučić Mileva, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:38"><b>LM</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">38</span>
+          <span class="podaci">
+            <span class="ime-karte">Lučić Mileva</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Mandić Olivera" data-zvanje="dipl. fizičar" data-grupa="nastavnici"
+              data-trazi="mandic olivera dipl. fizicar" data-ton="146" aria-label="Prikaži Mandić Olivera, dipl. fizičar">
+        <span class="portret" style="--ton:146"><b>MO</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">39</span>
+          <span class="podaci">
+            <span class="ime-karte">Mandić Olivera</span>
+            <span class="uloga-karte">dipl. fizičar</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Maraš Dejan" data-zvanje="prof. srpskohrvatskog jezika i knjiž. jug. naroda i narodnosti" data-grupa="nastavnici"
+              data-trazi="maras dejan prof. srpskohrvatskog jezika i knjiz. jug. naroda i narodnosti" data-ton="52" aria-label="Prikaži Maraš Dejan, prof. srpskohrvatskog jezika i knjiž. jug. naroda i narodnosti">
+        <span class="portret" style="--ton:52"><b>MD</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">40</span>
+          <span class="podaci">
+            <span class="ime-karte">Maraš Dejan</span>
+            <span class="uloga-karte">prof. srpskohrvatskog jezika i knjiž. jug. naroda i narodnosti</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Marković Ana" data-zvanje="prof. engleskog jezika i književnosti" data-grupa="nastavnici"
+              data-trazi="markovic ana prof. engleskog jezika i knjizevnosti" data-ton="206" aria-label="Prikaži Marković Ana, prof. engleskog jezika i književnosti">
+        <span class="portret" style="--ton:206"><b>MA</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">41</span>
+          <span class="podaci">
+            <span class="ime-karte">Marković Ana</span>
+            <span class="uloga-karte">prof. engleskog jezika i književnosti</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Markuš Danka" data-zvanje="spec. primijenjenog računarstva" data-grupa="nastavnici"
+              data-trazi="markus danka spec. primijenjenog racunarstva" data-ton="176" aria-label="Prikaži Markuš Danka, spec. primijenjenog računarstva">
+        <span class="portret" style="--ton:176"><b>MD</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">42</span>
+          <span class="podaci">
+            <span class="ime-karte">Markuš Danka</span>
+            <span class="uloga-karte">spec. primijenjenog računarstva</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Marušić Vukica" data-zvanje="prof. sociologije" data-grupa="nastavnici"
+              data-trazi="marusic vukica prof. sociologije" data-ton="59" aria-label="Prikaži Marušić Vukica, prof. sociologije">
+        <span class="portret" style="--ton:59"><b>MV</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">43</span>
+          <span class="podaci">
+            <span class="ime-karte">Marušić Vukica</span>
+            <span class="uloga-karte">prof. sociologije</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Matović Dubravka" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="matovic dubravka dipl. ing. elektrotehnike" data-ton="135" aria-label="Prikaži Matović Dubravka, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:135"><b>MD</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">44</span>
+          <span class="podaci">
+            <span class="ime-karte">Matović Dubravka</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Milentijević Dragica" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="milentijevic dragica dipl. ing. elektrotehnike" data-ton="230" aria-label="Prikaži Milentijević Dragica, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:230"><b>MD</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">45</span>
+          <span class="podaci">
+            <span class="ime-karte">Milentijević Dragica</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Miloš Sara" data-zvanje="spec. engleskog jezika i književnosti" data-grupa="nastavnici"
+              data-trazi="milos sara spec. engleskog jezika i knjizevnosti" data-ton="147" aria-label="Prikaži Miloš Sara, spec. engleskog jezika i književnosti">
+        <span class="portret" style="--ton:147"><b>MS</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">46</span>
+          <span class="podaci">
+            <span class="ime-karte">Miloš Sara</span>
+            <span class="uloga-karte">spec. engleskog jezika i književnosti</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Nikolić Natalija" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="nikolic natalija dipl. ing. elektrotehnike" data-ton="233" aria-label="Prikaži Nikolić Natalija, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:233"><b>NN</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">47</span>
+          <span class="podaci">
+            <span class="ime-karte">Nikolić Natalija</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Obradović Jelena" data-zvanje="MA prof. engleskog jezika i književnosti" data-grupa="nastavnici"
+              data-trazi="obradovic jelena ma prof. engleskog jezika i knjizevnosti" data-ton="128" aria-label="Prikaži Obradović Jelena, MA prof. engleskog jezika i književnosti">
+        <span class="portret" style="--ton:128"><b>OJ</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">48</span>
+          <span class="podaci">
+            <span class="ime-karte">Obradović Jelena</span>
+            <span class="uloga-karte">MA prof. engleskog jezika i književnosti</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Pavićević Nikola" data-zvanje="spec. računarskih nauka" data-grupa="nastavnici"
+              data-trazi="pavicevic nikola spec. racunarskih nauka" data-ton="298" aria-label="Prikaži Pavićević Nikola, spec. računarskih nauka">
+        <span class="portret" style="--ton:298"><b>PN</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">49</span>
+          <span class="podaci">
+            <span class="ime-karte">Pavićević Nikola</span>
+            <span class="uloga-karte">spec. računarskih nauka</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Peković Milijana" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="pekovic milijana dipl. ing. elektrotehnike" data-ton="72" aria-label="Prikaži Peković Milijana, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:72"><b>PM</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">50</span>
+          <span class="podaci">
+            <span class="ime-karte">Peković Milijana</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Popović Mirjana" data-zvanje="prof. sociologije" data-grupa="nastavnici"
+              data-trazi="popovic mirjana prof. sociologije" data-ton="78" aria-label="Prikaži Popović Mirjana, prof. sociologije">
+        <span class="portret" style="--ton:78"><b>PM</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">51</span>
+          <span class="podaci">
+            <span class="ime-karte">Popović Mirjana</span>
+            <span class="uloga-karte">prof. sociologije</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Radonjić Marina" data-zvanje="spec. primijenjenog računarstva" data-grupa="nastavnici"
+              data-trazi="radonjic marina spec. primijenjenog racunarstva" data-ton="66" aria-label="Prikaži Radonjić Marina, spec. primijenjenog računarstva">
+        <span class="portret" style="--ton:66"><b>RM</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">52</span>
+          <span class="podaci">
+            <span class="ime-karte">Radonjić Marina</span>
+            <span class="uloga-karte">spec. primijenjenog računarstva</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Radulović Zoran" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="radulovic zoran dipl. ing. elektrotehnike" data-ton="235" aria-label="Prikaži Radulović Zoran, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:235"><b>RZ</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">53</span>
+          <span class="podaci">
+            <span class="ime-karte">Radulović Zoran</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Radusinović Sanja" data-zvanje="prof. engleskog jezika i književnosti" data-grupa="nastavnici"
+              data-trazi="radusinovic sanja prof. engleskog jezika i knjizevnosti" data-ton="228" aria-label="Prikaži Radusinović Sanja, prof. engleskog jezika i književnosti">
+        <span class="portret" style="--ton:228"><b>RS</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">54</span>
+          <span class="podaci">
+            <span class="ime-karte">Radusinović Sanja</span>
+            <span class="uloga-karte">prof. engleskog jezika i književnosti</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Raičević Nikola" data-zvanje="spec. primijenjenog računarstva" data-grupa="nastavnici"
+              data-trazi="raicevic nikola spec. primijenjenog racunarstva" data-ton="138" aria-label="Prikaži Raičević Nikola, spec. primijenjenog računarstva">
+        <span class="portret" style="--ton:138"><b>RN</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">55</span>
+          <span class="podaci">
+            <span class="ime-karte">Raičević Nikola</span>
+            <span class="uloga-karte">spec. primijenjenog računarstva</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Rastoder Elida" data-zvanje="prof. engleskog jezika i književnosti" data-grupa="nastavnici"
+              data-trazi="rastoder elida prof. engleskog jezika i knjizevnosti" data-ton="257" aria-label="Prikaži Rastoder Elida, prof. engleskog jezika i književnosti">
+        <span class="portret" style="--ton:257"><b>RE</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">56</span>
+          <span class="podaci">
+            <span class="ime-karte">Rastoder Elida</span>
+            <span class="uloga-karte">prof. engleskog jezika i književnosti</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Rašković Violeta" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="raskovic violeta dipl. ing. elektrotehnike" data-ton="312" aria-label="Prikaži Rašković Violeta, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:312"><b>RV</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">57</span>
+          <span class="podaci">
+            <span class="ime-karte">Rašković Violeta</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Roganović Nevenka" data-zvanje="prof. srpskog jezika i književnosti" data-grupa="nastavnici"
+              data-trazi="roganovic nevenka prof. srpskog jezika i knjizevnosti" data-ton="34" aria-label="Prikaži Roganović Nevenka, prof. srpskog jezika i književnosti">
+        <span class="portret" style="--ton:34"><b>RN</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">58</span>
+          <span class="podaci">
+            <span class="ime-karte">Roganović Nevenka</span>
+            <span class="uloga-karte">prof. srpskog jezika i književnosti</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Samardžić Rada" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="samardzic rada dipl. ing. elektrotehnike" data-ton="348" aria-label="Prikaži Samardžić Rada, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:348"><b>SR</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">59</span>
+          <span class="podaci">
+            <span class="ime-karte">Samardžić Rada</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Sarić Slađana" data-zvanje="spec. primijenjenog računarstva" data-grupa="nastavnici"
+              data-trazi="saric sladana spec. primijenjenog racunarstva" data-ton="189" aria-label="Prikaži Sarić Slađana, spec. primijenjenog računarstva">
+        <span class="portret" style="--ton:189"><b>SS</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">60</span>
+          <span class="podaci">
+            <span class="ime-karte">Sarić Slađana</span>
+            <span class="uloga-karte">spec. primijenjenog računarstva</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Selman Šabotić" data-zvanje="prof. fizičke kulture" data-grupa="nastavnici"
+              data-trazi="selman sabotic prof. fizicke kulture" data-ton="292" aria-label="Prikaži Selman Šabotić, prof. fizičke kulture">
+        <span class="portret" style="--ton:292"><b>SŠ</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">61</span>
+          <span class="podaci">
+            <span class="ime-karte">Selman Šabotić</span>
+            <span class="uloga-karte">prof. fizičke kulture</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Stanišić Milanka" data-zvanje="dipl. matematičar" data-grupa="nastavnici"
+              data-trazi="stanisic milanka dipl. matematicar" data-ton="15" aria-label="Prikaži Stanišić Milanka, dipl. matematičar">
+        <span class="portret" style="--ton:15"><b>SM</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">62</span>
+          <span class="podaci">
+            <span class="ime-karte">Stanišić Milanka</span>
+            <span class="uloga-karte">dipl. matematičar</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Stanišić Radomir" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="stanisic radomir dipl. ing. elektrotehnike" data-ton="152" aria-label="Prikaži Stanišić Radomir, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:152"><b>SR</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">63</span>
+          <span class="podaci">
+            <span class="ime-karte">Stanišić Radomir</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Stevović Mirjana" data-zvanje="spec. elektronike, telekomunikacija i računara" data-grupa="nastavnici"
+              data-trazi="stevovic mirjana spec. elektronike, telekomunikacija i racunara" data-ton="303" aria-label="Prikaži Stevović Mirjana, spec. elektronike, telekomunikacija i računara">
+        <span class="portret" style="--ton:303"><b>SM</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">64</span>
+          <span class="podaci">
+            <span class="ime-karte">Stevović Mirjana</span>
+            <span class="uloga-karte">spec. elektronike, telekomunikacija i računara</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Stojanović Nataša" data-zvanje="spec. crnogorskog jezika i južnoslovenske književnosti" data-grupa="nastavnici"
+              data-trazi="stojanovic natasa spec. crnogorskog jezika i juznoslovenske knjizevnosti" data-ton="250" aria-label="Prikaži Stojanović Nataša, spec. crnogorskog jezika i južnoslovenske književnosti">
+        <span class="portret" style="--ton:250"><b>SN</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">65</span>
+          <span class="podaci">
+            <span class="ime-karte">Stojanović Nataša</span>
+            <span class="uloga-karte">spec. crnogorskog jezika i južnoslovenske književnosti</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Tadić Slobodan" data-zvanje="spec. strukovni inženjer elektrotehnike i računarstva" data-grupa="nastavnici"
+              data-trazi="tadic slobodan spec. strukovni inzenjer elektrotehnike i racunarstva" data-ton="89" aria-label="Prikaži Tadić Slobodan, spec. strukovni inženjer elektrotehnike i računarstva">
+        <span class="portret" style="--ton:89"><b>TS</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">66</span>
+          <span class="podaci">
+            <span class="ime-karte">Tadić Slobodan</span>
+            <span class="uloga-karte">spec. strukovni inženjer elektrotehnike i računarstva</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Tasić Gordana" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="tasic gordana dipl. ing. elektrotehnike" data-ton="246" aria-label="Prikaži Tasić Gordana, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:246"><b>TG</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">67</span>
+          <span class="podaci">
+            <span class="ime-karte">Tasić Gordana</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Vemić Nada" data-zvanje="dipl.ing.elektrotehnike" data-grupa="nastavnici"
+              data-trazi="vemic nada dipl.ing.elektrotehnike" data-ton="348" aria-label="Prikaži Vemić Nada, dipl.ing.elektrotehnike">
+        <span class="portret" style="--ton:348"><b>VN</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">68</span>
+          <span class="podaci">
+            <span class="ime-karte">Vemić Nada</span>
+            <span class="uloga-karte">dipl.ing.elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Vladimir Kovač" data-zvanje="dipl.ing.elektrotehnike" data-grupa="nastavnici"
+              data-trazi="vladimir kovac dipl.ing.elektrotehnike" data-ton="236" aria-label="Prikaži Vladimir Kovač, dipl.ing.elektrotehnike">
+        <span class="portret" style="--ton:236"><b>VK</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">69</span>
+          <span class="podaci">
+            <span class="ime-karte">Vladimir Kovač</span>
+            <span class="uloga-karte">dipl.ing.elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Vojinović Nikolija" data-zvanje="spec. eneretike i automatike" data-grupa="nastavnici"
+              data-trazi="vojinovic nikolija spec. eneretike i automatike" data-ton="184" aria-label="Prikaži Vojinović Nikolija, spec. eneretike i automatike">
+        <span class="portret" style="--ton:184"><b>VN</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">70</span>
+          <span class="podaci">
+            <span class="ime-karte">Vojinović Nikolija</span>
+            <span class="uloga-karte">spec. eneretike i automatike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Vratnica Mladen" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="vratnica mladen dipl. ing. elektrotehnike" data-ton="99" aria-label="Prikaži Vratnica Mladen, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:99"><b>VM</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">71</span>
+          <span class="podaci">
+            <span class="ime-karte">Vratnica Mladen</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Zeković Jelena" data-zvanje="spec. energetike i automatike" data-grupa="nastavnici"
+              data-trazi="zekovic jelena spec. energetike i automatike" data-ton="18" aria-label="Prikaži Zeković Jelena, spec. energetike i automatike">
+        <span class="portret" style="--ton:18"><b>ZJ</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">72</span>
+          <span class="podaci">
+            <span class="ime-karte">Zeković Jelena</span>
+            <span class="uloga-karte">spec. energetike i automatike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Ćalasan Vesna" data-zvanje="spec. energetike i automatike" data-grupa="nastavnici"
+              data-trazi="calasan vesna spec. energetike i automatike" data-ton="287" aria-label="Prikaži Ćalasan Vesna, spec. energetike i automatike">
+        <span class="portret" style="--ton:287"><b>ĆV</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">73</span>
+          <span class="podaci">
+            <span class="ime-karte">Ćalasan Vesna</span>
+            <span class="uloga-karte">spec. energetike i automatike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Čogurić Radmila" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="coguric radmila dipl. ing. elektrotehnike" data-ton="301" aria-label="Prikaži Čogurić Radmila, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:301"><b>ČR</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">74</span>
+          <span class="podaci">
+            <span class="ime-karte">Čogurić Radmila</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Đaković Dragan" data-zvanje="prof. istorije i geografije" data-grupa="nastavnici"
+              data-trazi="dakovic dragan prof. istorije i geografije" data-ton="354" aria-label="Prikaži Đaković Dragan, prof. istorije i geografije">
+        <span class="portret" style="--ton:354"><b>ĐD</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">75</span>
+          <span class="podaci">
+            <span class="ime-karte">Đaković Dragan</span>
+            <span class="uloga-karte">prof. istorije i geografije</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Đaković Persa" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="dakovic persa dipl. ing. elektrotehnike" data-ton="2" aria-label="Prikaži Đaković Persa, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:2"><b>ĐP</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">76</span>
+          <span class="podaci">
+            <span class="ime-karte">Đaković Persa</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Đerić Bogdan" data-zvanje="prof. fizičke kulture" data-grupa="nastavnici"
+              data-trazi="deric bogdan prof. fizicke kulture" data-ton="204" aria-label="Prikaži Đerić Bogdan, prof. fizičke kulture">
+        <span class="portret" style="--ton:204"><b>ĐB</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">77</span>
+          <span class="podaci">
+            <span class="ime-karte">Đerić Bogdan</span>
+            <span class="uloga-karte">prof. fizičke kulture</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Španjević Jovana" data-zvanje="spec. engleskog jezika i književnosti" data-grupa="nastavnici"
+              data-trazi="spanjevic jovana spec. engleskog jezika i knjizevnosti" data-ton="143" aria-label="Prikaži Španjević Jovana, spec. engleskog jezika i književnosti">
+        <span class="portret" style="--ton:143"><b>ŠJ</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">78</span>
+          <span class="podaci">
+            <span class="ime-karte">Španjević Jovana</span>
+            <span class="uloga-karte">spec. engleskog jezika i književnosti</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Šuković Biljana" data-zvanje="prof. matematike" data-grupa="nastavnici"
+              data-trazi="sukovic biljana prof. matematike" data-ton="314" aria-label="Prikaži Šuković Biljana, prof. matematike">
+        <span class="portret" style="--ton:314"><b>ŠB</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">79</span>
+          <span class="podaci">
+            <span class="ime-karte">Šuković Biljana</span>
+            <span class="uloga-karte">prof. matematike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Šupić Maja" data-zvanje="dipl. ing. elektrotehnike" data-grupa="nastavnici"
+              data-trazi="supic maja dipl. ing. elektrotehnike" data-ton="298" aria-label="Prikaži Šupić Maja, dipl. ing. elektrotehnike">
+        <span class="portret" style="--ton:298"><b>ŠM</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">80</span>
+          <span class="podaci">
+            <span class="ime-karte">Šupić Maja</span>
+            <span class="uloga-karte">dipl. ing. elektrotehnike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Šuškavčević Bojana" data-zvanje="spec. energetike i automatike" data-grupa="nastavnici"
+              data-trazi="suskavcevic bojana spec. energetike i automatike" data-ton="39" aria-label="Prikaži Šuškavčević Bojana, spec. energetike i automatike">
+        <span class="portret" style="--ton:39"><b>ŠB</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">81</span>
+          <span class="podaci">
+            <span class="ime-karte">Šuškavčević Bojana</span>
+            <span class="uloga-karte">spec. energetike i automatike</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Šćekić Jelena" data-zvanje="spec. matematike i računarskih nauka" data-grupa="nastavnici"
+              data-trazi="scekic jelena spec. matematike i racunarskih nauka" data-ton="164" aria-label="Prikaži Šćekić Jelena, spec. matematike i računarskih nauka">
+        <span class="portret" style="--ton:164"><b>ŠJ</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">82</span>
+          <span class="podaci">
+            <span class="ime-karte">Šćekić Jelena</span>
+            <span class="uloga-karte">spec. matematike i računarskih nauka</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Šćepanović Suzana" data-zvanje="BSc matematike i računarskih nauka" data-grupa="nastavnici"
+              data-trazi="scepanovic suzana bsc matematike i racunarskih nauka" data-ton="200" aria-label="Prikaži Šćepanović Suzana, BSc matematike i računarskih nauka">
+        <span class="portret" style="--ton:200"><b>ŠS</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">83</span>
+          <span class="podaci">
+            <span class="ime-karte">Šćepanović Suzana</span>
+            <span class="uloga-karte">BSc matematike i računarskih nauka</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Žeželj Marija" data-zvanje="spec. informacionih tehnologija" data-grupa="nastavnici"
+              data-trazi="zezelj marija spec. informacionih tehnologija" data-ton="317" aria-label="Prikaži Žeželj Marija, spec. informacionih tehnologija">
+        <span class="portret" style="--ton:317"><b>ŽM</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">84</span>
+          <span class="podaci">
+            <span class="ime-karte">Žeželj Marija</span>
+            <span class="uloga-karte">spec. informacionih tehnologija</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Dragović Milena" data-zvanje="spec. srpskog jezika i južnoslovenske književnosti" data-grupa="asistenti"
+              data-trazi="dragovic milena spec. srpskog jezika i juznoslovenske knjizevnosti" data-ton="239" aria-label="Prikaži Dragović Milena, spec. srpskog jezika i južnoslovenske književnosti">
+        <span class="portret" style="--ton:239"><b>DM</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">85</span>
+          <span class="podaci">
+            <span class="ime-karte">Dragović Milena</span>
+            <span class="uloga-karte">spec. srpskog jezika i južnoslovenske književnosti</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Gjokaj Lindita" data-zvanje="SSS" data-grupa="asistenti"
+              data-trazi="gjokaj lindita sss" data-ton="19" aria-label="Prikaži Gjokaj Lindita, SSS">
+        <span class="portret" style="--ton:19"><b>GL</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">86</span>
+          <span class="podaci">
+            <span class="ime-karte">Gjokaj Lindita</span>
+            <span class="uloga-karte">SSS</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Lakušić Ana" data-zvanje="SSS" data-grupa="asistenti"
+              data-trazi="lakusic ana sss" data-ton="92" aria-label="Prikaži Lakušić Ana, SSS">
+        <span class="portret" style="--ton:92"><b>LA</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">87</span>
+          <span class="podaci">
+            <span class="ime-karte">Lakušić Ana</span>
+            <span class="uloga-karte">SSS</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Stijepović Irena" data-zvanje="spec. pedagogije" data-grupa="asistenti"
+              data-trazi="stijepovic irena spec. pedagogije" data-ton="97" aria-label="Prikaži Stijepović Irena, spec. pedagogije">
+        <span class="portret" style="--ton:97"><b>SI</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">88</span>
+          <span class="podaci">
+            <span class="ime-karte">Stijepović Irena</span>
+            <span class="uloga-karte">spec. pedagogije</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Srdanović Ivica" data-zvanje="Domar" data-grupa="pomocno"
+              data-trazi="srdanovic ivica domar" data-ton="305" aria-label="Prikaži Srdanović Ivica, Domar">
+        <span class="portret" style="--ton:305"><b>SI</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">89</span>
+          <span class="podaci">
+            <span class="ime-karte">Srdanović Ivica</span>
+            <span class="uloga-karte">Domar</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Vujičić Dragoslav" data-zvanje="Domar-ložač" data-grupa="pomocno"
+              data-trazi="vujicic dragoslav domar-lozac" data-ton="94" aria-label="Prikaži Vujičić Dragoslav, Domar-ložač">
+        <span class="portret" style="--ton:94"><b>VD</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">90</span>
+          <span class="podaci">
+            <span class="ime-karte">Vujičić Dragoslav</span>
+            <span class="uloga-karte">Domar-ložač</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Bošković Jelenka" data-zvanje="Radnica na održavanju čistoće" data-grupa="pomocno"
+              data-trazi="boskovic jelenka radnica na odrzavanju cistoce" data-ton="4" aria-label="Prikaži Bošković Jelenka, Radnica na održavanju čistoće">
+        <span class="portret" style="--ton:4"><b>BJ</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">91</span>
+          <span class="podaci">
+            <span class="ime-karte">Bošković Jelenka</span>
+            <span class="uloga-karte">Radnica na održavanju čistoće</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Ćurćić Ljubinka" data-zvanje="Radnica na održavanju čistoće" data-grupa="pomocno"
+              data-trazi="curcic ljubinka radnica na odrzavanju cistoce" data-ton="92" aria-label="Prikaži Ćurćić Ljubinka, Radnica na održavanju čistoće">
+        <span class="portret" style="--ton:92"><b>ĆL</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">92</span>
+          <span class="podaci">
+            <span class="ime-karte">Ćurćić Ljubinka</span>
+            <span class="uloga-karte">Radnica na održavanju čistoće</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Ivanović Mladenka" data-zvanje="Radnica na održavanju čistoće" data-grupa="pomocno"
+              data-trazi="ivanovic mladenka radnica na odrzavanju cistoce" data-ton="34" aria-label="Prikaži Ivanović Mladenka, Radnica na održavanju čistoće">
+        <span class="portret" style="--ton:34"><b>IM</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">93</span>
+          <span class="podaci">
+            <span class="ime-karte">Ivanović Mladenka</span>
+            <span class="uloga-karte">Radnica na održavanju čistoće</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Jovanović Snežana" data-zvanje="Radnica na održavanju čistoće" data-grupa="pomocno"
+              data-trazi="jovanovic snezana radnica na odrzavanju cistoce" data-ton="219" aria-label="Prikaži Jovanović Snežana, Radnica na održavanju čistoće">
+        <span class="portret" style="--ton:219"><b>JS</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">94</span>
+          <span class="podaci">
+            <span class="ime-karte">Jovanović Snežana</span>
+            <span class="uloga-karte">Radnica na održavanju čistoće</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Krstajić Svetlana" data-zvanje="Radnica na održavanju čistoće" data-grupa="pomocno"
+              data-trazi="krstajic svetlana radnica na odrzavanju cistoce" data-ton="43" aria-label="Prikaži Krstajić Svetlana, Radnica na održavanju čistoće">
+        <span class="portret" style="--ton:43"><b>KS</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">95</span>
+          <span class="podaci">
+            <span class="ime-karte">Krstajić Svetlana</span>
+            <span class="uloga-karte">Radnica na održavanju čistoće</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Ljajčaj Ana" data-zvanje="Radnica na održavanju čistoće" data-grupa="pomocno"
+              data-trazi="ljajcaj ana radnica na odrzavanju cistoce" data-ton="11" aria-label="Prikaži Ljajčaj Ana, Radnica na održavanju čistoće">
+        <span class="portret" style="--ton:11"><b>LA</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">96</span>
+          <span class="podaci">
+            <span class="ime-karte">Ljajčaj Ana</span>
+            <span class="uloga-karte">Radnica na održavanju čistoće</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Marković Veselinka" data-zvanje="Radnica na održavanju čistoće" data-grupa="pomocno"
+              data-trazi="markovic veselinka radnica na odrzavanju cistoce" data-ton="24" aria-label="Prikaži Marković Veselinka, Radnica na održavanju čistoće">
+        <span class="portret" style="--ton:24"><b>MV</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">97</span>
+          <span class="podaci">
+            <span class="ime-karte">Marković Veselinka</span>
+            <span class="uloga-karte">Radnica na održavanju čistoće</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Obradović Radmila" data-zvanje="Radnica na održavanju čistoće" data-grupa="pomocno"
+              data-trazi="obradovic radmila radnica na odrzavanju cistoce" data-ton="45" aria-label="Prikaži Obradović Radmila, Radnica na održavanju čistoće">
+        <span class="portret" style="--ton:45"><b>OR</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">98</span>
+          <span class="podaci">
+            <span class="ime-karte">Obradović Radmila</span>
+            <span class="uloga-karte">Radnica na održavanju čistoće</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Šćekić Darka" data-zvanje="Radnica na održavanju čistoće" data-grupa="pomocno"
+              data-trazi="scekic darka radnica na odrzavanju cistoce" data-ton="6" aria-label="Prikaži Šćekić Darka, Radnica na održavanju čistoće">
+        <span class="portret" style="--ton:6"><b>ŠD</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">99</span>
+          <span class="podaci">
+            <span class="ime-karte">Šćekić Darka</span>
+            <span class="uloga-karte">Radnica na održavanju čistoće</span>
+          </span>
+        </span>
+      </button>
+      <button class="karta" type="button" data-ime="Vlahović Marijana" data-zvanje="Radnica na održavanju čistoće" data-grupa="pomocno"
+              data-trazi="vlahovic marijana radnica na odrzavanju cistoce" data-ton="67" aria-label="Prikaži Vlahović Marijana, Radnica na održavanju čistoće">
+        <span class="portret" style="--ton:67"><b>VM</b></span>
+        <span class="podnozje-karte">
+          <span class="redni">100</span>
+          <span class="podaci">
+            <span class="ime-karte">Vlahović Marijana</span>
+            <span class="uloga-karte">Radnica na održavanju čistoće</span>
+          </span>
+        </span>
+      </button>
+      </div>
     </div>
-    <div class="trazilica rise">
-      <input type="search" id="trazi" placeholder="Traži po imenu ili predmetu" aria-label="Traži nastavnika">
-      <b id="brojac"></b>
-    </div>
-    <p class="nista" id="nista" hidden>Niko ne odgovara toj pretrazi.</p>
-    <div class="ljudi rise-kids" id="spisakNastavnika">
-      <button class="osoba" data-ime="Adilović Alen" data-zvanje="spec. primijenjenog računarstva" data-ton="41" data-inicijali="AA" data-trazi="adilovic alen spec. primijenjenog racunarstva">
-        <span class="osoba-slika" style="--ton:41">
-          <span class="osoba-inicijali">AA</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Adilović Alen</span>
-          <span class="osoba-uloga">spec. primijenjenog računarstva</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Agić Azra" data-zvanje="spec. elektronike, telekomunikacija i računara" data-ton="236" data-inicijali="AA" data-trazi="agic azra spec. elektronike, telekomunikacija i racunara">
-        <span class="osoba-slika" style="--ton:236">
-          <span class="osoba-inicijali">AA</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Agić Azra</span>
-          <span class="osoba-uloga">spec. elektronike, telekomunikacija i računara</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Bećirović Emsada" data-zvanje="dipl. matematičar" data-ton="65" data-inicijali="BE" data-trazi="becirovic emsada dipl. matematicar">
-        <span class="osoba-slika" style="--ton:65">
-          <span class="osoba-inicijali">BE</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Bećirović Emsada</span>
-          <span class="osoba-uloga">dipl. matematičar</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Bošković Marko" data-zvanje="spec.energetike i automatike" data-ton="262" data-inicijali="BM" data-trazi="boskovic marko spec.energetike i automatike">
-        <span class="osoba-slika" style="--ton:262">
-          <span class="osoba-inicijali">BM</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Bošković Marko</span>
-          <span class="osoba-uloga">spec.energetike i automatike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Božović Radovan" data-zvanje="spec.elektronike, telekomunikacija i računara" data-ton="183" data-inicijali="BR" data-trazi="bozovic radovan spec.elektronike, telekomunikacija i racunara">
-        <span class="osoba-slika" style="--ton:183">
-          <span class="osoba-inicijali">BR</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Božović Radovan</span>
-          <span class="osoba-uloga">spec.elektronike, telekomunikacija i računara</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Brajović Olga" data-zvanje="spec. primijenjenog računarstva" data-ton="209" data-inicijali="BO" data-trazi="brajovic olga spec. primijenjenog racunarstva">
-        <span class="osoba-slika" style="--ton:209">
-          <span class="osoba-inicijali">BO</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Brajović Olga</span>
-          <span class="osoba-uloga">spec. primijenjenog računarstva</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Budrak Aleksandra" data-zvanje="dipl. ekonomista" data-ton="177" data-inicijali="BA" data-trazi="budrak aleksandra dipl. ekonomista">
-        <span class="osoba-slika" style="--ton:177">
-          <span class="osoba-inicijali">BA</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Budrak Aleksandra</span>
-          <span class="osoba-uloga">dipl. ekonomista</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Bulajić Sandra" data-zvanje="prof. srpskog jezika i književnosti" data-ton="155" data-inicijali="BS" data-trazi="bulajic sandra prof. srpskog jezika i knjizevnosti">
-        <span class="osoba-slika" style="--ton:155">
-          <span class="osoba-inicijali">BS</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Bulajić Sandra</span>
-          <span class="osoba-uloga">prof. srpskog jezika i književnosti</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Bulatović Dijana" data-zvanje="dipl. matematičar" data-ton="286" data-inicijali="BD" data-trazi="bulatovic dijana dipl. matematicar">
-        <span class="osoba-slika" style="--ton:286">
-          <span class="osoba-inicijali">BD</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Bulatović Dijana</span>
-          <span class="osoba-uloga">dipl. matematičar</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Cimbaljević Drago" data-zvanje="prof. fizičke kulture" data-ton="22" data-inicijali="CD" data-trazi="cimbaljevic drago prof. fizicke kulture">
-        <span class="osoba-slika" style="--ton:22">
-          <span class="osoba-inicijali">CD</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Cimbaljević Drago</span>
-          <span class="osoba-uloga">prof. fizičke kulture</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Danilović Milika" data-zvanje="spec. primjenjenog računarstva" data-ton="206" data-inicijali="DM" data-trazi="danilovic milika spec. primjenjenog racunarstva">
-        <span class="osoba-slika" style="--ton:206">
-          <span class="osoba-inicijali">DM</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Danilović Milika</span>
-          <span class="osoba-uloga">spec. primjenjenog računarstva</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Dašić Nada" data-zvanje="dipl. ing. elektrotehnike" data-ton="150" data-inicijali="DN" data-trazi="dasic nada dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:150">
-          <span class="osoba-inicijali">DN</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Dašić Nada</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Delić Ana" data-zvanje="MA engleskog jezika i književnosti" data-ton="349" data-inicijali="DA" data-trazi="delic ana ma engleskog jezika i knjizevnosti">
-        <span class="osoba-slika" style="--ton:349">
-          <span class="osoba-inicijali">DA</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Delić Ana</span>
-          <span class="osoba-uloga">MA engleskog jezika i književnosti</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Gardašević Nada" data-zvanje="spec. energetike i automatike" data-ton="293" data-inicijali="GN" data-trazi="gardasevic nada spec. energetike i automatike">
-        <span class="osoba-slika" style="--ton:293">
-          <span class="osoba-inicijali">GN</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Gardašević Nada</span>
-          <span class="osoba-uloga">spec. energetike i automatike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Ivanović Olivera" data-zvanje="dipl. fizičar" data-ton="289" data-inicijali="IO" data-trazi="ivanovic olivera dipl. fizicar">
-        <span class="osoba-slika" style="--ton:289">
-          <span class="osoba-inicijali">IO</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Ivanović Olivera</span>
-          <span class="osoba-uloga">dipl. fizičar</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Jelena Babić" data-zvanje="spec. primijenjenog računarstva" data-ton="112" data-inicijali="JB" data-trazi="jelena babic spec. primijenjenog racunarstva">
-        <span class="osoba-slika" style="--ton:112">
-          <span class="osoba-inicijali">JB</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Jelena Babić</span>
-          <span class="osoba-uloga">spec. primijenjenog računarstva</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Joldić Jovana" data-zvanje="dipl.prof. fizičkog vaspitanja i sporta" data-ton="320" data-inicijali="JJ" data-trazi="joldic jovana dipl.prof. fizickog vaspitanja i sporta">
-        <span class="osoba-slika" style="--ton:320">
-          <span class="osoba-inicijali">JJ</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Joldić Jovana</span>
-          <span class="osoba-uloga">dipl.prof. fizičkog vaspitanja i sporta</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Jovanović Jelena" data-zvanje="prof. sociologije" data-ton="100" data-inicijali="JJ" data-trazi="jovanovic jelena prof. sociologije">
-        <span class="osoba-slika" style="--ton:100">
-          <span class="osoba-inicijali">JJ</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Jovanović Jelena</span>
-          <span class="osoba-uloga">prof. sociologije</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Knežević Svetlana" data-zvanje="dipl. matematičar" data-ton="327" data-inicijali="KS" data-trazi="knezevic svetlana dipl. matematicar">
-        <span class="osoba-slika" style="--ton:327">
-          <span class="osoba-inicijali">KS</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Knežević Svetlana</span>
-          <span class="osoba-uloga">dipl. matematičar</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Kojović Nikola" data-zvanje="spec.elektronike, telekomunikacija i računara" data-ton="97" data-inicijali="KN" data-trazi="kojovic nikola spec.elektronike, telekomunikacija i racunara">
-        <span class="osoba-slika" style="--ton:97">
-          <span class="osoba-inicijali">KN</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Kojović Nikola</span>
-          <span class="osoba-uloga">spec.elektronike, telekomunikacija i računara</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Kočović Mitra" data-zvanje="spec.energetike i automatike" data-ton="293" data-inicijali="KM" data-trazi="kocovic mitra spec.energetike i automatike">
-        <span class="osoba-slika" style="--ton:293">
-          <span class="osoba-inicijali">KM</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Kočović Mitra</span>
-          <span class="osoba-uloga">spec.energetike i automatike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Krgušić Žana" data-zvanje="prof. srpskohrvatskog jezika i južnoslovenske književnosti" data-ton="77" data-inicijali="KŽ" data-trazi="krgusic zana prof. srpskohrvatskog jezika i juznoslovenske knjizevnosti">
-        <span class="osoba-slika" style="--ton:77">
-          <span class="osoba-inicijali">KŽ</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Krgušić Žana</span>
-          <span class="osoba-uloga">prof. srpskohrvatskog jezika i južnoslovenske književnosti</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Krunić Snežana" data-zvanje="spec. primjenjenog računarstva" data-ton="46" data-inicijali="KS" data-trazi="krunic snezana spec. primjenjenog racunarstva">
-        <span class="osoba-slika" style="--ton:46">
-          <span class="osoba-inicijali">KS</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Krunić Snežana</span>
-          <span class="osoba-uloga">spec. primjenjenog računarstva</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Lazarević Lidija" data-zvanje="prof. engleskog jezika i književnosti" data-ton="164" data-inicijali="LL" data-trazi="lazarevic lidija prof. engleskog jezika i knjizevnosti">
-        <span class="osoba-slika" style="--ton:164">
-          <span class="osoba-inicijali">LL</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Lazarević Lidija</span>
-          <span class="osoba-uloga">prof. engleskog jezika i književnosti</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Leposavić Bogdan" data-zvanje="dipl. ing. elektrotehnike" data-ton="137" data-inicijali="LB" data-trazi="leposavic bogdan dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:137">
-          <span class="osoba-inicijali">LB</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Leposavić Bogdan</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Lopičić Predrag" data-zvanje="dipl. ing. elektrotehnike" data-ton="262" data-inicijali="LP" data-trazi="lopicic predrag dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:262">
-          <span class="osoba-inicijali">LP</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Lopičić Predrag</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Lučić Mileva" data-zvanje="dipl. ing. elektrotehnike" data-ton="38" data-inicijali="LM" data-trazi="lucic mileva dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:38">
-          <span class="osoba-inicijali">LM</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Lučić Mileva</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Mandić Olivera" data-zvanje="dipl. fizičar" data-ton="146" data-inicijali="MO" data-trazi="mandic olivera dipl. fizicar">
-        <span class="osoba-slika" style="--ton:146">
-          <span class="osoba-inicijali">MO</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Mandić Olivera</span>
-          <span class="osoba-uloga">dipl. fizičar</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Maraš Dejan" data-zvanje="prof. srpskohrvatskog jezika i knjiž. jug. naroda i narodnosti" data-ton="52" data-inicijali="MD" data-trazi="maras dejan prof. srpskohrvatskog jezika i knjiz. jug. naroda i narodnosti">
-        <span class="osoba-slika" style="--ton:52">
-          <span class="osoba-inicijali">MD</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Maraš Dejan</span>
-          <span class="osoba-uloga">prof. srpskohrvatskog jezika i knjiž. jug. naroda i narodnosti</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Marković Ana" data-zvanje="prof. engleskog jezika i književnosti" data-ton="206" data-inicijali="MA" data-trazi="markovic ana prof. engleskog jezika i knjizevnosti">
-        <span class="osoba-slika" style="--ton:206">
-          <span class="osoba-inicijali">MA</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Marković Ana</span>
-          <span class="osoba-uloga">prof. engleskog jezika i književnosti</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Markuš Danka" data-zvanje="spec. primijenjenog računarstva" data-ton="176" data-inicijali="MD" data-trazi="markus danka spec. primijenjenog racunarstva">
-        <span class="osoba-slika" style="--ton:176">
-          <span class="osoba-inicijali">MD</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Markuš Danka</span>
-          <span class="osoba-uloga">spec. primijenjenog računarstva</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Marušić Vukica" data-zvanje="prof. sociologije" data-ton="59" data-inicijali="MV" data-trazi="marusic vukica prof. sociologije">
-        <span class="osoba-slika" style="--ton:59">
-          <span class="osoba-inicijali">MV</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Marušić Vukica</span>
-          <span class="osoba-uloga">prof. sociologije</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Matović Dubravka" data-zvanje="dipl. ing. elektrotehnike" data-ton="135" data-inicijali="MD" data-trazi="matovic dubravka dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:135">
-          <span class="osoba-inicijali">MD</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Matović Dubravka</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Milentijević Dragica" data-zvanje="dipl. ing. elektrotehnike" data-ton="230" data-inicijali="MD" data-trazi="milentijevic dragica dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:230">
-          <span class="osoba-inicijali">MD</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Milentijević Dragica</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Miloš Sara" data-zvanje="spec. engleskog jezika i književnosti" data-ton="147" data-inicijali="MS" data-trazi="milos sara spec. engleskog jezika i knjizevnosti">
-        <span class="osoba-slika" style="--ton:147">
-          <span class="osoba-inicijali">MS</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Miloš Sara</span>
-          <span class="osoba-uloga">spec. engleskog jezika i književnosti</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Nikolić Natalija" data-zvanje="dipl. ing. elektrotehnike" data-ton="233" data-inicijali="NN" data-trazi="nikolic natalija dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:233">
-          <span class="osoba-inicijali">NN</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Nikolić Natalija</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Obradović Jelena" data-zvanje="MA prof. engleskog jezika i književnosti" data-ton="128" data-inicijali="OJ" data-trazi="obradovic jelena ma prof. engleskog jezika i knjizevnosti">
-        <span class="osoba-slika" style="--ton:128">
-          <span class="osoba-inicijali">OJ</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Obradović Jelena</span>
-          <span class="osoba-uloga">MA prof. engleskog jezika i književnosti</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Pavićević Nikola" data-zvanje="spec. računarskih nauka" data-ton="298" data-inicijali="PN" data-trazi="pavicevic nikola spec. racunarskih nauka">
-        <span class="osoba-slika" style="--ton:298">
-          <span class="osoba-inicijali">PN</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Pavićević Nikola</span>
-          <span class="osoba-uloga">spec. računarskih nauka</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Peković Milijana" data-zvanje="dipl. ing. elektrotehnike" data-ton="72" data-inicijali="PM" data-trazi="pekovic milijana dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:72">
-          <span class="osoba-inicijali">PM</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Peković Milijana</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Popović Mirjana" data-zvanje="prof. sociologije" data-ton="78" data-inicijali="PM" data-trazi="popovic mirjana prof. sociologije">
-        <span class="osoba-slika" style="--ton:78">
-          <span class="osoba-inicijali">PM</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Popović Mirjana</span>
-          <span class="osoba-uloga">prof. sociologije</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Radonjić Marina" data-zvanje="spec. primijenjenog računarstva" data-ton="66" data-inicijali="RM" data-trazi="radonjic marina spec. primijenjenog racunarstva">
-        <span class="osoba-slika" style="--ton:66">
-          <span class="osoba-inicijali">RM</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Radonjić Marina</span>
-          <span class="osoba-uloga">spec. primijenjenog računarstva</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Radulović Zoran" data-zvanje="dipl. ing. elektrotehnike" data-ton="235" data-inicijali="RZ" data-trazi="radulovic zoran dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:235">
-          <span class="osoba-inicijali">RZ</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Radulović Zoran</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Radusinović Sanja" data-zvanje="prof. engleskog jezika i književnosti" data-ton="228" data-inicijali="RS" data-trazi="radusinovic sanja prof. engleskog jezika i knjizevnosti">
-        <span class="osoba-slika" style="--ton:228">
-          <span class="osoba-inicijali">RS</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Radusinović Sanja</span>
-          <span class="osoba-uloga">prof. engleskog jezika i književnosti</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Raičević Nikola" data-zvanje="spec. primijenjenog računarstva" data-ton="138" data-inicijali="RN" data-trazi="raicevic nikola spec. primijenjenog racunarstva">
-        <span class="osoba-slika" style="--ton:138">
-          <span class="osoba-inicijali">RN</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Raičević Nikola</span>
-          <span class="osoba-uloga">spec. primijenjenog računarstva</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Rastoder Elida" data-zvanje="prof. engleskog jezika i književnosti" data-ton="257" data-inicijali="RE" data-trazi="rastoder elida prof. engleskog jezika i knjizevnosti">
-        <span class="osoba-slika" style="--ton:257">
-          <span class="osoba-inicijali">RE</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Rastoder Elida</span>
-          <span class="osoba-uloga">prof. engleskog jezika i književnosti</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Rašković Violeta" data-zvanje="dipl. ing. elektrotehnike" data-ton="312" data-inicijali="RV" data-trazi="raskovic violeta dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:312">
-          <span class="osoba-inicijali">RV</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Rašković Violeta</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Roganović Nevenka" data-zvanje="prof. srpskog jezika i književnosti" data-ton="34" data-inicijali="RN" data-trazi="roganovic nevenka prof. srpskog jezika i knjizevnosti">
-        <span class="osoba-slika" style="--ton:34">
-          <span class="osoba-inicijali">RN</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Roganović Nevenka</span>
-          <span class="osoba-uloga">prof. srpskog jezika i književnosti</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Samardžić Rada" data-zvanje="dipl. ing. elektrotehnike" data-ton="348" data-inicijali="SR" data-trazi="samardzic rada dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:348">
-          <span class="osoba-inicijali">SR</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Samardžić Rada</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Sarić Slađana" data-zvanje="spec. primijenjenog računarstva" data-ton="189" data-inicijali="SS" data-trazi="saric sladana spec. primijenjenog racunarstva">
-        <span class="osoba-slika" style="--ton:189">
-          <span class="osoba-inicijali">SS</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Sarić Slađana</span>
-          <span class="osoba-uloga">spec. primijenjenog računarstva</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Selman Šabotić" data-zvanje="prof. fizičke kulture" data-ton="292" data-inicijali="SŠ" data-trazi="selman sabotic prof. fizicke kulture">
-        <span class="osoba-slika" style="--ton:292">
-          <span class="osoba-inicijali">SŠ</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Selman Šabotić</span>
-          <span class="osoba-uloga">prof. fizičke kulture</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Stanišić Milanka" data-zvanje="dipl. matematičar" data-ton="15" data-inicijali="SM" data-trazi="stanisic milanka dipl. matematicar">
-        <span class="osoba-slika" style="--ton:15">
-          <span class="osoba-inicijali">SM</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Stanišić Milanka</span>
-          <span class="osoba-uloga">dipl. matematičar</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Stanišić Radomir" data-zvanje="dipl. ing. elektrotehnike" data-ton="152" data-inicijali="SR" data-trazi="stanisic radomir dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:152">
-          <span class="osoba-inicijali">SR</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Stanišić Radomir</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Stevović Mirjana" data-zvanje="spec. elektronike, telekomunikacija i računara" data-ton="303" data-inicijali="SM" data-trazi="stevovic mirjana spec. elektronike, telekomunikacija i racunara">
-        <span class="osoba-slika" style="--ton:303">
-          <span class="osoba-inicijali">SM</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Stevović Mirjana</span>
-          <span class="osoba-uloga">spec. elektronike, telekomunikacija i računara</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Stojanović Nataša" data-zvanje="spec. crnogorskog jezika i južnoslovenske književnosti" data-ton="250" data-inicijali="SN" data-trazi="stojanovic natasa spec. crnogorskog jezika i juznoslovenske knjizevnosti">
-        <span class="osoba-slika" style="--ton:250">
-          <span class="osoba-inicijali">SN</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Stojanović Nataša</span>
-          <span class="osoba-uloga">spec. crnogorskog jezika i južnoslovenske književnosti</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Tadić Slobodan" data-zvanje="spec. strukovni inženjer elektrotehnike i računarstva" data-ton="89" data-inicijali="TS" data-trazi="tadic slobodan spec. strukovni inzenjer elektrotehnike i racunarstva">
-        <span class="osoba-slika" style="--ton:89">
-          <span class="osoba-inicijali">TS</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Tadić Slobodan</span>
-          <span class="osoba-uloga">spec. strukovni inženjer elektrotehnike i računarstva</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Tasić Gordana" data-zvanje="dipl. ing. elektrotehnike" data-ton="246" data-inicijali="TG" data-trazi="tasic gordana dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:246">
-          <span class="osoba-inicijali">TG</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Tasić Gordana</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Vemić Nada" data-zvanje="dipl.ing.elektrotehnike" data-ton="348" data-inicijali="VN" data-trazi="vemic nada dipl.ing.elektrotehnike">
-        <span class="osoba-slika" style="--ton:348">
-          <span class="osoba-inicijali">VN</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Vemić Nada</span>
-          <span class="osoba-uloga">dipl.ing.elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Vladimir Kovač" data-zvanje="dipl.ing.elektrotehnike" data-ton="236" data-inicijali="VK" data-trazi="vladimir kovac dipl.ing.elektrotehnike">
-        <span class="osoba-slika" style="--ton:236">
-          <span class="osoba-inicijali">VK</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Vladimir Kovač</span>
-          <span class="osoba-uloga">dipl.ing.elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Vojinović Nikolija" data-zvanje="spec. eneretike i automatike" data-ton="184" data-inicijali="VN" data-trazi="vojinovic nikolija spec. eneretike i automatike">
-        <span class="osoba-slika" style="--ton:184">
-          <span class="osoba-inicijali">VN</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Vojinović Nikolija</span>
-          <span class="osoba-uloga">spec. eneretike i automatike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Vratnica Mladen" data-zvanje="dipl. ing. elektrotehnike" data-ton="99" data-inicijali="VM" data-trazi="vratnica mladen dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:99">
-          <span class="osoba-inicijali">VM</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Vratnica Mladen</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Zeković Jelena" data-zvanje="spec. energetike i automatike" data-ton="18" data-inicijali="ZJ" data-trazi="zekovic jelena spec. energetike i automatike">
-        <span class="osoba-slika" style="--ton:18">
-          <span class="osoba-inicijali">ZJ</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Zeković Jelena</span>
-          <span class="osoba-uloga">spec. energetike i automatike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Ćalasan Vesna" data-zvanje="spec. energetike i automatike" data-ton="287" data-inicijali="ĆV" data-trazi="calasan vesna spec. energetike i automatike">
-        <span class="osoba-slika" style="--ton:287">
-          <span class="osoba-inicijali">ĆV</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Ćalasan Vesna</span>
-          <span class="osoba-uloga">spec. energetike i automatike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Čogurić Radmila" data-zvanje="dipl. ing. elektrotehnike" data-ton="301" data-inicijali="ČR" data-trazi="coguric radmila dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:301">
-          <span class="osoba-inicijali">ČR</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Čogurić Radmila</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Đaković Dragan" data-zvanje="prof. istorije i geografije" data-ton="354" data-inicijali="ĐD" data-trazi="dakovic dragan prof. istorije i geografije">
-        <span class="osoba-slika" style="--ton:354">
-          <span class="osoba-inicijali">ĐD</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Đaković Dragan</span>
-          <span class="osoba-uloga">prof. istorije i geografije</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Đaković Persa" data-zvanje="dipl. ing. elektrotehnike" data-ton="2" data-inicijali="ĐP" data-trazi="dakovic persa dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:2">
-          <span class="osoba-inicijali">ĐP</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Đaković Persa</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Đerić Bogdan" data-zvanje="prof. fizičke kulture" data-ton="204" data-inicijali="ĐB" data-trazi="deric bogdan prof. fizicke kulture">
-        <span class="osoba-slika" style="--ton:204">
-          <span class="osoba-inicijali">ĐB</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Đerić Bogdan</span>
-          <span class="osoba-uloga">prof. fizičke kulture</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Španjević Jovana" data-zvanje="spec. engleskog jezika i književnosti" data-ton="143" data-inicijali="ŠJ" data-trazi="spanjevic jovana spec. engleskog jezika i knjizevnosti">
-        <span class="osoba-slika" style="--ton:143">
-          <span class="osoba-inicijali">ŠJ</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Španjević Jovana</span>
-          <span class="osoba-uloga">spec. engleskog jezika i književnosti</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Šuković Biljana" data-zvanje="prof. matematike" data-ton="314" data-inicijali="ŠB" data-trazi="sukovic biljana prof. matematike">
-        <span class="osoba-slika" style="--ton:314">
-          <span class="osoba-inicijali">ŠB</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Šuković Biljana</span>
-          <span class="osoba-uloga">prof. matematike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Šupić Maja" data-zvanje="dipl. ing. elektrotehnike" data-ton="298" data-inicijali="ŠM" data-trazi="supic maja dipl. ing. elektrotehnike">
-        <span class="osoba-slika" style="--ton:298">
-          <span class="osoba-inicijali">ŠM</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Šupić Maja</span>
-          <span class="osoba-uloga">dipl. ing. elektrotehnike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Šuškavčević Bojana" data-zvanje="spec. energetike i automatike" data-ton="39" data-inicijali="ŠB" data-trazi="suskavcevic bojana spec. energetike i automatike">
-        <span class="osoba-slika" style="--ton:39">
-          <span class="osoba-inicijali">ŠB</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Šuškavčević Bojana</span>
-          <span class="osoba-uloga">spec. energetike i automatike</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Šćekić Jelena" data-zvanje="spec. matematike i računarskih nauka" data-ton="164" data-inicijali="ŠJ" data-trazi="scekic jelena spec. matematike i racunarskih nauka">
-        <span class="osoba-slika" style="--ton:164">
-          <span class="osoba-inicijali">ŠJ</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Šćekić Jelena</span>
-          <span class="osoba-uloga">spec. matematike i računarskih nauka</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Šćepanović Suzana" data-zvanje="BSc matematike i računarskih nauka" data-ton="200" data-inicijali="ŠS" data-trazi="scepanovic suzana bsc matematike i racunarskih nauka">
-        <span class="osoba-slika" style="--ton:200">
-          <span class="osoba-inicijali">ŠS</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Šćepanović Suzana</span>
-          <span class="osoba-uloga">BSc matematike i računarskih nauka</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Žeželj Marija" data-zvanje="spec. informacionih tehnologija" data-ton="317" data-inicijali="ŽM" data-trazi="zezelj marija spec. informacionih tehnologija">
-        <span class="osoba-slika" style="--ton:317">
-          <span class="osoba-inicijali">ŽM</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Žeželj Marija</span>
-          <span class="osoba-uloga">spec. informacionih tehnologija</span>
-        </span>
-      </button>
-    </div>
-  </div>
-</section>
 
-<section class="blk" id="asistenti">
-  <div class="shell">
-    <div class="rise"><h2>Asistenti u nastavi</h2></div>
-    <div class="ljudi rise-kids">
-      <button class="osoba" data-ime="Dragović Milena" data-zvanje="spec. srpskog jezika i južnoslovenske književnosti" data-ton="239" data-inicijali="DM" data-trazi="dragovic milena spec. srpskog jezika i juznoslovenske knjizevnosti">
-        <span class="osoba-slika" style="--ton:239">
-          <span class="osoba-inicijali">DM</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Dragović Milena</span>
-          <span class="osoba-uloga">spec. srpskog jezika i južnoslovenske književnosti</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Gjokaj Lindita" data-zvanje="SSS" data-ton="19" data-inicijali="GL" data-trazi="gjokaj lindita sss">
-        <span class="osoba-slika" style="--ton:19">
-          <span class="osoba-inicijali">GL</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Gjokaj Lindita</span>
-          <span class="osoba-uloga">SSS</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Lakušić Ana" data-zvanje="SSS" data-ton="92" data-inicijali="LA" data-trazi="lakusic ana sss">
-        <span class="osoba-slika" style="--ton:92">
-          <span class="osoba-inicijali">LA</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Lakušić Ana</span>
-          <span class="osoba-uloga">SSS</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Stijepović Irena" data-zvanje="spec. pedagogije" data-ton="97" data-inicijali="SI" data-trazi="stijepovic irena spec. pedagogije">
-        <span class="osoba-slika" style="--ton:97">
-          <span class="osoba-inicijali">SI</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Stijepović Irena</span>
-          <span class="osoba-uloga">spec. pedagogije</span>
-        </span>
-      </button>
+    <div class="natpis rise">
+      <span class="natpis-broj" id="natpisBroj">01 / 100</span>
+      <span>
+        <span class="natpis-ime" id="natpisIme">Marija Babović</span><br>
+        <span class="natpis-uloga" id="natpisUloga">v.d. direktora škole</span>
+      </span>
+      <button class="btn btn-ink" id="dugmeBio" type="button">Biografija</button>
     </div>
-  </div>
-</section>
+    <p class="uputa rise">Prevuci mišem ili prstom lijevo i desno. Strelice rade kad je spisak označen.</p>
 
-<section class="blk blk-white" id="pomocno">
-  <div class="shell">
-    <div class="rise"><h2>Pomoćno osoblje</h2></div>
-    <div class="ljudi rise-kids">
-      <button class="osoba" data-ime="Srdanović Ivica" data-zvanje="Domar" data-ton="305" data-inicijali="SI" data-trazi="srdanovic ivica domar">
-        <span class="osoba-slika" style="--ton:305">
-          <span class="osoba-inicijali">SI</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Srdanović Ivica</span>
-          <span class="osoba-uloga">Domar</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Vujičić Dragoslav" data-zvanje="Domar-ložač" data-ton="94" data-inicijali="VD" data-trazi="vujicic dragoslav domar-lozac">
-        <span class="osoba-slika" style="--ton:94">
-          <span class="osoba-inicijali">VD</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Vujičić Dragoslav</span>
-          <span class="osoba-uloga">Domar-ložač</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Bošković Jelenka" data-zvanje="Radnica na održavanju čistoće" data-ton="4" data-inicijali="BJ" data-trazi="boskovic jelenka radnica na odrzavanju cistoce">
-        <span class="osoba-slika" style="--ton:4">
-          <span class="osoba-inicijali">BJ</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Bošković Jelenka</span>
-          <span class="osoba-uloga">Radnica na održavanju čistoće</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Ćurćić Ljubinka" data-zvanje="Radnica na održavanju čistoće" data-ton="92" data-inicijali="ĆL" data-trazi="curcic ljubinka radnica na odrzavanju cistoce">
-        <span class="osoba-slika" style="--ton:92">
-          <span class="osoba-inicijali">ĆL</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Ćurćić Ljubinka</span>
-          <span class="osoba-uloga">Radnica na održavanju čistoće</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Ivanović Mladenka" data-zvanje="Radnica na održavanju čistoće" data-ton="34" data-inicijali="IM" data-trazi="ivanovic mladenka radnica na odrzavanju cistoce">
-        <span class="osoba-slika" style="--ton:34">
-          <span class="osoba-inicijali">IM</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Ivanović Mladenka</span>
-          <span class="osoba-uloga">Radnica na održavanju čistoće</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Jovanović Snežana" data-zvanje="Radnica na održavanju čistoće" data-ton="219" data-inicijali="JS" data-trazi="jovanovic snezana radnica na odrzavanju cistoce">
-        <span class="osoba-slika" style="--ton:219">
-          <span class="osoba-inicijali">JS</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Jovanović Snežana</span>
-          <span class="osoba-uloga">Radnica na održavanju čistoće</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Krstajić Svetlana" data-zvanje="Radnica na održavanju čistoće" data-ton="43" data-inicijali="KS" data-trazi="krstajic svetlana radnica na odrzavanju cistoce">
-        <span class="osoba-slika" style="--ton:43">
-          <span class="osoba-inicijali">KS</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Krstajić Svetlana</span>
-          <span class="osoba-uloga">Radnica na održavanju čistoće</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Ljajčaj Ana" data-zvanje="Radnica na održavanju čistoće" data-ton="11" data-inicijali="LA" data-trazi="ljajcaj ana radnica na odrzavanju cistoce">
-        <span class="osoba-slika" style="--ton:11">
-          <span class="osoba-inicijali">LA</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Ljajčaj Ana</span>
-          <span class="osoba-uloga">Radnica na održavanju čistoće</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Marković Veselinka" data-zvanje="Radnica na održavanju čistoće" data-ton="24" data-inicijali="MV" data-trazi="markovic veselinka radnica na odrzavanju cistoce">
-        <span class="osoba-slika" style="--ton:24">
-          <span class="osoba-inicijali">MV</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Marković Veselinka</span>
-          <span class="osoba-uloga">Radnica na održavanju čistoće</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Obradović Radmila" data-zvanje="Radnica na održavanju čistoće" data-ton="45" data-inicijali="OR" data-trazi="obradovic radmila radnica na odrzavanju cistoce">
-        <span class="osoba-slika" style="--ton:45">
-          <span class="osoba-inicijali">OR</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Obradović Radmila</span>
-          <span class="osoba-uloga">Radnica na održavanju čistoće</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Šćekić Darka" data-zvanje="Radnica na održavanju čistoće" data-ton="6" data-inicijali="ŠD" data-trazi="scekic darka radnica na odrzavanju cistoce">
-        <span class="osoba-slika" style="--ton:6">
-          <span class="osoba-inicijali">ŠD</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Šćekić Darka</span>
-          <span class="osoba-uloga">Radnica na održavanju čistoće</span>
-        </span>
-      </button>
-      <button class="osoba" data-ime="Vlahović Marijana" data-zvanje="Radnica na održavanju čistoće" data-ton="67" data-inicijali="VM" data-trazi="vlahovic marijana radnica na odrzavanju cistoce">
-        <span class="osoba-slika" style="--ton:67">
-          <span class="osoba-inicijali">VM</span>
-        </span>
-        <span class="osoba-telo">
-          <span class="osoba-bio prazna">Biografija u pripremi.</span>
-          <span class="osoba-ime">Vlahović Marijana</span>
-          <span class="osoba-uloga">Radnica na održavanju čistoće</span>
-        </span>
-      </button>
-    </div>
-    <p class="tail">Spisak je iz dokumenta <a href="https://elektropg.online/ets/course/view.php?id=1772">Spisak zaposlenih sa zvanjima</a>.</p>
+    <p class="nista" id="prazno" hidden>Niko ne odgovara pretrazi.</p>
   </div>
 </section>
 
 <div class="zavjesa" id="zavjesa" hidden>
-  <div class="zavjesa-karta" role="dialog" aria-modal="true" aria-labelledby="zime">
-    <button class="zavjesa-x" id="zatvori" aria-label="Zatvori">&times;</button>
-    <div class="zavjesa-slika" id="zslika">
-      <span class="osoba-inicijali" id="zinicijali"></span>
-    </div>
+  <div class="zavjesa-karta" role="dialog" aria-modal="true" aria-labelledby="zavjesaIme">
+    <button class="zavjesa-x" id="zavjesaX" type="button" aria-label="Zatvori">&times;</button>
+    <span class="zavjesa-slika" id="zavjesaSlika">
+      <span class="osoba-inicijali" id="zavjesaInicijali"></span>
+    </span>
     <div class="zavjesa-telo">
-      <h3 id="zime"></h3>
-      <span class="zavjesa-uloga" id="zuloga"></span>
-      <p id="zbio"></p>
+      <h3 id="zavjesaIme"></h3>
+      <span class="zavjesa-uloga" id="zavjesaUloga"></span>
+      <p class="prazna" id="zavjesaTekst"></p>
     </div>
   </div>
 </div>
 
+<script>
+(function () {
+  const polje = document.getElementById('trazi');
+  const brojac = document.getElementById('brojac');
+  const prazno = document.getElementById('prazno');
+  const karte = [...document.querySelectorAll('.karta')];
+  const grupe = document.getElementById('grupe');
+  let grupa = 'sve';
+
+  function bezKvaka(t) {
+    return t.replace(/đ/g, 'd').replace(/Đ/g, 'D')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  }
+
+  function filtriraj() {
+    const upit = bezKvaka(polje.value.trim());
+    const nadjene = karte.filter(k =>
+      (grupa === 'sve' || k.dataset.grupa === grupa) &&
+      (!upit || k.dataset.trazi.includes(upit)));
+    brojac.textContent = nadjene.length + ' od ' + karte.length;
+    prazno.hidden = nadjene.length > 0;
+    if (window.vrteskaFiltriraj) window.vrteskaFiltriraj(nadjene);
+  }
+
+  polje.addEventListener('input', filtriraj);
+  grupe.addEventListener('click', ev => {
+    const t = ev.target.closest('.tab');
+    if (!t) return;
+    grupe.querySelectorAll('.tab').forEach(x => x.classList.remove('on'));
+    t.classList.add('on');
+    grupa = t.dataset.grupa;
+    filtriraj();
+  });
+
+  const zavjesa = document.getElementById('zavjesa');
+  const zIme = document.getElementById('zavjesaIme');
+  const zUloga = document.getElementById('zavjesaUloga');
+  const zTekst = document.getElementById('zavjesaTekst');
+  const zSlika = document.getElementById('zavjesaSlika');
+  const zIni = document.getElementById('zavjesaInicijali');
+  let vratiFokus = null;
+
+  window.otvoriBio = function (karta) {
+    vratiFokus = karta;
+    zIme.textContent = karta.dataset.ime;
+    zUloga.textContent = karta.dataset.zvanje;
+    zTekst.textContent = 'Biografija još nije dostavljena. Škola je unosi kroz admin panel.';
+    zIni.textContent = karta.querySelector('.portret b').textContent;
+    zSlika.style.setProperty('--ton', karta.dataset.ton);
+    zavjesa.hidden = false;
+    document.body.style.overflow = 'hidden';
+    document.getElementById('zavjesaX').focus();
+  };
+
+  function zatvori() {
+    zavjesa.hidden = true;
+    document.body.style.overflow = '';
+    if (vratiFokus) vratiFokus.focus();
+  }
+
+  document.getElementById('zavjesaX').addEventListener('click', zatvori);
+  zavjesa.addEventListener('click', ev => { if (ev.target === zavjesa) zatvori(); });
+  document.addEventListener('keydown', ev => {
+    if (ev.key === 'Escape' && !zavjesa.hidden) zatvori();
+  });
+
+  document.getElementById('dugmeBio').addEventListener('click', () => {
+    const aktivna = document.querySelector('.karta[aria-current="true"]');
+    if (aktivna) window.otvoriBio(aktivna);
+  });
+})();
+</script>
 <footer class="base">
   <div class="shell">
     <div class="base-grid">
@@ -1221,77 +1386,6 @@ if (smireno || !('IntersectionObserver' in window)) {
 
   zaDizanje.forEach(el => oko.observe(el));
 }
-
-const trazi = document.getElementById('trazi');
-const spisak = document.getElementById('spisakNastavnika');
-const brojac = document.getElementById('brojac');
-const nista = document.getElementById('nista');
-const sviNastavnici = [...spisak.children];
-
-function prebroj(koliko) {
-  brojac.textContent = koliko + ' od ' + sviNastavnici.length;
-}
-
-prebroj(sviNastavnici.length);
-
-trazi.addEventListener('input', () => {
-  const upit = trazi.value
-    .toLowerCase()
-    .replace(/đ/g, 'd')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .trim();
-
-  let vidljivih = 0;
-  sviNastavnici.forEach(k => {
-    const ima = !upit || k.dataset.trazi.includes(upit);
-    k.hidden = !ima;
-    if (ima) vidljivih++;
-  });
-
-  prebroj(vidljivih);
-  nista.hidden = vidljivih > 0;
-});
-
-const zavjesa = document.getElementById('zavjesa');
-const zslika = document.getElementById('zslika');
-const zinicijali = document.getElementById('zinicijali');
-const zime = document.getElementById('zime');
-const zuloga = document.getElementById('zuloga');
-const zbio = document.getElementById('zbio');
-let vracaFokus = null;
-
-function otvori(karta) {
-  vracaFokus = karta;
-  zime.textContent = karta.dataset.ime;
-  zuloga.textContent = karta.dataset.zvanje;
-  zinicijali.textContent = karta.dataset.inicijali;
-  zslika.style.setProperty('--ton', karta.dataset.ton);
-
-  const bio = karta.dataset.bio;
-  zbio.textContent = bio || 'Biografija još nije upisana. Dodaje se kroz admin panel.';
-  zbio.classList.toggle('prazna', !bio);
-
-  zavjesa.hidden = false;
-  document.body.style.overflow = 'hidden';
-  document.getElementById('zatvori').focus();
-}
-
-function zatvoriKartu() {
-  zavjesa.hidden = true;
-  document.body.style.overflow = '';
-  if (vracaFokus) vracaFokus.focus();
-}
-
-document.querySelectorAll('.osoba').forEach(k => {
-  k.addEventListener('click', () => otvori(k));
-});
-
-document.getElementById('zatvori').addEventListener('click', zatvoriKartu);
-zavjesa.addEventListener('click', e => { if (e.target === zavjesa) zatvoriKartu(); });
-window.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && !zavjesa.hidden) zatvoriKartu();
-});
 </script>
 
 </body>
