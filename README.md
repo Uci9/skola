@@ -22,6 +22,11 @@ poslodavci.html       partneri i preduzeća
 novosti.html          obavještenja
 kalkulator.html       bodovi za upis u I razred
 assets/styles.css     stilovi za sve strane
+assets/blok.js        skicen-blok na početnoj (O nama)
+assets/mek.js         laptop u kontaktu
+assets/paralaks.js    slike koje se slažu na skrol (kutak učenika)
+assets/traka.js       traka slika koja ubrzava sa skrolom (kutak, desktop)
+assets/ispis.js       tekst koji se ispisuje riječ po riječ
 assets/img/           grb + slika zgrade
 assets/kadrovi/s/     141 slika za telefon, 720px (4,2 MB)
 assets/kadrovi/l/     141 slika za desktop, 1200px (7,5 MB)
@@ -70,13 +75,30 @@ ffmpeg -i ulaz.mp4 -vf "scale=720:-2"  -q:v 13 assets/kadrovi/s/k%03d.jpg
 ffmpeg -i ulaz.mp4 -vf "scale=1200:-2" -q:v 16 assets/kadrovi/l/k%03d.jpg
 ```
 
+## O nama
+
+Umjesto slike koja se širi, tu sada stoji skicen-blok. Strane se crtaju na
+canvas u pregledaču — lijeva strana tekst, desna fotografija — pa se slika
+strane koristi kao pozadina pojaseva od kojih je savijeni list sastavljen.
+List se prevlači mišem ili prstom, knjiga se naginje ka kursoru, ima zum i
+lupu koja se vuče po strani. Na telefonu nema lupe, a tekst tekuće strane
+stoji ispod knjige da se može pročitati.
+
+Ako canvas ne prođe, umjesto bloka se pokaže običan tekst (`#blok-rezerva`).
+
+## Kontakt
+
+Sekcija „Gdje smo“ je laptop koji se otvara na skrol — ekran izlazi iz
+kućišta dok se strana pomjera. Ispod stoji tabela sa podacima i dugme za
+mapu.
+
 ## Šta još fali
 
 - biografije profesora — na karticama za sada piše „u pripremi“
 - fotografije za kutak učenika — stoje prazna mjesta
 - spisak preduzeća za praktičnu nastavu — vodi ga organizator praktičnog obrazovanja
 - vijesti u novosti.html — dopisuju se ručno
-- mapa u kontaktu — treba ubaciti iframe
+- slike u traci na kutku su privremene, sa Unsplasha
 
 Uvodna zavjesa se pušta jednom po sesiji (sessionStorage). Za ponovno
 gledanje dodaj `?intro=1` na adresu.

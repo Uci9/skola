@@ -8,14 +8,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=9b85f237">
+<link rel="stylesheet" href="assets/styles.css?v=88daa7fd">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
-<script type="module" src="assets/nalog.js?v=2089bd51"></script>
-<script src="assets/tekst.js?v=7169d40e" defer></script>
-<script src="assets/leca.js?v=f8105ff7" defer></script>
-<script src="assets/vrteska.js?v=5cbfebc7" defer></script>
-<script src="assets/meni.js?v=b05be741" defer></script>
-<script src="assets/mreza.js?v=5f304827" defer></script>
+<script type="module" src="assets/nalog.js?v=d877f992"></script>
+<script src="assets/tekst.js?v=34732f59" defer></script>
+<script src="assets/leca.js?v=926f53a3" defer></script>
+<script src="assets/vrteska.js?v=1db7c64b" defer></script>
+<script src="assets/meni.js?v=966ce840" defer></script>
+<script src="assets/mreza.js?v=93d6fcaf" defer></script>
+<script src="assets/paralaks.js?v=c23787b3" defer></script>
+<script src="assets/traka.js?v=565f9978" defer></script>
 </head>
 <body>
 <header class="head">
@@ -28,7 +30,7 @@
       <nav class="menu" id="meni">
         <div class="stavka" data-meni="skola">
           <button type="button" class="stavka-tipka" aria-expanded="false" aria-controls="panel-skola">Škola</button>
-          <div class="panel" id="panel-skola">
+          <div class="meni-panel" id="panel-skola">
             <div class="panel-karta">
             <a href="index.html#o-skoli"><b>O nama</b><span>Šta smo i otkud 1946.</span></a>
             <a href="index.html#programi"><b>Obrazovni programi</b><span>Šest smjerova, IV i III stepen.</span></a>
@@ -39,7 +41,7 @@
         </div>
         <div class="stavka" data-meni="upis">
           <button type="button" class="stavka-tipka" aria-expanded="false" aria-controls="panel-upis">Upis</button>
-          <div class="panel" id="panel-upis">
+          <div class="meni-panel" id="panel-upis">
             <div class="panel-karta">
             <a href="index.html#upis"><b>Kako se upisuje</b><span>Četiri koraka do prijave.</span></a>
             <a href="kalkulator.html"><b>Kalkulator poena</b><span>Provjeri gdje stojiš.</span></a>
@@ -49,7 +51,7 @@
         </div>
         <div class="stavka" data-meni="ucenici">
           <button type="button" class="stavka-tipka" aria-expanded="false" aria-controls="panel-ucenici">Učenici</button>
-          <div class="panel" id="panel-ucenici">
+          <div class="meni-panel" id="panel-ucenici">
             <div class="panel-karta">
             <a href="kutak-ucenika.html"><b>Kutak učenika</b><span>Trenuci van rasporeda časova.</span></a>
             <a href="novosti.html"><b>Novosti</b><span>Obavještenja i rokovi.</span></a>
@@ -70,6 +72,84 @@
   <div class="shell">
     <h1>Ono što se <span class="it">pamti</span></h1>
     <p>Takmičenja, radionice, ekskurzije i svečanosti — <span class="isticanje" data-akcija="oboji" data-boja="#3FCEB4">đački život van rasporeda časova</span>.</p>
+  </div>
+</section>
+
+<section class="paralaks" id="paralaks">
+  <div class="shell">
+    <div class="paralaks-uvod">
+      <h2>Godina koja se <span class="it">ne zaboravlja</span></h2>
+      <p>Sve što ostane poslije zvona — takmičenja, radionice, ekskurzije i svečanosti.
+         Skroluj i slike se slože.</p>
+    </div>
+  </div>
+  <div class="paralaks-ploca">
+    <div class="paralaks-red" data-smjer="1">
+      <figure class="paralaks-karta">
+        <img src="assets/kadrovi/l/k004.jpg" alt="Dvorište" loading="lazy" width="1200" height="670">
+        <figcaption>Dvorište</figcaption>
+      </figure>
+      <figure class="paralaks-karta">
+        <img src="assets/kadrovi/l/k012.jpg" alt="Kapija" loading="lazy" width="1200" height="670">
+        <figcaption>Kapija</figcaption>
+      </figure>
+      <figure class="paralaks-karta">
+        <img src="assets/kadrovi/l/k020.jpg" alt="Staza" loading="lazy" width="1200" height="670">
+        <figcaption>Staza</figcaption>
+      </figure>
+      <figure class="paralaks-karta">
+        <img src="assets/kadrovi/l/k030.jpg" alt="Prilaz" loading="lazy" width="1200" height="670">
+        <figcaption>Prilaz</figcaption>
+      </figure>
+      <figure class="paralaks-karta">
+        <img src="assets/kadrovi/l/k038.jpg" alt="Jutro pred zvono" loading="lazy" width="1200" height="670">
+        <figcaption>Jutro pred zvono</figcaption>
+      </figure>
+    </div>
+    <div class="paralaks-red" data-smjer="-1">
+      <figure class="paralaks-karta">
+        <img src="assets/kadrovi/l/k046.jpg" alt="Klupe" loading="lazy" width="1200" height="670">
+        <figcaption>Klupe</figcaption>
+      </figure>
+      <figure class="paralaks-karta">
+        <img src="assets/kadrovi/l/k052.jpg" alt="Zgrada" loading="lazy" width="1200" height="670">
+        <figcaption>Zgrada</figcaption>
+      </figure>
+      <figure class="paralaks-karta">
+        <img src="assets/kadrovi/l/k060.jpg" alt="Fasada" loading="lazy" width="1200" height="670">
+        <figcaption>Fasada</figcaption>
+      </figure>
+      <figure class="paralaks-karta">
+        <img src="assets/kadrovi/l/k068.jpg" alt="Trijem" loading="lazy" width="1200" height="670">
+        <figcaption>Trijem</figcaption>
+      </figure>
+      <figure class="paralaks-karta">
+        <img src="assets/kadrovi/l/k078.jpg" alt="Nadstrešnica" loading="lazy" width="1200" height="670">
+        <figcaption>Nadstrešnica</figcaption>
+      </figure>
+    </div>
+    <div class="paralaks-red" data-smjer="1">
+      <figure class="paralaks-karta">
+        <img src="assets/kadrovi/l/k086.jpg" alt="Poslije časova" loading="lazy" width="1200" height="670">
+        <figcaption>Poslije časova</figcaption>
+      </figure>
+      <figure class="paralaks-karta">
+        <img src="assets/kadrovi/l/k094.jpg" alt="Prozori" loading="lazy" width="1200" height="670">
+        <figcaption>Prozori</figcaption>
+      </figure>
+      <figure class="paralaks-karta">
+        <img src="assets/kadrovi/l/k104.jpg" alt="Ulaz" loading="lazy" width="1200" height="670">
+        <figcaption>Ulaz</figcaption>
+      </figure>
+      <figure class="paralaks-karta">
+        <img src="assets/kadrovi/l/k120.jpg" alt="Hodnik do vrata" loading="lazy" width="1200" height="670">
+        <figcaption>Hodnik do vrata</figcaption>
+      </figure>
+      <figure class="paralaks-karta">
+        <img src="assets/kadrovi/l/k138.jpg" alt="Tabla" loading="lazy" width="1200" height="670">
+        <figcaption>Tabla</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 
@@ -130,6 +210,16 @@
     </div>
     <div class="zastor-mreze" id="zastor-mreze" hidden></div>
   </div>
+</section>
+
+<section class="blk blk-tight">
+  <div class="shell">
+    <div class="rise">
+      <h2>Trenuci u <span class="it">prolazu</span></h2>
+      <p class="lede">Traka ide sama, a brže kad skroluješ.</p>
+    </div>
+  </div>
+  <div class="traka" id="traka" hidden aria-hidden="true"></div>
 </section>
 
 <section class="blk blk-white">

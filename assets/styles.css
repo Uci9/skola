@@ -325,13 +325,6 @@ a.tile:hover .tile-go, a.tile:hover .tile-name { color: var(--cobalt); }
 .info a { color: var(--white); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.4); }
 .info a:hover { color: var(--tirkiz-svijetli); border-color: var(--tirkiz-svijetli); }
 
-.mapbox {
-  border-radius: var(--r); background: rgba(255,255,255,.07);
-  border: 1px dashed rgba(255,255,255,.24);
-  min-height: 340px; display: grid; place-items: center;
-  font-size: .95rem; color: var(--celik-svijetli);
-}
-
 .crown { padding: 92px 0 84px; }
 .crown h1 { max-width: 16ch; margin-bottom: 20px; }
 .crown p { font-size: 1.14rem; max-width: 52ch; margin: 0; }
@@ -613,7 +606,6 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
 
   .info th { width: 104px; font-size: .84rem; }
   .info th, .info td { padding: 11px 0; }
-  .mapbox { min-height: 200px; }
 
   .f2, .f3 { grid-template-columns: 1fr; }
   .fset { margin-bottom: 30px; }
@@ -770,85 +762,6 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
   .admin-radnje { width: 100%; }
   .tabovi { gap: 5px; }
   .tabovi button { padding: 9px 14px; font-size: .86rem; }
-}
-
-.sirenje { position: relative; height: 260vh; background: var(--ink); }
-.sirenje-scena {
-  position: sticky; top: 0;
-  height: 100vh; height: 100lvh;
-  overflow: hidden;
-  display: grid; place-items: center;
-}
-.sirenje-pozadina {
-  position: absolute; inset: 0; z-index: 0;
-  background: linear-gradient(150deg, var(--cobalt) 0%, #0D3268 48%, var(--ink) 100%);
-}
-.sirenje-okvir {
-  position: relative; z-index: 1;
-  width: var(--sw, 300px);
-  height: var(--sh, 400px);
-  max-width: 95vw; max-height: 85vh;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 24px 70px rgba(0,0,0,.45);
-}
-.sirenje-okvir img { width: 100%; height: 100%; object-fit: cover; }
-.sirenje-okvir::after {
-  content: ""; position: absolute; inset: 0;
-  background: rgba(8,11,17,var(--stamna, .5));
-}
-.sirenje-naslov {
-  position: absolute; z-index: 2; inset: 0;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 2px; pointer-events: none; text-align: center;
-  opacity: var(--svidljivo, 1);
-}
-.sirenje-naslov b {
-  display: block;
-  font-family: var(--grot); font-weight: 800;
-  font-size: clamp(2.2rem, 6vw, 4.4rem);
-  letter-spacing: -.04em; line-height: 1;
-  color: var(--white);
-  text-shadow: 0 4px 30px rgba(8,11,17,.85), 0 1px 3px rgba(8,11,17,.6);
-}
-.sirenje-naslov b:first-child { transform: translateX(calc(-1 * var(--spomak, 0vw))); }
-.sirenje-naslov b:last-child { transform: translateX(var(--spomak, 0vw)); }
-.sirenje-uz {
-  position: absolute; z-index: 2; left: 0; right: 0; bottom: 8vh;
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  pointer-events: none; opacity: var(--svidljivo, 1);
-}
-.sirenje-uz span {
-  font-size: .96rem; color: var(--tirkiz-svijetli); font-weight: 600;
-  text-shadow: 0 2px 18px rgba(8,11,17,.8);
-}
-.sirenje-uz small {
-  font-size: .84rem; color: #CBD3DF;
-  text-shadow: 0 2px 18px rgba(8,11,17,.8);
-}
-.sirenje-sadrzaj {
-  background: var(--ink);
-  padding: 92px 0 108px;
-}
-.sirenje-sadrzaj h2, .sirenje-sadrzaj h3 { color: var(--white); }
-.sirenje-sadrzaj p { color: var(--celik-svijetli); }
-
-@media (max-width: 820px) {
-  .sirenje { height: 220vh; }
-  .sirenje-okvir { border-radius: 14px; }
-  .sirenje-naslov b { font-size: clamp(1.8rem, 9vw, 2.6rem); }
-  .sirenje-uz { bottom: 6vh; }
-  .sirenje-uz span { font-size: .88rem; }
-  .sirenje-sadrzaj { padding: 54px 0 60px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .sirenje { height: auto; }
-  .sirenje-scena { position: static; height: auto; padding: 60px 0; }
-  .sirenje-okvir { width: min(95vw, 900px); height: auto; aspect-ratio: 16/9; max-height: none; }
-  .sirenje-naslov { position: static; margin-top: 26px; mix-blend-mode: normal; }
-  .sirenje-naslov b { transform: none; }
-  .sirenje-uz { position: static; margin-top: 14px; }
-  .sirenje-uz span, .sirenje-uz small { transform: none; }
 }
 
 .ucitavanje { display: none; }
@@ -1236,7 +1149,7 @@ html.ucitava, html.ucitava body { overflow: hidden; }
 .stavka > button:hover { background: var(--paper); }
 .stavka > button.on { background: var(--ink); color: var(--white); }
 
-.panel {
+.meni-panel {
   position: absolute; top: calc(100% + 1.1rem); left: 50%;
   padding-top: 14px;
   opacity: 0; visibility: hidden;
@@ -1244,7 +1157,7 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   transform-origin: top center;
   transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
 }
-.stavka.otvorena .panel {
+.stavka.otvorena .meni-panel {
   opacity: 1; visibility: visible;
   transform: translateX(-50%) scale(1) translateY(0);
   transition: opacity .26s ease,
@@ -1276,7 +1189,7 @@ html.ucitava, html.ucitava body { overflow: hidden; }
 @media (max-width: 900px) {
   .stavka { display: contents; }
   .stavka > button { display: none; }
-  .panel {
+  .meni-panel {
     position: static; padding: 0; opacity: 1; visibility: visible;
     transform: none; transition: none; display: contents;
   }
@@ -1290,7 +1203,7 @@ html.ucitava, html.ucitava body { overflow: hidden; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .stavka.otvorena .panel { transition: opacity .1s; }
+  .stavka.otvorena .meni-panel { transition: opacity .1s; }
 }
 
 .mreza {
@@ -1364,3 +1277,492 @@ html.ucitava, html.ucitava body { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .plocica, .plocica-tama, .plocica-tekst { transition: none; }
 }
+
+.paralaks {
+  position: relative; height: 280vh;
+  padding: 96px 0 0; overflow: hidden;
+  background: var(--ink); color: var(--celik-svijetli);
+  perspective: 1000px;
+}
+.paralaks-uvod { position: relative; z-index: 2; max-width: 780px; }
+.paralaks-uvod h2 { color: var(--white); }
+.paralaks-uvod p { font-size: 1.12rem; max-width: 52ch; margin: 0; }
+.paralaks-ploca {
+  margin-top: clamp(70px, 12vh, 170px);
+  opacity: .2; will-change: transform, opacity;
+  transform: rotateX(15deg) rotateZ(20deg) translateY(-700px);
+}
+.paralaks-red {
+  display: flex; gap: 80px; margin-bottom: 80px;
+  will-change: transform;
+}
+.paralaks-red[data-smjer="1"] { flex-direction: row-reverse; }
+.paralaks-karta {
+  position: relative; flex: none; margin: 0;
+  width: 480px; height: 384px; overflow: hidden;
+  border-radius: var(--r-sm); background: #10192B;
+  transition: transform .3s cubic-bezier(.2,.8,.3,1), box-shadow .3s;
+}
+.paralaks-karta:hover { transform: translateY(-20px); box-shadow: 0 30px 60px rgba(0,0,0,.5); }
+.paralaks-karta img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: left top;
+}
+.paralaks-karta figcaption {
+  position: absolute; inset: 0; z-index: 1;
+  display: flex; align-items: flex-end;
+  padding: 20px; opacity: 0;
+  background: linear-gradient(rgba(11,18,32,0) 42%, rgba(11,18,32,.82));
+  color: var(--white);
+  font-family: var(--grot); font-weight: 600; font-size: 1.12rem; letter-spacing: -.02em;
+  transition: opacity .3s ease;
+}
+.paralaks-karta:hover figcaption, .paralaks-karta:focus-within figcaption { opacity: 1; }
+
+.traka { position: relative; padding: 26px 0; overflow: hidden; }
+.traka-red { padding: 16px 0; overflow: hidden; }
+.traka-vrpca { display: flex; width: max-content; will-change: transform; }
+.traka-skup { display: flex; flex: none; }
+.traka-slika {
+  flex: none; width: 240px; height: 160px; margin: 0 16px;
+  border-radius: 8px; object-fit: cover;
+  box-shadow: 0 1px 2px rgba(15,20,25,.08);
+}
+.traka::before, .traka::after {
+  content: ""; position: absolute; top: 0; bottom: 0; z-index: 2;
+  width: 25%; pointer-events: none;
+}
+.traka::before { left: 0; background: linear-gradient(90deg, var(--paper), rgba(250,248,243,0)); }
+.traka::after { right: 0; background: linear-gradient(270deg, var(--paper), rgba(250,248,243,0)); }
+
+@media (max-width: 820px) {
+  .paralaks { height: 180vh; padding: 56px 0 0; }
+  .paralaks-uvod p { font-size: 1rem; }
+  .paralaks-ploca { margin-top: 56px; }
+  .paralaks-red { gap: 26px; margin-bottom: 26px; }
+  .paralaks-karta { width: 250px; height: 200px; border-radius: 14px; }
+  .paralaks-karta figcaption { padding: 14px; font-size: .95rem; opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paralaks { height: auto; padding-bottom: 60px; }
+  .paralaks-ploca { opacity: 1; transform: none; }
+  .paralaks-red { overflow-x: auto; }
+  .paralaks-karta:hover { transform: none; }
+}
+
+.blok-odjeljak {
+  position: relative; overflow: hidden;
+  padding: 104px 0 92px;
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(24,87,188,.07), rgba(250,248,243,0) 60%),
+    var(--paper);
+}
+.blok-uvod { max-width: 760px; margin-bottom: clamp(34px, 5vh, 58px); }
+.blok-tekst { font-size: 1.12rem; max-width: 58ch; }
+.blok-omot {
+  position: relative; z-index: 2;
+  display: grid; justify-items: center; gap: 18px; width: 100%;
+  user-select: none; -webkit-user-select: none;
+}
+.blok-omot img { -webkit-user-drag: none; }
+.blok-scena {
+  position: relative; width: 100%;
+  display: flex; align-items: center; justify-content: center;
+  touch-action: pan-y;
+}
+.blok-strelica {
+  flex: none; z-index: 8;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 6px 2px; border: 0; background: transparent;
+  color: rgba(11,18,32,.32); cursor: pointer;
+  transition: color .2s; -webkit-tap-highlight-color: transparent;
+}
+.blok-strelica:hover { color: var(--ink); }
+.blok-3d {
+  position: relative; flex: 1 1; min-width: 0; max-width: 900px;
+  perspective: 1750px; perspective-origin: 50% 46%;
+}
+.blok-nagib {
+  position: relative; transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--zum, 1));
+  will-change: transform;
+}
+.blok-knjiga {
+  position: relative; z-index: 1;
+  width: 100%; aspect-ratio: 1760 / 1240;
+  transform-style: preserve-3d;
+}
+.blok-sjena { position: absolute; z-index: 0; pointer-events: none; }
+.blok-sjena.ambijent {
+  left: 5%; right: 5%; top: 27%; bottom: 2%;
+  background: radial-gradient(50% 50% at 50% 58%,
+    rgba(58,44,26,.34) 0%, rgba(58,44,26,.19) 40%, rgba(58,44,26,0) 74%);
+  filter: blur(26px);
+  opacity: calc(1 - var(--sjena, 0) * .42);
+}
+.blok-sjena.dodir {
+  left: 9%; right: 9%; top: 62%; bottom: 10%;
+  background: radial-gradient(50% 44% at 50% 42%,
+    rgba(44,32,14,.40) 0%, rgba(44,32,14,.17) 48%, rgba(44,32,14,0) 78%);
+  filter: blur(11px);
+  opacity: calc(1 - var(--sjena, 0) * .5);
+}
+.blok-sjena.vlas {
+  left: 12%; right: 12%; top: 70%; bottom: 17%;
+  background: radial-gradient(50% 52% at 50% 40%,
+    rgba(40,28,10,.34) 0%, rgba(40,28,10,0) 76%);
+  filter: blur(4px);
+  opacity: calc(1 - var(--sjena, 0) * .62);
+}
+.blok-cijela { position: absolute; inset: 0; }
+.blok-cijela img { display: block; width: 100%; height: auto; }
+.blok-pola { position: absolute; top: 0; bottom: 0; width: 50%; overflow-x: clip; overflow-y: visible; }
+.blok-pola.lijevo { left: 0; }
+.blok-pola.desno { left: 50%; }
+.blok-pola-slika { display: block; width: 200%; max-width: none; height: auto; }
+.blok-pola-slika.desno { margin-left: -100%; }
+.blok-prevoj {
+  position: absolute; top: var(--uvlaka, 21.8%); bottom: var(--uvlaka, 21.8%);
+  width: 46%; pointer-events: none;
+  opacity: calc(var(--sjena, 0) * .62);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 5.2%, #000 94.8%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 5.2%, #000 94.8%, transparent 100%);
+}
+.blok-prevoj.lijevo { right: 0; background: linear-gradient(270deg, rgba(52,38,20,.30), rgba(52,38,20,0) 82%); }
+.blok-prevoj.desno { left: 0; background: linear-gradient(90deg, rgba(52,38,20,.24), rgba(52,38,20,0) 82%); }
+
+.uvijanje {
+  position: absolute; top: 0; height: 100%; z-index: 6;
+  width: calc(var(--sirina, 0px) * var(--raspon));
+  transform-style: preserve-3d;
+}
+.uvijanje.dalje { left: 50%; transform-origin: left center; transform: rotateY(calc(-1 * var(--ugao, 0deg))); }
+.uvijanje.nazad { right: 50%; transform-origin: right center; transform: rotateY(var(--ugao, 0deg)); }
+.pojas {
+  position: absolute; top: 0; height: 100%;
+  width: calc(var(--sirina, 0px) * var(--raspon) / var(--broj));
+  transform-style: preserve-3d;
+}
+.uvijanje.dalje .pojas { transform-origin: left center; }
+.uvijanje.nazad .pojas { transform-origin: right center; }
+.uvijanje.dalje > .pojas { left: 0; }
+.uvijanje.nazad > .pojas { right: 0; left: auto; }
+.uvijanje.dalje .pojas .pojas { left: 100%; transform: rotateY(var(--korak, 0deg)); }
+.uvijanje.nazad .pojas .pojas { right: 100%; transform: rotateY(calc(-1 * var(--korak, 0deg))); }
+.lice {
+  position: absolute; top: 0; bottom: 0; left: 0; right: -1.1px;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  background-repeat: no-repeat; background-size: var(--sirina, 0px) auto;
+}
+.lice.zadnje { transform: rotateY(180deg); }
+.lice .sj, .lice .sjaj {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 5.2%, #000 94.8%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 5.2%, #000 94.8%, transparent 100%);
+}
+.pojas.ivica .lice .sj, .pojas.ivica .lice .sjaj {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 9%, #000 91%, transparent 100%), var(--rez);
+  mask-image: linear-gradient(180deg, transparent 0, #000 9%, #000 91%, transparent 100%), var(--rez);
+  -webkit-mask-composite: source-in; mask-composite: intersect;
+}
+.uvijanje.dalje .pojas.ivica .lice.prednje, .uvijanje.nazad .pojas.ivica .lice.zadnje {
+  --rez: linear-gradient(90deg, #000 0 22%, transparent 96%);
+}
+.uvijanje.dalje .pojas.ivica .lice.zadnje, .uvijanje.nazad .pojas.ivica .lice.prednje {
+  --rez: linear-gradient(270deg, #000 0 22%, transparent 96%);
+}
+.lice .sj {
+  position: absolute; left: 0; right: 0;
+  top: var(--uvlaka, 21.8%); bottom: var(--uvlaka, 21.8%); pointer-events: none;
+}
+.uvijanje.dalje .lice.prednje .sj, .uvijanje.nazad .lice.zadnje .sj {
+  background: linear-gradient(90deg, rgba(58,43,20,var(--a1,0)), rgba(58,43,20,var(--a2,0)));
+}
+.uvijanje.dalje .lice.zadnje .sj, .uvijanje.nazad .lice.prednje .sj {
+  background: linear-gradient(90deg, rgba(58,43,20,var(--a2,0)), rgba(58,43,20,var(--a1,0)));
+}
+.lice .sjaj {
+  position: absolute; left: 0; right: 0;
+  top: var(--uvlaka, 21.8%); bottom: var(--uvlaka, 21.8%);
+  pointer-events: none; background: #FFFAF0;
+  opacity: calc(var(--sjena, 0) * var(--svjetlo, 1) * var(--svjetlo, 1) * .20);
+}
+
+.lupa {
+  position: absolute; left: 0; top: 0; z-index: 80;
+  width: var(--precnik, 270px); height: var(--precnik, 270px);
+  pointer-events: none; opacity: 0;
+  transition: opacity .25s ease; will-change: transform;
+}
+.lupa.gori { opacity: 1; }
+.lupa.drzi .obruc { cursor: grabbing; }
+.lupa .obruc {
+  position: absolute; inset: 0; border-radius: 50%;
+  pointer-events: auto; cursor: grab;
+  padding: calc(var(--precnik, 270px) * .058);
+  box-shadow:
+    0 1px 2px rgba(58,44,26,.30),
+    0 10px 18px rgba(58,44,26,.24),
+    0 26px 40px rgba(58,44,26,.20),
+    0 48px 66px rgba(58,44,26,.13);
+}
+.lupa .obruc::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
+  background: linear-gradient(146deg,
+    #FDF7E9 0%, #E6D7B4 14%, #B69D70 32%, #7D6740 50%,
+    #CDBB92 66%, #F4EAD3 80%, #9B8459 100%);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.8), inset 0 -2px 3px rgba(70,52,26,.5);
+  -webkit-mask-image: radial-gradient(circle closest-side at 50% 50%, transparent 0 88.2%, #000 89.8% 100%);
+  mask-image: radial-gradient(circle closest-side at 50% 50%, transparent 0 88.2%, #000 89.8% 100%);
+}
+.lupa .drska {
+  position: absolute; left: 50%; top: 50%;
+  width: calc(var(--precnik, 270px) * .74); height: calc(var(--precnik, 270px) * .125);
+  transform-origin: 0 50%;
+  transform: rotate(40deg) translate(calc(var(--precnik, 270px) * .33), -50%);
+  border-radius: calc(var(--precnik, 270px) * .06);
+  pointer-events: auto; cursor: grab;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.46) 0 13%, rgba(255,255,255,0) 44%, rgba(0,0,0,.26) 100%),
+    linear-gradient(90deg, #D9BD82 0 14%, #A9884E 14% 20%, #6D4C2B 20% 62%, #5A3D22 62% 92%, #7A563180 92% 100%);
+  box-shadow: 0 8px 15px rgba(58,44,26,.26), 0 18px 26px rgba(58,44,26,.14);
+}
+.staklo {
+  position: relative; display: block; width: 100%; height: 100%;
+  border-radius: 50%; overflow: hidden; background-repeat: no-repeat;
+  box-shadow:
+    inset 0 0 0 1px rgba(52,40,22,.55),
+    inset 0 4px 12px rgba(40,30,14,.28),
+    inset 0 -7px 16px rgba(255,250,240,.14);
+}
+.staklo::before, .staklo::after {
+  content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
+}
+.staklo::before {
+  z-index: 1;
+  background: radial-gradient(circle at 50% 50%,
+    rgba(0,0,0,0) 54%, rgba(58,44,26,.10) 76%, rgba(46,34,16,.34) 100%);
+  box-shadow: inset 0 0 0 2px rgba(130,162,196,.26), inset 0 0 0 4px rgba(206,158,112,.15);
+}
+.staklo::after {
+  z-index: 2;
+  background:
+    radial-gradient(36% 26% at 29% 19%, rgba(255,255,255,.30), rgba(255,255,255,0) 76%),
+    radial-gradient(24% 16% at 74% 86%, rgba(255,255,255,.12), rgba(255,255,255,0) 80%),
+    linear-gradient(150deg, rgba(255,255,255,.06) 0 18%, rgba(255,255,255,0) 42%);
+}
+.blok-zum { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; opacity: 0; }
+.blok-zum-unutra { position: absolute; inset: 0; transform-origin: 0 0; }
+
+.blok-alat {
+  display: flex; align-items: center; gap: 6px;
+  padding: 5px 7px; border-radius: var(--pill);
+  border: 1px solid var(--line); background: rgba(255,255,255,.62);
+  backdrop-filter: blur(8px);
+}
+.alatka {
+  width: 30px; height: 30px; border: 0; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; color: var(--ink-2); cursor: pointer;
+  transition: background-color .18s ease, color .18s ease;
+}
+.alatka:hover { background: var(--white); color: var(--ink); }
+.alatka[aria-pressed="true"] { background: rgba(14,143,126,.16); color: var(--tirkiz); }
+.alatka:disabled { opacity: .32; cursor: default; background: transparent; }
+.alatka svg { display: block; width: 16px; height: 16px; }
+.blok-razdjelnik { width: 1px; height: 17px; margin: 0 2px; background: var(--line); }
+.blok-broj {
+  min-width: 44px; text-align: center;
+  font-size: .78rem; letter-spacing: .08em; color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.blok-zona {
+  position: absolute; top: 0; bottom: 0; z-index: 60;
+  border: 0; background: transparent; cursor: grab;
+  -webkit-tap-highlight-color: transparent;
+}
+.blok-zona:active { cursor: grabbing; }
+.blok-zona.nazad { left: 0; width: 50%; }
+.blok-zona.dalje { right: 0; width: 50%; }
+.blok-natpisi { display: grid; justify-items: center; }
+.blok-natpisi > * { grid-area: 1 / 1; margin: 0; }
+.blok-natpis {
+  font-size: .8rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--ink-2); animation: natpis-ulaz .5s ease both;
+}
+.blok-natpis.zivi { animation: none; }
+@keyframes natpis-ulaz { 0% { opacity: 0; } }
+.blok-savjet {
+  margin: 0; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(11,18,32,.34); transition: opacity .4s ease;
+}
+.blok-savjet.nema { opacity: 0; }
+.blok-omot.uvod .blok-cijela img, .blok-omot.uvod .blok-pola-slika { filter: url(#blok-muti-1); }
+.blok-omot.uvod.jace .blok-cijela img, .blok-omot.uvod.jace .blok-pola-slika { filter: url(#blok-muti-2); }
+.blok-omot.uvod .blok-natpis { animation: none; }
+
+.blok-ispod { display: none; }
+.blok-ispod b {
+  display: block; margin-bottom: 4px;
+  font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-2);
+}
+.blok-ispod h3 { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.5rem; margin-bottom: 10px; }
+.blok-ispod p { margin-bottom: .8em; }
+.blok-ispod p:last-child { margin-bottom: 0; }
+
+.blok-spisak { list-style: none; margin: 46px 0 0; padding: 0; border-top: 1px solid var(--line); }
+.blok-ploca {
+  display: grid; grid-template-columns: 3.4em minmax(0, 1fr) auto;
+  gap: 18px; align-items: baseline;
+  width: 100%; padding: 15px 4px; border: 0; border-bottom: 1px solid var(--line);
+  background: transparent; text-align: left; color: inherit; cursor: pointer;
+  font: inherit;
+  transition: background-color .22s ease, padding-left .22s ease;
+}
+.blok-ploca:hover, .blok-ploca[aria-current="true"] { background: var(--white); padding-left: 12px; }
+.blok-ploca .broj { font-size: .82rem; color: var(--ink-2); letter-spacing: .06em; }
+.blok-ploca .ime {
+  font-family: var(--grot); font-weight: 600; letter-spacing: -.02em;
+  color: var(--ink); font-size: clamp(1.02rem, 1.8vw, 1.3rem);
+}
+.blok-ploca .gdje { font-size: .8rem; color: var(--ink-2); letter-spacing: .06em; text-transform: uppercase; text-align: right; }
+.blok-ploca[aria-current="true"] .gdje { color: var(--tirkiz); }
+
+.ispis span { display: inline; }
+.ispis.cek span { opacity: 0; filter: blur(10px); }
+.ispis.tece span { transition: opacity .5s ease, filter .5s ease; }
+
+@media (pointer: coarse) { .lupa { display: none; } }
+
+@media (max-width: 820px) {
+  .blok-odjeljak { padding: 56px 0 52px; }
+  .blok-tekst { font-size: 1rem; }
+  .blok-omot { width: 100vw; margin-inline: calc(50% - 50vw); gap: 12px; }
+  .blok-3d { max-width: none; }
+  .blok-strelica { position: absolute; top: 50%; transform: translateY(-50%); z-index: 70; padding: 12px 6px; }
+  .blok-strelica.lijevo { left: 2px; }
+  .blok-strelica.desno { right: 2px; }
+  .lupa, #blok-lupa-tipka, .blok-razdjelnik { display: none; }
+  .blok-savjet { font-size: .66rem; letter-spacing: .1em; padding: 0 16px; text-align: center; }
+  .blok-ispod { display: block; margin-top: 26px; }
+  .blok-spisak { margin-top: 30px; }
+  .blok-ploca { grid-template-columns: 2.6em minmax(0, 1fr); gap: 10px; padding: 12px 2px; }
+  .blok-ploca .gdje { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blok-ploca:hover { padding-left: 4px; }
+  .blok-natpis { animation: none; }
+}
+
+.mek {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  min-height: 200vh; padding: 80px 0 0;
+  overflow: hidden; perspective: 800px;
+}
+.mek-naslov {
+  margin: 0 0 40px; text-align: center;
+  color: var(--white); font-size: clamp(1.5rem, 3.4vw, 2.4rem);
+  will-change: transform, opacity;
+}
+.mek-naslov em {
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  color: var(--tirkiz-svijetli);
+}
+.mek-uredjaj { position: relative; display: flex; flex-direction: column; align-items: center; }
+.mek-sprava { position: relative; perspective: 800px; }
+.mek-zatvoren {
+  position: relative; width: 512px; height: 192px;
+  padding: 8px; border-radius: 16px; background: #010101;
+  transform: perspective(800px) rotateX(-25deg) translateZ(0);
+  transform-origin: bottom; transform-style: preserve-3d;
+}
+.mek-zatvoren span {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 10px; background: #010101;
+  box-shadow: 0 2px 0 2px #171717 inset;
+}
+.mek-zatvoren img { width: 34px; height: 34px; opacity: .9; }
+.mek-poklopac {
+  position: absolute; inset: 0; width: 512px; height: 384px;
+  padding: 8px; border-radius: 16px; background: #010101;
+  transform-style: preserve-3d; transform-origin: top;
+  transform: translateY(0) rotateX(-28deg) scale(1.2, .6);
+  will-change: transform;
+}
+.mek-ekran { position: absolute; inset: 0; border-radius: 10px; background: #272729; }
+.mek-poklopac img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; border-radius: 10px;
+  object-fit: cover; object-position: left top;
+}
+.mek-baza {
+  position: relative; z-index: -10;
+  width: 512px; height: 352px;
+  overflow: hidden; border-radius: 16px; background: #272729;
+}
+.mek-traka { position: relative; height: 40px; }
+.mek-traka i {
+  position: absolute; left: 10%; right: 10%; top: 0;
+  height: 16px; background: #050505;
+}
+.mek-sredina { position: relative; display: flex; }
+.mek-zvucnik {
+  width: 10%; height: 160px; margin: 8px auto 0;
+  overflow: hidden;
+  background-image: radial-gradient(circle, #08080A .5px, transparent .5px);
+  background-size: 3px 3px;
+}
+.mek-tastatura {
+  width: 80%; margin: 0 4px; padding: 4px;
+  border-radius: 6px; background: #050505;
+}
+.mek-red { display: flex; gap: 2px; margin-bottom: 2px; }
+.mek-tipka {
+  flex: none; width: 24px; height: 24px;
+  padding: .5px; border-radius: 4px;
+  background: rgba(255,255,255,.2);
+  box-shadow: 0 0 14px rgba(255,255,255,.35);
+}
+.mek-tipka > span {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 100%; height: 100%;
+  border-radius: 3.5px; background: #0A090D; color: var(--white);
+  box-shadow: 0 -.5px 2px 0 #0D0D0F inset, -.5px 0 2px 0 #0D0D0F inset;
+}
+.mek-tipka b { display: block; font-size: 5px; font-weight: 500; line-height: 1.25; }
+.mek-tipka.sird { width: 40px; }
+.mek-tipka.siri { width: 45px; }
+.mek-tipka.najsiri { width: 58px; }
+.mek-tipka.razmak { width: 131px; }
+.mek-tipka.oblo > span { border-radius: 50%; background: #000; }
+.mek-tipka.mala { width: 24px; height: 12px; }
+.mek-strelice { display: flex; flex-direction: column; align-items: center; margin-top: 2px; }
+.mek-strelice > div { display: flex; }
+.mek-dodirnik {
+  width: 40%; height: 128px; margin: 4px auto;
+  border-radius: 12px; box-shadow: 0 0 1px 1px rgba(0,0,0,.13) inset;
+}
+.mek-noga {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  width: 80px; height: 8px; margin: 0 auto;
+  border-radius: 24px 24px 0 0;
+  background: linear-gradient(to top, #050505, #272729);
+}
+
+@media (max-width: 820px) {
+  .mek { min-height: 150vh; padding: 40px 0 0; }
+  .mek-uredjaj { transform: scale(.62); transform-origin: top center; margin-bottom: -207px; }
+  .mek-naslov { margin-bottom: 26px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mek { min-height: 0; padding: 40px 0 60px; }
+  .mek-poklopac { transform: none; }
+}
+
+.kontakt-do { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+
+.blok-potpis { font-family: var(--serif); font-style: italic; color: var(--ink-2); }
