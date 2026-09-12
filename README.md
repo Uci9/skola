@@ -89,10 +89,11 @@ Ako canvas ne prođe, umjesto bloka se pokaže običan tekst (`#blok-rezerva`).
 
 ## Kontakt
 
-Sekcija „Gdje smo“ je laptop koji stoji zakovan nasred ekrana dok se strana
-pomjera: poklopac se otvara, ekran raste i izlazi iz kućišta. Na ekranu je
-Google mapa sa adresom škole; prvi klik je oživljava, do tada je štit preko
-nje da ne otme skrol. Ispod stoji tabela sa podacima.
+Sekcija „Gdje smo“ je laptop zakovan pri vrhu ekrana dok se strana pomjera:
+poklopac se otvara, ekran malo naraste i sklizne naniže, pa stane — ne
+odlijeće sa strane. Na ekranu je Google mapa sa adresom škole; prvi klik je
+oživljava, do tada je štit preko nje da ne otme skrol. Ispod ostaje razmak
+pa tabela sa podacima.
 
 ## Šta još fali
 
@@ -100,7 +101,6 @@ nje da ne otme skrol. Ispod stoji tabela sa podacima.
 - fotografije za kutak učenika — stoje prazna mjesta
 - spisak preduzeća za praktičnu nastavu — vodi ga organizator praktičnog obrazovanja
 - vijesti u novosti.html — dopisuju se ručno
-- slike u paralaksu na kutku su privremene, uzete iz uvodnog niza
 
 Uvodna zavjesa se pušta jednom po sesiji (sessionStorage). Za ponovno
 gledanje dodaj `?intro=1` na adresu.

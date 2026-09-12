@@ -3,6 +3,7 @@
   if (!okvir) return;
 
   const naslov = okvir.querySelector('.mek-naslov');
+  const scena = okvir.querySelector('.mek-scena');
   const stit = document.getElementById('mek-stit');
   const poklopac = okvir.querySelector('.mek-poklopac');
   const tastatura = okvir.querySelector('.mek-tastatura');
@@ -71,14 +72,14 @@
 
   function crtaj() {
     const m = okvir.getBoundingClientRect();
-    const hod = m.height - innerHeight;
+    const hod = m.height - (scena ? scena.offsetHeight : innerHeight);
     if (hod <= 0) return;
     const p = Math.min(1, Math.max(0, -m.top / hod));
     const usko = matchMedia('(max-width: 820px)').matches;
 
-    const sx = odsjecak(p, 0, 0.34, 1.2, usko ? 1 : 1.5);
-    const sy = odsjecak(p, 0, 0.34, 0.6, usko ? 1 : 1.5);
-    const pomak = odsjecak(p, 0.34, 1, 0, usko ? 420 : 760);
+    const sx = odsjecak(p, 0, 0.34, 1.2, usko ? 1 : 1.14);
+    const sy = odsjecak(p, 0, 0.34, 0.6, usko ? 1 : 1.14);
+    const pomak = odsjecak(p, 0.34, 0.78, 0, usko ? 128 : 168);
     const zaokret = odsjecak(p, 0.04, 0.34, -28, 0);
 
     poklopac.style.transform =
