@@ -8,13 +8,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css">
+<link rel="stylesheet" href="assets/styles.css?v=9b85f237">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
-<script type="module" src="assets/nalog.js"></script>
-<script src="assets/tekst.js" defer></script>
-<script src="assets/leca.js" defer></script>
-<script src="assets/vrteska.js" defer></script>
-<script src="assets/ucitavanje.js" defer></script>
+<script type="module" src="assets/nalog.js?v=2089bd51"></script>
+<script src="assets/tekst.js?v=7169d40e" defer></script>
+<script src="assets/leca.js?v=f8105ff7" defer></script>
+<script src="assets/vrteska.js?v=5cbfebc7" defer></script>
+<script src="assets/meni.js?v=b05be741" defer></script>
+<script src="assets/mreza.js?v=5f304827" defer></script>
+<script src="assets/ucitavanje.js?v=a2cf133d" defer></script>
 </head>
 <body>
 <div class="ucitavanje" id="ucitavanje">
@@ -31,12 +33,38 @@
         <span><b>ETŠ „Vaso Aligrudić“</b><span>Podgorica · od 1946.</span></span>
       </a>
       <nav class="menu" id="meni">
-        <a href="index.html#programi">Programi</a>
-        <a href="index.html#upis">Upis</a>
-        <a href="profesori.html">Profesori</a>
-        <a href="kutak-ucenika.html">Kutak učenika</a>
-        <a href="poslodavci.html">Poslodavci</a>
-        <a href="novosti.html">Novosti</a>
+        <div class="stavka" data-meni="skola">
+          <button type="button" class="stavka-tipka" aria-expanded="false" aria-controls="panel-skola">Škola</button>
+          <div class="panel" id="panel-skola">
+            <div class="panel-karta">
+            <a href="index.html#o-skoli"><b>O nama</b><span>Šta smo i otkud 1946.</span></a>
+            <a href="index.html#programi"><b>Obrazovni programi</b><span>Šest smjerova, IV i III stepen.</span></a>
+            <a href="profesori.html"><b>Nastavnici i osoblje</b><span>Sto ljudi koji drže školu.</span></a>
+            <a href="poslodavci.html"><b>Poslodavci i partneri</b><span>Gdje učenici rade dok se školuju.</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="stavka" data-meni="upis">
+          <button type="button" class="stavka-tipka" aria-expanded="false" aria-controls="panel-upis">Upis</button>
+          <div class="panel" id="panel-upis">
+            <div class="panel-karta">
+            <a href="index.html#upis"><b>Kako se upisuje</b><span>Četiri koraka do prijave.</span></a>
+            <a href="kalkulator.html"><b>Kalkulator poena</b><span>Provjeri gdje stojiš.</span></a>
+            <a href="index.html#pitanja"><b>Česta pitanja</b><span>Prag, poeni, dokumenta.</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="stavka" data-meni="ucenici">
+          <button type="button" class="stavka-tipka" aria-expanded="false" aria-controls="panel-ucenici">Učenici</button>
+          <div class="panel" id="panel-ucenici">
+            <div class="panel-karta">
+            <a href="kutak-ucenika.html"><b>Kutak učenika</b><span>Trenuci van rasporeda časova.</span></a>
+            <a href="novosti.html"><b>Novosti</b><span>Obavještenja i rokovi.</span></a>
+            <a href="https://elektropg.online/ets/"><b>Moodle</b><span>Platforma za učenje.</span></a>
+            <a href="index.html#dokumenti"><b>Dokumenti</b><span>Statut, pravilnici, planovi.</span></a>
+            </div>
+          </div>
+        </div>
         <a href="index.html#kontakt">Kontakt</a>
         <a href="prijava.html">Prijava</a>
       </nav>
