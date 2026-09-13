@@ -1,4 +1,12 @@
-import { baza, podesena, porukaGreske, trenutniKorisnik, jeAdmin } from './baza.js';
+import { imaBazu, porukaGreske, trenutniKorisnik, jeAdmin, prijaviSe, napraviNalog } from './baza.js';
+
+const DOMEN = '@ets-pg.edu.me';
+
+function uEpostu(vrijednost) {
+  const t = vrijednost.trim();
+  if (!t) return t;
+  return t.includes('@') ? t : t.toLowerCase().replace(/\s+/g, '') + DOMEN;
+}
 
 const dugmad = [...document.querySelectorAll('.tabovi button')];
 const formaPrijava = document.getElementById('formaPrijava');
@@ -20,7 +28,7 @@ dugmad.forEach(d => d.addEventListener('click', () => {
   javi('');
 }));
 
-if (!podesena) {
+if (!(await imaBazu())) {
   nepodesena.hidden = false;
   formaPrijava.hidden = true;
   formaUpis.hidden = true;
@@ -36,14 +44,15 @@ if (!podesena) {
     dugme.disabled = true;
     javi('Prijavljujem…');
 
-    const { error } = await baza.auth.signInWithPassword({
-      email: formaPrijava.eposta.value.trim(),
-      password: formaPrijava.lozinka.value
-    });
+    try {
+      await prijaviSe(uEpostu(formaPrijava.eposta.value), formaPrijava.lozinka.value);
+    } catch (greska) {
+      dugme.disabled = false;
+      javi(porukaGreske(greska));
+      return;
+    }
 
     dugme.disabled = false;
-    if (error) { javi(porukaGreske(error)); return; }
-
     javi('Prijavljen. Vodim te dalje…', true);
     location.href = (await jeAdmin()) ? 'admin.html' : 'index.html';
   });
@@ -54,20 +63,16 @@ if (!podesena) {
     dugme.disabled = true;
     javi('Pravim nalog…');
 
-    const { data, error } = await baza.auth.signUp({
-      email: formaUpis.eposta.value.trim(),
-      password: formaUpis.lozinka.value,
-      options: { data: { ime: formaUpis.ime.value.trim() } }
-    });
+    try {
+      await napraviNalog(uEpostu(formaUpis.eposta.value), formaUpis.lozinka.value, formaUpis.ime.value.trim());
+    } catch (greska) {
+      dugme.disabled = false;
+      javi(porukaGreske(greska));
+      return;
+    }
 
     dugme.disabled = false;
-    if (error) { javi(porukaGreske(error)); return; }
-
-    if (data.session) {
-      javi('Nalog napravljen.', true);
-      location.href = 'index.html';
-    } else {
-      javi('Nalog napravljen. Provjeri e-poštu i potvrdi ga, pa se prijavi.', true);
-    }
+    javi('Nalog napravljen.', true);
+    location.href = 'index.html';
   });
 }

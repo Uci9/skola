@@ -1,16 +1,20 @@
 # Sajt ETŠ „Vaso Aligrudić“
 
-Sajt Elektrotehničke škole „Vaso Aligrudić“ u Podgorici. Obična statika —
-nema builda ni npm-a.
+Sajt Elektrotehničke škole „Vaso Aligrudić“ u Podgorici. Strane su obična
+statika, bez builda. Uz njih ide mali server koji ih služi i drži API za
+admin panel.
 
 ## Pokretanje
 
 ```bash
-python3 -m http.server 8080
+npm install
+DATABASE_URL="postgresql://korisnik:lozinka@localhost:5432/skola" \
+ADMIN_LOZINKA="nesto" npm start
 ```
 
-pa <http://localhost:8080>. Duplim klikom na fajl ne valja, slike i CSS idu
-preko relativnih putanja.
+pa <http://localhost:3000>. Bez `DATABASE_URL` sajt i dalje radi, samo
+admin panel javi da baza nije podešena. Podešavanje na Railway-u stoji u
+`baza/UPUTSTVO.md`.
 
 ## Fajlovi
 
@@ -21,7 +25,9 @@ kutak-ucenika.html    galerija đačkog života
 poslodavci.html       partneri i preduzeća
 novosti.html          obavještenja
 kalkulator.html       bodovi za upis u I razred
+server.js             server: statika, API za panel, prijava, slike
 assets/styles.css     stilovi za sve strane
+assets/baza.js        razgovor sa API-jem
 assets/blok.js        skicen-blok na početnoj (O nama)
 assets/mek.js         laptop u kontaktu
 assets/paralaks.js    slike koje se slažu na skrol (kutak učenika)

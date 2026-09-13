@@ -1,0 +1,602 @@
+[
+ {
+  "ime": "Marija Babović",
+  "zvanje": "v.d. direktora škole",
+  "grupa": "uprava",
+  "redoslijed": 0
+ },
+ {
+  "ime": "Semir Ljaljević",
+  "zvanje": "Pomoćnik direktora škole",
+  "grupa": "uprava",
+  "redoslijed": 1
+ },
+ {
+  "ime": "Svetlana Miranović",
+  "zvanje": "Pomoćnica direktora škole",
+  "grupa": "uprava",
+  "redoslijed": 2
+ },
+ {
+  "ime": "Selma Šabotić",
+  "zvanje": "Pedagogica",
+  "grupa": "uprava",
+  "redoslijed": 3
+ },
+ {
+  "ime": "Ivana Rabrenović",
+  "zvanje": "Psihološkinja",
+  "grupa": "uprava",
+  "redoslijed": 4
+ },
+ {
+  "ime": "Maja Ivanović",
+  "zvanje": "Bibliotekarka",
+  "grupa": "uprava",
+  "redoslijed": 5
+ },
+ {
+  "ime": "Milena Nedović Đuričanin",
+  "zvanje": "Sekretarka",
+  "grupa": "uprava",
+  "redoslijed": 6
+ },
+ {
+  "ime": "Azra Pepić",
+  "zvanje": "Računovotkinja",
+  "grupa": "uprava",
+  "redoslijed": 7
+ },
+ {
+  "ime": "Filip Španjević",
+  "zvanje": "ICT koordinator",
+  "grupa": "uprava",
+  "redoslijed": 8
+ },
+ {
+  "ime": "Željka Žarković",
+  "zvanje": "Organizator praktičnog obrazovanja",
+  "grupa": "uprava",
+  "redoslijed": 9
+ },
+ {
+  "ime": "Miloš Ljumović",
+  "zvanje": "Laborant",
+  "grupa": "uprava",
+  "redoslijed": 10
+ },
+ {
+  "ime": "Adilović Alen",
+  "zvanje": "spec. primijenjenog računarstva",
+  "grupa": "nastavno",
+  "redoslijed": 0
+ },
+ {
+  "ime": "Agić Azra",
+  "zvanje": "spec. elektronike, telekomunikacija i računara",
+  "grupa": "nastavno",
+  "redoslijed": 1
+ },
+ {
+  "ime": "Bećirović Emsada",
+  "zvanje": "dipl. matematičar",
+  "grupa": "nastavno",
+  "redoslijed": 2
+ },
+ {
+  "ime": "Bošković Marko",
+  "zvanje": "spec.energetike i automatike",
+  "grupa": "nastavno",
+  "redoslijed": 3
+ },
+ {
+  "ime": "Božović Radovan",
+  "zvanje": "spec.elektronike, telekomunikacija i računara",
+  "grupa": "nastavno",
+  "redoslijed": 4
+ },
+ {
+  "ime": "Brajović Olga",
+  "zvanje": "spec. primijenjenog računarstva",
+  "grupa": "nastavno",
+  "redoslijed": 5
+ },
+ {
+  "ime": "Budrak Aleksandra",
+  "zvanje": "dipl. ekonomista",
+  "grupa": "nastavno",
+  "redoslijed": 6
+ },
+ {
+  "ime": "Bulajić Sandra",
+  "zvanje": "prof. srpskog jezika i književnosti",
+  "grupa": "nastavno",
+  "redoslijed": 7
+ },
+ {
+  "ime": "Bulatović Dijana",
+  "zvanje": "dipl. matematičar",
+  "grupa": "nastavno",
+  "redoslijed": 8
+ },
+ {
+  "ime": "Ćalasan Vesna",
+  "zvanje": "spec. energetike i automatike",
+  "grupa": "nastavno",
+  "redoslijed": 9
+ },
+ {
+  "ime": "Cimbaljević Drago",
+  "zvanje": "prof. fizičke kulture",
+  "grupa": "nastavno",
+  "redoslijed": 10
+ },
+ {
+  "ime": "Čogurić Radmila",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 11
+ },
+ {
+  "ime": "Đaković Dragan",
+  "zvanje": "prof. istorije i geografije",
+  "grupa": "nastavno",
+  "redoslijed": 12
+ },
+ {
+  "ime": "Đaković Persa",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 13
+ },
+ {
+  "ime": "Danilović Milika",
+  "zvanje": "spec. primjenjenog računarstva",
+  "grupa": "nastavno",
+  "redoslijed": 14
+ },
+ {
+  "ime": "Dašić Nada",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 15
+ },
+ {
+  "ime": "Delić Ana",
+  "zvanje": "MA engleskog jezika i književnosti",
+  "grupa": "nastavno",
+  "redoslijed": 16
+ },
+ {
+  "ime": "Đerić Bogdan",
+  "zvanje": "prof. fizičke kulture",
+  "grupa": "nastavno",
+  "redoslijed": 17
+ },
+ {
+  "ime": "Gardašević Nada",
+  "zvanje": "spec. energetike i automatike",
+  "grupa": "nastavno",
+  "redoslijed": 18
+ },
+ {
+  "ime": "Ivanović Olivera",
+  "zvanje": "dipl. fizičar",
+  "grupa": "nastavno",
+  "redoslijed": 19
+ },
+ {
+  "ime": "Jelena Babić",
+  "zvanje": "spec. primijenjenog računarstva",
+  "grupa": "nastavno",
+  "redoslijed": 20
+ },
+ {
+  "ime": "Joldić Jovana",
+  "zvanje": "dipl.prof. fizičkog vaspitanja i sporta",
+  "grupa": "nastavno",
+  "redoslijed": 21
+ },
+ {
+  "ime": "Jovanović Jelena",
+  "zvanje": "prof. sociologije",
+  "grupa": "nastavno",
+  "redoslijed": 22
+ },
+ {
+  "ime": "Knežević Svetlana",
+  "zvanje": "dipl. matematičar",
+  "grupa": "nastavno",
+  "redoslijed": 23
+ },
+ {
+  "ime": "Kočović Mitra",
+  "zvanje": "spec.energetike i automatike",
+  "grupa": "nastavno",
+  "redoslijed": 24
+ },
+ {
+  "ime": "Kojović Nikola",
+  "zvanje": "spec.elektronike, telekomunikacija i računara",
+  "grupa": "nastavno",
+  "redoslijed": 25
+ },
+ {
+  "ime": "Krgušić Žana",
+  "zvanje": "prof. srpskohrvatskog jezika i južnoslovenske književnosti",
+  "grupa": "nastavno",
+  "redoslijed": 26
+ },
+ {
+  "ime": "Krunić Snežana",
+  "zvanje": "spec. primjenjenog računarstva",
+  "grupa": "nastavno",
+  "redoslijed": 27
+ },
+ {
+  "ime": "Lazarević Lidija",
+  "zvanje": "prof. engleskog jezika i književnosti",
+  "grupa": "nastavno",
+  "redoslijed": 28
+ },
+ {
+  "ime": "Leposavić Bogdan",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 29
+ },
+ {
+  "ime": "Lopičić Predrag",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 30
+ },
+ {
+  "ime": "Lučić Mileva",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 31
+ },
+ {
+  "ime": "Mandić Olivera",
+  "zvanje": "dipl. fizičar",
+  "grupa": "nastavno",
+  "redoslijed": 32
+ },
+ {
+  "ime": "Maraš Dejan",
+  "zvanje": "prof. srpskohrvatskog jezika i knjiž. jug. naroda i narodnosti",
+  "grupa": "nastavno",
+  "redoslijed": 33
+ },
+ {
+  "ime": "Marković Ana",
+  "zvanje": "prof. engleskog jezika i književnosti",
+  "grupa": "nastavno",
+  "redoslijed": 34
+ },
+ {
+  "ime": "Markuš Danka",
+  "zvanje": "spec. primijenjenog računarstva",
+  "grupa": "nastavno",
+  "redoslijed": 35
+ },
+ {
+  "ime": "Marušić Vukica",
+  "zvanje": "prof. sociologije",
+  "grupa": "nastavno",
+  "redoslijed": 36
+ },
+ {
+  "ime": "Matović Dubravka",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 37
+ },
+ {
+  "ime": "Milentijević Dragica",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 38
+ },
+ {
+  "ime": "Miloš Sara",
+  "zvanje": "spec. engleskog jezika i književnosti",
+  "grupa": "nastavno",
+  "redoslijed": 39
+ },
+ {
+  "ime": "Nikolić Natalija",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 40
+ },
+ {
+  "ime": "Obradović Jelena",
+  "zvanje": "MA prof. engleskog jezika i književnosti",
+  "grupa": "nastavno",
+  "redoslijed": 41
+ },
+ {
+  "ime": "Pavićević Nikola",
+  "zvanje": "spec. računarskih nauka",
+  "grupa": "nastavno",
+  "redoslijed": 42
+ },
+ {
+  "ime": "Peković Milijana",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 43
+ },
+ {
+  "ime": "Popović Mirjana",
+  "zvanje": "prof. sociologije",
+  "grupa": "nastavno",
+  "redoslijed": 44
+ },
+ {
+  "ime": "Radonjić Marina",
+  "zvanje": "spec. primijenjenog računarstva",
+  "grupa": "nastavno",
+  "redoslijed": 45
+ },
+ {
+  "ime": "Radulović Zoran",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 46
+ },
+ {
+  "ime": "Radusinović Sanja",
+  "zvanje": "prof. engleskog jezika i književnosti",
+  "grupa": "nastavno",
+  "redoslijed": 47
+ },
+ {
+  "ime": "Raičević Nikola",
+  "zvanje": "spec. primijenjenog računarstva",
+  "grupa": "nastavno",
+  "redoslijed": 48
+ },
+ {
+  "ime": "Rašković Violeta",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 49
+ },
+ {
+  "ime": "Rastoder Elida",
+  "zvanje": "prof. engleskog jezika i književnosti",
+  "grupa": "nastavno",
+  "redoslijed": 50
+ },
+ {
+  "ime": "Roganović Nevenka",
+  "zvanje": "prof. srpskog jezika i književnosti",
+  "grupa": "nastavno",
+  "redoslijed": 51
+ },
+ {
+  "ime": "Samardžić Rada",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 52
+ },
+ {
+  "ime": "Sarić Slađana",
+  "zvanje": "spec. primijenjenog računarstva",
+  "grupa": "nastavno",
+  "redoslijed": 53
+ },
+ {
+  "ime": "Šćekić Jelena",
+  "zvanje": "spec. matematike i računarskih nauka",
+  "grupa": "nastavno",
+  "redoslijed": 54
+ },
+ {
+  "ime": "Šćepanović Suzana",
+  "zvanje": "BSc matematike i računarskih nauka",
+  "grupa": "nastavno",
+  "redoslijed": 55
+ },
+ {
+  "ime": "Selman Šabotić",
+  "zvanje": "prof. fizičke kulture",
+  "grupa": "nastavno",
+  "redoslijed": 56
+ },
+ {
+  "ime": "Španjević Jovana",
+  "zvanje": "spec. engleskog jezika i književnosti",
+  "grupa": "nastavno",
+  "redoslijed": 57
+ },
+ {
+  "ime": "Stanišić Milanka",
+  "zvanje": "dipl. matematičar",
+  "grupa": "nastavno",
+  "redoslijed": 58
+ },
+ {
+  "ime": "Stanišić Radomir",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 59
+ },
+ {
+  "ime": "Stevović Mirjana",
+  "zvanje": "spec. elektronike, telekomunikacija i računara",
+  "grupa": "nastavno",
+  "redoslijed": 60
+ },
+ {
+  "ime": "Stojanović Nataša",
+  "zvanje": "spec. crnogorskog jezika i južnoslovenske književnosti",
+  "grupa": "nastavno",
+  "redoslijed": 61
+ },
+ {
+  "ime": "Šuković Biljana",
+  "zvanje": "prof. matematike",
+  "grupa": "nastavno",
+  "redoslijed": 62
+ },
+ {
+  "ime": "Šupić Maja",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 63
+ },
+ {
+  "ime": "Šuškavčević Bojana",
+  "zvanje": "spec. energetike i automatike",
+  "grupa": "nastavno",
+  "redoslijed": 64
+ },
+ {
+  "ime": "Tadić Slobodan",
+  "zvanje": "spec. strukovni inženjer elektrotehnike i računarstva",
+  "grupa": "nastavno",
+  "redoslijed": 65
+ },
+ {
+  "ime": "Tasić Gordana",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 66
+ },
+ {
+  "ime": "Vemić Nada",
+  "zvanje": "dipl.ing.elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 67
+ },
+ {
+  "ime": "Vladimir Kovač",
+  "zvanje": "dipl.ing.elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 68
+ },
+ {
+  "ime": "Vojinović Nikolija",
+  "zvanje": "spec. eneretike i automatike",
+  "grupa": "nastavno",
+  "redoslijed": 69
+ },
+ {
+  "ime": "Vratnica Mladen",
+  "zvanje": "dipl. ing. elektrotehnike",
+  "grupa": "nastavno",
+  "redoslijed": 70
+ },
+ {
+  "ime": "Zeković Jelena",
+  "zvanje": "spec. energetike i automatike",
+  "grupa": "nastavno",
+  "redoslijed": 71
+ },
+ {
+  "ime": "Žeželj Marija",
+  "zvanje": "spec. informacionih tehnologija",
+  "grupa": "nastavno",
+  "redoslijed": 72
+ },
+ {
+  "ime": "Dragović Milena",
+  "zvanje": "spec. srpskog jezika i južnoslovenske književnosti",
+  "grupa": "asistenti",
+  "redoslijed": 0
+ },
+ {
+  "ime": "Gjokaj Lindita",
+  "zvanje": "SSS",
+  "grupa": "asistenti",
+  "redoslijed": 1
+ },
+ {
+  "ime": "Lakušić Ana",
+  "zvanje": "SSS",
+  "grupa": "asistenti",
+  "redoslijed": 2
+ },
+ {
+  "ime": "Stijepović Irena",
+  "zvanje": "spec. pedagogije",
+  "grupa": "asistenti",
+  "redoslijed": 3
+ },
+ {
+  "ime": "Srdanović Ivica",
+  "zvanje": "Domar",
+  "grupa": "pomocno",
+  "redoslijed": 0
+ },
+ {
+  "ime": "Vujičić Dragoslav",
+  "zvanje": "Domar-ložač",
+  "grupa": "pomocno",
+  "redoslijed": 1
+ },
+ {
+  "ime": "Bošković Jelenka",
+  "zvanje": "Radnica na održavanju čistoće",
+  "grupa": "pomocno",
+  "redoslijed": 2
+ },
+ {
+  "ime": "Ćurćić Ljubinka",
+  "zvanje": "Radnica na održavanju čistoće",
+  "grupa": "pomocno",
+  "redoslijed": 3
+ },
+ {
+  "ime": "Ivanović Mladenka",
+  "zvanje": "Radnica na održavanju čistoće",
+  "grupa": "pomocno",
+  "redoslijed": 4
+ },
+ {
+  "ime": "Jovanović Snežana",
+  "zvanje": "Radnica na održavanju čistoće",
+  "grupa": "pomocno",
+  "redoslijed": 5
+ },
+ {
+  "ime": "Krstajić Svetlana",
+  "zvanje": "Radnica na održavanju čistoće",
+  "grupa": "pomocno",
+  "redoslijed": 6
+ },
+ {
+  "ime": "Ljajčaj Ana",
+  "zvanje": "Radnica na održavanju čistoće",
+  "grupa": "pomocno",
+  "redoslijed": 7
+ },
+ {
+  "ime": "Marković Veselinka",
+  "zvanje": "Radnica na održavanju čistoće",
+  "grupa": "pomocno",
+  "redoslijed": 8
+ },
+ {
+  "ime": "Obradović Radmila",
+  "zvanje": "Radnica na održavanju čistoće",
+  "grupa": "pomocno",
+  "redoslijed": 9
+ },
+ {
+  "ime": "Šćekić Darka",
+  "zvanje": "Radnica na održavanju čistoće",
+  "grupa": "pomocno",
+  "redoslijed": 10
+ },
+ {
+  "ime": "Vlahović Marijana",
+  "zvanje": "Radnica na održavanju čistoće",
+  "grupa": "pomocno",
+  "redoslijed": 11
+ }
+]

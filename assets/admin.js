@@ -1,4 +1,7 @@
-import { baza, podesena, jeAdmin, mojProfil, porukaGreske, posaljiSliku } from './baza.js';
+import {
+  imaBazu, jeAdmin, mojProfil, porukaGreske, posaljiSliku,
+  spisak as izBaze, dodaj, izmijeni, obrisi as obrisiIzBaze, profili, postaviUlogu
+} from './baza.js';
 
 const strazar = document.getElementById('strazar');
 const panel = document.getElementById('panel');
@@ -183,10 +186,13 @@ async function crud(kljuc) {
   }
 
   async function ucitaj() {
-    const { data, error } = await baza.from(cfg.tabela).select('*')
-      .order(cfg.red[0], { ascending: cfg.red[1] });
-
-    if (error) { spisak.innerHTML = `<p class="glas lose">${tekst(porukaGreske(error))}</p>`; return; }
+    let data;
+    try {
+      data = await izBaze(cfg.tabela);
+    } catch (greska) {
+      spisak.innerHTML = `<p class="glas lose">${tekst(porukaGreske(greska))}</p>`;
+      return;
+    }
 
     broj.textContent = data.length;
     if (!data.length) { spisak.innerHTML = '<p class="prazno">Još nema unosa.</p>'; return; }
@@ -212,8 +218,12 @@ async function crud(kljuc) {
 
       stavka.querySelector('.obrisi').addEventListener('click', async () => {
         if (!confirm('Obrisati „' + cfg.glavno(red) + '“?')) return;
-        const { error } = await baza.from(cfg.tabela).delete().eq('id', red.id);
-        if (error) { javi(glasnik, porukaGreske(error)); return; }
+        try {
+          await obrisiIzBaze(cfg.tabela, red.id);
+        } catch (greska) {
+          javi(glasnik, porukaGreske(greska));
+          return;
+        }
         javi(glasnik, 'Obrisano.', true);
         if (mijenjam && mijenjam.id === red.id) crtajFormu(null);
         ucitaj();
@@ -233,12 +243,13 @@ async function crud(kljuc) {
       podaci[p.k] = v;
     });
 
-    const upit = mijenjam
-      ? baza.from(cfg.tabela).update(podaci).eq('id', mijenjam.id)
-      : baza.from(cfg.tabela).insert(podaci);
-
-    const { error } = await upit;
-    if (error) { javi(glasnik, porukaGreske(error)); return; }
+    try {
+      if (mijenjam) await izmijeni(cfg.tabela, mijenjam.id, podaci);
+      else await dodaj(cfg.tabela, podaci);
+    } catch (greska) {
+      javi(glasnik, porukaGreske(greska));
+      return;
+    }
 
     javi(glasnik, mijenjam ? 'Sačuvano.' : 'Dodato.', true);
     crtajFormu(null);
@@ -262,8 +273,13 @@ async function nalozi() {
   const glasnik = okvir.querySelector('#glasN');
   const broj = okvir.querySelector('#broj');
 
-  const { data, error } = await baza.from('profili').select('*').order('napravljeno', { ascending: false });
-  if (error) { javi(glasnik, porukaGreske(error)); return; }
+  let data;
+  try {
+    data = await profili();
+  } catch (greska) {
+    javi(glasnik, porukaGreske(greska));
+    return;
+  }
 
   broj.textContent = data.length;
   if (!data.length) { spisak.innerHTML = '<p class="prazno">Još niko nije napravio nalog.</p>'; return; }
@@ -283,8 +299,12 @@ async function nalozi() {
 
     stavka.querySelector('.prebaci').addEventListener('click', async () => {
       const nova = p.uloga === 'admin' ? 'korisnik' : 'admin';
-      const { error } = await baza.from('profili').update({ uloga: nova }).eq('id', p.id);
-      if (error) { javi(glasnik, porukaGreske(error)); return; }
+      try {
+        await postaviUlogu(p.id, nova);
+      } catch (greska) {
+        javi(glasnik, porukaGreske(greska));
+        return;
+      }
       nalozi();
     });
 
@@ -299,9 +319,9 @@ function prikazi(kljuc) {
 }
 
 async function kreni() {
-  if (!podesena) {
+  if (!(await imaBazu())) {
     strazar.hidden = false;
-    strazar.innerHTML = '<h2>Baza nije podešena</h2><p>U <code>assets/baza.js</code> treba upisati adresu projekta i javni ključ.</p>';
+    strazar.innerHTML = '<h2>Baza nije podešena</h2><p>Server radi, ali nema veze sa bazom. U Railway-u treba dodati Postgres i promjenljivu <code>DATABASE_URL</code>.</p>';
     return;
   }
 

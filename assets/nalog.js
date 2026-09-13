@@ -1,7 +1,7 @@
-import { baza, podesena, mojProfil, odjaviSe } from './baza.js';
+import { mojProfil, odjaviSe } from './baza.js';
 
 const meni = document.getElementById('meni');
-if (meni && podesena) {
+if (meni) {
   const veza = meni.querySelector('a[href="prijava.html"]');
 
   async function osvjezi() {
@@ -34,5 +34,4 @@ if (meni && podesena) {
   }
 
   osvjezi();
-  baza.auth.onAuthStateChange(osvjezi);
 }

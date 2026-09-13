@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css?v=0f2b59a4">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
-<script type="module" src="assets/nalog.js?v=d877f992"></script>
+<script type="module" src="assets/nalog.js?v=4bf3daf1"></script>
 <script src="assets/tekst.js?v=aa99c3c0" defer></script>
 <script src="assets/leca.js?v=926f53a3" defer></script>
 <script src="assets/vrteska.js?v=1db7c64b" defer></script>
@@ -88,8 +88,9 @@
       </p>
 
       <form id="formaPrijava" class="form uska">
-        <label class="f"><span>E-pošta</span>
-          <input type="email" name="eposta" autocomplete="email" required></label>
+        <label class="f"><span>E-pošta ili korisničko ime</span>
+          <input type="text" name="eposta" autocomplete="username" required>
+          <small>ime bez @ vodi na školsku adresu</small></label>
         <label class="f"><span>Lozinka</span>
           <input type="password" name="lozinka" autocomplete="current-password" required></label>
         <button type="submit" class="btn btn-fill go">Prijavi se</button>
@@ -215,7 +216,7 @@ gore.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: smireno ? 'auto' : 'smooth' });
 });
 </script>
-<script type="module" src="assets/prijava.js?v=0898deff"></script>
+<script type="module" src="assets/prijava.js?v=b013e67d"></script>
 
 </body>
 </html>

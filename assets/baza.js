@@ -1,51 +1,115 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+let upamcen;
+let bezBaze = false;
 
-export const URL_BAZE = '';
-export const JAVNI_KLJUC = '';
+async function trazi(staza, opcije) {
+  const odgovor = await fetch('/api' + staza, {
+    credentials: 'same-origin',
+    headers: { 'Content-Type': 'application/json' },
+    ...opcije
+  });
 
-export const podesena = Boolean(URL_BAZE && JAVNI_KLJUC);
-export const baza = podesena ? createClient(URL_BAZE, JAVNI_KLJUC) : null;
+  let tijelo = null;
+  try { tijelo = await odgovor.json(); } catch (g) { tijelo = null; }
+
+  if (!odgovor.ok) {
+    const greska = new Error((tijelo && tijelo.greska) || 'Nešto nije prošlo.');
+    greska.stanje = odgovor.status;
+    throw greska;
+  }
+
+  return tijelo;
+}
 
 export async function trenutniKorisnik() {
-  if (!baza) return null;
-  const { data } = await baza.auth.getUser();
-  return data ? data.user : null;
+  if (upamcen !== undefined) return upamcen;
+  try {
+    const odgovor = await trazi('/ja');
+    if (odgovor && odgovor.bezBaze) {
+      bezBaze = true;
+      upamcen = null;
+    } else {
+      upamcen = odgovor;
+    }
+  } catch (g) {
+    upamcen = null;
+  }
+  return upamcen;
+}
+
+export async function imaBazu() {
+  await trenutniKorisnik();
+  return !bezBaze;
 }
 
 export async function mojProfil() {
-  const k = await trenutniKorisnik();
-  if (!k) return null;
-  const { data } = await baza.from('profili').select('*').eq('id', k.id).maybeSingle();
-  return data || { id: k.id, email: k.email, uloga: 'korisnik' };
+  return trenutniKorisnik();
 }
 
 export async function jeAdmin() {
-  const p = await mojProfil();
+  const p = await trenutniKorisnik();
   return Boolean(p && p.uloga === 'admin');
 }
 
+export async function prijaviSe(email, lozinka) {
+  upamcen = await trazi('/prijava', { method: 'POST', body: JSON.stringify({ email, lozinka }) });
+  return upamcen;
+}
+
+export async function napraviNalog(email, lozinka, ime) {
+  upamcen = await trazi('/upis', { method: 'POST', body: JSON.stringify({ email, lozinka, ime }) });
+  return upamcen;
+}
+
 export async function odjaviSe() {
-  if (baza) await baza.auth.signOut();
+  await trazi('/odjava', { method: 'POST' });
+  upamcen = null;
 }
 
 export function porukaGreske(g) {
   if (!g) return '';
   const t = (g.message || String(g)).toLowerCase();
-  if (t.includes('invalid login')) return 'Pogrešna e-pošta ili lozinka.';
-  if (t.includes('email not confirmed')) return 'Nalog nije potvrđen. Provjeri e-poštu.';
-  if (t.includes('already registered') || t.includes('already been registered')) return 'Nalog sa tom e-poštom već postoji.';
-  if (t.includes('password should be at least')) return 'Lozinka mora imati bar 6 znakova.';
-  if (t.includes('unable to validate email') || t.includes('invalid email')) return 'E-pošta nije ispravna.';
-  if (t.includes('row-level security') || t.includes('permission')) return 'Nemaš dozvolu za ovu radnju.';
-  if (t.includes('failed to fetch')) return 'Nema veze sa bazom.';
+  if (t.includes('failed to fetch') || t.includes('networkerror')) return 'Nema veze sa serverom.';
   return g.message || 'Nešto nije prošlo.';
 }
 
+export async function spisak(tabela) {
+  return trazi('/' + tabela);
+}
+
+export async function dodaj(tabela, podaci) {
+  return trazi('/' + tabela, { method: 'POST', body: JSON.stringify(podaci) });
+}
+
+export async function izmijeni(tabela, id, podaci) {
+  return trazi('/' + tabela + '/' + id, { method: 'PUT', body: JSON.stringify(podaci) });
+}
+
+export async function obrisi(tabela, id) {
+  return trazi('/' + tabela + '/' + id, { method: 'DELETE' });
+}
+
+export async function profili() {
+  return trazi('/profili');
+}
+
+export async function postaviUlogu(id, uloga) {
+  return trazi('/profili/' + id + '/uloga', { method: 'POST', body: JSON.stringify({ uloga }) });
+}
+
+function uBazu(fajl) {
+  return new Promise((kraj, pad) => {
+    const citac = new FileReader();
+    citac.onload = () => kraj(String(citac.result).split(',')[1]);
+    citac.onerror = () => pad(new Error('Slika se nije pročitala.'));
+    citac.readAsDataURL(fajl);
+  });
+}
+
 export async function posaljiSliku(fajl) {
-  if (!baza) throw new Error('Baza nije podešena.');
-  const nastavak = (fajl.name.split('.').pop() || 'jpg').toLowerCase();
-  const ime = Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.' + nastavak;
-  const { error } = await baza.storage.from('slike').upload(ime, fajl, { cacheControl: '31536000' });
-  if (error) throw error;
-  return baza.storage.from('slike').getPublicUrl(ime).data.publicUrl;
+  const podaci = await uBazu(fajl);
+  const { adresa } = await trazi('/slike', {
+    method: 'POST',
+    body: JSON.stringify({ vrsta: fajl.type, podaci })
+  });
+  return adresa;
 }
