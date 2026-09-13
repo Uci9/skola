@@ -2,9 +2,8 @@
   const mreza = document.getElementById('mreza');
   if (!mreza) return;
 
-  const karte = [...mreza.querySelectorAll('.plocica')];
   const zastor = document.getElementById('zastor-mreze');
-  if (!karte.length || !zastor) return;
+  if (!zastor) return;
 
   const smireno = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let otvorena = null;
@@ -86,13 +85,52 @@
     else setTimeout(kraj, 450);
   }
 
-  karte.forEach(karta => {
-    karta.setAttribute('aria-expanded', 'false');
-    karta.addEventListener('click', () => {
-      if (otvorena === karta) zatvori();
-      else if (!otvorena) otvori(karta);
+  function vezi() {
+    mreza.querySelectorAll('.plocica').forEach(karta => {
+      karta.setAttribute('aria-expanded', 'false');
+      karta.addEventListener('click', () => {
+        if (otvorena === karta) zatvori();
+        else if (!otvorena) otvori(karta);
+      });
     });
-  });
+  }
+
+  function tekst(v) {
+    return String(v == null ? '' : v)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function nacrtaj(stavke) {
+    mreza.innerHTML = stavke.map((s, i) => {
+      const siroka = i % 3 === 0 ? ' siroka' : '';
+      const slika = s.slika
+        ? '<img src="' + tekst(s.slika) + '" alt="' + tekst(s.naslov) + '" loading="lazy">'
+        : '';
+      return '<button class="plocica' + siroka + '" type="button">' + slika +
+        '<span class="plocica-tama"></span>' +
+        '<span class="plocica-tekst"><b>' + tekst(s.naslov) + '</b>' +
+        '<span>' + tekst(s.opis || s.kategorija || '') + '</span></span></button>';
+    }).join('');
+  }
+
+  async function popuni() {
+    try {
+      const odgovor = await fetch('/api/kutak', { credentials: 'same-origin' });
+      if (odgovor.ok) {
+        const stavke = await odgovor.json();
+        if (Array.isArray(stavke) && stavke.length) {
+          nacrtaj(stavke);
+          const napomena = document.querySelector('.flag');
+          if (napomena) napomena.hidden = true;
+        }
+      }
+    } catch (greska) {
+      /* ostaju slike upisane u stranu */
+    }
+    vezi();
+  }
+
+  popuni();
 
   zastor.addEventListener('click', zatvori);
   document.addEventListener('keydown', ev => {

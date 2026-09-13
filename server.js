@@ -286,6 +286,27 @@ app.post('/api/profili/:id/uloga', samoAdmin, async (zahtjev, odgovor) => {
   odgovor.json({ gotovo: true });
 });
 
+app.post('/api/slike', samoAdmin, async (zahtjev, odgovor) => {
+  const vrsta = String(zahtjev.body.vrsta || '');
+  const sadrzaj = String(zahtjev.body.podaci || '');
+
+  if (!/^image\/(jpeg|png|webp|gif|avif)$/.test(vrsta)) {
+    odgovor.status(400).json({ greska: 'Dozvoljene su samo slike.' });
+    return;
+  }
+
+  const bajtovi = Buffer.from(sadrzaj, 'base64');
+  if (!bajtovi.length || bajtovi.length > 6 * 1024 * 1024) {
+    odgovor.status(400).json({ greska: 'Slika mora biti manja od 6 MB.' });
+    return;
+  }
+
+  const nastavak = vrsta.split('/')[1].replace('jpeg', 'jpg');
+  const ime = Date.now().toString(36) + '-' + crypto.randomBytes(4).toString('hex') + '.' + nastavak;
+  await bazen.query('insert into slike (id, vrsta, podaci) values ($1, $2, $3)', [ime, vrsta, bajtovi]);
+  odgovor.json({ adresa: '/slike/' + ime });
+});
+
 function opis(ime) {
   const cfg = TABELE[ime];
   if (!cfg) throw new Error('Nepoznata tabela.');
@@ -347,27 +368,6 @@ app.delete('/api/:tabela/:id', samoAdmin, async (zahtjev, odgovor) => {
   try { opis(zahtjev.params.tabela); } catch (g) { odgovor.sendStatus(404); return; }
   await bazen.query('delete from ' + zahtjev.params.tabela + ' where id = $1', [zahtjev.params.id]);
   odgovor.json({ gotovo: true });
-});
-
-app.post('/api/slike', samoAdmin, async (zahtjev, odgovor) => {
-  const vrsta = String(zahtjev.body.vrsta || '');
-  const sadrzaj = String(zahtjev.body.podaci || '');
-
-  if (!/^image\/(jpeg|png|webp|gif|avif)$/.test(vrsta)) {
-    odgovor.status(400).json({ greska: 'Dozvoljene su samo slike.' });
-    return;
-  }
-
-  const bajtovi = Buffer.from(sadrzaj, 'base64');
-  if (!bajtovi.length || bajtovi.length > 6 * 1024 * 1024) {
-    odgovor.status(400).json({ greska: 'Slika mora biti manja od 6 MB.' });
-    return;
-  }
-
-  const nastavak = vrsta.split('/')[1].replace('jpeg', 'jpg');
-  const ime = Date.now().toString(36) + '-' + crypto.randomBytes(4).toString('hex') + '.' + nastavak;
-  await bazen.query('insert into slike (id, vrsta, podaci) values ($1, $2, $3)', [ime, vrsta, bajtovi]);
-  odgovor.json({ adresa: '/slike/' + ime });
 });
 
 app.get('/slike/:ime', async (zahtjev, odgovor) => {
