@@ -84,9 +84,13 @@
     pozornica.style.setProperty('--pointer-x', '50%');
   }
 
+  const KARTI_PO_POVLACENJU = 6;
+  const TOCAK_PO_KARTI = 130;
+
   let povlacim = false;
   let pocetakX = 0;
   let pocetnaBaza = 3;
+  let skupljeno = 0;
 
   pozornica.addEventListener('pointerdown', event => {
     povlacim = true;
@@ -99,7 +103,7 @@
     if (!povlacim) return;
     const rect = pozornica.getBoundingClientRect();
     const pomak = (event.clientX - pocetakX) / rect.width;
-    state.base = pocetnaBaza - pomak * count * 0.42;
+    state.base = pocetnaBaza - pomak * KARTI_PO_POVLACENJU;
     state.target = state.base;
     state.active = false;
     state.lastInput = performance.now();
@@ -119,9 +123,13 @@
   pozornica.addEventListener('wheel', event => {
     if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
     event.preventDefault();
-    const direction = Math.sign(event.deltaX);
-    if (!direction) return;
-    state.base += direction;
+
+    skupljeno += event.deltaX;
+    const koraka = Math.trunc(skupljeno / TOCAK_PO_KARTI);
+    if (!koraka) return;
+
+    skupljeno -= koraka * TOCAK_PO_KARTI;
+    state.base += koraka;
     state.target = state.base;
     state.active = false;
     state.lastInput = performance.now();
@@ -159,7 +167,7 @@
   function render(time) {
     const deltaTime = Math.min(32, time - previousTime);
     previousTime = time;
-    const ease = smireno ? 1 : 1 - Math.pow(0.001, deltaTime / 1000);
+    const ease = smireno ? 1 : 1 - Math.pow(0.035, deltaTime / 1000);
 
     if (count > 2 && !state.active && !povlacim && time - state.lastInput > 3600) {
       const idle = time - state.lastInput - 3600;
