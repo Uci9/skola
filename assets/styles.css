@@ -145,7 +145,7 @@ p { margin: 0 0 1.1em; }
 .hamb i::before { top: -6px; left: 0; }
 .hamb i::after { top: 6px; left: 0; }
 
-.reel { position: relative; margin-top: -76px; height: 460vh; background: var(--ink); }
+.reel { position: relative; margin-top: -104px; height: 460vh; background: var(--ink); }
 .reel-stage {
   position: sticky; top: 0;
   height: 100vh;
