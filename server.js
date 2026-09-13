@@ -8,9 +8,13 @@ const koren = __dirname;
 const luka = process.env.PORT || 3000;
 const adresaBaze = process.env.DATABASE_URL;
 
+const unutrasnja = adresaBaze
+  ? /\.railway\.internal|localhost|127\.0\.0\.1/.test(adresaBaze)
+  : false;
+
 const bazen = adresaBaze ? new Pool({
   connectionString: adresaBaze,
-  ssl: /localhost|127\.0\.0\.1/.test(adresaBaze) ? false : { rejectUnauthorized: false }
+  ssl: unutrasnja ? false : { rejectUnauthorized: false }
 }) : null;
 
 const TABELE = {
@@ -398,13 +402,31 @@ app.use((greska, zahtjev, odgovor, dalje) => {
   odgovor.status(500).json({ greska: 'Nešto nije prošlo na serveru.' });
 });
 
+async function sacekajBazu() {
+  for (let pokusaj = 1; pokusaj <= 6; pokusaj++) {
+    try {
+      await bazen.query('select 1');
+      return true;
+    } catch (greska) {
+      console.warn('Baza se ne javlja (' + pokusaj + '/6): ' + greska.message);
+      await new Promise(kraj => setTimeout(kraj, 2000));
+    }
+  }
+  return false;
+}
+
 (async function kreni() {
   if (bazen) {
     try {
-      await napraviShemu();
-      await posijZaposlene();
-      await napraviAdmina();
-      KLJUC = await tajna();
+      if (await sacekajBazu()) {
+        await napraviShemu();
+        await posijZaposlene();
+        await napraviAdmina();
+        KLJUC = await tajna();
+        console.log('Baza spremna.');
+      } else {
+        console.error('Baza se nije javila, admin panel neće raditi.');
+      }
     } catch (greska) {
       console.error('Baza se nije javila:', greska.message);
     }
