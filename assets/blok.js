@@ -126,7 +126,7 @@
   }
 
   function podloga(k) {
-    k.fillStyle = '#F7F2EA';
+    k.fillStyle = '#E5E1DD';
     k.fillRect(0, 0, SIRINA, VISINA);
   }
 

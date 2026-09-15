@@ -38,7 +38,7 @@ assets/kadrovi/l/     141 slika za desktop, 1200px (7,5 MB)
 
 ## Dizajn
 
-Boja u punim blokovima — vinska #5A1A2B, zlatna #C9A66B, krem #F7F2EA i bijela —
+Boja u punim blokovima — navy #083A4F, teal #407E8C, gold #A58D66, sand #E5E1DD i bijela —
 umjesto jedne podloge sa akcentom.
 Naslovi Bricolage Grotesque, po koja riječ u Instrument Serif kurzivu, tekst
 Instrument Sans. Meka zaobljenja, sjenke, fotografija koja se preklapa sa karticom.
