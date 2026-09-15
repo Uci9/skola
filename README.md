@@ -29,9 +29,7 @@ server.js             server: statika, API za panel, prijava, slike
 assets/styles.css     stilovi za sve strane
 assets/baza.js        razgovor sa API-jem
 assets/blok.js        skicen-blok na početnoj (O nama)
-assets/mek.js         laptop u kontaktu
 assets/paralaks.js    slike koje se slažu na skrol (kutak učenika)
-assets/kursor.js      pokazivač koji klizi za mišem (desktop)
 assets/ispis.js       tekst koji se ispisuje riječ po riječ
 assets/img/           grb + slika zgrade
 assets/kadrovi/s/     141 slika za telefon, 720px (4,2 MB)
@@ -95,11 +93,8 @@ Ako canvas ne prođe, umjesto bloka se pokaže običan tekst (`#blok-rezerva`).
 
 ## Kontakt
 
-Sekcija „Gdje smo“ je laptop zakovan pri vrhu ekrana dok se strana pomjera:
-poklopac se otvara, ekran malo naraste i sklizne naniže, pa stane — ne
-odlijeće sa strane. Na ekranu je Google mapa sa adresom škole; prvi klik je
-oživljava, do tada je štit preko nje da ne otme skrol. Ispod ostaje razmak
-pa tabela sa podacima.
+Sekcija „Gdje smo“ je tabela sa podacima škole, a pored nje Google mapa sa
+adresom.
 
 ## Šta još fali
 

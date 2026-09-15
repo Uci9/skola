@@ -28,7 +28,7 @@
       nadnaslov: 'Brojke',
       naslov: 'Šta smo danas',
       redovi: [
-        'Šest obrazovnih programa — četiri četvorogodišnja i dva trogodišnja. Sedamdeset tri nastavnika i stotinu zaposlenih.',
+        'Sedam obrazovnih programa — pet četvorogodišnjih i dva trogodišnja. Sedamdeset tri nastavnika i stotinu zaposlenih.',
         'Četvorogodišnji vode ka diplomi tehničara i pravu na fakultet. Trogodišnji ka zanimanju s kojim se odmah radi.'
       ],
       slika: 'assets/kadrovi/l/k052.jpg',
@@ -37,10 +37,10 @@
     },
     {
       nadnaslov: 'Program',
-      naslov: 'Računari i elektronika',
+      naslov: 'Programiranje i mreže',
       redovi: [
-        'Elektrotehničar računara — hardver, mreže, operativni sistemi i programiranje. Dva odjeljenja, četiri godine, stručna matura.',
-        'Elektrotehničar elektronike — analogna i digitalna elektronika, mikrokontroleri, mjerenja i projektovanje uređaja.'
+        'Elektrotehničar za razvoj veb i mobilnih aplikacija — programiranje, veb i mobilne aplikacije i baze podataka.',
+        'Elektrotehničar računarskih sistema i mreža — hardver, računarske mreže, operativni sistemi i administracija sistema.'
       ],
       slika: 'assets/kadrovi/l/k104.jpg',
       potpis: 'Ulaz u školu',
@@ -48,10 +48,11 @@
     },
     {
       nadnaslov: 'Program',
-      naslov: 'Energetika i veze',
+      naslov: 'Elektronika, veze i energetika',
       redovi: [
-        'Elektrotehničar energetike — proizvodnja, prenos i distribucija struje, instalacije i mašine, obnovljivi izvori. Dva odjeljenja.',
-        'Elektrotehničar telekomunikacija — prenos signala, optičke i bežične mreže, održavanje sistema, uz praksu kod operatera.'
+        'Elektrotehničar elektronike — elektronika, mikrokontroleri i mjerenja.',
+        'Elektrotehničar elektronskih komunikacija — prenos signala, optičke i bežične mreže.',
+        'Elektrotehničar energetike — prenos i distribucija struje, obnovljivi izvori.'
       ],
       slika: 'assets/kadrovi/l/k030.jpg',
       potpis: 'Prilaz od kapije do vrata',
@@ -62,7 +63,7 @@
       naslov: 'Zanat u tri godine',
       redovi: [
         'Elektroinstalater — izvođenje i održavanje instalacija u objektima, uz praksu kod poslodavaca.',
-        'Elektromehaničar — montaža, servis i popravka uređaja i mašina, dijelom kroz dualno obrazovanje. Oba programa završavaju stručnim ispitom.'
+        'Monter elektronske komunikacione infrastrukture — kablovske, optičke i antenske instalacije. Oba programa završavaju stručnim ispitom.'
       ],
       slika: 'assets/kadrovi/l/k078.jpg',
       potpis: 'Nadstrešnica pred ulazom',

@@ -123,7 +123,6 @@ p { margin: 0 0 1.1em; }
   position: absolute; left: 50%; transform: translateX(-50%);
   display: flex; gap: 4px; align-items: center;
 }
-.head .btn { margin-left: auto; }
 .menu a {
   padding: 9px 14px; border-radius: var(--pill);
   font-size: .92rem; font-weight: 500; color: var(--ink); text-decoration: none;
@@ -131,7 +130,6 @@ p { margin: 0 0 1.1em; }
 }
 .menu a:hover { background: var(--paper); }
 .menu a.on { background: var(--ink); color: var(--white); }
-.head .btn { flex: none; padding: 11px 20px; font-size: .9rem; }
 
 .hamb {
   display: none; width: 44px; height: 44px; flex: none; margin-left: auto;
@@ -450,14 +448,14 @@ a.tile:hover .tile-go, a.tile:hover .tile-name { color: var(--cobalt); }
 
 .base-znak { display: flex; align-items: center; gap: 13px; margin-bottom: 20px; }
 .base-znak img {
-  width: 48px; height: 48px; object-fit: contain; flex: none;
+  width: 58px; height: 58px; object-fit: contain; flex: none;
   padding: 6px; border-radius: 50%; background: var(--white);
 }
 .base-znak b {
   display: block; color: var(--white); font-family: var(--grot);
-  font-size: 1.06rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.15;
+  font-size: 1.2rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.15;
 }
-.base-znak em { display: block; margin-top: 3px; font-style: normal; font-size: .88rem; color: var(--celik-svijetli); }
+.base-znak em { display: block; margin-top: 3px; font-style: normal; font-size: .96rem; color: var(--celik-svijetli); }
 .base-znak:hover b { color: var(--tirkiz-svijetli); }
 
 .base address { font-style: normal; line-height: 1.9; margin-bottom: 20px; }
@@ -560,7 +558,6 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
   .menu.open { display: flex; }
   .menu a { padding: 13px 16px; border-radius: var(--r-sm); }
   .head-in { position: relative; padding: 9px 9px 9px 16px; }
-  .head .btn { display: none; }
   .hamb { display: block; }
   .brand img { width: 30px; height: 30px; }
 
@@ -625,8 +622,8 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
   .base { padding: 46px 0 0; }
   .base-grid { grid-template-columns: 1fr 1fr; gap: 26px 22px; padding-bottom: 30px; }
   .base-id { grid-column: 1 / -1; }
-  .base-znak img { width: 42px; height: 42px; padding: 5px; }
-  .base-znak b { font-size: .98rem; }
+  .base-znak img { width: 50px; height: 50px; padding: 5px; }
+  .base-znak b { font-size: 1.08rem; }
   .base address { line-height: 1.75; margin-bottom: 16px; }
   .base li { margin-bottom: 7px; }
   .base h4 { margin-bottom: 10px; font-size: .9rem; }
@@ -823,6 +820,7 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   overflow: hidden; cursor: pointer; font: inherit;
   transition: transform .2s cubic-bezier(.2,.8,.3,1), box-shadow .2s;
 }
+.osoba[hidden] { display: none; }
 .osoba:hover { transform: translateY(-4px); box-shadow: var(--shadow-up); }
 .osoba-slika {
   position: relative; display: block; height: 268px; overflow: hidden;
@@ -1002,158 +1000,6 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   transition: opacity .18s ease, transform .18s cubic-bezier(.2,.8,.3,1);
 }
 .sa-lecom .leca { opacity: 1; transform: scale(1); }
-
-.pozornica {
-  --pointer-x: 50%;
-  position: relative;
-  width: 100%;
-  height: min(70vh, 600px);
-  min-height: 440px;
-  overflow: hidden;
-  isolation: isolate;
-  perspective: 1450px;
-  cursor: ew-resize;
-  touch-action: pan-y;
-  user-select: none;
-  border-radius: var(--r);
-  background:
-    linear-gradient(90deg, rgba(58,21,32,.06) 1px, transparent 1px) 50% 0 / 25% 100%,
-    repeating-linear-gradient(0deg, transparent 0, transparent 109px, rgba(58,21,32,.09) 110px, transparent 111px),
-    radial-gradient(circle at var(--pointer-x) 48%, rgba(255,255,255,.92), transparent 34%),
-    var(--paper);
-}
-.pozornica.vuce { cursor: grabbing; }
-.pozornica::before {
-  content: ""; position: absolute; inset: 0; z-index: 5;
-  pointer-events: none; opacity: .27;
-  background:
-    repeating-radial-gradient(circle at 12% 18%, rgba(58,21,32,.14) 0 .5px, transparent .7px 4px),
-    repeating-radial-gradient(circle at 78% 71%, rgba(255,255,255,.35) 0 .5px, transparent .8px 5px);
-  mix-blend-mode: multiply;
-}
-.pozornica::after {
-  content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none;
-  background: linear-gradient(90deg, rgba(58,21,32,.16), transparent 14%, transparent 86%, rgba(58,21,32,.16));
-}
-
-.paluba { position: absolute; inset: 0; z-index: 2; transform-style: preserve-3d; }
-
-.karta {
-  --focus: 0;
-  position: absolute; top: 50%; left: 50%;
-  width: clamp(154px, 16.8vw, 238px);
-  aspect-ratio: .72;
-  padding: 7px;
-  overflow: hidden;
-  border: 1px solid rgba(58,21,32,.3);
-  border-radius: 4px;
-  color: var(--white);
-  background: #F0E9DB;
-  box-shadow:
-    0 calc(10px + var(--focus) * 24px) calc(18px + var(--focus) * 36px)
-      rgba(58,21,32, calc(.2 + var(--focus) * .26)),
-    inset 0 0 0 1px rgba(255,255,255,.64);
-  appearance: none;
-  outline: none;
-  font: inherit;
-  transform-style: preserve-3d;
-  will-change: transform, opacity, filter;
-  cursor: pointer;
-}
-.karta::before {
-  content: ""; position: absolute; inset: 5px; z-index: 3;
-  border: 1px solid rgba(58,21,32, calc(.12 + var(--focus) * .12));
-  pointer-events: none;
-}
-.karta:focus-visible {
-  box-shadow: 0 26px 50px rgba(58,21,32,.42), 0 0 0 4px rgba(226,198,141,.5);
-}
-
-.portret {
-  position: absolute; inset: 7px 7px 25%;
-  overflow: hidden;
-  background: linear-gradient(150deg, hsl(var(--ton) 58% 38%), hsl(var(--ton) 62% 16%));
-}
-.portret img {
-  display: block; width: 100%; height: 100%; object-fit: cover;
-  transform: scale(calc(1.04 + (1 - var(--focus)) * .06));
-  filter: saturate(calc(.66 + var(--focus) * .34)) contrast(1.04);
-}
-.portret b {
-  position: absolute; inset: 0; display: grid; place-items: center;
-  font-family: var(--grot); font-weight: 800;
-  font-size: clamp(1.5rem, 3.4vw, 2.6rem); letter-spacing: -.04em;
-  color: rgba(255,255,255,.92);
-}
-
-.podnozje-karte {
-  position: absolute; right: 7px; bottom: 7px; left: 7px;
-  height: calc(25% - 7px);
-  display: grid; grid-template-columns: clamp(26px, 3.2vw, 43px) 1fr;
-  align-items: center; gap: clamp(6px, .7vw, 11px);
-  padding: clamp(7px, .8vw, 12px);
-  color: #F5EDE2; background: var(--ink);
-  text-align: left;
-}
-.redni {
-  display: grid; width: clamp(23px, 2.7vw, 37px); aspect-ratio: 1;
-  place-items: center;
-  border: 1px solid var(--tirkiz-svijetli); border-radius: 50%;
-  color: var(--tirkiz-svijetli);
-  font: 600 clamp(7px, .68vw, 11px)/1 ui-monospace, "SFMono-Regular", monospace;
-}
-.podaci { min-width: 0; }
-.ime-karte, .uloga-karte {
-  display: block; overflow: hidden; text-overflow: ellipsis;
-  text-transform: uppercase; white-space: nowrap;
-}
-.ime-karte {
-  color: #F7F2EA; font-size: clamp(9px, .9vw, 13.5px);
-  font-weight: 800; letter-spacing: .07em; line-height: 1.1;
-}
-.uloga-karte {
-  margin-top: clamp(3px, .35vw, 5px); color: var(--tirkiz-svijetli);
-  font-size: clamp(6.5px, .56vw, 8.5px); font-weight: 700;
-  letter-spacing: .13em; line-height: 1;
-}
-
-.natpis {
-  display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
-  margin-top: 22px; min-height: 52px;
-}
-.natpis-broj {
-  font: 600 .8rem/1 ui-monospace, "SFMono-Regular", monospace;
-  color: var(--ink-2); letter-spacing: .1em; flex: none;
-}
-.natpis-ime {
-  font-family: var(--grot); font-weight: 700; font-size: 1.35rem;
-  letter-spacing: -.02em; color: var(--ink);
-}
-.natpis-uloga { color: var(--ink-2); font-size: .95rem; }
-.natpis .btn { margin-left: auto; }
-
-.uputa {
-  margin-top: 10px; font-size: .88rem; color: var(--ink-2);
-}
-
-@media (max-width: 650px) {
-  .pozornica {
-    height: 62vh; min-height: 430px;
-    background:
-      linear-gradient(90deg, rgba(58,21,32,.06) 1px, transparent 1px) 50% 0 / 50% 100%,
-      repeating-linear-gradient(0deg, transparent 0, transparent 87px, rgba(58,21,32,.09) 88px, transparent 89px),
-      radial-gradient(circle at 50% 50%, rgba(255,255,255,.92), transparent 35%),
-      var(--paper);
-  }
-  .karta { width: clamp(138px, 42vw, 176px); }
-  .natpis { margin-top: 16px; gap: 10px; }
-  .natpis-ime { font-size: 1.15rem; }
-  .natpis .btn { margin-left: 0; width: 100%; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .karta { will-change: auto; }
-}
 
 .stavka { position: relative; }
 .stavka > button {
@@ -1587,150 +1433,11 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   .blok-natpis { animation: none; }
 }
 
-.mek { position: relative; height: 185vh; margin-bottom: clamp(40px, 7vh, 80px); }
-.mek-scena {
-  position: sticky; top: 0;
-  height: 100vh; height: 100svh;
-  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-  padding-top: clamp(24px, 4vh, 60px);
-  overflow: hidden;
-}
-.mek-naslov {
-  margin: 0 0 clamp(22px, 4vh, 40px); text-align: center;
-  color: var(--white); font-size: clamp(1.5rem, 3.4vw, 2.4rem);
-  will-change: transform, opacity;
-}
-.mek-naslov em {
-  font-family: var(--serif); font-style: italic; font-weight: 400;
-  color: var(--tirkiz-svijetli);
-}
-.mek-uredjaj {
-  position: relative;
-  display: flex; flex-direction: column; align-items: center;
-  transform: scale(.76); transform-origin: top center;
-  will-change: transform;
-}
-.mek-sprava { position: relative; perspective: 800px; }
-.mek-zatvoren {
-  position: relative; width: 512px; height: 192px;
-  padding: 8px; border-radius: 16px; background: #010101;
-  transform: perspective(800px) rotateX(-25deg) translateZ(0);
-  transform-origin: bottom; transform-style: preserve-3d;
-}
-.mek-zatvoren span {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 10px; background: #010101;
-  box-shadow: 0 2px 0 2px #171717 inset;
-}
-.mek-zatvoren img { width: 34px; height: 34px; opacity: .9; }
-.mek-poklopac {
-  position: absolute; inset: 0; width: 512px; height: 384px;
-  padding: 8px; border-radius: 16px; background: #010101;
-  transform-style: preserve-3d; transform-origin: top;
-  transform: translateY(0) rotateX(-28deg) scale(1.2, .6);
-  will-change: transform;
-}
-.mek-ekran { position: absolute; inset: 0; border-radius: 10px; background: #272729; }
-.mek-mapa {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%; border: 0; border-radius: 10px;
-  pointer-events: none;
-}
-.mek-stit {
-  position: absolute; inset: 0; z-index: 2;
-  display: flex; align-items: flex-end; justify-content: center;
-  padding-bottom: 14px; border: 0; border-radius: 10px;
-  background: linear-gradient(rgba(40,14,22,0) 58%, rgba(40,14,22,.55));
-  color: var(--white); font: inherit; font-size: .82rem; letter-spacing: .06em;
-  text-transform: uppercase; cursor: pointer;
-}
-.mek.ziva .mek-mapa { pointer-events: auto; }
-.mek.ziva .mek-stit { display: none; }
-.mek-baza {
-  position: relative; z-index: -10;
-  width: 512px; height: 352px;
-  overflow: hidden; border-radius: 16px; background: #272729;
-}
-.mek-traka { position: relative; height: 40px; }
-.mek-traka i {
-  position: absolute; left: 10%; right: 10%; top: 0;
-  height: 16px; background: #050505;
-}
-.mek-sredina { position: relative; display: flex; }
-.mek-zvucnik {
-  width: 10%; height: 160px; margin: 8px auto 0;
-  overflow: hidden;
-  background-image: radial-gradient(circle, #08080A .5px, transparent .5px);
-  background-size: 3px 3px;
-}
-.mek-tastatura {
-  width: 80%; margin: 0 4px; padding: 4px;
-  border-radius: 6px; background: #050505;
-}
-.mek-red { display: flex; gap: 2px; margin-bottom: 2px; }
-.mek-tipka {
-  flex: none; width: 24px; height: 24px;
-  padding: .5px; border-radius: 4px;
-  background: rgba(255,255,255,.2);
-  box-shadow: 0 0 14px rgba(255,255,255,.35);
-}
-.mek-tipka > span {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  width: 100%; height: 100%;
-  border-radius: 3.5px; background: #0A090D; color: var(--white);
-  box-shadow: 0 -.5px 2px 0 #0D0D0F inset, -.5px 0 2px 0 #0D0D0F inset;
-}
-.mek-tipka b { display: block; font-size: 5px; font-weight: 500; line-height: 1.25; }
-.mek-tipka.sird { width: 40px; }
-.mek-tipka.siri { width: 45px; }
-.mek-tipka.najsiri { width: 58px; }
-.mek-tipka.razmak { width: 131px; }
-.mek-tipka.oblo > span { border-radius: 50%; background: #000; }
-.mek-tipka.mala { width: 24px; height: 12px; }
-.mek-strelice { display: flex; flex-direction: column; align-items: center; margin-top: 2px; }
-.mek-strelice > div { display: flex; }
-.mek-dodirnik {
-  width: 40%; height: 128px; margin: 4px auto;
-  border-radius: 12px; box-shadow: 0 0 1px 1px rgba(0,0,0,.13) inset;
-}
-.mek-noga {
-  position: absolute; left: 0; right: 0; bottom: 0;
-  width: 80px; height: 8px; margin: 0 auto;
-  border-radius: 24px 24px 0 0;
-  background: linear-gradient(to top, #050505, #272729);
-}
-
-@media (max-width: 820px) {
-  .mek { height: 150vh; }
-  .mek-scena { height: 100vh; height: 100svh; padding-top: 86px; }
-
-  .mek-naslov { font-size: 1.28rem; margin-bottom: 14px; }
-  .mek-stit { font-size: .72rem; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mek { height: auto; }
-  .mek-scena { position: static; height: auto; padding: 40px 0 60px; }
-  .mek-poklopac { transform: none; }
-}
-
 .kontakt-do { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.kontakt-mapa {
+  aspect-ratio: 4 / 3; overflow: hidden;
+  border-radius: var(--r); box-shadow: var(--shadow); background: #272729;
+}
+.kontakt-mapa iframe { display: block; width: 100%; height: 100%; border: 0; }
 
 .blok-potpis { font-family: var(--serif); font-style: italic; color: var(--ink-2); }
-
-.kursor {
-  position: fixed; left: 0; top: 0; z-index: 999;
-  margin: -2px 0 0 -2px;
-  color: var(--cobalt);
-  pointer-events: none; opacity: 0;
-  transform-origin: 3px 3px;
-  transition: opacity .2s ease;
-  filter: drop-shadow(0 4px 10px rgba(48,18,26,.35));
-  will-change: transform;
-}
-.kursor.gori { opacity: 1; }
-.kursor.pritisnut svg { transform: scale(.82); }
-.kursor svg { display: block; transition: transform .12s ease; }
-html.sa-kursorom, html.sa-kursorom * { cursor: none !important; }
-html.sa-kursorom input, html.sa-kursorom textarea { cursor: text !important; }
