@@ -120,7 +120,7 @@ p { margin: 0 0 1.1em; }
 .brand span { display: block; font-size: .82rem; color: var(--ink-2); line-height: 1.3; margin-top: 3px; }
 
 .menu {
-  display: flex; gap: 6px; align-items: center; margin-left: auto;
+  display: flex; gap: 6px; align-items: center; margin: 0 28px 0 auto;
 }
 .menu a {
   padding: 13px 20px; border-radius: var(--pill);
@@ -548,7 +548,7 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
   .reel-cue { bottom: 20px; bottom: calc(100lvh - 100svh + 16px); font-size: .78rem; }
 
   .menu {
-    display: none; position: absolute; left: 0; right: 0; top: calc(100% + 10px);
+    display: none; position: absolute; left: 0; right: 0; top: calc(100% + 10px); margin: 0;
     transform: none; max-height: calc(100dvh - 130px); overflow-y: auto;
     flex-direction: column; gap: 2px; align-items: stretch;
     background: var(--white); border: 1px solid var(--line);
