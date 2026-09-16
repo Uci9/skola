@@ -17,6 +17,8 @@ const bazen = adresaBaze ? new Pool({
   ssl: unutrasnja ? false : { rejectUnauthorized: false }
 }) : null;
 
+const SKOLSKI_DOMEN = '@ets-pg.edu.me';
+
 const TABELE = {
   nastavnici: {
     polja: ['ime', 'zvanje', 'grupa', 'biografija', 'slika', 'redoslijed'],
@@ -236,6 +238,11 @@ app.post('/api/prijava', async (zahtjev, odgovor) => {
     return;
   }
 
+  if (!email.endsWith(SKOLSKI_DOMEN) && rows[0].uloga !== 'admin') {
+    odgovor.status(403).json({ greska: 'Prijava radi samo sa školskom adresom ' + SKOLSKI_DOMEN + '.' });
+    return;
+  }
+
   upisiSesiju(odgovor, rows[0].id);
   odgovor.json({ id: rows[0].id, email: rows[0].email, ime: rows[0].ime, uloga: rows[0].uloga });
 });
@@ -247,6 +254,10 @@ app.post('/api/upis', async (zahtjev, odgovor) => {
 
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     odgovor.status(400).json({ greska: 'E-pošta nije ispravna.' });
+    return;
+  }
+  if (!email.endsWith(SKOLSKI_DOMEN)) {
+    odgovor.status(400).json({ greska: 'Nalog se pravi samo sa školskom adresom ' + SKOLSKI_DOMEN + '.' });
     return;
   }
   if (lozinka.length < 6) {

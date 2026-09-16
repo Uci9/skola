@@ -98,7 +98,9 @@
         <label class="f"><span>Ime i prezime</span>
           <input type="text" name="ime" autocomplete="name"></label>
         <label class="f"><span>E-pošta</span>
-          <input type="email" name="eposta" autocomplete="email" required></label>
+          <input type="email" name="eposta" autocomplete="email" required
+                 pattern="[^@\s]+@ets-pg\.edu\.me" title="Samo školska adresa, na primjer ime.prezime@ets-pg.edu.me">
+          <small>samo školska adresa @ets-pg.edu.me</small></label>
         <label class="f"><span>Lozinka</span>
           <input type="password" name="lozinka" autocomplete="new-password" minlength="6" required>
           <small>najmanje 6 znakova</small></label>
@@ -214,7 +216,7 @@ gore.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: smireno ? 'auto' : 'smooth' });
 });
 </script>
-<script type="module" src="assets/prijava.js?v=b013e67d"></script>
+<script type="module" src="assets/prijava.js?v=c546f78c"></script>
 
 </body>
 </html>

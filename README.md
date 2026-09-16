@@ -106,6 +106,16 @@ Slika ne ide e-poštom nego pravo u bazu, u tabelu `prijedlozi`, uz ime
 pošiljaoca. U admin panelu ih pokazuje tab „Slike učenika“, odakle se
 brišu ili prebacuju u kutak.
 
+## Nalozi
+
+Nalog se pravi samo školskom adresom `@ets-pg.edu.me`. Provjera stoji u
+obrascu i na serveru, pa se ne može zaobići. Ime bez `@` se dopunjuje
+školskom adresom, pa `pero` radi isto što i `pero@ets-pg.edu.me`.
+
+Prijava traži istu adresu. Jedini izuzetak su admin nalozi — oni rade i sa
+drugom adresom, da škola ne ostane bez panela ako je admin upisan preko
+`ADMIN_IME`.
+
 ## Šta još fali
 
 - biografije profesora — na karticama za sada piše „u pripremi“

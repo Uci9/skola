@@ -8,6 +8,10 @@ function uEpostu(vrijednost) {
   return t.includes('@') ? t : t.toLowerCase().replace(/\s+/g, '') + DOMEN;
 }
 
+function skolska(email) {
+  return email.toLowerCase().endsWith(DOMEN);
+}
+
 const dugmad = [...document.querySelectorAll('.tabovi button')];
 const formaPrijava = document.getElementById('formaPrijava');
 const formaUpis = document.getElementById('formaUpis');
@@ -60,11 +64,18 @@ if (!(await imaBazu())) {
   formaUpis.addEventListener('submit', async e => {
     e.preventDefault();
     const dugme = formaUpis.querySelector('button[type=submit]');
+    const eposta = uEpostu(formaUpis.eposta.value);
+
+    if (!skolska(eposta)) {
+      javi('Nalog se pravi samo sa školskom adresom ' + DOMEN + '.');
+      return;
+    }
+
     dugme.disabled = true;
     javi('Pravim nalog…');
 
     try {
-      await napraviNalog(uEpostu(formaUpis.eposta.value), formaUpis.lozinka.value, formaUpis.ime.value.trim());
+      await napraviNalog(eposta, formaUpis.lozinka.value, formaUpis.ime.value.trim());
     } catch (greska) {
       dugme.disabled = false;
       javi(porukaGreske(greska));
