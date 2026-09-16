@@ -563,7 +563,7 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
   }
   .menu.open { display: flex; }
   .menu a { padding: 13px 16px; border-radius: var(--r-sm); }
-  #kontakt .pair { display: flex; flex-direction: column; }
+  #kontakt .pair { display: flex; flex-direction: column; align-items: stretch; }
   #kontakt .kontakt-mapa { order: -1; }
 
   .head-in { position: relative; padding: 9px 9px 9px 16px; }
