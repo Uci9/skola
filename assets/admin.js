@@ -312,9 +312,83 @@ async function nalozi() {
   });
 }
 
+async function poslateSlike() {
+  sadrzaj.innerHTML = '';
+  const okvir = el(`<div class="admin-spisak siroko">
+    <h3>Slike koje su poslali učenici <span class="broj" id="broj"></span></h3>
+    <p class="glas" id="glasP" hidden></p>
+    <div id="spisak"></div>
+  </div>`);
+  sadrzaj.appendChild(okvir);
+
+  const spisak = okvir.querySelector('#spisak');
+  const glasnik = okvir.querySelector('#glasP');
+  const broj = okvir.querySelector('#broj');
+
+  let data;
+  try {
+    data = await prijedlozi();
+  } catch (greska) {
+    javi(glasnik, porukaGreske(greska));
+    return;
+  }
+
+  broj.textContent = data.length;
+  if (!data.length) { spisak.innerHTML = '<p class="prazno">Još nema poslatih slika.</p>'; return; }
+
+  spisak.innerHTML = '';
+  data.forEach(red => {
+    const kad = red.napravljeno ? new Date(red.napravljeno).toLocaleDateString('sr-Latn') : '';
+    const stavka = el(`<div class="admin-stavka">
+      <img src="${tekst(red.slika)}" alt="">
+      <div class="admin-tekst">
+        <b>${tekst(red.naslov)}</b>
+        <span>${tekst([red.posiljalac || red.email, kad].filter(Boolean).join(' · '))}</span>
+        ${red.opis ? `<span>${tekst(red.opis)}</span>` : ''}
+      </div>
+      <div class="admin-radnje">
+        <button class="btn btn-line mali uKutak">U kutak</button>
+        <button class="btn btn-line mali obrisi">Obriši</button>
+      </div>
+    </div>`);
+
+    stavka.querySelector('.uKutak').addEventListener('click', async () => {
+      try {
+        await dodaj('kutak', {
+          naslov: red.naslov,
+          kategorija: 'Poslali učenici',
+          opis: red.opis || '',
+          slika: red.slika
+        });
+        await obrisiPrijedlog(red.id);
+      } catch (greska) {
+        javi(glasnik, porukaGreske(greska));
+        return;
+      }
+      javi(glasnik, 'Prebačeno u kutak učenika.', true);
+      poslateSlike();
+    });
+
+    stavka.querySelector('.obrisi').addEventListener('click', async () => {
+      if (!confirm('Obrisati „' + red.naslov + '“?')) return;
+      try {
+        await obrisiPrijedlog(red.id);
+      } catch (greska) {
+        javi(glasnik, porukaGreske(greska));
+        return;
+      }
+      javi(glasnik, 'Obrisano.', true);
+      poslateSlike();
+    });
+
+    spisak.appendChild(stavka);
+  });
+}
+
 function prikazi(kljuc) {
   [...tabovi.children].forEach(d => d.classList.toggle('on', d.dataset.tab === kljuc));
   if (kljuc === 'nalozi') nalozi();
+  else if (kljuc === 'prijedlozi') poslateSlike();
   else crud(kljuc);
 }
 

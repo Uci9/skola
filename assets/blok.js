@@ -504,6 +504,7 @@
 
   function razmjeri() {
     okvir3d.style.setProperty('--sirina', knjiga.clientWidth + 'px');
+    scena.style.setProperty('--sirina', knjiga.clientWidth + 'px');
   }
 
   addEventListener('resize', razmjeri);
@@ -578,6 +579,7 @@
     okvir3d.style.setProperty('--rx', vid.rx.toFixed(2) + 'deg');
     okvir3d.style.setProperty('--ry', vid.ry.toFixed(2) + 'deg');
     okvir3d.style.setProperty('--zum', vid.z.toFixed(3));
+    scena.style.setProperty('--zum', vid.z.toFixed(3));
     if (vid.z !== zadnjiZ) {
       zadnjiZ = vid.z;
       postaviLupu();
@@ -639,6 +641,7 @@
 
   scena.addEventListener('pointerdown', e => {
     if (e.button !== 0) return;
+    if (e.target.closest('.blok-strelica')) return;
     e.preventDefault();
     const naKnjizi = e.target.closest('.blok-zona');
     scena.setPointerCapture(e.pointerId);
@@ -787,7 +790,9 @@
   }
 
   function kutija() {
-    return { x: 0, y: 0, s: knjiga.clientWidth, v: knjiga.clientHeight };
+    const b = knjiga.getBoundingClientRect();
+    const o = okvir3d.getBoundingClientRect();
+    return { x: b.left - o.left, y: b.top - o.top, s: b.width, v: b.height };
   }
 
   function spustiLupu() {
@@ -819,13 +824,10 @@
     lupa.style.transform = 'translate3d(' + (lx - R).toFixed(1) + 'px,' + (ly - R).toFixed(1) + 'px,0)';
     if (lupaGori) lupa.classList.add('gori');
 
-    const z = vid.z;
-    const cx = bs / 2;
-    const cy = bv / 2;
-    const x0 = cx + (bs * LIJEVI - cx) * z;
-    const x1 = cx + (bs * DESNI - cx) * z;
-    const y0 = cy + (bv * GORNJI - cy) * z;
-    const y1 = cy + (bv * DONJI - cy) * z;
+    const x0 = B.x + bs * LIJEVI;
+    const x1 = B.x + bs * DESNI;
+    const y0 = B.y + bv * GORNJI;
+    const y1 = B.y + bv * DONJI;
 
     const nx = Math.max(x0, Math.min(lx, x1));
     const ny = Math.max(y0, Math.min(ly, y1));
@@ -843,9 +845,13 @@
     slojZuma.style.webkitMaskImage = maska;
     slojZuma.style.maskImage = maska;
 
-    const px = cx + (lx - cx) / z;
-    const py = cy + (ly - cy) / z;
-    const s = UVECANJE * z;
+    const sirovaS = knjiga.clientWidth;
+    const sirovaV = knjiga.clientHeight;
+    if (!sirovaS || !sirovaV) return;
+
+    const s = UVECANJE * (bs / sirovaS);
+    const px = (lx - B.x) / bs * sirovaS;
+    const py = (ly - B.y) / bv * sirovaV;
     unutraZuma.style.transform = 'translate(' + (lx - px * s).toFixed(1) + 'px,' + (ly - py * s).toFixed(1) + 'px) '
       + 'scale(' + s.toFixed(4) + ')';
   }
@@ -853,8 +859,8 @@
   function gurniLupu(smjer) {
     if (!lupaGori || lx === null || drzi) return;
     const b = kutija();
-    const nx = (b.s / 2 + (lx - b.x - b.s / 2) / vid.z) / b.s;
-    const ny = (b.v / 2 + (ly - b.y - b.v / 2) / vid.z) / b.v;
+    const nx = (lx - b.x) / b.s;
+    const ny = (ly - b.y) / b.v;
     if (nx < 0.02 || nx > 0.98 || ny < 0.17 || ny > 0.83) return;
     lupaCilj = { x: b.x + b.s * (smjer === 'dalje' ? 0.12 : 0.88), y: b.y + b.v * 0.855 };
     gurni();

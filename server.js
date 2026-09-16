@@ -80,6 +80,15 @@ async function napraviShemu() {
       opis text,
       napravljeno timestamptz default now()
     );
+    create table if not exists prijedlozi (
+      id uuid primary key default gen_random_uuid(),
+      profil uuid references profili(id) on delete set null,
+      posiljalac text,
+      naslov text not null,
+      opis text,
+      slika text not null,
+      napravljeno timestamptz default now()
+    );
     create table if not exists slike (
       id text primary key,
       vrsta text not null,
@@ -305,6 +314,66 @@ app.post('/api/slike', samoAdmin, async (zahtjev, odgovor) => {
   const ime = Date.now().toString(36) + '-' + crypto.randomBytes(4).toString('hex') + '.' + nastavak;
   await bazen.query('insert into slike (id, vrsta, podaci) values ($1, $2, $3)', [ime, vrsta, bajtovi]);
   odgovor.json({ adresa: '/slike/' + ime });
+});
+
+async function upisiSliku(vrsta, sadrzaj) {
+  if (!/^image\/(jpeg|png|webp|gif|avif)$/.test(vrsta)) {
+    return { greska: 'Dozvoljene su samo slike.' };
+  }
+
+  const bajtovi = Buffer.from(sadrzaj, 'base64');
+  if (!bajtovi.length || bajtovi.length > 6 * 1024 * 1024) {
+    return { greska: 'Slika mora biti manja od 6 MB.' };
+  }
+
+  const nastavak = vrsta.split('/')[1].replace('jpeg', 'jpg');
+  const ime = Date.now().toString(36) + '-' + crypto.randomBytes(4).toString('hex') + '.' + nastavak;
+  await bazen.query('insert into slike (id, vrsta, podaci) values ($1, $2, $3)', [ime, vrsta, bajtovi]);
+  return { adresa: '/slike/' + ime };
+}
+
+app.post('/api/prijedlozi', async (zahtjev, odgovor) => {
+  const osoba = await ko(zahtjev);
+  if (!osoba) {
+    odgovor.status(401).json({ greska: 'Prijavi se pa pošalji sliku.' });
+    return;
+  }
+
+  const naslov = String(zahtjev.body.naslov || '').trim();
+  const opisSlike = String(zahtjev.body.opis || '').trim();
+  if (!naslov) {
+    odgovor.status(400).json({ greska: 'Upiši povod — šta je na slici.' });
+    return;
+  }
+
+  const { adresa, greska } = await upisiSliku(
+    String(zahtjev.body.vrsta || ''),
+    String(zahtjev.body.podaci || '')
+  );
+  if (greska) {
+    odgovor.status(400).json({ greska });
+    return;
+  }
+
+  const { rows } = await bazen.query(
+    `insert into prijedlozi (profil, posiljalac, naslov, opis, slika)
+     values ($1, $2, $3, $4, $5) returning id`,
+    [osoba.id, osoba.ime || osoba.email, naslov, opisSlike || null, adresa]
+  );
+  odgovor.json({ id: rows[0].id, slika: adresa });
+});
+
+app.get('/api/prijedlozi', samoAdmin, async (zahtjev, odgovor) => {
+  const { rows } = await bazen.query(
+    `select p.*, r.email from prijedlozi p left join profili r on r.id = p.profil
+     order by p.napravljeno desc`
+  );
+  odgovor.json(rows);
+});
+
+app.delete('/api/prijedlozi/:id', samoAdmin, async (zahtjev, odgovor) => {
+  await bazen.query('delete from prijedlozi where id = $1', [zahtjev.params.id]);
+  odgovor.json({ gotovo: true });
 });
 
 function opis(ime) {

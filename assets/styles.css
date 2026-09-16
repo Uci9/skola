@@ -563,6 +563,9 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
   }
   .menu.open { display: flex; }
   .menu a { padding: 13px 16px; border-radius: var(--r-sm); }
+  #kontakt .pair { display: flex; flex-direction: column; }
+  #kontakt .kontakt-mapa { order: -1; }
+
   .head-in { position: relative; padding: 9px 9px 9px 16px; }
   .hamb { display: block; }
   .brand img { width: 34px; height: 34px; }
@@ -1181,13 +1184,16 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   touch-action: pan-y;
 }
 .blok-strelica {
-  flex: none; z-index: 8;
+  position: absolute; top: 50%; z-index: 8;
+  transform: translateY(-50%);
   display: inline-flex; align-items: center; justify-content: center;
   padding: 6px 2px; border: 0; background: transparent;
   color: rgba(5,42,58,.32); cursor: pointer;
   transition: color .2s; -webkit-tap-highlight-color: transparent;
 }
 .blok-strelica:hover { color: var(--ink); }
+.blok-strelica.lijevo { right: calc(50% + (var(--sirina, 880px) * var(--zum, 1)) / 2 + 12px); }
+.blok-strelica.desno { left: calc(50% + (var(--sirina, 880px) * var(--zum, 1)) / 2 + 12px); }
 .blok-3d {
   position: relative; flex: 1 1; min-width: 0; max-width: 900px;
   perspective: 1750px; perspective-origin: 50% 46%;
@@ -1339,7 +1345,7 @@ html.ucitava, html.ucitava body { overflow: hidden; }
     radial-gradient(24% 16% at 74% 86%, rgba(255,255,255,.12), rgba(255,255,255,0) 80%),
     linear-gradient(150deg, rgba(255,255,255,.06) 0 18%, rgba(255,255,255,0) 42%);
 }
-.blok-zum { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; opacity: 0; }
+.blok-zum { position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; }
 .blok-zum-unutra { position: absolute; inset: 0; transform-origin: 0 0; }
 
 .blok-alat {
@@ -1439,6 +1445,11 @@ html.ucitava, html.ucitava body { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .blok-ploca:hover { padding-left: 4px; }
   .blok-natpis { animation: none; }
+}
+
+.slanje-pregled {
+  display: block; width: 100%; max-width: 320px; margin-bottom: 4px;
+  border-radius: var(--r-sm); box-shadow: var(--shadow);
 }
 
 .kontakt-do { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }

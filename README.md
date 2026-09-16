@@ -25,9 +25,11 @@ kutak-ucenika.html    galerija đačkog života
 poslodavci.html       partneri i preduzeća
 novosti.html          obavještenja
 kalkulator.html       bodovi za upis u I razred
+moodle.html           ulaz u Moodle, posebno za učenike i nastavnike
 server.js             server: statika, API za panel, prijava, slike
 assets/styles.css     stilovi za sve strane
 assets/baza.js        razgovor sa API-jem
+assets/slanje.js      slanje slike sa strane kutka u admin panel
 assets/blok.js        skicen-blok na početnoj (O nama)
 assets/paralaks.js    slike koje se slažu na skrol (kutak učenika)
 assets/ispis.js       tekst koji se ispisuje riječ po riječ
@@ -95,6 +97,14 @@ Ako canvas ne prođe, umjesto bloka se pokaže običan tekst (`#blok-rezerva`).
 
 Sekcija „Gdje smo“ je tabela sa podacima škole, a pored nje Google mapa sa
 adresom.
+
+## Slike od učenika
+
+Na dnu kutka učenika stoji obrazac za slanje slike. Radi samo prijavljenom
+korisniku, da se zna ko je poslao — neprijavljenom piše poziv na prijavu.
+Slika ne ide e-poštom nego pravo u bazu, u tabelu `prijedlozi`, uz ime
+pošiljaoca. U admin panelu ih pokazuje tab „Slike učenika“, odakle se
+brišu ili prebacuju u kutak.
 
 ## Šta još fali
 

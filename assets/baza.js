@@ -105,6 +105,22 @@ function uBazu(fajl) {
   });
 }
 
+export async function posaljiPrijedlog(fajl, naslov, opis) {
+  const podaci = await uBazu(fajl);
+  return trazi('/prijedlozi', {
+    method: 'POST',
+    body: JSON.stringify({ vrsta: fajl.type, podaci, naslov, opis })
+  });
+}
+
+export async function prijedlozi() {
+  return trazi('/prijedlozi');
+}
+
+export async function obrisiPrijedlog(id) {
+  return trazi('/prijedlozi/' + id, { method: 'DELETE' });
+}
+
 export async function posaljiSliku(fajl) {
   const podaci = await uBazu(fajl);
   const { adresa } = await trazi('/slike', {
