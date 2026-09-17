@@ -71,7 +71,10 @@ Skrol bira koju sliku iscrtati na canvas — nema premotavanja ni dekodiranja,
 pa se iscrtava u istom trenutku kad se skroluje. Tekst se smjenjuje kroz pet
 panela.
 
-Telefoni uzimaju manji niz (720px), desktop veći (1200px). Slike se učitavaju
+Niz se bira po gustini ekrana, ne po širini prozora: sve preko 820 tačaka
+(širina puta `devicePixelRatio`) uzima veći niz od 1200px, pa ga dobijaju i
+telefoni, jer im je 720px bio razvučen i mutan. Manji niz ostaje za rijetke
+ekrane i za `saveData` ili 2G vezu. Slike se učitavaju
 u dva prolaza: prvo svaka šesta, pa ostale, da se nešto vidi odmah.
 
 Ako slike ne stignu, ostaje fotografija zgrade kao pozadina. Uz „smanjeno

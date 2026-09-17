@@ -113,8 +113,10 @@
   const VISINA = Math.round(SIRINA / 1.4194);
   const LIJEVI = 0.051;
   const DESNI = 0.949;
-  const GORNJI = 0.218;
-  const DONJI = 0.782;
+  const GORNJI = USKO ? 0.148 : 0.218;
+  const DONJI = USKO ? 0.852 : 0.782;
+  const KRUPNO = USKO ? 1.34 : 1;
+  const UVLAKA = USKO ? 30 : 46;
 
   function ucitajSliku(putanja) {
     return new Promise(kraj => {
@@ -199,21 +201,27 @@
 
   function crtajStranu(k, strana, x, y, s, v) {
     const mj = SIRINA / 1400;
-    const uvlaka = 46 * mj;
+    const uvlaka = UVLAKA * mj;
     const px = x + uvlaka;
     const py = y + uvlaka;
     const ps = s - uvlaka * 2;
-    let vrh = py + 16 * mj;
+    let vrh = py + 16 * mj * KRUPNO;
 
     k.fillStyle = 'rgba(64,50,26,.55)';
-    k.font = '500 ' + (15 * mj).toFixed(1) + 'px "Instrument Sans", sans-serif';
+    k.font = '500 ' + (15 * mj * KRUPNO).toFixed(1) + 'px "Instrument Sans", sans-serif';
     k.fillText(strana.nadnaslov.toUpperCase(), px, vrh);
-    vrh += 34 * mj;
+    vrh += 34 * mj * KRUPNO;
 
+    const serif = 'px "Instrument Serif", Georgia, serif';
+    let visinaNaslova = 46 * mj * KRUPNO;
     k.fillStyle = '#2B2721';
-    k.font = 'italic ' + (46 * mj).toFixed(1) + 'px "Instrument Serif", Georgia, serif';
-    k.fillText(strana.naslov, px, vrh + 18 * mj);
-    vrh += 58 * mj;
+    k.font = 'italic ' + visinaNaslova.toFixed(1) + serif;
+    while (k.measureText(strana.naslov).width > ps && visinaNaslova > 24 * mj) {
+      visinaNaslova -= mj;
+      k.font = 'italic ' + visinaNaslova.toFixed(1) + serif;
+    }
+    k.fillText(strana.naslov, px, vrh + 18 * mj * KRUPNO);
+    vrh += 58 * mj * KRUPNO;
 
     k.strokeStyle = 'rgba(72,56,30,.22)';
     k.lineWidth = 1;
@@ -221,23 +229,23 @@
     k.moveTo(px, vrh);
     k.lineTo(px + ps * 0.44, vrh);
     k.stroke();
-    vrh += 34 * mj;
+    vrh += 34 * mj * KRUPNO;
 
     k.fillStyle = 'rgba(43,39,33,.88)';
-    k.font = '400 ' + (19 * mj).toFixed(1) + 'px "Instrument Sans", sans-serif';
+    k.font = '400 ' + (19 * mj * KRUPNO).toFixed(1) + 'px "Instrument Sans", sans-serif';
 
     strana.redovi.forEach(red => {
       lomi(k, red, ps).forEach(dio => {
         k.fillText(dio, px, vrh);
-        vrh += 31 * mj;
+        vrh += 31 * mj * KRUPNO;
       });
-      vrh += 16 * mj;
+      vrh += 16 * mj * KRUPNO;
     });
   }
 
   function crtajSliku(k, slika, strana, x, y, s, v) {
     const mj = SIRINA / 1400;
-    const uvlaka = 42 * mj;
+    const uvlaka = (USKO ? 28 : 42) * mj;
     const rx = x + uvlaka;
     const ry = y + uvlaka;
     const rs = s - uvlaka * 2;

@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=bf07435f">
+<link rel="stylesheet" href="assets/styles.css?v=6c4e9f91">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
 <script type="module" src="assets/nalog.js?v=3db63d2c"></script>
 <script src="assets/tekst.js?v=4532f47f" defer></script>
@@ -17,7 +17,7 @@
 <script src="assets/mreza.js?v=cb164972" defer></script>
 <script src="assets/ucitavanje.js?v=484f4468" defer></script>
 <script src="assets/ispis.js?v=eafaf4be" defer></script>
-<script src="assets/blok.js?v=a5e859b8" defer></script>
+<script src="assets/blok.js?v=5d2494bd" defer></script>
 </head>
 <body>
 <div class="ucitavanje" id="ucitavanje">
@@ -691,9 +691,13 @@ paneli.forEach(() => tacke.insertAdjacentHTML('beforeend', '<i></i>'));
 const kvake = [...tacke.children];
 kvake[0].classList.add('on');
 
-const folder = matchMedia('(max-width: 900px)').matches
-  ? 'assets/kadrovi/s/'
-  : 'assets/kadrovi/l/';
+const veza = navigator.connection;
+const stedi = Boolean(veza && (veza.saveData || /2g/.test(veza.effectiveType || '')));
+const tacaka = window.innerWidth * Math.min(window.devicePixelRatio || 1, 3);
+
+const folder = !stedi && tacaka > 820
+  ? 'assets/kadrovi/l/'
+  : 'assets/kadrovi/s/';
 
 const slike = new Array(KADROVA);
 let nacrtan = -1;
