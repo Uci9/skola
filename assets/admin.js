@@ -4,6 +4,7 @@ import {
   prijedlozi, obrisiPrijedlog,
   dokumenti, posaljiDokument, izmijeniDokument, obrisiDokument
 } from './baza.js';
+import { RAZREDI, PREDMETI, SVI_RAZREDI, RUCNO } from './predmeti.js';
 
 const strazar = document.getElementById('strazar');
 const panel = document.getElementById('panel');
@@ -400,15 +401,22 @@ async function moodleDokumenti() {
           <input type="text" name="naslov" maxlength="160" required></label>
         <label class="f"><span>Opis</span>
           <textarea name="opis" rows="4"></textarea></label>
-        <label class="f"><span>Predmet ili razred</span>
-          <input type="text" name="predmet" maxlength="120"></label>
+        <label class="f"><span>Razred</span>
+          <select name="razred"></select></label>
+        <label class="f"><span>Predmet</span>
+          <select name="predmet"></select></label>
+        <label class="f" id="poljeRucno" hidden><span>Upiši predmet</span>
+          <input type="text" name="predmetRucno" maxlength="120"></label>
         <label class="f"><span>Rubrika</span>
           <select name="rubrika"></select></label>
         <label class="f"><span>Datoteka</span>
           <input type="file" name="datoteka" required>
           <small>PDF, Word, Excel, PowerPoint, tekst, slika ili zip — najviše 18 MB</small></label>
-        <label class="kvaka"><input type="checkbox" name="zakljucan">
-          <span>Zaključaj — vide ga samo nastavnici</span></label>
+        <label class="f"><span>Ko vidi dokument</span>
+          <select name="vidljivost">
+            <option value="svi">Svi — i učenici i nastavnici</option>
+            <option value="nastavnici">Samo nastavnici škole</option>
+          </select></label>
         <div class="forma-dno">
           <button type="submit" class="btn btn-fill">Postavi</button>
         </div>
@@ -427,6 +435,27 @@ async function moodleDokumenti() {
   const spisak = okvir.querySelector('#spisakDok');
   const broj = okvir.querySelector('#brojDok');
   const izbor = forma.elements.rubrika;
+  const izborRazreda = forma.elements.razred;
+  const izborPredmeta = forma.elements.predmet;
+  const poljeRucno = okvir.querySelector('#poljeRucno');
+
+  function napuniPredmete() {
+    const spisakPredmeta = PREDMETI[izborRazreda.value] || [];
+    izborPredmeta.textContent = '';
+    if (spisakPredmeta.length) izborPredmeta.add(new Option('—', ''));
+    spisakPredmeta.forEach(p => izborPredmeta.add(new Option(p, p)));
+    izborPredmeta.add(new Option(RUCNO, RUCNO));
+    if (!spisakPredmeta.length) izborPredmeta.value = RUCNO;
+    poljeRucno.hidden = izborPredmeta.value !== RUCNO;
+  }
+
+  izborRazreda.add(new Option(SVI_RAZREDI, SVI_RAZREDI));
+  RAZREDI.forEach(r => izborRazreda.add(new Option(r, r)));
+  izborRazreda.addEventListener('change', napuniPredmete);
+  izborPredmeta.addEventListener('change', () => {
+    poljeRucno.hidden = izborPredmeta.value !== RUCNO;
+  });
+  napuniPredmete();
 
   async function ucitaj() {
     let odgovor;
@@ -454,7 +483,7 @@ async function moodleDokumenti() {
       const stavka = el(`<div class="admin-stavka">
         <div class="admin-tekst">
           <b>${tekst(red.naslov)}${red.zakljucan ? ' 🔒' : ''}</b>
-          <span>${tekst([red.rubrika, red.predmet, red.postavio, kad].filter(Boolean).join(' · '))}</span>
+          <span>${tekst([red.rubrika, red.razred, red.predmet, red.postavio, kad].filter(Boolean).join(' · '))}</span>
         </div>
         <div class="admin-radnje">
           <a class="btn btn-line mali" href="/dokument/${red.id}" target="_blank" rel="noopener">Otvori</a>
@@ -500,12 +529,14 @@ async function moodleDokumenti() {
     javi(glasnik, 'Šaljem…');
 
     try {
+      const izabran = izborPredmeta.value;
       await posaljiDokument(fajl, {
         naslov: forma.elements.naslov.value.trim(),
         opis: forma.elements.opis.value.trim(),
-        predmet: forma.elements.predmet.value.trim(),
+        predmet: izabran === RUCNO ? forma.elements.predmetRucno.value.trim() : izabran,
+        razred: izborRazreda.value === SVI_RAZREDI ? '' : izborRazreda.value,
         rubrika: forma.elements.rubrika.value,
-        zakljucan: forma.elements.zakljucan.checked
+        zakljucan: forma.elements.vidljivost.value === 'nastavnici'
       });
     } catch (greska) {
       dugme.disabled = false;

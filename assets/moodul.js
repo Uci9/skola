@@ -73,7 +73,7 @@ if (spisak) {
     const nadjeni = moji.filter(d => {
       if (rubrika && d.rubrika !== rubrika) return false;
       if (!upit) return true;
-      return bezKvaka([d.naslov, d.opis, d.predmet, d.ime_datoteke, d.postavio].join(' ')).includes(upit);
+      return bezKvaka([d.naslov, d.opis, d.predmet, d.razred, d.ime_datoteke, d.postavio].join(' ')).includes(upit);
     });
 
     brojac.textContent = nadjeni.length + ' od ' + moji.length;
@@ -124,7 +124,7 @@ if (spisak) {
 
       const uz = document.createElement('p');
       uz.className = 'dok-uz';
-      uz.textContent = [d.rubrika, d.predmet, d.postavio, datum(d.napravljeno), mjera(d.velicina)]
+      uz.textContent = [d.rubrika, d.razred, d.predmet, d.postavio, datum(d.napravljeno), mjera(d.velicina)]
         .filter(Boolean).join(' · ');
       tijelo.appendChild(uz);
 

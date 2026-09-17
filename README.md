@@ -31,6 +31,7 @@ assets/styles.css     stilovi za sve strane
 assets/baza.js        razgovor sa API-jem
 assets/slanje.js      slanje slike sa strane kutka u admin panel
 assets/moodul.js      Moodle: dva pogleda, spisak dokumenata i pretraga
+assets/predmeti.js    spisak razreda i predmeta za obrazac u panelu
 assets/blok.js        skicen-blok na početnoj (O nama)
 assets/paralaks.js    slike koje se slažu na skrol (kutak učenika)
 assets/ispis.js       tekst koji se ispisuje riječ po riječ
@@ -117,6 +118,14 @@ a rubrika se bira i iz adrese (`moodle.html?rubrika=Dokumenta`).
 Strana ima dva pogleda, prekidačem na vrhu i preko adrese: `#ucenici` pokazuje
 samo otključane dokumente, a `#nastavnici` sve, i zaključane. Ko nije nastavnik,
 na nastavničkom pogledu dobije poziv na prijavu umjesto spiska.
+
+Razred i predmet se u obrascu biraju sa spiska, ne kucaju. Spisak stoji u
+`assets/predmeti.js`: `RAZREDI` su četiri razreda, a `PREDMETI` drži predmete
+za svaki od njih. Dok je spisak predmeta za neki razred prazan, u obrascu
+ostaje „Ostalo — upiši“ i polje za ručni unos.
+
+Ko vidi dokument bira se sa dvije stavke: „Svi“ ili „Samo nastavnici škole“.
+Drugo je isto što i zaključavanje.
 
 Dokumenti se postavljaju u panelu, u tabu „Moodle dokumenti“. Zbog toga panel
 prima i nalog sa ulogom `nastavnik`, ali njemu je to jedini vidljivi tab —

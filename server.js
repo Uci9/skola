@@ -133,6 +133,7 @@ async function napraviShemu() {
       opis text,
       rubrika text not null default 'Ostalo',
       predmet text,
+      razred text,
       datoteka text not null references datoteke(id),
       ime_datoteke text not null,
       vrsta text not null,
@@ -142,6 +143,7 @@ async function napraviShemu() {
       postavio text,
       napravljeno timestamptz default now()
     );
+    alter table if exists dokumenti add column if not exists razred text;
     create table if not exists slike (
       id text primary key,
       vrsta text not null,
@@ -473,12 +475,12 @@ app.get('/api/dokumenti', async (zahtjev, odgovor) => {
   if (upit) {
     podaci.push('%' + upit + '%');
     const m = '$' + podaci.length;
-    uslovi.push('(naslov ilike ' + m + ' or opis ilike ' + m +
-      ' or predmet ilike ' + m + ' or ime_datoteke ilike ' + m + ')');
+    uslovi.push('(naslov ilike ' + m + ' or opis ilike ' + m + ' or predmet ilike ' + m +
+      ' or razred ilike ' + m + ' or ime_datoteke ilike ' + m + ')');
   }
 
   const { rows } = await bazen.query(
-    `select id, naslov, opis, rubrika, predmet, ime_datoteke, vrsta, velicina,
+    `select id, naslov, opis, rubrika, predmet, razred, ime_datoteke, vrsta, velicina,
             zakljucan, postavio, vlasnik, napravljeno
      from dokumenti` + (uslovi.length ? ' where ' + uslovi.join(' and ') : '') +
     ' order by napravljeno desc',
@@ -523,14 +525,15 @@ app.post('/api/dokumenti', samoNastavnik, async (zahtjev, odgovor) => {
   const rubrika = RUBRIKE.includes(zahtjev.body.rubrika) ? zahtjev.body.rubrika : 'Ostalo';
   const { rows } = await bazen.query(
     `insert into dokumenti
-       (naslov, opis, rubrika, predmet, datoteka, ime_datoteke, vrsta, velicina, zakljucan, vlasnik, postavio)
-     values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+       (naslov, opis, rubrika, predmet, razred, datoteka, ime_datoteke, vrsta, velicina, zakljucan, vlasnik, postavio)
+     values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
      returning id, naslov, zakljucan`,
     [
       naslov,
       String(zahtjev.body.opis || '').trim() || null,
       rubrika,
       String(zahtjev.body.predmet || '').trim() || null,
+      String(zahtjev.body.razred || '').trim() || null,
       kljuc,
       ime,
       vrsta,
@@ -576,13 +579,14 @@ app.put('/api/dokumenti/:id', samoNastavnik, async (zahtjev, odgovor) => {
 
   const rubrika = RUBRIKE.includes(zahtjev.body.rubrika) ? zahtjev.body.rubrika : red.rubrika;
   const { rows } = await bazen.query(
-    `update dokumenti set naslov = $1, opis = $2, rubrika = $3, predmet = $4, zakljucan = $5
-     where id = $6 returning id, naslov, zakljucan`,
+    `update dokumenti set naslov = $1, opis = $2, rubrika = $3, predmet = $4, razred = $5, zakljucan = $6
+     where id = $7 returning id, naslov, zakljucan`,
     [
       naslov,
       'opis' in zahtjev.body ? (String(zahtjev.body.opis).trim() || null) : red.opis,
       rubrika,
       'predmet' in zahtjev.body ? (String(zahtjev.body.predmet).trim() || null) : red.predmet,
+      'razred' in zahtjev.body ? (String(zahtjev.body.razred).trim() || null) : red.razred,
       'zakljucan' in zahtjev.body ? Boolean(zahtjev.body.zakljucan) : red.zakljucan,
       red.id
     ]
