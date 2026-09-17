@@ -1,6 +1,8 @@
 import {
   imaBazu, jeAdmin, mojProfil, porukaGreske, posaljiSliku,
-  spisak as izBaze, dodaj, izmijeni, obrisi as obrisiIzBaze, profili, postaviUlogu
+  spisak as izBaze, dodaj, izmijeni, obrisi as obrisiIzBaze, profili, postaviUlogu,
+  prijedlozi, obrisiPrijedlog,
+  dokumenti, posaljiDokument, izmijeniDokument, obrisiDokument
 } from './baza.js';
 
 const strazar = document.getElementById('strazar');
@@ -388,10 +390,145 @@ async function poslateSlike() {
   });
 }
 
+async function moodleDokumenti() {
+  sadrzaj.innerHTML = '';
+  const okvir = el(`<div class="admin-mreza">
+    <div class="admin-forma">
+      <h3>Novi dokument</h3>
+      <form id="formaDok" class="form">
+        <label class="f"><span>Naziv</span>
+          <input type="text" name="naslov" maxlength="160" required></label>
+        <label class="f"><span>Opis</span>
+          <textarea name="opis" rows="4"></textarea></label>
+        <label class="f"><span>Predmet ili razred</span>
+          <input type="text" name="predmet" maxlength="120"></label>
+        <label class="f"><span>Rubrika</span>
+          <select name="rubrika"></select></label>
+        <label class="f"><span>Datoteka</span>
+          <input type="file" name="datoteka" required>
+          <small>PDF, Word, Excel, PowerPoint, tekst, slika ili zip — najviše 18 MB</small></label>
+        <label class="kvaka"><input type="checkbox" name="zakljucan">
+          <span>Zaključaj — vide ga samo nastavnici</span></label>
+        <div class="forma-dno">
+          <button type="submit" class="btn btn-fill">Postavi</button>
+        </div>
+      </form>
+      <p class="glas" id="glasDok" hidden></p>
+    </div>
+    <div class="admin-spisak">
+      <h3>Postavljeni <span class="broj" id="brojDok"></span></h3>
+      <div id="spisakDok"></div>
+    </div>
+  </div>`);
+  sadrzaj.appendChild(okvir);
+
+  const forma = okvir.querySelector('#formaDok');
+  const glasnik = okvir.querySelector('#glasDok');
+  const spisak = okvir.querySelector('#spisakDok');
+  const broj = okvir.querySelector('#brojDok');
+  const izbor = forma.elements.rubrika;
+
+  async function ucitaj() {
+    let odgovor;
+    try {
+      odgovor = await dokumenti();
+    } catch (greska) {
+      spisak.innerHTML = `<p class="glas lose">${tekst(porukaGreske(greska))}</p>`;
+      return;
+    }
+
+    if (!izbor.options.length) {
+      odgovor.rubrike.forEach(r => izbor.add(new Option(r, r)));
+      izbor.value = 'Dokumenta';
+    }
+
+    broj.textContent = odgovor.dokumenti.length;
+    if (!odgovor.dokumenti.length) {
+      spisak.innerHTML = '<p class="prazno">Još nema dokumenata.</p>';
+      return;
+    }
+
+    spisak.innerHTML = '';
+    odgovor.dokumenti.forEach(red => {
+      const kad = red.napravljeno ? new Date(red.napravljeno).toLocaleDateString('sr-Latn') : '';
+      const stavka = el(`<div class="admin-stavka">
+        <div class="admin-tekst">
+          <b>${tekst(red.naslov)}${red.zakljucan ? ' 🔒' : ''}</b>
+          <span>${tekst([red.rubrika, red.predmet, red.postavio, kad].filter(Boolean).join(' · '))}</span>
+        </div>
+        <div class="admin-radnje">
+          <a class="btn btn-line mali" href="/dokument/${red.id}" target="_blank" rel="noopener">Otvori</a>
+          <button class="btn btn-line mali kljuc">${red.zakljucan ? 'Otključaj' : 'Zaključaj'}</button>
+          <button class="btn btn-line mali obrisi">Obriši</button>
+        </div>
+      </div>`);
+
+      stavka.querySelector('.kljuc').addEventListener('click', async () => {
+        try {
+          await izmijeniDokument(red.id, { zakljucan: !red.zakljucan });
+        } catch (greska) {
+          javi(glasnik, porukaGreske(greska));
+          return;
+        }
+        javi(glasnik, red.zakljucan ? 'Otključano.' : 'Zaključano.', true);
+        ucitaj();
+      });
+
+      stavka.querySelector('.obrisi').addEventListener('click', async () => {
+        if (!confirm('Obrisati „' + red.naslov + '“?')) return;
+        try {
+          await obrisiDokument(red.id);
+        } catch (greska) {
+          javi(glasnik, porukaGreske(greska));
+          return;
+        }
+        javi(glasnik, 'Obrisano.', true);
+        ucitaj();
+      });
+
+      spisak.appendChild(stavka);
+    });
+  }
+
+  forma.addEventListener('submit', async e => {
+    e.preventDefault();
+    const fajl = forma.elements.datoteka.files[0];
+    if (!fajl) { javi(glasnik, 'Izaberi datoteku.'); return; }
+
+    const dugme = forma.querySelector('button[type=submit]');
+    dugme.disabled = true;
+    javi(glasnik, 'Šaljem…');
+
+    try {
+      await posaljiDokument(fajl, {
+        naslov: forma.elements.naslov.value.trim(),
+        opis: forma.elements.opis.value.trim(),
+        predmet: forma.elements.predmet.value.trim(),
+        rubrika: forma.elements.rubrika.value,
+        zakljucan: forma.elements.zakljucan.checked
+      });
+    } catch (greska) {
+      dugme.disabled = false;
+      javi(glasnik, porukaGreske(greska));
+      return;
+    }
+
+    dugme.disabled = false;
+    const rubrikaBila = forma.elements.rubrika.value;
+    forma.reset();
+    forma.elements.rubrika.value = rubrikaBila;
+    javi(glasnik, 'Dokument je postavljen.', true);
+    ucitaj();
+  });
+
+  ucitaj();
+}
+
 function prikazi(kljuc) {
   [...tabovi.children].forEach(d => d.classList.toggle('on', d.dataset.tab === kljuc));
   if (kljuc === 'nalozi') nalozi();
   else if (kljuc === 'prijedlozi') poslateSlike();
+  else if (kljuc === 'dokumenti') moodleDokumenti();
   else crud(kljuc);
 }
 
@@ -402,20 +539,30 @@ async function kreni() {
     return;
   }
 
-  if (!(await jeAdmin())) {
+  const p = await mojProfil();
+  const admin = await jeAdmin();
+  const nastavnik = Boolean(p && p.uloga === 'nastavnik');
+
+  if (!admin && !nastavnik) {
     strazar.hidden = false;
-    const p = await mojProfil();
     strazar.innerHTML = p
-      ? '<h2>Nemaš pristup</h2><p>Prijavljen si kao ' + tekst(p.email) + ', ali taj nalog nije admin.</p><p><a class="btn btn-fill" href="index.html">Nazad na sajt</a></p>'
-      : '<h2>Prijavi se</h2><p>Admin panel je dostupan samo prijavljenom adminu.</p><p><a class="btn btn-fill" href="prijava.html">Prijava</a></p>';
+      ? '<h2>Nemaš pristup</h2><p>Prijavljen si kao ' + tekst(p.email) + ', ali taj nalog nije ni admin ni nastavnik.</p><p><a class="btn btn-fill" href="index.html">Nazad na sajt</a></p>'
+      : '<h2>Prijavi se</h2><p>Panel je dostupan upravi i nastavnicima škole.</p><p><a class="btn btn-fill" href="prijava.html">Prijava</a></p>';
     return;
   }
 
-  const p = await mojProfil();
   pozdrav.textContent = p.email;
   panel.hidden = false;
-  [...tabovi.children].forEach(d => d.addEventListener('click', () => prikazi(d.dataset.tab)));
-  prikazi('nalozi');
+
+  [...tabovi.children].forEach(d => {
+    if (!admin && d.dataset.tab !== 'dokumenti') {
+      d.hidden = true;
+      return;
+    }
+    d.addEventListener('click', () => prikazi(d.dataset.tab));
+  });
+
+  prikazi(admin ? 'nalozi' : 'dokumenti');
 }
 
 kreni();

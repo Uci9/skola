@@ -1,7 +1,4 @@
-import {
-  imaBazu, mojProfil, porukaGreske,
-  dokumenti, posaljiDokument, izmijeniDokument, obrisiDokument
-} from './baza.js';
+import { imaBazu, mojProfil, porukaGreske, dokumenti } from './baza.js';
 
 const spisak = document.getElementById('spisak');
 if (spisak) {
@@ -10,20 +7,23 @@ if (spisak) {
   const prazno = document.getElementById('prazno');
   const rubrike = document.getElementById('rubrike');
   const glas = document.getElementById('glas');
-  const poziv = document.getElementById('dodaj-poziv');
-  const forma = document.getElementById('dodaj-forma');
-  const glasForme = document.getElementById('dodaj-glas');
+  const straza = document.getElementById('straza');
+  const alat = document.getElementById('alat');
+  const prekidac = document.getElementById('prekidac');
+  const naslovPogleda = document.getElementById('naslov-pogleda');
+  const opisPogleda = document.getElementById('opis-pogleda');
 
   let sve = [];
   let mogu = false;
-  let ja = null;
+  let prijavljen = false;
   let rubrika = new URLSearchParams(location.search).get('rubrika') || '';
+  let pogled = location.hash === '#nastavnici' ? 'nastavnici' : 'ucenici';
 
-  function javi(gdje, tekst, dobro) {
-    gdje.textContent = tekst;
-    gdje.hidden = !tekst;
-    gdje.classList.toggle('dobro', Boolean(dobro));
-    gdje.classList.toggle('lose', Boolean(tekst) && !dobro);
+  function javi(tekst, dobro) {
+    glas.textContent = tekst;
+    glas.hidden = !tekst;
+    glas.classList.toggle('dobro', Boolean(dobro));
+    glas.classList.toggle('lose', Boolean(tekst) && !dobro);
   }
 
   function bezKvaka(t) {
@@ -62,15 +62,24 @@ if (spisak) {
     });
   }
 
+  function zaPogled() {
+    if (pogled === 'ucenici') return sve.filter(d => !d.zakljucan);
+    return sve;
+  }
+
   function crtaj() {
+    const moji = zaPogled();
     const upit = bezKvaka(polje.value.trim());
-    const nadjeni = sve.filter(d => {
+    const nadjeni = moji.filter(d => {
       if (rubrika && d.rubrika !== rubrika) return false;
       if (!upit) return true;
       return bezKvaka([d.naslov, d.opis, d.predmet, d.ime_datoteke, d.postavio].join(' ')).includes(upit);
     });
 
-    brojac.textContent = nadjeni.length + ' od ' + sve.length;
+    brojac.textContent = nadjeni.length + ' od ' + moji.length;
+    prazno.textContent = moji.length
+      ? 'Ništa ne odgovara pretrazi.'
+      : 'Ovdje još nema dokumenata.';
     prazno.hidden = nadjeni.length > 0;
     spisak.textContent = '';
 
@@ -119,126 +128,60 @@ if (spisak) {
         .filter(Boolean).join(' · ');
       tijelo.appendChild(uz);
 
-      if (mogu && (d.vlasnik === ja || ja === 'admin')) {
-        const radnje = document.createElement('div');
-        radnje.className = 'dok-radnje';
-
-        const kljuc = document.createElement('button');
-        kljuc.type = 'button';
-        kljuc.className = 'btn btn-line mali';
-        kljuc.textContent = d.zakljucan ? 'Otključaj' : 'Zaključaj';
-        kljuc.addEventListener('click', async () => {
-          kljuc.disabled = true;
-          try {
-            await izmijeniDokument(d.id, { zakljucan: !d.zakljucan });
-          } catch (greska) {
-            javi(glas, porukaGreske(greska));
-            kljuc.disabled = false;
-            return;
-          }
-          ucitaj();
-        });
-        radnje.appendChild(kljuc);
-
-        const brisi = document.createElement('button');
-        brisi.type = 'button';
-        brisi.className = 'btn btn-line mali';
-        brisi.textContent = 'Obriši';
-        brisi.addEventListener('click', async () => {
-          if (!confirm('Obrisati „' + d.naslov + '“?')) return;
-          try {
-            await obrisiDokument(d.id);
-          } catch (greska) {
-            javi(glas, porukaGreske(greska));
-            return;
-          }
-          ucitaj();
-        });
-        radnje.appendChild(brisi);
-
-        tijelo.appendChild(radnje);
-      }
-
       karta.appendChild(tijelo);
       spisak.appendChild(karta);
     });
   }
 
-  async function ucitaj() {
+  function postaviPogled(novi) {
+    pogled = novi;
+    [...prekidac.children].forEach(b => b.classList.toggle('on', b.dataset.pogled === novi));
+    history.replaceState(null, '', novi === 'nastavnici' ? '#nastavnici' : '#ucenici');
+
+    const zaNastavnike = novi === 'nastavnici';
+    naslovPogleda.textContent = zaNastavnike ? 'Za nastavnike' : 'Za učenike';
+    opisPogleda.textContent = zaNastavnike
+      ? 'Sve što škola drži u Moodle-u, uključujući zaključano — vidljivo samo nastavnicima i upravi.'
+      : 'Gradivo, dokumenta i obavještenja koja su otvorena za sve.';
+
+    const zabrana = zaNastavnike && !mogu;
+    straza.hidden = !zabrana;
+    straza.querySelector('[data-neprijavljen]').hidden = prijavljen;
+    straza.querySelector('[data-prijavljen]').hidden = !prijavljen;
+    alat.hidden = zabrana;
+    spisak.hidden = zabrana;
+    if (zabrana) {
+      prazno.hidden = true;
+      return;
+    }
+    crtaj();
+  }
+
+  [...prekidac.children].forEach(b => b.addEventListener('click', () => postaviPogled(b.dataset.pogled)));
+  addEventListener('hashchange', () => postaviPogled(location.hash === '#nastavnici' ? 'nastavnici' : 'ucenici'));
+  polje.addEventListener('input', crtaj);
+
+  (async function kreni() {
+    if (!(await imaBazu())) {
+      javi('Baza nije podešena, pa dokumenti ne rade.');
+      alat.hidden = true;
+      return;
+    }
+
+    const profil = await mojProfil();
+    prijavljen = Boolean(profil);
+
     let odgovor;
     try {
       odgovor = await dokumenti();
     } catch (greska) {
-      javi(glas, porukaGreske(greska));
+      javi(porukaGreske(greska));
       return;
     }
 
     sve = odgovor.dokumenti;
     mogu = odgovor.mogu;
-    ja = odgovor.uloga === 'admin' ? 'admin' : odgovor.ja;
     crtajRubrike(odgovor.rubrike);
-    crtaj();
-    javi(glas, '');
-
-    if (forma) {
-      const izbor = forma.elements.rubrika;
-      if (izbor && !izbor.options.length) {
-        odgovor.rubrike.forEach(r => izbor.add(new Option(r, r)));
-        izbor.value = 'Dokumenta';
-      }
-      forma.hidden = !mogu;
-      poziv.hidden = mogu;
-    }
-  }
-
-  polje.addEventListener('input', crtaj);
-
-  if (forma) {
-    forma.addEventListener('submit', async e => {
-      e.preventDefault();
-      const fajl = forma.elements.datoteka.files[0];
-      if (!fajl) { javi(glasForme, 'Izaberi datoteku.'); return; }
-
-      const dugme = forma.querySelector('button[type=submit]');
-      dugme.disabled = true;
-      javi(glasForme, 'Šaljem…');
-
-      try {
-        await posaljiDokument(fajl, {
-          naslov: forma.elements.naslov.value.trim(),
-          opis: forma.elements.opis.value.trim(),
-          predmet: forma.elements.predmet.value.trim(),
-          rubrika: forma.elements.rubrika.value,
-          zakljucan: forma.elements.zakljucan.checked
-        });
-      } catch (greska) {
-        dugme.disabled = false;
-        javi(glasForme, porukaGreske(greska));
-        return;
-      }
-
-      dugme.disabled = false;
-      forma.reset();
-      javi(glasForme, 'Dokument je postavljen.', true);
-      ucitaj();
-    });
-  }
-
-  (async function pripremi() {
-    if (!(await imaBazu())) {
-      javi(glas, 'Baza nije podešena, pa dokumenti ne rade.');
-      poziv.hidden = true;
-      return;
-    }
-
-    const profil = await mojProfil();
-    if (profil && poziv) {
-      const dio = poziv.querySelector('[data-prijavljen]');
-      const drugi = poziv.querySelector('[data-neprijavljen]');
-      if (dio) dio.hidden = false;
-      if (drugi) drugi.hidden = true;
-    }
-
-    ucitaj();
+    postaviPogled(pogled);
   })();
 }

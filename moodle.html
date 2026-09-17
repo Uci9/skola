@@ -8,14 +8,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=d75c90e9">
+<link rel="stylesheet" href="assets/styles.css?v=bf07435f">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
 <script type="module" src="assets/nalog.js?v=4bf3daf1"></script>
 <script src="assets/tekst.js?v=4532f47f" defer></script>
 <script src="assets/leca.js?v=926f53a3" defer></script>
 <script src="assets/meni.js?v=dff45479" defer></script>
 <script src="assets/mreza.js?v=cb164972" defer></script>
-<script type="module" src="assets/moodul.js?v=c7b2baa2"></script>
+<script type="module" src="assets/moodul.js?v=779866eb"></script>
 </head>
 <body>
 <header class="head">
@@ -75,55 +75,46 @@
 
 <section class="blk" id="ucenici">
   <div class="shell">
-    <div class="rise trazilica-red">
-      <label class="trazilica">
-        <input type="search" id="trazi" placeholder="Traži po nazivu, predmetu ili opisu" autocomplete="off">
-        <b id="brojac">0 od 0</b>
-      </label>
-      <div class="tabovi" id="rubrike" role="group" aria-label="Rubrike"></div>
+    <div class="tabovi prekidac rise" id="prekidac" role="group" aria-label="Za koga">
+      <button type="button" class="tab on" data-pogled="ucenici">Za učenike</button>
+      <button type="button" class="tab" data-pogled="nastavnici">Za nastavnike</button>
     </div>
 
-    <p class="glas" id="glas" hidden></p>
-    <div class="spisak-dok rise" id="spisak"></div>
-    <p class="nista" id="prazno" hidden>Ništa ne odgovara pretrazi.</p>
+    <div class="rise">
+      <h2 id="naslov-pogleda">Za učenike</h2>
+      <p class="lede" id="opis-pogleda">Gradivo, dokumenta i obavještenja koja su otvorena za sve.</p>
+    </div>
+
+    <div id="straza" class="kutija-straze" hidden>
+      <p class="lede" data-neprijavljen>Ovaj dio je za nastavnike škole. Prijavi se školskim nalogom.</p>
+      <p class="lede" data-prijavljen hidden>Tvoj nalog nije nastavnički, pa ovaj dio ne možeš da otvoriš.
+         Ako predaješ u školi, javi se adminu da ti dodijeli ulogu nastavnika.</p>
+      <p><a href="prijava.html" class="btn btn-fill">Prijava</a></p>
+    </div>
+
+    <div id="alat">
+      <div class="rise trazilica-red">
+        <label class="trazilica">
+          <input type="search" id="trazi" placeholder="Traži po nazivu, predmetu ili opisu" autocomplete="off">
+          <b id="brojac">0 od 0</b>
+        </label>
+        <div class="tabovi" id="rubrike" role="group" aria-label="Rubrike"></div>
+      </div>
+
+      <p class="glas" id="glas" hidden></p>
+      <div class="spisak-dok rise" id="spisak"></div>
+      <p class="nista" id="prazno" hidden>Ovdje još nema dokumenata.</p>
+    </div>
   </div>
 </section>
 
 <section class="blk blk-white" id="nastavnici">
   <div class="shell">
     <div class="rise">
-      <h2>Za <span class="it">nastavnike</span></h2>
-      <p class="lede">Postavi dokument i odluči ko ga vidi. Zaključan otvaraju samo nastavnici
-         i uprava; kad ga otključaš, vide ga svi.</p>
-
-      <div id="dodaj-poziv" hidden>
-        <p class="lede" data-neprijavljen>Prijavi se školskim nalogom, pa ćeš ovdje dobiti obrazac.</p>
-        <p class="lede" data-prijavljen hidden>Tvoj nalog još nije nastavnički. Javi se adminu škole
-           da ti u panelu dodijeli ulogu nastavnika.</p>
-        <p><a href="prijava.html" class="btn btn-fill">Prijava</a></p>
-      </div>
-
-      <form class="form" id="dodaj-forma" hidden>
-        <label class="f"><span>Naziv</span>
-          <input type="text" name="naslov" maxlength="160" required></label>
-        <label class="f"><span>Opis</span>
-          <textarea name="opis" rows="3"></textarea></label>
-        <label class="f"><span>Predmet ili razred</span>
-          <input type="text" name="predmet" maxlength="120">
-          <small>na primjer: Elektronika, III razred</small></label>
-        <label class="f"><span>Rubrika</span>
-          <select name="rubrika"></select></label>
-        <label class="f"><span>Datoteka</span>
-          <input type="file" name="datoteka" required>
-          <small>PDF, Word, Excel, PowerPoint, tekst, slika ili zip — najviše 18 MB</small></label>
-        <label class="kvaka"><input type="checkbox" name="zakljucan">
-          <span>Zaključaj — vide ga samo nastavnici</span></label>
-        <div class="forma-dno">
-          <button type="submit" class="btn btn-fill go">Postavi dokument</button>
-        </div>
-      </form>
-
-      <p class="glas" id="dodaj-glas" hidden></p>
+      <h2>Postavljanje <span class="it">dokumenata</span></h2>
+      <p class="lede">Dokumente postavljaju nastavnici i uprava, kroz panel. Tamo se bira rubrika,
+         predmet i da li je dokument zaključan — zaključan vide samo nastavnici, a otključan svi.</p>
+      <p><a href="admin.html" class="btn btn-fill">Otvori panel</a></p>
     </div>
   </div>
 </section>

@@ -1447,6 +1447,13 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   .blok-natpis { animation: none; }
 }
 
+.prekidac { margin-bottom: 26px; }
+.kutija-straze {
+  padding: 26px 28px; border-radius: var(--r-sm);
+  background: var(--white); box-shadow: var(--shadow);
+}
+.kutija-straze .lede { margin-top: 0; }
+
 .spisak-dok { display: grid; gap: 12px; }
 .dok {
   display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 18px; align-items: start;

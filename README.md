@@ -30,7 +30,7 @@ server.js             server: statika, API za panel, prijava, slike
 assets/styles.css     stilovi za sve strane
 assets/baza.js        razgovor sa API-jem
 assets/slanje.js      slanje slike sa strane kutka u admin panel
-assets/moodul.js      Moodle: spisak dokumenata, pretraga, postavljanje
+assets/moodul.js      Moodle: dva pogleda, spisak dokumenata i pretraga
 assets/blok.js        skicen-blok na početnoj (O nama)
 assets/paralaks.js    slike koje se slažu na skrol (kutak učenika)
 assets/ispis.js       tekst koji se ispisuje riječ po riječ
@@ -114,9 +114,14 @@ su preslikane odatle: Obavještenja, Dokumenta, Obrazovni programi, Gradivo,
 Projekti, Vanredni ispiti i Ostalo. Stari linkovi po sajtu sada vode ovdje,
 a rubrika se bira i iz adrese (`moodle.html?rubrika=Dokumenta`).
 
-Dokumente postavljaju nalozi sa ulogom `nastavnik` i admin. Ulogu dodjeljuje
-admin u panelu, na spisku naloga. Ko postavi dokument, taj ga mijenja i briše;
-admin može sve.
+Strana ima dva pogleda, prekidačem na vrhu i preko adrese: `#ucenici` pokazuje
+samo otključane dokumente, a `#nastavnici` sve, i zaključane. Ko nije nastavnik,
+na nastavničkom pogledu dobije poziv na prijavu umjesto spiska.
+
+Dokumenti se postavljaju u panelu, u tabu „Moodle dokumenti“. Zbog toga panel
+prima i nalog sa ulogom `nastavnik`, ali njemu je to jedini vidljivi tab —
+ostalo vidi samo admin. Ulogu dodjeljuje admin na spisku naloga. Ko postavi
+dokument, taj ga mijenja i briše; admin može sve.
 
 Zaključan dokument vide samo nastavnici i admin — ne stoji ni u spisku ni na
 adresi `/dokument/:id`. Kad se otključa, vide ga svi, i bez naloga.
