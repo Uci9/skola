@@ -13,10 +13,10 @@ if (meni) {
       return;
     }
 
-    if (p.uloga === 'admin') {
+    if (p.uloga === 'admin' || p.uloga === 'nastavnik') {
       const a = document.createElement('a');
       a.href = 'admin.html';
-      a.textContent = 'Admin';
+      a.textContent = p.uloga === 'admin' ? 'Admin' : 'Panel';
       a.dataset.nalog = '1';
       meni.insertBefore(a, veza);
     }
