@@ -19,6 +19,34 @@ const bazen = adresaBaze ? new Pool({
 
 const SKOLSKI_DOMEN = '@ets-pg.edu.me';
 
+const RUBRIKE = [
+  'Obavještenja',
+  'Dokumenta',
+  'Obrazovni programi',
+  'Gradivo',
+  'Projekti',
+  'Vanredni ispiti',
+  'Ostalo'
+];
+
+const VRSTE_DATOTEKA = new Set([
+  'application/pdf',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.ms-excel',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.ms-powerpoint',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'application/zip',
+  'text/plain',
+  'text/csv',
+  'image/jpeg',
+  'image/png',
+  'image/webp'
+]);
+
+const NAJVECA_DATOTEKA = 18 * 1024 * 1024;
+
 const TABELE = {
   nastavnici: {
     polja: ['ime', 'zvanje', 'grupa', 'biografija', 'slika', 'redoslijed'],
@@ -89,6 +117,29 @@ async function napraviShemu() {
       naslov text not null,
       opis text,
       slika text not null,
+      napravljeno timestamptz default now()
+    );
+    create table if not exists datoteke (
+      id text primary key,
+      vrsta text not null,
+      ime text not null,
+      velicina int not null,
+      podaci bytea not null,
+      napravljeno timestamptz default now()
+    );
+    create table if not exists dokumenti (
+      id uuid primary key default gen_random_uuid(),
+      naslov text not null,
+      opis text,
+      rubrika text not null default 'Ostalo',
+      predmet text,
+      datoteka text not null references datoteke(id),
+      ime_datoteke text not null,
+      vrsta text not null,
+      velicina int not null,
+      zakljucan boolean not null default false,
+      vlasnik uuid references profili(id) on delete set null,
+      postavio text,
       napravljeno timestamptz default now()
     );
     create table if not exists slike (
@@ -192,7 +243,7 @@ function citajSesiju(zahtjev) {
 
 const app = express();
 app.set('trust proxy', 1);
-app.use(express.json({ limit: '9mb' }));
+app.use(express.json({ limit: '26mb' }));
 
 app.use('/api', (zahtjev, odgovor, dalje) => {
   if (bazen) { dalje(); return; }
@@ -222,6 +273,20 @@ async function samoAdmin(zahtjev, odgovor, dalje) {
   const osoba = await ko(zahtjev);
   if (!osoba || osoba.uloga !== 'admin') {
     odgovor.status(403).json({ greska: 'Nemaš dozvolu za ovu radnju.' });
+    return;
+  }
+  zahtjev.osoba = osoba;
+  dalje();
+}
+
+function predaje(osoba) {
+  return Boolean(osoba && (osoba.uloga === 'nastavnik' || osoba.uloga === 'admin'));
+}
+
+async function samoNastavnik(zahtjev, odgovor, dalje) {
+  const osoba = await ko(zahtjev);
+  if (!predaje(osoba)) {
+    odgovor.status(403).json({ greska: 'Dokumente postavljaju nastavnici i admin.' });
     return;
   }
   zahtjev.osoba = osoba;
@@ -297,7 +362,8 @@ app.get('/api/profili', samoAdmin, async (zahtjev, odgovor) => {
 });
 
 app.post('/api/profili/:id/uloga', samoAdmin, async (zahtjev, odgovor) => {
-  const uloga = zahtjev.body.uloga === 'admin' ? 'admin' : 'korisnik';
+  const trazena = String(zahtjev.body.uloga || '');
+  const uloga = ['admin', 'nastavnik'].includes(trazena) ? trazena : 'korisnik';
   if (zahtjev.params.id === zahtjev.osoba.id && uloga !== 'admin') {
     odgovor.status(400).json({ greska: 'Sebi ne možeš skinuti admina.' });
     return;
@@ -385,6 +451,176 @@ app.get('/api/prijedlozi', samoAdmin, async (zahtjev, odgovor) => {
 app.delete('/api/prijedlozi/:id', samoAdmin, async (zahtjev, odgovor) => {
   await bazen.query('delete from prijedlozi where id = $1', [zahtjev.params.id]);
   odgovor.json({ gotovo: true });
+});
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+app.get('/api/dokumenti', async (zahtjev, odgovor) => {
+  const osoba = await ko(zahtjev);
+  const upit = String(zahtjev.query.q || '').trim();
+  const rubrika = String(zahtjev.query.rubrika || '').trim();
+
+  const uslovi = [];
+  const podaci = [];
+
+  if (!predaje(osoba)) uslovi.push('zakljucan = false');
+
+  if (rubrika) {
+    podaci.push(rubrika);
+    uslovi.push('rubrika = $' + podaci.length);
+  }
+
+  if (upit) {
+    podaci.push('%' + upit + '%');
+    const m = '$' + podaci.length;
+    uslovi.push('(naslov ilike ' + m + ' or opis ilike ' + m +
+      ' or predmet ilike ' + m + ' or ime_datoteke ilike ' + m + ')');
+  }
+
+  const { rows } = await bazen.query(
+    `select id, naslov, opis, rubrika, predmet, ime_datoteke, vrsta, velicina,
+            zakljucan, postavio, vlasnik, napravljeno
+     from dokumenti` + (uslovi.length ? ' where ' + uslovi.join(' and ') : '') +
+    ' order by napravljeno desc',
+    podaci
+  );
+
+  odgovor.json({
+    dokumenti: rows,
+    rubrike: RUBRIKE,
+    mogu: predaje(osoba),
+    ja: osoba ? osoba.id : null,
+    uloga: osoba ? osoba.uloga : null
+  });
+});
+
+app.post('/api/dokumenti', samoNastavnik, async (zahtjev, odgovor) => {
+  const naslov = String(zahtjev.body.naslov || '').trim();
+  if (!naslov) {
+    odgovor.status(400).json({ greska: 'Upiši naziv dokumenta.' });
+    return;
+  }
+
+  const vrsta = String(zahtjev.body.vrsta || '');
+  if (!VRSTE_DATOTEKA.has(vrsta)) {
+    odgovor.status(400).json({ greska: 'Ta vrsta datoteke nije dozvoljena.' });
+    return;
+  }
+
+  const bajtovi = Buffer.from(String(zahtjev.body.podaci || ''), 'base64');
+  if (!bajtovi.length || bajtovi.length > NAJVECA_DATOTEKA) {
+    odgovor.status(400).json({ greska: 'Datoteka mora biti manja od 18 MB.' });
+    return;
+  }
+
+  const ime = (String(zahtjev.body.ime || '').trim() || 'dokument').slice(0, 180);
+  const kljuc = Date.now().toString(36) + '-' + crypto.randomBytes(5).toString('hex');
+  await bazen.query(
+    'insert into datoteke (id, vrsta, ime, velicina, podaci) values ($1, $2, $3, $4, $5)',
+    [kljuc, vrsta, ime, bajtovi.length, bajtovi]
+  );
+
+  const rubrika = RUBRIKE.includes(zahtjev.body.rubrika) ? zahtjev.body.rubrika : 'Ostalo';
+  const { rows } = await bazen.query(
+    `insert into dokumenti
+       (naslov, opis, rubrika, predmet, datoteka, ime_datoteke, vrsta, velicina, zakljucan, vlasnik, postavio)
+     values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+     returning id, naslov, zakljucan`,
+    [
+      naslov,
+      String(zahtjev.body.opis || '').trim() || null,
+      rubrika,
+      String(zahtjev.body.predmet || '').trim() || null,
+      kljuc,
+      ime,
+      vrsta,
+      bajtovi.length,
+      Boolean(zahtjev.body.zakljucan),
+      zahtjev.osoba.id,
+      zahtjev.osoba.ime || zahtjev.osoba.email
+    ]
+  );
+
+  odgovor.json(rows[0]);
+});
+
+async function mojDokument(zahtjev, odgovor) {
+  if (!UUID.test(zahtjev.params.id)) {
+    odgovor.sendStatus(404);
+    return null;
+  }
+
+  const { rows } = await bazen.query('select * from dokumenti where id = $1', [zahtjev.params.id]);
+  if (!rows.length) {
+    odgovor.sendStatus(404);
+    return null;
+  }
+
+  if (zahtjev.osoba.uloga !== 'admin' && rows[0].vlasnik !== zahtjev.osoba.id) {
+    odgovor.status(403).json({ greska: 'Dokument mijenja onaj ko ga je postavio, ili admin.' });
+    return null;
+  }
+
+  return rows[0];
+}
+
+app.put('/api/dokumenti/:id', samoNastavnik, async (zahtjev, odgovor) => {
+  const red = await mojDokument(zahtjev, odgovor);
+  if (!red) return;
+
+  const naslov = 'naslov' in zahtjev.body ? String(zahtjev.body.naslov).trim() : red.naslov;
+  if (!naslov) {
+    odgovor.status(400).json({ greska: 'Upiši naziv dokumenta.' });
+    return;
+  }
+
+  const rubrika = RUBRIKE.includes(zahtjev.body.rubrika) ? zahtjev.body.rubrika : red.rubrika;
+  const { rows } = await bazen.query(
+    `update dokumenti set naslov = $1, opis = $2, rubrika = $3, predmet = $4, zakljucan = $5
+     where id = $6 returning id, naslov, zakljucan`,
+    [
+      naslov,
+      'opis' in zahtjev.body ? (String(zahtjev.body.opis).trim() || null) : red.opis,
+      rubrika,
+      'predmet' in zahtjev.body ? (String(zahtjev.body.predmet).trim() || null) : red.predmet,
+      'zakljucan' in zahtjev.body ? Boolean(zahtjev.body.zakljucan) : red.zakljucan,
+      red.id
+    ]
+  );
+
+  odgovor.json(rows[0]);
+});
+
+app.delete('/api/dokumenti/:id', samoNastavnik, async (zahtjev, odgovor) => {
+  const red = await mojDokument(zahtjev, odgovor);
+  if (!red) return;
+
+  await bazen.query('delete from dokumenti where id = $1', [red.id]);
+  await bazen.query('delete from datoteke where id = $1', [red.datoteka]);
+  odgovor.json({ gotovo: true });
+});
+
+app.get('/dokument/:id', async (zahtjev, odgovor) => {
+  if (!bazen || !UUID.test(zahtjev.params.id)) { odgovor.sendStatus(404); return; }
+
+  const { rows } = await bazen.query(
+    `select d.zakljucan, f.vrsta, f.ime, f.podaci
+     from dokumenti d join datoteke f on f.id = d.datoteka where d.id = $1`,
+    [zahtjev.params.id]
+  );
+  if (!rows.length) { odgovor.sendStatus(404); return; }
+
+  if (rows[0].zakljucan && !predaje(await ko(zahtjev))) {
+    odgovor.status(403).send('Ovaj dokument je zaključan — otvaraju ga nastavnici škole.');
+    return;
+  }
+
+  const ugradivo = /^(application\/pdf|image\/|text\/plain)/.test(rows[0].vrsta);
+  odgovor.set('Content-Type', rows[0].vrsta);
+  odgovor.set('Content-Disposition',
+    (ugradivo ? 'inline' : 'attachment') + "; filename*=UTF-8''" + encodeURIComponent(rows[0].ime));
+  odgovor.set('Cache-Control', 'private, max-age=60');
+  odgovor.send(rows[0].podaci);
 });
 
 function opis(ime) {

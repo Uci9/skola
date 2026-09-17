@@ -96,6 +96,35 @@ export async function postaviUlogu(id, uloga) {
   return trazi('/profili/' + id + '/uloga', { method: 'POST', body: JSON.stringify({ uloga }) });
 }
 
+export async function dokumenti(upit, rubrika) {
+  const pitanja = new URLSearchParams();
+  if (upit) pitanja.set('q', upit);
+  if (rubrika) pitanja.set('rubrika', rubrika);
+  const rep = pitanja.toString();
+  return trazi('/dokumenti' + (rep ? '?' + rep : ''));
+}
+
+export async function posaljiDokument(fajl, podaci) {
+  const sadrzaj = await uBazu(fajl);
+  return trazi('/dokumenti', {
+    method: 'POST',
+    body: JSON.stringify({
+      ...podaci,
+      ime: fajl.name,
+      vrsta: fajl.type || 'application/octet-stream',
+      podaci: sadrzaj
+    })
+  });
+}
+
+export async function izmijeniDokument(id, podaci) {
+  return trazi('/dokumenti/' + id, { method: 'PUT', body: JSON.stringify(podaci) });
+}
+
+export async function obrisiDokument(id) {
+  return trazi('/dokumenti/' + id, { method: 'DELETE' });
+}
+
 function uBazu(fajl) {
   return new Promise((kraj, pad) => {
     const citac = new FileReader();

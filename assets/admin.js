@@ -293,14 +293,17 @@ async function nalozi() {
       </div>
       <div class="admin-radnje">
         <span class="znak ${p.uloga === 'admin' ? 'admin' : ''}">${p.uloga}</span>
-        <button class="btn btn-line mali prebaci">${p.uloga === 'admin' ? 'Skini admina' : 'Daj admina'}</button>
+        <select class="uloga-izbor">
+          <option value="korisnik"${p.uloga === 'korisnik' ? ' selected' : ''}>Korisnik</option>
+          <option value="nastavnik"${p.uloga === 'nastavnik' ? ' selected' : ''}>Nastavnik</option>
+          <option value="admin"${p.uloga === 'admin' ? ' selected' : ''}>Admin</option>
+        </select>
       </div>
     </div>`);
 
-    stavka.querySelector('.prebaci').addEventListener('click', async () => {
-      const nova = p.uloga === 'admin' ? 'korisnik' : 'admin';
+    stavka.querySelector('.uloga-izbor').addEventListener('change', async ev => {
       try {
-        await postaviUlogu(p.id, nova);
+        await postaviUlogu(p.id, ev.target.value);
       } catch (greska) {
         javi(glasnik, porukaGreske(greska));
         return;

@@ -1447,6 +1447,46 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   .blok-natpis { animation: none; }
 }
 
+.spisak-dok { display: grid; gap: 12px; }
+.dok {
+  display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 18px; align-items: start;
+  padding: 18px 20px; border-radius: var(--r-sm);
+  background: var(--white); box-shadow: var(--shadow);
+}
+.dok.zakljucan { background: linear-gradient(180deg, rgba(64,126,140,.08), var(--white) 60%); }
+.dok-vrsta {
+  display: grid; place-items: center; height: 54px;
+  border-radius: 12px; background: var(--paper);
+  font: 700 .74rem/1 var(--grot); letter-spacing: .06em; color: var(--ink-2);
+}
+.dok.zakljucan .dok-vrsta { background: rgba(64,126,140,.14); color: var(--teal); }
+.dok-tijelo { min-width: 0; }
+.dok-gore { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.dok h3 { margin: 0; font-size: 1.06rem; }
+.dok h3 a { color: var(--ink); text-decoration: none; }
+.dok h3 a:hover { color: var(--cobalt); }
+.dok p { margin: 6px 0 0; font-size: .94rem; }
+.dok-znak {
+  padding: 3px 10px; border-radius: var(--pill);
+  background: var(--teal); color: var(--white);
+  font-size: .72rem; font-weight: 600; letter-spacing: .04em;
+}
+.dok-uz { color: var(--ink-2); font-size: .86rem; }
+.dok-radnje { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.dok-dno { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.kvaka { display: flex; align-items: center; gap: 10px; font-size: .94rem; }
+.kvaka input { width: 18px; height: 18px; accent-color: var(--teal); }
+.uloga-izbor {
+  padding: 7px 12px; border-radius: var(--pill);
+  border: 1px solid var(--line); background: var(--white);
+  font: inherit; font-size: .88rem; color: var(--ink);
+}
+
+@media (max-width: 650px) {
+  .dok { grid-template-columns: 48px minmax(0, 1fr); gap: 12px; padding: 14px 15px; }
+  .dok-vrsta { height: 44px; font-size: .66rem; }
+}
+
 .slanje-pregled {
   display: block; width: 100%; max-width: 320px; margin-bottom: 4px;
   border-radius: var(--r-sm); box-shadow: var(--shadow);

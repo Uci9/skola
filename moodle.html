@@ -8,13 +8,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=2cc72da0">
+<link rel="stylesheet" href="assets/styles.css?v=d75c90e9">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
 <script type="module" src="assets/nalog.js?v=4bf3daf1"></script>
 <script src="assets/tekst.js?v=4532f47f" defer></script>
 <script src="assets/leca.js?v=926f53a3" defer></script>
 <script src="assets/meni.js?v=dff45479" defer></script>
 <script src="assets/mreza.js?v=cb164972" defer></script>
+<script type="module" src="assets/moodul.js?v=c7b2baa2"></script>
 </head>
 <body>
 <header class="head">
@@ -67,57 +68,62 @@
 </header>
 <section class="crown blk-cobalt">
   <div class="shell">
-    <h1>Moodle</h1>
-    <p>Platforma za učenje — <span class="isticanje" data-akcija="podvuci" data-boja="#CBB48C">gradivo, zadaci i obavještenja</span> na jednom mjestu.</p>
+    <h1>Moodle <span class="it">škole</span></h1>
+    <p>Gradivo, dokumenta i obavještenja — <span class="isticanje" data-akcija="podvuci" data-boja="#CBB48C">na jednom mjestu</span>, sa pretragom.</p>
   </div>
 </section>
 
 <section class="blk" id="ucenici">
   <div class="shell">
-    <div class="pair">
-      <div class="rise">
-        <span class="kicker">Za učenike</span>
-        <h2>Gradivo i <span class="it">zadaci</span></h2>
-        <p>Predmeti po razredima, materijali sa časa, domaći zadaci i rokovi. Tu su i
-           obavještenja odjeljenjskih starješina i raspored za prvi dan škole.</p>
-        <p>Prijavljuješ se nalogom koji dobiješ u školi. Ako ti ne radi, javi se
-           odjeljenjskom starješini ili ICT koordinatoru.</p>
-        <p><a href="https://elektropg.online/ets/" class="btn btn-fill">Uđi u Moodle</a></p>
-      </div>
-      <aside class="claim rise">
-        <h3>Šta ćeš tamo naći</h3>
-        <ul>
-          <li>gradivo i materijale po predmetima</li>
-          <li>zadatke i rokove za predaju</li>
-          <li>obavještenja za učenike i roditelje</li>
-          <li>raspored i školska dokumenta</li>
-        </ul>
-      </aside>
+    <div class="rise trazilica-red">
+      <label class="trazilica">
+        <input type="search" id="trazi" placeholder="Traži po nazivu, predmetu ili opisu" autocomplete="off">
+        <b id="brojac">0 od 0</b>
+      </label>
+      <div class="tabovi" id="rubrike" role="group" aria-label="Rubrike"></div>
     </div>
+
+    <p class="glas" id="glas" hidden></p>
+    <div class="spisak-dok rise" id="spisak"></div>
+    <p class="nista" id="prazno" hidden>Ništa ne odgovara pretrazi.</p>
   </div>
 </section>
 
 <section class="blk blk-white" id="nastavnici">
   <div class="shell">
-    <div class="pair">
-      <div class="rise">
-        <span class="kicker">Za nastavnike</span>
-        <h2>Kursevi i <span class="it">materijali</span></h2>
-        <p>Postavljanje materijala, zadavanje i pregled zadataka, ocjenjivanje i vođenje
-           kursa kroz školsku godinu.</p>
-        <p>Tu stoje i dokumenta za nastavničko vijeće — godišnji plan rada, pravilnici i
-           javni pozivi.</p>
-        <p><a href="https://elektropg.online/ets/" class="btn btn-fill">Uđi u Moodle</a></p>
+    <div class="rise">
+      <h2>Za <span class="it">nastavnike</span></h2>
+      <p class="lede">Postavi dokument i odluči ko ga vidi. Zaključan otvaraju samo nastavnici
+         i uprava; kad ga otključaš, vide ga svi.</p>
+
+      <div id="dodaj-poziv" hidden>
+        <p class="lede" data-neprijavljen>Prijavi se školskim nalogom, pa ćeš ovdje dobiti obrazac.</p>
+        <p class="lede" data-prijavljen hidden>Tvoj nalog još nije nastavnički. Javi se adminu škole
+           da ti u panelu dodijeli ulogu nastavnika.</p>
+        <p><a href="prijava.html" class="btn btn-fill">Prijava</a></p>
       </div>
-      <aside class="claim rise">
-        <h3>Šta ćete tamo naći</h3>
-        <ul>
-          <li>svoje kurseve i materijale za čas</li>
-          <li>zadatke, predaje i ocjenjivanje</li>
-          <li>dokumenta za nastavničko vijeće</li>
-          <li>obuke i stručno usavršavanje</li>
-        </ul>
-      </aside>
+
+      <form class="form" id="dodaj-forma" hidden>
+        <label class="f"><span>Naziv</span>
+          <input type="text" name="naslov" maxlength="160" required></label>
+        <label class="f"><span>Opis</span>
+          <textarea name="opis" rows="3"></textarea></label>
+        <label class="f"><span>Predmet ili razred</span>
+          <input type="text" name="predmet" maxlength="120">
+          <small>na primjer: Elektronika, III razred</small></label>
+        <label class="f"><span>Rubrika</span>
+          <select name="rubrika"></select></label>
+        <label class="f"><span>Datoteka</span>
+          <input type="file" name="datoteka" required>
+          <small>PDF, Word, Excel, PowerPoint, tekst, slika ili zip — najviše 18 MB</small></label>
+        <label class="kvaka"><input type="checkbox" name="zakljucan">
+          <span>Zaključaj — vide ga samo nastavnici</span></label>
+        <div class="forma-dno">
+          <button type="submit" class="btn btn-fill go">Postavi dokument</button>
+        </div>
+      </form>
+
+      <p class="glas" id="dodaj-glas" hidden></p>
     </div>
   </div>
 </section>
@@ -161,8 +167,8 @@
         <ul>
           <li><a href="moodle.html">Moodle</a></li>
           <li><a href="kutak-ucenika.html">Kutak učenika</a></li>
-          <li><a href="https://elektropg.online/ets/course/index.php?categoryid=170">Obavještenja</a></li>
-          <li><a href="https://elektropg.online/ets/course/index.php?categoryid=169">Dokumenti u Moodle-u</a></li>
+          <li><a href="moodle.html?rubrika=Obavje%C5%A1tenja">Obavještenja</a></li>
+          <li><a href="moodle.html?rubrika=Dokumenta">Dokumenti u Moodle-u</a></li>
           <li><a href="novosti.html">Novosti</a></li>
         </ul>
       </div>
@@ -181,7 +187,7 @@
 
     <div class="base-end">
       <span>© <span id="god">2026</span> JU Srednja elektrotehnička škola „Vaso Aligrudić“</span>
-      <span><a href="https://elektropg.online/ets/course/view.php?id=1782">Pristup informacijama</a> · <a href="https://elektropg.online/ets/course/view.php?id=1773">Javni pozivi</a> · <a href="https://elektropg.online/ets/course/view.php?id=1774">Etički kodeks</a></span>
+      <span><a href="moodle.html?rubrika=Dokumenta">Pristup informacijama</a> · <a href="moodle.html?rubrika=Dokumenta">Javni pozivi</a> · <a href="moodle.html?rubrika=Dokumenta">Etički kodeks</a></span>
     </div>
   </div>
 </footer>

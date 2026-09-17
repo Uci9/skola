@@ -25,11 +25,12 @@ kutak-ucenika.html    galerija đačkog života
 poslodavci.html       partneri i preduzeća
 novosti.html          obavještenja
 kalkulator.html       bodovi za upis u I razred
-moodle.html           ulaz u Moodle, posebno za učenike i nastavnike
+moodle.html           Moodle škole: dokumenti, pretraga, zaključavanje
 server.js             server: statika, API za panel, prijava, slike
 assets/styles.css     stilovi za sve strane
 assets/baza.js        razgovor sa API-jem
 assets/slanje.js      slanje slike sa strane kutka u admin panel
+assets/moodul.js      Moodle: spisak dokumenata, pretraga, postavljanje
 assets/blok.js        skicen-blok na početnoj (O nama)
 assets/paralaks.js    slike koje se slažu na skrol (kutak učenika)
 assets/ispis.js       tekst koji se ispisuje riječ po riječ
@@ -105,6 +106,26 @@ korisniku, da se zna ko je poslao — neprijavljenom piše poziv na prijavu.
 Slika ne ide e-poštom nego pravo u bazu, u tabelu `prijedlozi`, uz ime
 pošiljaoca. U admin panelu ih pokazuje tab „Slike učenika“, odakle se
 brišu ili prebacuju u kutak.
+
+## Moodle
+
+`moodle.html` je zamjena za stari Moodle na `elektropg.online/ets`. Rubrike
+su preslikane odatle: Obavještenja, Dokumenta, Obrazovni programi, Gradivo,
+Projekti, Vanredni ispiti i Ostalo. Stari linkovi po sajtu sada vode ovdje,
+a rubrika se bira i iz adrese (`moodle.html?rubrika=Dokumenta`).
+
+Dokumente postavljaju nalozi sa ulogom `nastavnik` i admin. Ulogu dodjeljuje
+admin u panelu, na spisku naloga. Ko postavi dokument, taj ga mijenja i briše;
+admin može sve.
+
+Zaključan dokument vide samo nastavnici i admin — ne stoji ni u spisku ni na
+adresi `/dokument/:id`. Kad se otključa, vide ga svi, i bez naloga.
+
+Datoteke idu u tabelu `datoteke` kao bajtovi, a podaci o njima u `dokumenti`.
+Najviše 18 MB po datoteci: PDF, Word, Excel, PowerPoint, tekst, slika ili zip.
+
+Pretraga radi po nazivu, opisu, predmetu i imenu datoteke. Server je radi kroz
+`?q=`, a strana uz to filtrira i dok se kuca, bez kvačica.
 
 ## Nalozi
 
