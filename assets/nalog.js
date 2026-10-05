@@ -1,4 +1,4 @@
-import { mojProfil, odjaviSe } from './baza.js';
+import { mojProfil, odjaviSe, novo } from './baza.js';
 
 const meni = document.getElementById('meni');
 if (meni) {
@@ -19,6 +19,16 @@ if (meni) {
       a.textContent = p.uloga === 'admin' ? 'Admin' : 'Panel';
       a.dataset.nalog = '1';
       meni.insertBefore(a, veza);
+      if (p.uloga === 'admin') {
+        novo().then(n => {
+          const svega = n.firme + n.prijedlozi;
+          if (!svega) return;
+          const z = document.createElement('b');
+          z.className = 'adm-novo meni-novo';
+          z.textContent = svega > 99 ? '99+' : svega;
+          a.appendChild(z);
+        }).catch(() => {});
+      }
     }
 
     if (veza) {

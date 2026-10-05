@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Poslodavci i partneri | ETŠ „Vaso Aligrudić“</title>
-<meta name="description" content="Preduzeća i projekti sa kojima Elektrotehnička škola „Vaso Aligrudić“ sarađuje kroz praktičnu nastavu i dualno obrazovanje.">
+<title>Upitnik za firme | ETŠ „Vaso Aligrudić“</title>
+<meta name="description" content="Upitnik za preduzeća koja žele da prime učenike Elektrotehničke škole „Vaso Aligrudić“ na praktičnu nastavu ili u dualno obrazovanje.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
@@ -14,6 +14,7 @@
 <script src="assets/tekst.js?v=4532f47f" defer></script>
 <script src="assets/leca.js?v=926f53a3" defer></script>
 <script src="assets/meni.js?v=dff45479" defer></script>
+<script type="module" src="assets/firma.js?v=52b72ace"></script>
 <script src="assets/mreza.js?v=cb164972" defer></script>
 </head>
 <body>
@@ -67,53 +68,107 @@
 </header>
 <section class="crown blk-cobalt">
   <div class="shell">
-    <h1>Škola <span class="it">i</span> privreda</h1>
-    <p>Praktična nastava i dualno obrazovanje, <span class="isticanje" data-akcija="oboji" data-boja="#CBB48C">gdje učenici rade dok se školuju</span>.</p>
+    <h1>Upitnik <span class="it">za firme</span></h1>
+    <p>Predstavite svoju firmu upravi škole. <span class="isticanje" data-akcija="oboji" data-boja="#CBB48C">Javićemo vam se u roku od nekoliko dana.</span></p>
   </div>
 </section>
 
 <section class="blk">
   <div class="shell">
-    <div class="rise"><h2>Projekti</h2></div>
-    <div class="duet rise-kids">
-      <article class="mate">
-        <span class="card-tag">V4WB</span>
-        <h3>VET for Western Balkans</h3>
-        <p>Saradnja između zemalja Zapadnog Balkana i država članica Evropske unije kroz
-           zajedničke radne grupe, razvoj nastavnog plana i programa i nove strategije
-           stručnog obrazovanja.</p>
-      </article>
-      <article class="mate">
-        <span class="card-tag">RCF</span>
-        <h3>Regionalni Challenge Fond</h3>
-        <p>Jačanje relevantnosti stručnog obrazovanja na tržištu rada kroz finansiranje ulaganja
-           u opremu i infrastrukturu za pružaoce obuke koji uključuju preduzeća u obuku učenika.</p>
-      </article>
-    </div>
-  </div>
-</section>
+    <form class="form" id="firma-forma" novalidate>
+      <fieldset class="fset">
+        <legend>O firmi</legend>
+        <div class="fgrid f2">
+          <label class="f"><span>Naziv firme *</span>
+            <input type="text" name="naziv" maxlength="160" autocomplete="organization" required></label>
+          <label class="f"><span>Pravni oblik</span>
+            <select name="pravni_oblik">
+              <option value="">Izaberite</option>
+              <option>DOO</option>
+              <option>AD</option>
+              <option>Preduzetnik</option>
+              <option>Javno preduzeće</option>
+              <option>Ustanova</option>
+              <option>Ostalo</option>
+            </select></label>
+          <label class="f"><span>Godina osnivanja</span>
+            <input type="text" name="osnovana" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" placeholder="npr. 1998"></label>
+          <label class="f"><span>PIB</span>
+            <input type="text" name="pib" inputmode="numeric" maxlength="20"></label>
+          <label class="f"><span>Sjedište, adresa</span>
+            <input type="text" name="sjediste" maxlength="200" autocomplete="street-address"></label>
+          <label class="f"><span>Broj zaposlenih</span>
+            <select name="zaposlenih">
+              <option value="">Izaberite</option>
+              <option>do 10</option>
+              <option>11 do 50</option>
+              <option>51 do 250</option>
+              <option>više od 250</option>
+            </select></label>
+        </div>
+        <div class="fgrid">
+          <label class="f"><span>Djelatnost</span>
+            <input type="text" name="djelatnost" maxlength="300">
+            <small>čime se firma bavi, na primjer: elektroinstalacije, telekomunikacije, razvoj softvera</small></label>
+          <label class="f"><span>Internet stranica</span>
+            <input type="text" name="sajt" maxlength="200" inputmode="url" placeholder="www.firma.me"></label>
+          <label class="f"><span>Nešto više o firmi</span>
+            <textarea name="o_firmi" rows="6" maxlength="4000"></textarea>
+            <small>istorija firme, projekti na kojima radite, oprema, sve što mislite da treba da znamo</small></label>
+        </div>
+      </fieldset>
 
-<section class="blk blk-white">
-  <div class="shell">
-    <div class="rise"><h2>Preduzeća</h2></div>
-    <p class="flag rise">Spisak preduzeća vodi organizator praktičnog obrazovanja.
-       Do dostavljanja spiska mjesta stoje prazna.</p>
-    <div class="duet rise-kids">
-      <article class="mate void"><span class="card-tag">Praktična nastava</span><h3>Naziv preduzeća</h3><p>Djelatnost, programi čiji učenici tamo idu i broj mjesta.</p></article>
-      <article class="mate void"><span class="card-tag">Praktična nastava</span><h3>Naziv preduzeća</h3><p>Djelatnost, programi čiji učenici tamo idu i broj mjesta.</p></article>
-      <article class="mate void"><span class="card-tag">Dualno obrazovanje</span><h3>Naziv preduzeća</h3><p>Djelatnost, programi čiji učenici tamo idu i broj mjesta.</p></article>
-      <article class="mate void"><span class="card-tag">Dualno obrazovanje</span><h3>Naziv preduzeća</h3><p>Djelatnost, programi čiji učenici tamo idu i broj mjesta.</p></article>
-    </div>
-  </div>
-</section>
+      <fieldset class="fset">
+        <legend>Kontakt</legend>
+        <div class="fgrid f2">
+          <label class="f"><span>Direktor</span>
+            <input type="text" name="direktor" maxlength="120"></label>
+          <label class="f"><span>Osoba za kontakt</span>
+            <input type="text" name="kontakt" maxlength="120" autocomplete="name"></label>
+          <label class="f"><span>Funkcija osobe za kontakt</span>
+            <input type="text" name="funkcija" maxlength="120" autocomplete="organization-title"></label>
+          <label class="f"><span>Telefon</span>
+            <input type="tel" name="telefon" maxlength="60" autocomplete="tel"></label>
+          <label class="f"><span>E-pošta *</span>
+            <input type="email" name="email" maxlength="160" autocomplete="email" required></label>
+        </div>
+      </fieldset>
 
-<section class="blk blk-tirkiz">
-  <div class="shell">
-    <div class="rise">
-      <h2>Zainteresovani za učenike <span class="it">na praksi?</span></h2>
-      <p class="lede">Preduzeća koja žele da prime učenike na praktičnu nastavu ili da uđu
-         u dualno obrazovanje javljaju se sekretarijatu škole.</p>
-      <p><a href="saradnja.html" class="btn btn-fill">Javite se upravi škole</a></p>
+      <fieldset class="fset">
+        <legend>Saradnja sa školom</legend>
+        <div class="fgrid f2">
+          <label class="f"><span>Šta vas zanima</span>
+            <select name="saradnja">
+              <option value="">Izaberite</option>
+              <option>Praktična nastava</option>
+              <option>Dualno obrazovanje</option>
+              <option>Oboje</option>
+            </select></label>
+          <label class="f"><span>Koliko učenika možete da primite</span>
+            <input type="text" name="mjesta" inputmode="numeric" maxlength="20"></label>
+        </div>
+        <div class="fgrid">
+          <label class="f"><span>Programi koji vas zanimaju</span>
+            <input type="text" name="programi" maxlength="600">
+            <small>na primjer: elektroinstalater, elektrotehničar energetike, računarske mreže</small></label>
+          <label class="f"><span>Kada bi učenici mogli da dolaze</span>
+            <input type="text" name="period" maxlength="200" placeholder="npr. od februara, dva dana nedjeljno"></label>
+          <label class="f"><span>Napomena</span>
+            <textarea name="napomena" rows="4" maxlength="2000"></textarea></label>
+        </div>
+      </fieldset>
+
+      <label class="f mamac" aria-hidden="true"><span>Ne popunjavati</span>
+        <input type="text" name="web" tabindex="-1" autocomplete="off"></label>
+
+      <button type="submit" class="btn btn-fill">Pošalji upravi škole</button>
+      <p class="glas" id="firma-glas" hidden></p>
+    </form>
+
+    <div class="kutija" id="firma-hvala" hidden>
+      <h2>Hvala!</h2>
+      <p>Upitnik je stigao upravi škole. Javićemo vam se na adresu koju ste ostavili.</p>
+      <p><a href="poslodavci.html" class="btn btn-line">Nazad na poslodavce</a></p>
     </div>
   </div>
 </section>

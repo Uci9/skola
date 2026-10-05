@@ -18,7 +18,7 @@
       naslov: 'Od 1946.',
       redovi: [
         'Škola na ovoj adresi radi od 1946. godine. Kroz nju je prošlo više generacija električara, monterâ i tehničara nego što iko u Podgorici može da nabroji.',
-        'Danas se zove JU Srednja elektrotehnička škola „Vaso Aligrudić“ — osamdeset godina jedne struke, od prvih instalacija do mreža i mikrokontrolera.'
+        'Danas se zove JU Srednja elektrotehnička škola „Vaso Aligrudić“, osamdeset godina jedne struke, od prvih instalacija do mreža i mikrokontrolera.'
       ],
       slika: 'assets/img/skola.jpg',
       potpis: 'Zgrada škole, Vasa Raičkovića 26',
@@ -28,7 +28,7 @@
       nadnaslov: 'Brojke',
       naslov: 'Šta smo danas',
       redovi: [
-        'Sedam obrazovnih programa — pet četvorogodišnjih i dva trogodišnja. Sedamdeset tri nastavnika i stotinu zaposlenih.',
+        'Sedam obrazovnih programa: pet četvorogodišnjih i dva trogodišnja. Sedamdeset tri nastavnika i stotinu zaposlenih.',
         'Četvorogodišnji vode ka diplomi tehničara i pravu na fakultet. Trogodišnji ka zanimanju s kojim se odmah radi.'
       ],
       slika: 'assets/kadrovi/l/k052.jpg',
@@ -39,8 +39,8 @@
       nadnaslov: 'Program',
       naslov: 'Programiranje i mreže',
       redovi: [
-        'Elektrotehničar za razvoj veb i mobilnih aplikacija — programiranje, veb i mobilne aplikacije i baze podataka.',
-        'Elektrotehničar računarskih sistema i mreža — hardver, računarske mreže, operativni sistemi i administracija sistema.'
+        'Elektrotehničar za razvoj veb i mobilnih aplikacija: programiranje, veb i mobilne aplikacije i baze podataka.',
+        'Elektrotehničar računarskih sistema i mreža: hardver, računarske mreže, operativni sistemi i administracija sistema.'
       ],
       slika: 'assets/kadrovi/l/k104.jpg',
       potpis: 'Ulaz u školu',
@@ -50,9 +50,9 @@
       nadnaslov: 'Program',
       naslov: 'Elektronika, veze i energetika',
       redovi: [
-        'Elektrotehničar elektronike — elektronika, mikrokontroleri i mjerenja.',
-        'Elektrotehničar elektronskih komunikacija — prenos signala, optičke i bežične mreže.',
-        'Elektrotehničar energetike — prenos i distribucija struje, obnovljivi izvori.'
+        'Elektrotehničar elektronike: elektronika, mikrokontroleri i mjerenja.',
+        'Elektrotehničar elektronskih komunikacija: prenos signala, optičke i bežične mreže.',
+        'Elektrotehničar energetike: prenos i distribucija struje, obnovljivi izvori.'
       ],
       slika: 'assets/kadrovi/l/k030.jpg',
       potpis: 'Prilaz od kapije do vrata',
@@ -62,8 +62,8 @@
       nadnaslov: 'Program',
       naslov: 'Zanat u tri godine',
       redovi: [
-        'Elektroinstalater — izvođenje i održavanje instalacija u objektima, uz praksu kod poslodavaca.',
-        'Monter elektronske komunikacione infrastrukture — kablovske, optičke i antenske instalacije. Oba programa završavaju stručnim ispitom.'
+        'Elektroinstalater: izvođenje i održavanje instalacija u objektima, uz praksu kod poslodavaca.',
+        'Monter elektronske komunikacione infrastrukture: kablovske, optičke i antenske instalacije. Oba programa završavaju stručnim ispitom.'
       ],
       slika: 'assets/kadrovi/l/k078.jpg',
       potpis: 'Nadstrešnica pred ulazom',
@@ -73,7 +73,7 @@
       nadnaslov: 'Praksa',
       naslov: 'Uči se u pogonu',
       redovi: [
-        'Dio nastave se odvija kod poslodavaca — u pogonima, a ne u učionici. Kod trogodišnjih programa i kroz dualno obrazovanje.',
+        'Dio nastave se odvija kod poslodavaca, u pogonima, a ne u učionici. Kod trogodišnjih programa i kroz dualno obrazovanje.',
         'Učenici i nastavnici izlaze na domaća i međunarodna takmičenja.'
       ],
       slika: 'assets/kadrovi/l/k004.jpg',
@@ -84,7 +84,7 @@
       nadnaslov: 'Projekti',
       naslov: 'Ne radimo sami',
       redovi: [
-        'Kroz VET for Western Balkans škola radi sa zemljama Zapadnog Balkana i članicama Evropske unije — zajedničke radne grupe i razvoj nastavnog plana.',
+        'Kroz VET for Western Balkans škola radi sa zemljama Zapadnog Balkana i članicama Evropske unije: zajedničke radne grupe i razvoj nastavnog plana.',
         'Kroz Regionalni Challenge Fond stiže oprema i infrastruktura, uz preduzeća koja uzimaju učenike na obuku.'
       ],
       slika: 'assets/kadrovi/l/k138.jpg',
@@ -96,7 +96,7 @@
       naslov: 'I sa odraslima',
       redovi: [
         'Škola je licencirana za obrazovanje odraslih u tri oblasti: elektronski sigurnosni sistemi, elektrokomunikacioni sistemi i održavanje elektronskih uređaja.',
-        'Sekretarijat radi ponedjeljkom do petka, 08.00—14.00.'
+        'Sekretarijat radi ponedjeljkom do petka, od 08.00 do 14.00.'
       ],
       slika: 'assets/kadrovi/l/k124.jpg',
       potpis: 'Kraj smjene',

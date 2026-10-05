@@ -47,7 +47,7 @@ if (okvir) {
 
   (async function pripremi() {
     if (!(await imaBazu())) {
-      poziv.innerHTML = '<p class="lede">Slanje slika još ne radi — baza nije podešena.</p>';
+      poziv.innerHTML = '<p class="lede">Slanje slika još ne radi jer baza nije podešena.</p>';
       poziv.hidden = false;
       return;
     }

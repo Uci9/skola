@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Poslodavci i partneri | ETŠ „Vaso Aligrudić“</title>
-<meta name="description" content="Preduzeća i projekti sa kojima Elektrotehnička škola „Vaso Aligrudić“ sarađuje kroz praktičnu nastavu i dualno obrazovanje.">
+<title>Čet | ETŠ „Vaso Aligrudić“</title>
+<meta name="description" content="Školski čet Elektrotehničke škole „Vaso Aligrudić“ za sve sa nalogom.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
@@ -14,6 +14,7 @@
 <script src="assets/tekst.js?v=4532f47f" defer></script>
 <script src="assets/leca.js?v=926f53a3" defer></script>
 <script src="assets/meni.js?v=dff45479" defer></script>
+<script type="module" src="assets/cet.js?v=dab94184"></script>
 <script src="assets/mreza.js?v=cb164972" defer></script>
 </head>
 <body>
@@ -67,56 +68,52 @@
 </header>
 <section class="crown blk-cobalt">
   <div class="shell">
-    <h1>Škola <span class="it">i</span> privreda</h1>
-    <p>Praktična nastava i dualno obrazovanje, <span class="isticanje" data-akcija="oboji" data-boja="#CBB48C">gdje učenici rade dok se školuju</span>.</p>
+    <h1>Školski <span class="it">čet</span></h1>
+    <p>Jedna soba za sve sa nalogom. <span class="isticanje" data-akcija="oboji" data-boja="#CBB48C">Poruke nestaju poslije 48 sati.</span></p>
   </div>
 </section>
 
 <section class="blk">
   <div class="shell">
-    <div class="rise"><h2>Projekti</h2></div>
-    <div class="duet rise-kids">
-      <article class="mate">
-        <span class="card-tag">V4WB</span>
-        <h3>VET for Western Balkans</h3>
-        <p>Saradnja između zemalja Zapadnog Balkana i država članica Evropske unije kroz
-           zajedničke radne grupe, razvoj nastavnog plana i programa i nove strategije
-           stručnog obrazovanja.</p>
-      </article>
-      <article class="mate">
-        <span class="card-tag">RCF</span>
-        <h3>Regionalni Challenge Fond</h3>
-        <p>Jačanje relevantnosti stručnog obrazovanja na tržištu rada kroz finansiranje ulaganja
-           u opremu i infrastrukturu za pružaoce obuke koji uključuju preduzeća u obuku učenika.</p>
-      </article>
+    <div class="kutija" id="cet-zakljucano" hidden>
+      <h2>Prijavi se</h2>
+      <p>Čet vide i u njemu pišu samo oni koji imaju nalog na sajtu škole.</p>
+      <p><a href="prijava.html" class="btn btn-fill">Prijava ili novi nalog</a></p>
+    </div>
+
+    <div id="cet" hidden>
+      <p class="cet-ja">Pišeš kao <b id="cet-ja"></b></p>
+      <p class="glas" id="cet-obavjestenje" hidden></p>
+      <div class="cet">
+        <div class="cet-spisak" id="cet-spisak" aria-live="polite"></div>
+        <button type="button" class="cet-skok" id="cet-skok" hidden></button>
+        <form class="cet-forma" id="cet-forma">
+          <input type="text" maxlength="500" placeholder="Napiši poruku" aria-label="Poruka" autocomplete="off">
+          <span class="cet-brojac" id="cet-brojac" hidden></span>
+          <button type="submit" class="btn btn-fill" disabled>Pošalji</button>
+        </form>
+      </div>
+      <p class="glas" id="cet-glas" hidden></p>
     </div>
   </div>
 </section>
 
-<section class="blk blk-white">
-  <div class="shell">
-    <div class="rise"><h2>Preduzeća</h2></div>
-    <p class="flag rise">Spisak preduzeća vodi organizator praktičnog obrazovanja.
-       Do dostavljanja spiska mjesta stoje prazna.</p>
-    <div class="duet rise-kids">
-      <article class="mate void"><span class="card-tag">Praktična nastava</span><h3>Naziv preduzeća</h3><p>Djelatnost, programi čiji učenici tamo idu i broj mjesta.</p></article>
-      <article class="mate void"><span class="card-tag">Praktična nastava</span><h3>Naziv preduzeća</h3><p>Djelatnost, programi čiji učenici tamo idu i broj mjesta.</p></article>
-      <article class="mate void"><span class="card-tag">Dualno obrazovanje</span><h3>Naziv preduzeća</h3><p>Djelatnost, programi čiji učenici tamo idu i broj mjesta.</p></article>
-      <article class="mate void"><span class="card-tag">Dualno obrazovanje</span><h3>Naziv preduzeća</h3><p>Djelatnost, programi čiji učenici tamo idu i broj mjesta.</p></article>
+<div class="cet-pozadina" id="cet-mod" hidden>
+  <div class="cet-mod" role="dialog" aria-modal="true" aria-labelledby="cet-mod-ime">
+    <button type="button" class="zatvori" aria-label="Zatvori">&times;</button>
+    <span class="kicker">Uređivanje četa</span>
+    <h3 class="cet-mod-ime" id="cet-mod-ime"></h3>
+    <blockquote class="cet-mod-citat"></blockquote>
+    <button type="button" class="btn cet-brisi">Obriši ovu poruku</button>
+    <p class="cet-mod-uputa">Brisanje poruke ne dira osobu. Utišavanje prestaje samo kad istekne vrijeme, a zabrana ostaje dok je ne skineš.</p>
+    <p class="cet-mod-oznaka">Utišaj na</p>
+    <div class="cet-mod-sati"></div>
+    <div class="cet-mod-radnje">
+      <button type="button" class="btn cet-zabrani">Zabrani pisanje u četu</button>
+      <button type="button" class="btn btn-line cet-oslobodi">Skini utišavanje i zabranu</button>
     </div>
   </div>
-</section>
-
-<section class="blk blk-tirkiz">
-  <div class="shell">
-    <div class="rise">
-      <h2>Zainteresovani za učenike <span class="it">na praksi?</span></h2>
-      <p class="lede">Preduzeća koja žele da prime učenike na praktičnu nastavu ili da uđu
-         u dualno obrazovanje javljaju se sekretarijatu škole.</p>
-      <p><a href="saradnja.html" class="btn btn-fill">Javite se upravi škole</a></p>
-    </div>
-  </div>
-</section>
+</div>
 
 <footer class="base">
   <div class="shell">

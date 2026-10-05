@@ -160,6 +160,41 @@ async function napraviShemu() {
       kljuc text primary key,
       vrijednost text not null
     );
+    create table if not exists firme (
+      id uuid primary key default gen_random_uuid(),
+      naziv text not null,
+      pravni_oblik text,
+      osnovana text,
+      pib text,
+      sjediste text,
+      djelatnost text,
+      zaposlenih text,
+      direktor text,
+      kontakt text,
+      funkcija text,
+      telefon text,
+      email text not null,
+      sajt text,
+      o_firmi text,
+      saradnja text,
+      programi text,
+      mjesta text,
+      period text,
+      napomena text,
+      vidjeno boolean not null default false,
+      napravljeno timestamptz default now()
+    );
+    alter table if exists prijedlozi add column if not exists vidjeno boolean not null default false;
+    create table if not exists poruke (
+      id serial primary key,
+      profil uuid references profili(id) on delete set null,
+      ime text not null,
+      tekst text not null,
+      napravljeno timestamptz not null default now()
+    );
+    create index if not exists poruke_napravljeno on poruke (napravljeno);
+    alter table if exists profili add column if not exists cet_zabrana boolean not null default false;
+    alter table if exists profili add column if not exists cet_utisan_do timestamptz;
   `);
 }
 
@@ -427,7 +462,7 @@ app.post('/api/prijedlozi', async (zahtjev, odgovor) => {
   const naslov = String(zahtjev.body.naslov || '').trim();
   const opisSlike = String(zahtjev.body.opis || '').trim();
   if (!naslov) {
-    odgovor.status(400).json({ greska: 'Upiši povod — šta je na slici.' });
+    odgovor.status(400).json({ greska: 'Upiši povod, šta je na slici.' });
     return;
   }
 
@@ -608,6 +643,232 @@ app.delete('/api/dokumenti/:id', samoNastavnik, async (zahtjev, odgovor) => {
   odgovor.json({ gotovo: true });
 });
 
+const POLJA_FIRME = {
+  naziv: 160,
+  pravni_oblik: 60,
+  osnovana: 10,
+  pib: 20,
+  sjediste: 200,
+  djelatnost: 300,
+  zaposlenih: 40,
+  direktor: 120,
+  kontakt: 120,
+  funkcija: 120,
+  telefon: 60,
+  email: 160,
+  sajt: 200,
+  o_firmi: 4000,
+  saradnja: 40,
+  programi: 600,
+  mjesta: 20,
+  period: 200,
+  napomena: 2000
+};
+
+const SARADNJA = ['Praktična nastava', 'Dualno obrazovanje', 'Oboje'];
+const zadnjeSlanje = new Map();
+
+app.post('/api/firme', async (zahtjev, odgovor) => {
+  const tijelo = zahtjev.body || {};
+  if (tijelo.web) {
+    odgovor.json({ gotovo: true });
+    return;
+  }
+
+  const ip = zahtjev.ip || '';
+  const prije = zadnjeSlanje.get(ip) || 0;
+  if (Date.now() - prije < 60 * 1000) {
+    odgovor.status(429).json({ greska: 'Upitnik je već poslat. Sačekajte minut pa pokušajte ponovo.' });
+    return;
+  }
+
+  const red = {};
+  for (const [kljuc, duzina] of Object.entries(POLJA_FIRME)) {
+    const v = String(tijelo[kljuc] || '').trim().slice(0, duzina);
+    red[kljuc] = v || null;
+  }
+
+  if (!red.naziv) {
+    odgovor.status(400).json({ greska: 'Upišite naziv firme.' });
+    return;
+  }
+  if (!red.email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(red.email)) {
+    odgovor.status(400).json({ greska: 'Upišite ispravnu e-poštu za kontakt.' });
+    return;
+  }
+  if (red.saradnja && !SARADNJA.includes(red.saradnja)) red.saradnja = null;
+
+  const polja = Object.keys(red);
+  const mjesta = polja.map((_, i) => '$' + (i + 1)).join(', ');
+  await bazen.query(
+    'insert into firme (' + polja.join(', ') + ') values (' + mjesta + ')',
+    polja.map(k => red[k])
+  );
+
+  zadnjeSlanje.set(ip, Date.now());
+  odgovor.json({ gotovo: true });
+});
+
+app.get('/api/firme', samoAdmin, async (zahtjev, odgovor) => {
+  const { rows } = await bazen.query('select * from firme order by napravljeno desc');
+  odgovor.json(rows);
+});
+
+app.delete('/api/firme/:id', samoAdmin, async (zahtjev, odgovor) => {
+  if (!UUID.test(zahtjev.params.id)) { odgovor.sendStatus(404); return; }
+  await bazen.query('delete from firme where id = $1', [zahtjev.params.id]);
+  odgovor.json({ gotovo: true });
+});
+
+app.get('/api/novo', samoAdmin, async (zahtjev, odgovor) => {
+  const { rows } = await bazen.query(`
+    select
+      (select count(*)::int from firme where not vidjeno) as firme,
+      (select count(*)::int from prijedlozi where not vidjeno) as prijedlozi
+  `);
+  odgovor.json(rows[0]);
+});
+
+app.post('/api/novo/:vrsta', samoAdmin, async (zahtjev, odgovor) => {
+  const vrsta = zahtjev.params.vrsta;
+  if (vrsta !== 'firme' && vrsta !== 'prijedlozi') { odgovor.sendStatus(404); return; }
+  await bazen.query('update ' + vrsta + ' set vidjeno = true where not vidjeno');
+  odgovor.json({ gotovo: true });
+});
+
+const TRAJANJE_PORUKE = 48 * 3600 * 1000;
+const NAJDUZA_PORUKA = 500;
+const RAZMAK_PORUKA = 2000;
+const PROZOR_CETA = 100;
+
+const granicaCeta = () => new Date(Date.now() - TRAJANJE_PORUKE);
+
+async function pocistiCet() {
+  try {
+    await bazen.query('delete from poruke where napravljeno < $1', [granicaCeta()]);
+  } catch (greska) {
+    console.warn('Stare poruke nisu obrisane: ' + greska.message);
+  }
+}
+
+function poruka(red, ja) {
+  return {
+    id: red.id,
+    profil: red.profil,
+    ime: red.ime,
+    tekst: red.tekst,
+    napravljeno: red.napravljeno,
+    moja: Boolean(ja && red.profil === ja)
+  };
+}
+
+app.get('/api/cet', async (zahtjev, odgovor) => {
+  const osoba = await ko(zahtjev);
+  if (!osoba) {
+    odgovor.status(401).json({ greska: 'Prijavi se da vidiš čet.' });
+    return;
+  }
+
+  const od = Number(zahtjev.query.od);
+  const { rows } = Number.isInteger(od) && od > 0
+    ? await bazen.query(
+        'select * from poruke where id > $1 and napravljeno > $2 order by id limit $3',
+        [od, granicaCeta(), PROZOR_CETA]
+      )
+    : await bazen.query(
+        'select * from (select * from poruke where napravljeno > $1 order by id desc limit $2) p order by id',
+        [granicaCeta(), PROZOR_CETA]
+      );
+
+  odgovor.json(rows.map(r => poruka(r, osoba.id)));
+});
+
+app.post('/api/cet', async (zahtjev, odgovor) => {
+  const id = citajSesiju(zahtjev);
+  const { rows: ljudi } = id
+    ? await bazen.query('select * from profili where id = $1', [id])
+    : { rows: [] };
+  const osoba = ljudi[0];
+  if (!osoba) {
+    odgovor.status(401).json({ greska: 'Prijavi se da pišeš u četu.' });
+    return;
+  }
+
+  const tekst = String((zahtjev.body && zahtjev.body.tekst) || '').trim();
+  if (!tekst) {
+    odgovor.status(400).json({ greska: 'Napiši nešto prvo.' });
+    return;
+  }
+  if (tekst.length > NAJDUZA_PORUKA) {
+    odgovor.status(400).json({ greska: 'Poruka može imati najviše ' + NAJDUZA_PORUKA + ' znakova.' });
+    return;
+  }
+
+  if (osoba.cet_zabrana) {
+    odgovor.status(403).json({ greska: 'Ne možeš da pišeš u četu.' });
+    return;
+  }
+  if (osoba.cet_utisan_do && osoba.cet_utisan_do.getTime() > Date.now()) {
+    const minuta = Math.ceil((osoba.cet_utisan_do.getTime() - Date.now()) / 60000);
+    const koliko = minuta >= 60 ? Math.ceil(minuta / 60) + ' h' : minuta + ' min';
+    odgovor.status(403).json({ greska: 'Utišan si još ' + koliko + '.' });
+    return;
+  }
+
+  const { rows: zadnja } = await bazen.query(
+    'select napravljeno from poruke where profil = $1 order by id desc limit 1',
+    [osoba.id]
+  );
+  if (zadnja.length && Date.now() - zadnja[0].napravljeno.getTime() < RAZMAK_PORUKA) {
+    odgovor.status(429).json({ greska: 'Polako, sačekaj trenutak.' });
+    return;
+  }
+
+  const ime = osoba.ime || osoba.email.split('@')[0];
+  const { rows } = await bazen.query(
+    'insert into poruke (profil, ime, tekst) values ($1, $2, $3) returning *',
+    [osoba.id, ime, tekst]
+  );
+  odgovor.json(poruka(rows[0], osoba.id));
+});
+
+app.delete('/api/cet/:id', samoAdmin, async (zahtjev, odgovor) => {
+  const id = Number(zahtjev.params.id);
+  if (!Number.isInteger(id)) { odgovor.sendStatus(404); return; }
+  const { rowCount } = await bazen.query('delete from poruke where id = $1', [id]);
+  if (!rowCount) { odgovor.status(404).json({ greska: 'Te poruke više nema.' }); return; }
+  odgovor.sendStatus(204);
+});
+
+app.post('/api/cet/kazna', samoAdmin, async (zahtjev, odgovor) => {
+  const profil = String(zahtjev.body.profil || '');
+  const radnja = String(zahtjev.body.radnja || '');
+  if (!UUID.test(profil) || !['utisaj', 'zabrani', 'oslobodi'].includes(radnja)) {
+    odgovor.status(400).json({ greska: 'Izaberi osobu i radnju.' });
+    return;
+  }
+
+  const { rows } = await bazen.query('select id, uloga from profili where id = $1', [profil]);
+  if (!rows.length) { odgovor.status(404).json({ greska: 'Nema tog naloga.' }); return; }
+  if (rows[0].uloga === 'admin') {
+    odgovor.status(400).json({ greska: 'Admin se ne može utišati ni zabraniti.' });
+    return;
+  }
+
+  if (radnja === 'zabrani') {
+    await bazen.query('update profili set cet_zabrana = true, cet_utisan_do = null where id = $1', [profil]);
+  } else if (radnja === 'oslobodi') {
+    await bazen.query('update profili set cet_zabrana = false, cet_utisan_do = null where id = $1', [profil]);
+  } else {
+    const sati = Math.min(Math.max(Number(zahtjev.body.sati) || 1, 1), 24);
+    await bazen.query(
+      'update profili set cet_zabrana = false, cet_utisan_do = $1 where id = $2',
+      [new Date(Date.now() + sati * 3600 * 1000), profil]
+    );
+  }
+  odgovor.json({ gotovo: true });
+});
+
 const ARHIVA = JSON.parse(fs.readFileSync(path.join(koren, 'baza', 'moodle.json'), 'utf8'));
 const SVI_KURSEVI = new Map();
 
@@ -705,7 +966,8 @@ app.get('/api/pregled', samoAdmin, async (zahtjev, odgovor) => {
       (select count(*)::int from dokumenti where zakljucan) as zakljucanih_dokumenata,
       (select count(*)::int from zakljucani_kursevi) as zakljucanih_kurseva,
       (select count(*)::int from nastavnici) as zaposlenih,
-      (select count(*)::int from poslodavci) as poslodavci
+      (select count(*)::int from poslodavci) as poslodavci,
+      (select count(*)::int from firme) as firme
   `);
   odgovor.json({ ...rows[0], kurseva: SVI_KURSEVI.size });
 });
@@ -721,7 +983,7 @@ app.get('/dokument/:id', async (zahtjev, odgovor) => {
   if (!rows.length) { odgovor.sendStatus(404); return; }
 
   if (rows[0].zakljucan && !predaje(await ko(zahtjev))) {
-    odgovor.status(403).send('Ovaj dokument je zaključan — otvaraju ga nastavnici škole.');
+    odgovor.status(403).send('Ovaj dokument je zaključan. Otvaraju ga nastavnici škole.');
     return;
   }
 
@@ -849,6 +1111,8 @@ async function sacekajBazu() {
         await posijZaposlene();
         await napraviAdmina();
         KLJUC = await tajna();
+        pocistiCet();
+        setInterval(pocistiCet, 30 * 60 * 1000).unref();
         console.log('Baza spremna.');
       } else {
         console.error('Baza se nije javila, admin panel neće raditi.');
@@ -857,7 +1121,7 @@ async function sacekajBazu() {
       console.error('Baza se nije javila:', greska.message);
     }
   } else {
-    console.warn('Nema DATABASE_URL — sajt radi, admin panel ne. Dodaj Postgres u Railway-u.');
+    console.warn('Nema DATABASE_URL, sajt radi, admin panel ne. Dodaj Postgres u Railway-u.');
   }
 
   app.listen(luka, () => console.log('Sajt radi na luci ' + luka));

@@ -172,3 +172,39 @@ export async function moodleArhiva() {
   if (!odgovor.ok) throw new Error('Arhiva Moodle-a se nije učitala.');
   return odgovor.json();
 }
+
+export async function posaljiFirmu(podaci) {
+  return trazi('/firme', { method: 'POST', body: JSON.stringify(podaci) });
+}
+
+export async function firme() {
+  return trazi('/firme');
+}
+
+export async function obrisiFirmu(id) {
+  return trazi('/firme/' + id, { method: 'DELETE' });
+}
+
+export async function novo() {
+  return trazi('/novo');
+}
+
+export async function pregledano(vrsta) {
+  return trazi('/novo/' + vrsta, { method: 'POST' });
+}
+
+export async function porukeCeta(od) {
+  return trazi('/cet' + (od ? '?od=' + od : ''));
+}
+
+export async function posaljiPoruku(tekst) {
+  return trazi('/cet', { method: 'POST', body: JSON.stringify({ tekst }) });
+}
+
+export async function obrisiPoruku(id) {
+  return trazi('/cet/' + id, { method: 'DELETE' });
+}
+
+export async function kazniUCetu(profil, radnja, sati) {
+  return trazi('/cet/kazna', { method: 'POST', body: JSON.stringify({ profil, radnja, sati }) });
+}

@@ -3,7 +3,8 @@ import {
   spisak as izBaze, dodaj, izmijeni, obrisi as obrisiIzBaze, profili, postaviUlogu,
   prijedlozi, obrisiPrijedlog,
   dokumenti, posaljiDokument, izmijeniDokument, obrisiDokument,
-  pregled, zakljucajKurseve, moodleArhiva, odjaviSe
+  pregled, zakljucajKurseve, moodleArhiva, odjaviSe,
+  firme, obrisiFirmu, novo, pregledano
 } from './baza.js';
 import { RAZREDI, PREDMETI, SVI_RAZREDI, RUCNO } from './predmeti.js';
 
@@ -21,7 +22,8 @@ const TABOVI = {
   dokumenti: ['Dokumenti', 'Fajlovi koje nastavnici postavljaju u Moodle sajta.'],
   novosti: ['Novosti', 'Obavještenja i rokovi na strani Novosti.'],
   kutak: ['Kutak učenika', 'Galerija đačkog života.'],
-  prijedlozi: ['Slike učenika', 'Slike koje su učenici poslali za kutak — prebaci ih ili obriši.'],
+  prijedlozi: ['Slike učenika', 'Slike koje su učenici poslali za kutak. Prebaci ih ili obriši.'],
+  firme: ['Firme', 'Upitnici koje su firme poslale upravi škole.'],
   nastavnici: ['Nastavnici', 'Spisak na strani Nastavnici i osoblje.'],
   poslodavci: ['Poslodavci', 'Partneri kod kojih učenici rade praksu.'],
   nalozi: ['Nalozi', 'Ko ima nalog na sajtu i koju ulogu.']
@@ -306,7 +308,7 @@ async function nalozi() {
     const kad = p.napravljeno ? new Date(p.napravljeno).toLocaleDateString('sr-Latn') : '';
     const stavka = el(`<div class="admin-stavka">
       <div class="admin-tekst">
-        <b>${tekst(p.email || '—')}</b>
+        <b>${tekst(p.email || 'bez adrese')}</b>
         <span>${tekst([p.ime, kad].filter(Boolean).join(' · '))}</span>
       </div>
       <div class="admin-radnje">
@@ -363,7 +365,7 @@ async function poslateSlike() {
     const stavka = el(`<div class="admin-stavka">
       <img src="${tekst(red.slika)}" alt="">
       <div class="admin-tekst">
-        <b>${tekst(red.naslov)}</b>
+        <b>${red.vidjeno ? '' : '<em class="adm-svjeze">Novo</em> '}${tekst(red.naslov)}</b>
         <span>${tekst([red.posiljalac || red.email, kad].filter(Boolean).join(' · '))}</span>
         ${red.opis ? `<span>${tekst(red.opis)}</span>` : ''}
       </div>
@@ -404,6 +406,133 @@ async function poslateSlike() {
 
     spisak.appendChild(stavka);
   });
+
+  if (data.some(r => !r.vidjeno)) pregledano('prijedlozi').then(osvjeziNovo).catch(() => {});
+}
+
+const OPISI_FIRME = [
+  ['pravni_oblik', 'Pravni oblik'],
+  ['osnovana', 'Osnovana'],
+  ['pib', 'PIB'],
+  ['sjediste', 'Sjedište'],
+  ['djelatnost', 'Djelatnost'],
+  ['zaposlenih', 'Zaposlenih'],
+  ['sajt', 'Internet stranica'],
+  ['direktor', 'Direktor'],
+  ['kontakt', 'Osoba za kontakt'],
+  ['funkcija', 'Funkcija'],
+  ['telefon', 'Telefon'],
+  ['email', 'E-pošta'],
+  ['saradnja', 'Saradnja'],
+  ['mjesta', 'Broj učenika'],
+  ['programi', 'Programi'],
+  ['period', 'Kada'],
+  ['o_firmi', 'O firmi'],
+  ['napomena', 'Napomena']
+];
+
+async function poslateFirme() {
+  sadrzaj.innerHTML = '';
+  const okvir = el(`<div class="admin-spisak siroko">
+    <h3>Upitnici od firmi <span class="broj" id="broj"></span></h3>
+    <p class="glas" id="glasF" hidden></p>
+    <div id="spisak"></div>
+  </div>`);
+  sadrzaj.appendChild(okvir);
+
+  const spisak = okvir.querySelector('#spisak');
+  const glasnik = okvir.querySelector('#glasF');
+  const broj = okvir.querySelector('#broj');
+
+  let data;
+  try {
+    data = await firme();
+  } catch (greska) {
+    javi(glasnik, porukaGreske(greska));
+    return;
+  }
+
+  broj.textContent = data.length;
+  if (!data.length) { spisak.innerHTML = '<p class="prazno">Još nijedna firma nije poslala upitnik.</p>'; return; }
+
+  data.forEach(f => {
+    const kad = f.napravljeno ? new Date(f.napravljeno).toLocaleString('sr-Latn', { dateStyle: 'medium', timeStyle: 'short' }) : '';
+    const redovi = OPISI_FIRME.filter(([k]) => f[k]).map(([k, o]) => {
+      let v = tekst(f[k]);
+      if (k === 'email') v = `<a href="mailto:${v}">${v}</a>`;
+      if (k === 'telefon') v = `<a href="tel:${v.replace(/[^+0-9]/g, '')}">${v}</a>`;
+      if (k === 'sajt') v = `<a href="${/^https?:/i.test(f.sajt) ? '' : 'https://'}${v}" target="_blank" rel="noopener">${v}</a>`;
+      return `<dt>${o}</dt><dd>${v}</dd>`;
+    }).join('');
+
+    const stavka = el(`<details class="adm-firma"${f.vidjeno ? '' : ' open'}>
+      <summary>
+        <span class="admin-tekst">
+          <b>${f.vidjeno ? '' : '<em class="adm-svjeze">Novo</em> '}${tekst(f.naziv)}</b>
+          <span>${tekst([f.saradnja, f.kontakt, kad].filter(Boolean).join(' · '))}</span>
+        </span>
+      </summary>
+      <dl>${redovi}</dl>
+      <div class="admin-radnje">
+        <button class="btn btn-line mali uPoslodavce">Dodaj među poslodavce</button>
+        <button class="btn btn-line mali obrisi">Obriši</button>
+      </div>
+    </details>`);
+
+    stavka.querySelector('.uPoslodavce').addEventListener('click', async () => {
+      try {
+        await dodaj('poslodavci', {
+          naziv: f.naziv,
+          oznaka: f.saradnja || '',
+          opis: [f.djelatnost, f.sjediste].filter(Boolean).join(', ')
+        });
+      } catch (greska) {
+        javi(glasnik, porukaGreske(greska));
+        return;
+      }
+      javi(glasnik, f.naziv + ' je dodata među poslodavce.', true);
+    });
+
+    stavka.querySelector('.obrisi').addEventListener('click', async () => {
+      if (!confirm('Obrisati upitnik firme „' + f.naziv + '“?')) return;
+      try {
+        await obrisiFirmu(f.id);
+      } catch (greska) {
+        javi(glasnik, porukaGreske(greska));
+        return;
+      }
+      poslateFirme();
+    });
+
+    spisak.appendChild(stavka);
+  });
+
+  if (data.some(f => !f.vidjeno)) pregledano('firme').then(osvjeziNovo).catch(() => {});
+}
+
+const ukupnoNovo = document.getElementById('novo-ukupno');
+const naslovStrane = document.title;
+
+async function osvjeziNovo() {
+  let n;
+  try {
+    n = await novo();
+  } catch (g) {
+    return;
+  }
+
+  Object.entries(n).forEach(([kljuc, broj]) => {
+    const z = tabovi.querySelector('[data-novo="' + kljuc + '"]');
+    if (!z) return;
+    z.textContent = broj > 99 ? '99+' : broj;
+    z.hidden = !broj;
+  });
+
+  const svega = n.firme + n.prijedlozi;
+  ukupnoNovo.hidden = !svega;
+  ukupnoNovo.querySelector('span').textContent = padez(svega, 'nova poruka', 'nove poruke', 'novih poruka');
+  ukupnoNovo.onclick = () => prikazi(n.firme ? 'firme' : 'prijedlozi');
+  document.title = svega ? '(' + svega + ') ' + naslovStrane : naslovStrane;
 }
 
 async function moodleDokumenti() {
@@ -426,10 +555,10 @@ async function moodleDokumenti() {
           <select name="rubrika"></select></label>
         <label class="f"><span>Datoteka</span>
           <input type="file" name="datoteka" required>
-          <small>PDF, Word, Excel, PowerPoint, tekst, slika ili zip — najviše 18 MB</small></label>
+          <small>PDF, Word, Excel, PowerPoint, tekst, slika ili zip, najviše 18 MB</small></label>
         <label class="f"><span>Ko vidi dokument</span>
           <select name="vidljivost">
-            <option value="svi">Svi — i učenici i nastavnici</option>
+            <option value="svi">Svi, i učenici i nastavnici</option>
             <option value="nastavnici">Samo nastavnici škole</option>
           </select></label>
         <div class="forma-dno">
@@ -457,7 +586,7 @@ async function moodleDokumenti() {
   function napuniPredmete() {
     const spisakPredmeta = PREDMETI[izborRazreda.value] || [];
     izborPredmeta.textContent = '';
-    if (spisakPredmeta.length) izborPredmeta.add(new Option('—', ''));
+    if (spisakPredmeta.length) izborPredmeta.add(new Option('Izaberi predmet', ''));
     spisakPredmeta.forEach(p => izborPredmeta.add(new Option(p, p)));
     izborPredmeta.add(new Option(RUCNO, RUCNO));
     if (!spisakPredmeta.length) izborPredmeta.value = RUCNO;
@@ -595,13 +724,13 @@ async function pocetna() {
     return;
   }
 
-  znacka('prijedlozi', b.prijedlozi);
   znacka('moodle', b.zakljucanih_kurseva);
 
   const plocice = [
     ['moodle', b.zakljucanih_kurseva, 'zaključanih kurseva', 'od ' + b.kurseva + ' u Moodle-u'],
     ['dokumenti', b.dokumenti, 'dokumenata od nastavnika', b.zakljucanih_dokumenata + ' samo za nastavnike'],
     ['prijedlozi', b.prijedlozi, 'slika čeka pregled', b.prijedlozi ? 'Pogledaj i prebaci u kutak' : 'Sve je pregledano'],
+    ['firme', b.firme, 'upitnika od firmi', b.firme ? 'Pogledaj ko se javio' : 'Još niko nije pisao'],
     ['novosti', b.novosti, 'novosti', 'na strani Novosti'],
     ['nalozi', b.nalozi, 'naloga', padez(b.nastavnika, 'nastavnik', 'nastavnika', 'nastavnika')],
     ['nastavnici', b.zaposlenih, 'zaposlenih', 'na spisku osoblja'],
@@ -611,7 +740,7 @@ async function pocetna() {
 
   const mreza = el('<div class="adm-plocice"></div>');
   plocice.forEach(([kljuc, broj, ime, uz], i) => {
-    const p = el(`<button type="button" class="adm-plocica${i === 0 ? ' glavna' : ''}${kljuc === 'prijedlozi' && broj ? ' ceka' : ''}">
+    const p = el(`<button type="button" class="adm-plocica${i === 0 ? ' glavna' : ''}${(kljuc === 'prijedlozi' || kljuc === 'firme') && broj ? ' ceka' : ''}">
       <b>${broj}</b>
       <span class="ime">${tekst(ime)}</span>
       <span class="uz">${tekst(uz)}</span>
@@ -710,7 +839,7 @@ async function moodleZakljucavanje() {
     const spisak = $('mZakljucani');
     spisak.innerHTML = '';
     if (!z.length) {
-      spisak.innerHTML = '<p class="prazno">Ništa nije zaključano — sve u Moodle-u je otvoreno za sve.</p>';
+      spisak.innerHTML = '<p class="prazno">Ništa nije zaključano, sve u Moodle-u je otvoreno za sve.</p>';
       return;
     }
     z.forEach(k => spisak.appendChild(redKursa(k, true)));
@@ -829,7 +958,7 @@ async function moodleZakljucavanje() {
       return;
     }
     kursevi.slice(0, 200).forEach(k => spisak.appendChild(redKursa(k, t.put)));
-    if (kursevi.length > 200) spisak.appendChild(el('<p class="prazno">Prikazano prvih 200 — suzi pretragu.</p>'));
+    if (kursevi.length > 200) spisak.appendChild(el('<p class="prazno">Prikazano prvih 200, suzi pretragu.</p>'));
   }
 
   let cekanje = null;
@@ -856,6 +985,7 @@ function prikazi(kljuc) {
   else if (kljuc === 'moodle') moodleZakljucavanje();
   else if (kljuc === 'nalozi') nalozi();
   else if (kljuc === 'prijedlozi') poslateSlike();
+  else if (kljuc === 'firme') poslateFirme();
   else if (kljuc === 'dokumenti') moodleDokumenti();
   else crud(kljuc);
 }
@@ -901,9 +1031,10 @@ async function kreni() {
   if (admin) {
     prikazi(TABOVI[trazen] ? trazen : 'pregled');
     if (trazen && trazen !== 'pregled') pregled().then(b => {
-      znacka('prijedlozi', b.prijedlozi);
       znacka('moodle', b.zakljucanih_kurseva);
     }).catch(() => {});
+    osvjeziNovo();
+    setInterval(osvjeziNovo, 30000);
   } else {
     prikazi('dokumenti');
   }

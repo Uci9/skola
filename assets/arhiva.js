@@ -169,7 +169,7 @@ function otvoriKurs(kurs) {
     izvor.hidden = true;
     tijelo.appendChild(katanac());
     tijelo.appendChild(el('p', 'm-zatvoren',
-      'Ovaj dio Moodle-a je zaključan — otvaraju ga samo nastavnici i admin škole. Ako predaješ u školi, prijavi se školskim nalogom.'));
+      'Ovaj dio Moodle-a je zaključan. Otvaraju ga samo nastavnici i admin škole. Ako predaješ u školi, prijavi se školskim nalogom.'));
     const prijava = el('a', 'btn btn-fill', 'Prijava');
     prijava.href = 'prijava.html';
     tijelo.appendChild(prijava);
@@ -431,7 +431,7 @@ function trazi() {
     nadjeno.appendChild(el('h3', 'm-podnaslov', 'Kursevi i predmeti'));
     const lista = el('div', 'm-predmeti');
     predmeti.slice(0, 80).forEach(x => lista.appendChild(redPredmeta(x.kurs, x.put)));
-    if (predmeti.length > 80) lista.appendChild(el('p', 'nista', 'Prikazano prvih 80 — suzi pretragu.'));
+    if (predmeti.length > 80) lista.appendChild(el('p', 'nista', 'Prikazano prvih 80, suzi pretragu.'));
     nadjeno.appendChild(lista);
   }
 
@@ -443,7 +443,7 @@ function trazi() {
       red.appendChild(el('span', 'm-fajl-opis', x.put.concat(x.kurs.n).join(' · ')));
       lista.appendChild(red);
     });
-    if (fajlovi.length > 120) lista.appendChild(el('p', 'nista', 'Prikazano prvih 120 — suzi pretragu.'));
+    if (fajlovi.length > 120) lista.appendChild(el('p', 'nista', 'Prikazano prvih 120, suzi pretragu.'));
     nadjeno.appendChild(lista);
   }
 }

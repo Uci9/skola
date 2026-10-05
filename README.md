@@ -26,10 +26,14 @@ poslodavci.html       partneri i preduzeća
 novosti.html          obavještenja
 kalkulator.html       bodovi za upis u I razred
 moodle.html           Moodle škole: dokumenti nastavnika, zbirke, arhiva po godinama, pretraga
+saradnja.html         upitnik za firme koje žele učenike na praksi
+cet.html              školski čet za sve sa nalogom
 server.js             server: statika, API za panel, prijava, slike
 assets/styles.css     stilovi za sve strane
 assets/baza.js        razgovor sa API-jem
 assets/slanje.js      slanje slike sa strane kutka u admin panel
+assets/firma.js       slanje upitnika firme u admin panel
+assets/cet.js         čet: poruke, osvježavanje svake 3 sekunde, uređivanje za admina
 assets/arhiva.js      Moodle: zbirke, godine → razredi → odjeljenja → predmeti, pretraga
 baza/moodle.json      preuzeta struktura starog Moodle-a (kursevi, nastavnici, materijali)
 assets/predmeti.js    spisak razreda i predmeta za obrazac u panelu
@@ -153,6 +157,31 @@ Najviše 18 MB po datoteci: PDF, Word, Excel, PowerPoint, tekst, slika ili zip.
 
 Pretraga radi po nazivu, opisu, predmetu i imenu datoteke. Server je radi kroz
 `?q=`, a strana uz to filtrira i dok se kuca, bez kvačica.
+
+## Upitnik za firme
+
+Dugme „Javite se upravi škole“ na strani poslodavaca vodi na `saradnja.html`.
+Firma tu upiše sve o sebi: naziv, godinu osnivanja, PIB, sjedište, djelatnost,
+kontakt i kakvu saradnju traži. Za slanje ne treba nalog. Upitnik ide u tabelu
+`firme`, a u panelu ga pokazuje tab „Firme“, odakle se firma jednim klikom
+dodaje među poslodavce ili briše. Sa jedne adrese može da se pošalje jedan
+upitnik u minuti.
+
+## Nove poruke u panelu
+
+Kad stigne novi upitnik firme ili nova slika za kutak, u panelu se pored taba
+pojavi žuti kružić sa brojem, a gore piše koliko je novih poruka ukupno. Isti
+broj stoji i pored linka „Admin“ u meniju sajta. Kad admin otvori tab, poruke
+se računaju kao pregledane (kolona `vidjeno`). Panel provjerava nove svakih
+30 sekundi.
+
+## Čet
+
+`cet.html` je jedna soba za sve korisnike. Čitaju je i pišu u nju samo
+prijavljeni. Poruke stoje u tabeli `poruke` i brišu se poslije 48 sati.
+Poruka može imati 500 znakova, a između dvije poruke iste osobe moraju proći
+2 sekunde. Admin klikom na tuđu poruku dobija prozor gdje je briše, utišava
+osobu na 1 do 24 sata ili joj zabranjuje pisanje.
 
 ## Nalozi
 
