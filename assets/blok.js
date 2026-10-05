@@ -31,9 +31,15 @@
         'Sedam obrazovnih programa: pet četvorogodišnjih i dva trogodišnja. Sedamdeset tri nastavnika i stotinu zaposlenih.',
         'Četvorogodišnji vode ka diplomi tehničara i pravu na fakultet. Trogodišnji ka zanimanju s kojim se odmah radi.'
       ],
-      slika: 'assets/kadrovi/l/k052.jpg',
-      potpis: 'Fasada iz dvorišta',
-      mjesto: 'Dvorište'
+      desno: {
+        nadnaslov: 'Učionice',
+        naslov: 'Kabineti i radionice',
+        redovi: [
+          'Nastava se drži u kabinetima za elektroniku, računarstvo, mjerenja i instalacije, gdje svaki učenik radi za svojim mjestom.',
+          'Radionice imaju alat i opremu kakvu učenici kasnije sretnu na poslu, od lemilice do mrežnog ormara.'
+        ]
+      },
+      mjesto: 'Danas'
     },
     {
       nadnaslov: 'Program',
@@ -42,9 +48,15 @@
         'Elektrotehničar za razvoj veb i mobilnih aplikacija: programiranje, veb i mobilne aplikacije i baze podataka.',
         'Elektrotehničar računarskih sistema i mreža: hardver, računarske mreže, operativni sistemi i administracija sistema.'
       ],
-      slika: 'assets/kadrovi/l/k104.jpg',
-      potpis: 'Ulaz u školu',
-      mjesto: 'Ulaz'
+      desno: {
+        nadnaslov: 'U praksi',
+        naslov: 'Od koda do servera',
+        redovi: [
+          'Učenici prave sajtove i aplikacije od prvog razreda, a u završnim godinama rade projekte u timu, kao u pravoj firmi.',
+          'Na mrežama sami slažu kablove, podešavaju rutere i servere, pa znaju kako internet radi iznutra.'
+        ]
+      },
+      mjesto: 'Programiranje'
     },
     {
       nadnaslov: 'Program',
@@ -54,9 +66,15 @@
         'Elektrotehničar elektronskih komunikacija: prenos signala, optičke i bežične mreže.',
         'Elektrotehničar energetike: prenos i distribucija struje, obnovljivi izvori.'
       ],
-      slika: 'assets/kadrovi/l/k030.jpg',
-      potpis: 'Prilaz od kapije do vrata',
-      mjesto: 'Prilaz'
+      desno: {
+        nadnaslov: 'U laboratoriji',
+        naslov: 'Lemilica i osciloskop',
+        redovi: [
+          'Prvo kolo učenik zalemi već u prvom razredu. Poslije dolaze mikrokontroleri, senzori i mali uređaji koje sami programiraju.',
+          'Energetičari uče na modelima mreža i solarnih panela, pa znaju odakle struja dolazi i kako stiže do utičnice.'
+        ]
+      },
+      mjesto: 'Elektronika'
     },
     {
       nadnaslov: 'Program',
@@ -65,9 +83,15 @@
         'Elektroinstalater: izvođenje i održavanje instalacija u objektima, uz praksu kod poslodavaca.',
         'Monter elektronske komunikacione infrastrukture: kablovske, optičke i antenske instalacije. Oba programa završavaju stručnim ispitom.'
       ],
-      slika: 'assets/kadrovi/l/k078.jpg',
-      potpis: 'Nadstrešnica pred ulazom',
-      mjesto: 'Trijem'
+      desno: {
+        nadnaslov: 'Poslije škole',
+        naslov: 'Posao odmah',
+        redovi: [
+          'Trogodišnji programi su za one koji žele brzo da rade. Dobri majstori za instalacije i telekomunikacije traženi su i kod nas i u inostranstvu.',
+          'Ko poželi da uči dalje, može da nastavi školovanje i stekne četvrti stepen.'
+        ]
+      },
+      mjesto: 'Zanat'
     },
     {
       nadnaslov: 'Praksa',
@@ -76,9 +100,15 @@
         'Dio nastave se odvija kod poslodavaca, u pogonima, a ne u učionici. Kod trogodišnjih programa i kroz dualno obrazovanje.',
         'Učenici i nastavnici izlaze na domaća i međunarodna takmičenja.'
       ],
-      slika: 'assets/kadrovi/l/k004.jpg',
-      potpis: 'Klupe ispred ulaza',
-      mjesto: 'Dvorište'
+      desno: {
+        nadnaslov: 'Takmičenja',
+        naslov: 'Znanje na provjeri',
+        redovi: [
+          'Ekipe škole se takmiče iz elektronike, programiranja i robotike, u državi i u regionu.',
+          'Za takmičenja se spremaju kroz slobodne aktivnosti, gdje nastavnici rade sa njima i poslije časova.'
+        ]
+      },
+      mjesto: 'Praksa'
     },
     {
       nadnaslov: 'Projekti',
@@ -87,9 +117,15 @@
         'Kroz VET for Western Balkans škola radi sa zemljama Zapadnog Balkana i članicama Evropske unije: zajedničke radne grupe i razvoj nastavnog plana.',
         'Kroz Regionalni Challenge Fond stiže oprema i infrastruktura, uz preduzeća koja uzimaju učenike na obuku.'
       ],
-      slika: 'assets/kadrovi/l/k138.jpg',
-      potpis: 'Tabla sa nazivom škole',
-      mjesto: 'Tabla'
+      desno: {
+        nadnaslov: 'Saradnja',
+        naslov: 'Vrata otvorena firmama',
+        redovi: [
+          'Firme koje žele učenike na praksi javljaju se upravi škole preko upitnika na sajtu.',
+          'Svaka nova saradnja znači više mjesta za praksu i opremu koja prati vrijeme.'
+        ]
+      },
+      mjesto: 'Projekti'
     },
     {
       nadnaslov: 'Posljednja strana',
@@ -98,9 +134,16 @@
         'Škola je licencirana za obrazovanje odraslih u tri oblasti: elektronski sigurnosni sistemi, elektrokomunikacioni sistemi i održavanje elektronskih uređaja.',
         'Sekretarijat radi ponedjeljkom do petka, od 08.00 do 14.00.'
       ],
-      slika: 'assets/kadrovi/l/k124.jpg',
-      potpis: 'Kraj smjene',
-      mjesto: 'Škola'
+      desno: {
+        nadnaslov: 'Kontakt',
+        naslov: 'Gdje smo',
+        redovi: [
+          'Vasa Raičkovića 26, Podgorica.',
+          'Telefon 020 237 120, e-pošta skola@ets-pg.edu.me.',
+          'Vrata su otvorena svima koji žele da upoznaju školu.'
+        ]
+      },
+      mjesto: 'Odrasli'
     }
   ];
 
@@ -296,9 +339,9 @@
     podloga(k);
     papir(k, x, y, s, v, f);
 
-    const slika = await ucitajSliku(strana.slika);
     crtajStranu(k, strana, x, y, s / 2, v);
-    crtajSliku(k, slika, strana, x + s / 2, y, s / 2, v);
+    if (strana.slika) crtajSliku(k, await ucitajSliku(strana.slika), strana, x + s / 2, y, s / 2, v);
+    else crtajStranu(k, strana.desno, x + s / 2, y, s / 2, v);
 
     return izvezi(platno);
   }
@@ -474,10 +517,23 @@
       ispod.appendChild(p);
     });
 
-    const potpis = document.createElement('p');
-    potpis.className = 'blok-potpis';
-    potpis.textContent = strana.potpis;
-    ispod.appendChild(potpis);
+    if (strana.desno) {
+      const drugi = document.createElement('h3');
+      drugi.textContent = strana.desno.naslov;
+      ispod.appendChild(drugi);
+      strana.desno.redovi.forEach(red => {
+        const p = document.createElement('p');
+        p.textContent = red;
+        ispod.appendChild(p);
+      });
+    }
+
+    if (strana.potpis) {
+      const potpis = document.createElement('p');
+      potpis.className = 'blok-potpis';
+      potpis.textContent = strana.potpis;
+      ispod.appendChild(potpis);
+    }
   }
 
   let natpisVan = null;

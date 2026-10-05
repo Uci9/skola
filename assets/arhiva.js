@@ -17,6 +17,7 @@ const OZNAKE = {
 };
 
 const polje = document.getElementById('m-trazi');
+if (matchMedia('(max-width: 820px)').matches) polje.placeholder = 'Predmet, nastavnik, dokument';
 const zbirkeEl = document.getElementById('m-zbirke-unutra');
 const rezultati = document.getElementById('m-rezultati');
 const nadjeno = document.getElementById('m-nadjeno');

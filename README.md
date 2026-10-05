@@ -39,7 +39,6 @@ baza/moodle.json      preuzeta struktura starog Moodle-a (kursevi, nastavnici, m
 assets/predmeti.js    spisak razreda i predmeta za obrazac u panelu
 assets/blok.js        skicen-blok na početnoj (O nama)
 assets/paralaks.js    slike koje se slažu na skrol (kutak učenika)
-assets/ispis.js       tekst koji se ispisuje riječ po riječ
 assets/img/           grb + slika zgrade
 assets/kadrovi/s/     141 slika za telefon, 720px (4,2 MB)
 assets/kadrovi/l/     141 slika za desktop, 1200px (7,5 MB)
