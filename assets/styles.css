@@ -1055,7 +1055,15 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   display: block; margin-top: 2px; color: var(--ink-2); font-size: .84rem;
 }
 
-@media (max-width: 900px) {
+@media (min-width: 821px) and (max-width: 1100px) {
+  .menu { gap: 0; }
+  .menu a, .stavka > button { padding: 11px 13px; font-size: .96rem; }
+}
+@media (min-width: 821px) and (max-width: 920px) {
+  .menu a, .stavka > button { padding: 10px 9px; font-size: .92rem; }
+}
+
+@media (max-width: 820px) {
   .stavka { display: block; }
   .stavka > button {
     display: flex; align-items: center; justify-content: space-between;
