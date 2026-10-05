@@ -34,6 +34,7 @@ assets/baza.js        razgovor sa API-jem
 assets/slanje.js      slanje slike sa strane kutka u admin panel
 assets/firma.js       slanje upitnika firme u admin panel
 assets/cet.js         čet: poruke, osvježavanje svake 3 sekunde, uređivanje za admina
+assets/cet-tipka.js   dugme za čet u donjem lijevom uglu početne strane
 assets/arhiva.js      Moodle: zbirke, godine → razredi → odjeljenja → predmeti, pretraga
 baza/moodle.json      preuzeta struktura starog Moodle-a (kursevi, nastavnici, materijali)
 assets/predmeti.js    spisak razreda i predmeta za obrazac u panelu
@@ -181,6 +182,9 @@ prijavljeni. Poruke stoje u tabeli `poruke` i brišu se poslije 48 sati.
 Poruka može imati 500 znakova, a između dvije poruke iste osobe moraju proći
 2 sekunde. Admin klikom na tuđu poruku dobija prozor gdje je briše, utišava
 osobu na 1 do 24 sata ili joj zabranjuje pisanje.
+
+Na početnoj strani u donjem lijevom uglu stoji dugme koje prati skrol. Klik
+otvara mali prozor sa četom (`cet.html?mali`, bez zaglavlja i podnožja).
 
 ## Nalozi
 
