@@ -25,12 +25,14 @@ kutak-ucenika.html    galerija đačkog života
 poslodavci.html       partneri i preduzeća
 novosti.html          obavještenja
 kalkulator.html       bodovi za upis u I razred
-moodle.html           Moodle škole: dokumenti, pretraga, zaključavanje
+moodle.html           Moodle škole: zbirke, arhiva po godinama, pretraga, dokumenti sa sajta
 server.js             server: statika, API za panel, prijava, slike
 assets/styles.css     stilovi za sve strane
 assets/baza.js        razgovor sa API-jem
 assets/slanje.js      slanje slike sa strane kutka u admin panel
 assets/moodul.js      Moodle: dva pogleda, spisak dokumenata i pretraga
+assets/arhiva.js      Moodle: zbirke, godine → razredi → odjeljenja → predmeti, pretraga
+assets/moodle.json    preuzeta struktura starog Moodle-a (kursevi, nastavnici, materijali)
 assets/predmeti.js    spisak razreda i predmeta za obrazac u panelu
 assets/blok.js        skicen-blok na početnoj (O nama)
 assets/paralaks.js    slike koje se slažu na skrol (kutak učenika)
@@ -60,9 +62,12 @@ git checkout <grana> -- index.html profesori.html kutak-ucenika.html \
 ## Odakle podaci
 
 Spisak zaposlenih je iz dokumenta „Spisak zaposlenih sa zvanjima“ sa
-elektropg.online. Dokumenti i obavještenja vode u Moodle škole na
-`elektropg.online/ets`. Kalkulator računa po istoj formuli kao onaj na
-starom sajtu.
+elektropg.online. Kalkulator računa po istoj formuli kao onaj na starom sajtu.
+
+Arhiva u `assets/moodle.json` je preuzeta sa `elektropg.online/ets`
+4. 10. 2026: sve kategorije, 1.671 kurs sa nastavnicima i sadržaj 100 kurseva
+koji se otvaraju bez prijave. Materijali se ne kopiraju — veze vode na
+originalne fajlove, a kursevi koji traže prijavu otvaraju se u Moodle-u.
 
 ## Uvodni ekran
 

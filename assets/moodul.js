@@ -133,10 +133,10 @@ if (spisak) {
     });
   }
 
-  function postaviPogled(novi) {
+  function postaviPogled(novi, upisi) {
     pogled = novi;
     [...prekidac.children].forEach(b => b.classList.toggle('on', b.dataset.pogled === novi));
-    history.replaceState(null, '', novi === 'nastavnici' ? '#nastavnici' : '#ucenici');
+    if (upisi) history.replaceState(null, '', location.pathname + location.search + '#' + novi);
 
     const zaNastavnike = novi === 'nastavnici';
     naslovPogleda.textContent = zaNastavnike ? 'Za nastavnike' : 'Za učenike';
@@ -157,8 +157,13 @@ if (spisak) {
     crtaj();
   }
 
-  [...prekidac.children].forEach(b => b.addEventListener('click', () => postaviPogled(b.dataset.pogled)));
-  addEventListener('hashchange', () => postaviPogled(location.hash === '#nastavnici' ? 'nastavnici' : 'ucenici'));
+  [...prekidac.children].forEach(b => b.addEventListener('click', () => postaviPogled(b.dataset.pogled, true)));
+  addEventListener('hashchange', () => {
+    if (location.hash === '#nastavnici' || location.hash === '#ucenici') {
+      postaviPogled(location.hash.slice(1));
+      document.getElementById('ucenici').scrollIntoView();
+    }
+  });
   polje.addEventListener('input', crtaj);
 
   (async function kreni() {

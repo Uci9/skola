@@ -128,11 +128,10 @@
   }
 
   function podloga(k) {
-    k.fillStyle = '#E5E1DD';
-    k.fillRect(0, 0, SIRINA, VISINA);
+    k.clearRect(0, 0, SIRINA, VISINA);
   }
 
-  function papir(k, x, y, s, v) {
+  function papir(k, x, y, s, v, f) {
     const preliv = k.createLinearGradient(x, y, x + s, y);
     preliv.addColorStop(0, '#F3EDDF');
     preliv.addColorStop(0.46, '#FBF7EC');
@@ -142,8 +141,8 @@
 
     k.save();
     k.shadowColor = 'rgba(48,36,18,.30)';
-    k.shadowBlur = VISINA * 0.06;
-    k.shadowOffsetY = VISINA * 0.022;
+    k.shadowBlur = VISINA * 0.06 * f;
+    k.shadowOffsetY = VISINA * 0.022 * f;
     k.fillStyle = preliv;
     k.beginPath();
     k.roundRect(x, y, s, v, 7);
@@ -281,11 +280,13 @@
     k.fillText(strana.potpis, rx, ry + rv + 24 * mj);
   }
 
-  async function napraviStranu(strana) {
+  async function napraviStranu(strana, f) {
+    f = f || 1;
     const platno = document.createElement('canvas');
-    platno.width = SIRINA;
-    platno.height = VISINA;
+    platno.width = Math.round(SIRINA * f);
+    platno.height = Math.round(VISINA * f);
     const k = platno.getContext('2d');
+    k.scale(f, f);
 
     const x = SIRINA * LIJEVI;
     const s = SIRINA * (DESNI - LIJEVI);
@@ -293,7 +294,7 @@
     const v = VISINA * (DONJI - GORNJI);
 
     podloga(k);
-    papir(k, x, y, s, v);
+    papir(k, x, y, s, v, f);
 
     const slika = await ucitajSliku(strana.slika);
     crtajStranu(k, strana, x, y, s / 2, v);
@@ -313,14 +314,14 @@
 
   async function izvezi(platno) {
     if (platno.toBlob) {
-      const dio = await new Promise(kraj => platno.toBlob(kraj, 'image/jpeg', 0.86));
+      const dio = await new Promise(kraj => platno.toBlob(kraj, 'image/webp', 0.9));
       if (dio) {
         const adresa = URL.createObjectURL(dio);
         if (await radiLi(adresa)) return adresa;
         URL.revokeObjectURL(adresa);
       }
     }
-    const rezervna = platno.toDataURL('image/jpeg', 0.82);
+    const rezervna = platno.toDataURL('image/png');
     if (await radiLi(rezervna)) return rezervna;
     throw new Error('strana');
   }
@@ -450,7 +451,7 @@
     natpis();
     prepisi();
     oznaci();
-    preslikajZum();
+    pripremiOstre();
     postaviLupu();
   }
 
@@ -509,6 +510,8 @@
     natpisVan.style.opacity = van.toFixed(3);
     natpisUnutra.style.opacity = unutra.toFixed(3);
   }
+
+  okvir3d.style.setProperty('--uvlaka', (GORNJI * 100).toFixed(1) + '%');
 
   function razmjeri() {
     okvir3d.style.setProperty('--sirina', knjiga.clientWidth + 'px');
@@ -783,7 +786,8 @@
   const tipkaVise = document.getElementById('blok-vise');
   const tipkaManje = document.getElementById('blok-manje');
   const slojZuma = document.getElementById('blok-zum');
-  const unutraZuma = document.getElementById('blok-zum-unutra');
+  const platnoZuma = document.getElementById('blok-zum-platno');
+  const crtacZuma = platnoZuma.getContext('2d');
   const UVECANJE = 2.3;
 
   let lupaGori = true;
@@ -811,12 +815,69 @@
     postaviLupu();
   }
 
-  function preslikajZum() {
-    unutraZuma.textContent = '';
-    for (const c of knjiga.children) {
-      if (c.classList.contains('blok-zona')) continue;
-      unutraZuma.appendChild(c.cloneNode(true));
+  const ostre = new Map();
+
+  function faktorOstrine() {
+    const potrebno = knjiga.clientWidth * (devicePixelRatio || 1) * UVECANJE * ZUM_VECI / SIRINA;
+    return Math.max(1, Math.min(3600 / SIRINA, potrebno));
+  }
+
+  function ostra(i) {
+    if (!ostre.has(i)) {
+      const obecanje = napraviStranu(STRANE[i], faktorOstrine()).catch(() => null);
+      ostre.set(i, obecanje);
+      obecanje.then(adresa => {
+        if (!adresa) return;
+        if (ostre.get(i) !== obecanje) {
+          if (adresa.startsWith('blob:')) URL.revokeObjectURL(adresa);
+          return;
+        }
+        STRANE[i].ostra = adresa;
+        if (!okret && idx === i) postaviLupu();
+      });
     }
+  }
+
+  function vidljive() {
+    return okret ? [okret.od, okret.na] : [idx];
+  }
+
+  function zaboraviOstre() {
+    const ostaju = vidljive();
+    ostre.forEach((obecanje, i) => {
+      if (ostaju.includes(i)) return;
+      ostre.delete(i);
+      const adresa = STRANE[i].ostra;
+      STRANE[i].ostra = null;
+      if (adresa && adresa.startsWith('blob:')) URL.revokeObjectURL(adresa);
+    });
+  }
+
+  let slikaZuma = null;
+
+  function slikaZaZum() {
+    if (okret) return null;
+    const adresa = STRANE[idx].ostra || STRANE[idx].url;
+    if (!slikaZuma || slikaZuma.adresa !== adresa) {
+      const s = new Image();
+      s.adresa = adresa;
+      s.onload = () => { if (slikaZuma === s) postaviLupu(); };
+      s.src = adresa;
+      slikaZuma = s;
+    }
+    return slikaZuma.complete && slikaZuma.naturalWidth ? slikaZuma : null;
+  }
+
+  let cekaOstre = null;
+
+  function pripremiOstre() {
+    clearTimeout(cekaOstre);
+    if (!lupaGori || uvodRadi || okret) return;
+    cekaOstre = setTimeout(() => {
+      if (okret) return;
+      zaboraviOstre();
+      ostra(idx);
+    }, 250);
   }
 
   function postaviLupu() {
@@ -844,24 +905,29 @@
       : -Math.hypot(lx - nx, ly - ny);
     const k = Math.max(0, Math.min(1, (unutra + R * 0.30) / (R * 0.55)));
 
-    slojZuma.style.opacity = (lupaGori ? k : 0).toFixed(3);
-    if (k <= 0.002) return;
+    const slika = slikaZaZum();
+    slojZuma.style.opacity = (lupaGori && slika ? k : 0).toFixed(3);
+    if (k <= 0.002 || !slika) return;
 
-    const r = (R - obod).toFixed(1);
-    const maska = 'radial-gradient(circle ' + r + 'px at ' + lx.toFixed(1) + 'px ' + ly.toFixed(1) + 'px,'
-      + '#000 calc(100% - 1px),transparent 100%)';
-    slojZuma.style.webkitMaskImage = maska;
-    slojZuma.style.maskImage = maska;
+    const r = R - obod;
+    const gustina = devicePixelRatio || 1;
+    const velicina = Math.round(r * 2 * gustina);
+    if (platnoZuma.width !== velicina) {
+      platnoZuma.width = velicina;
+      platnoZuma.height = velicina;
+    }
+    platnoZuma.style.width = r * 2 + 'px';
+    platnoZuma.style.height = r * 2 + 'px';
+    platnoZuma.style.transform = 'translate3d(' + (lx - r).toFixed(1) + 'px,' + (ly - r).toFixed(1) + 'px,0)';
 
-    const sirovaS = knjiga.clientWidth;
-    const sirovaV = knjiga.clientHeight;
-    if (!sirovaS || !sirovaV) return;
-
-    const s = UVECANJE * (bs / sirovaS);
-    const px = (lx - B.x) / bs * sirovaS;
-    const py = (ly - B.y) / bv * sirovaV;
-    unutraZuma.style.transform = 'translate(' + (lx - px * s).toFixed(1) + 'px,' + (ly - py * s).toFixed(1) + 'px) '
-      + 'scale(' + s.toFixed(4) + ')';
+    const W = slika.naturalWidth;
+    const H = slika.naturalHeight;
+    const pw = r / (bs * UVECANJE) * W;
+    const ph = r / (bv * UVECANJE) * H;
+    const u = (lx - B.x) / bs * W;
+    const v = (ly - B.y) / bv * H;
+    crtacZuma.clearRect(0, 0, velicina, velicina);
+    crtacZuma.drawImage(slika, u - pw, v - ph, pw * 2, ph * 2, 0, 0, velicina, velicina);
   }
 
   function gurniLupu(smjer) {
@@ -928,6 +994,7 @@
     tipkaLupe.setAttribute('aria-pressed', String(lupaGori));
     lupa.classList.toggle('gori', lupaGori);
     if (lupaGori && lx === null) spustiLupu();
+    if (lupaGori) pripremiOstre();
     if (!lupaGori) slojZuma.style.opacity = '0';
   };
 

@@ -4,18 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Moodle — ETŠ „Vaso Aligrudić“</title>
-<meta name="description" content="Moodle Elektrotehničke škole „Vaso Aligrudić“ — poseban ulaz za učenike i za nastavnike.">
+<meta name="description" content="Moodle Elektrotehničke škole „Vaso Aligrudić“ — obavještenja, dokumenta, projekti i predmeti svih odjeljenja, sa pretragom.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=6c4e9f91">
+<link rel="stylesheet" href="assets/styles.css?v=48ac5e59">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
 <script type="module" src="assets/nalog.js?v=3db63d2c"></script>
 <script src="assets/tekst.js?v=4532f47f" defer></script>
 <script src="assets/leca.js?v=926f53a3" defer></script>
 <script src="assets/meni.js?v=dff45479" defer></script>
 <script src="assets/mreza.js?v=cb164972" defer></script>
-<script type="module" src="assets/moodul.js?v=b1db3751"></script>
+<script type="module" src="assets/arhiva.js?v=268b864a"></script>
+<script type="module" src="assets/moodul.js?v=0714834f"></script>
 </head>
 <body>
 <header class="head">
@@ -66,15 +67,70 @@
     </div>
   </div>
 </header>
-<section class="crown blk-cobalt">
+<section class="crown blk-cobalt m-krug">
   <div class="shell">
     <h1>Moodle <span class="it">škole</span></h1>
-    <p>Gradivo, dokumenta i obavještenja — <span class="isticanje" data-akcija="podvuci" data-boja="#CBB48C">na jednom mjestu</span>, sa pretragom.</p>
+    <p>Obavještenja, dokumenta, projekti i predmeti svih odjeljenja — <span class="isticanje" data-akcija="podvuci" data-boja="#CBB48C">na jednom mjestu</span>, sa pretragom.</p>
+    <label class="m-trazi">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="8.6" cy="8.6" r="5.6"/><path d="M12.8 12.8 17.4 17.4"/></svg>
+      <span class="sr">Pretraga Moodle-a</span>
+      <input type="search" id="m-trazi" placeholder="Predmet, nastavnik, odjeljenje ili dokument" autocomplete="off">
+    </label>
+    <nav class="m-precice" aria-label="Dijelovi Moodle-a">
+      <a href="#obavjestenja">Obavještenja</a>
+      <a href="#dokumenta">Dokumenta</a>
+      <a href="#projekti">Projekti</a>
+      <a href="#vanredni">Vanredni ispiti</a>
+      <a href="#godine">Po godinama</a>
+      <a href="#ucenici">Sa sajta</a>
+    </nav>
   </div>
 </section>
 
-<section class="blk" id="ucenici">
+<section class="blk m-rezultati" id="m-rezultati" hidden>
   <div class="shell">
+    <h2>Pretraga <span class="it" id="m-upit"></span></h2>
+    <p class="lede" id="m-broj"></p>
+    <div id="m-nadjeno"></div>
+  </div>
+</section>
+
+<section class="blk m-zbirke" data-van-pretrage>
+  <div class="shell" id="m-zbirke-unutra"></div>
+</section>
+
+<section class="blk blk-white m-arhiva" id="godine" data-van-pretrage>
+  <div class="shell">
+    <span class="kicker">Arhiva</span>
+    <h2>Po <span class="it">godinama</span></h2>
+    <p class="lede">Školska godina, razred i odjeljenje — svaki predmet i ko ga je predavao, kako stoji u Moodle-u.</p>
+    <div class="tabovi" id="m-godine" role="group" aria-label="Školska godina"></div>
+    <div class="m-razredi" id="m-razredi" role="group" aria-label="Razred"></div>
+    <div class="m-odjeljenja" id="m-odjeljenja" role="group" aria-label="Odjeljenje"></div>
+    <div class="m-predmeti" id="m-predmeti"></div>
+  </div>
+</section>
+
+<dialog class="m-kurs" id="m-kurs" aria-labelledby="m-kurs-ime">
+  <div class="m-kurs-karta">
+    <header class="m-kurs-glava">
+      <p class="m-put" id="m-kurs-put"></p>
+      <h2 id="m-kurs-ime"></h2>
+      <p class="m-ljudi" id="m-kurs-ljudi"></p>
+      <button type="button" class="m-zatvori" data-zatvori aria-label="Zatvori">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg>
+      </button>
+    </header>
+    <div class="m-kurs-tijelo" id="m-kurs-tijelo"></div>
+    <footer class="m-kurs-dno">
+      <a id="m-kurs-izvor" href="https://elektropg.online/ets/" target="_blank" rel="noopener">Otvori u Moodle-u ↗</a>
+    </footer>
+  </div>
+</dialog>
+
+<section class="blk" id="ucenici" data-van-pretrage>
+  <div class="shell">
+    <span class="kicker">Sa sajta</span>
     <div class="tabovi prekidac rise" id="prekidac" role="group" aria-label="Za koga">
       <button type="button" class="tab on" data-pogled="ucenici">Za učenike</button>
       <button type="button" class="tab" data-pogled="nastavnici">Za nastavnike</button>
