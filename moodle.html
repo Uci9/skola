@@ -8,15 +8,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=48ac5e59">
+<link rel="stylesheet" href="assets/styles.css?v=77ae642c">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
 <script type="module" src="assets/nalog.js?v=3db63d2c"></script>
 <script src="assets/tekst.js?v=4532f47f" defer></script>
 <script src="assets/leca.js?v=926f53a3" defer></script>
 <script src="assets/meni.js?v=dff45479" defer></script>
 <script src="assets/mreza.js?v=cb164972" defer></script>
-<script type="module" src="assets/arhiva.js?v=268b864a"></script>
-<script type="module" src="assets/moodul.js?v=0714834f"></script>
+<script type="module" src="assets/arhiva.js?v=84d940d2"></script>
 </head>
 <body>
 <header class="head">
@@ -35,7 +34,7 @@
             <a href="index.html#programi"><b>Obrazovni programi</b><span>Sedam smjerova, IV i III stepen.</span></a>
             <a href="profesori.html"><b>Nastavnici i osoblje</b><span>Sto ljudi koji drže školu.</span></a>
             <a href="poslodavci.html"><b>Poslodavci i partneri</b><span>Gdje učenici rade dok se školuju.</span></a>
-            <a href="moodle.html#nastavnici"><b>Moodle za nastavnike</b><span>Kursevi, ocjene i materijali.</span></a>
+            <a href="moodle.html"><b>Moodle</b><span>Kursevi, dokumenta i materijali.</span></a>
             </div>
           </div>
         </div>
@@ -55,7 +54,7 @@
             <div class="panel-karta">
             <a href="kutak-ucenika.html"><b>Kutak učenika</b><span>Trenuci van rasporeda časova.</span></a>
             <a href="novosti.html"><b>Novosti</b><span>Obavještenja i rokovi.</span></a>
-            <a href="moodle.html#ucenici"><b>Moodle za učenike</b><span>Gradivo, zadaci i obavještenja.</span></a>
+            <a href="moodle.html#godine"><b>Moodle po odjeljenjima</b><span>Predmeti i gradivo tvog odjeljenja.</span></a>
             <a href="index.html#dokumenti"><b>Dokumenti</b><span>Statut, pravilnici, planovi.</span></a>
             </div>
           </div>
@@ -82,7 +81,6 @@
       <a href="#projekti">Projekti</a>
       <a href="#vanredni">Vanredni ispiti</a>
       <a href="#godine">Po godinama</a>
-      <a href="#ucenici">Sa sajta</a>
     </nav>
   </div>
 </section>
@@ -117,6 +115,7 @@
       <p class="m-put" id="m-kurs-put"></p>
       <h2 id="m-kurs-ime"></h2>
       <p class="m-ljudi" id="m-kurs-ljudi"></p>
+      <p class="m-kurs-znak" id="m-kurs-znak" hidden>Zaključano · vide samo nastavnici i admin</p>
       <button type="button" class="m-zatvori" data-zatvori aria-label="Zatvori">
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15"/></svg>
       </button>
@@ -127,42 +126,6 @@
     </footer>
   </div>
 </dialog>
-
-<section class="blk" id="ucenici" data-van-pretrage>
-  <div class="shell">
-    <span class="kicker">Sa sajta</span>
-    <div class="tabovi prekidac rise" id="prekidac" role="group" aria-label="Za koga">
-      <button type="button" class="tab on" data-pogled="ucenici">Za učenike</button>
-      <button type="button" class="tab" data-pogled="nastavnici">Za nastavnike</button>
-    </div>
-
-    <div class="rise">
-      <h2 id="naslov-pogleda">Za učenike</h2>
-      <p class="lede" id="opis-pogleda">Gradivo, dokumenta i obavještenja koja su otvorena za sve.</p>
-    </div>
-
-    <div id="straza" class="kutija-straze" hidden>
-      <p class="lede" data-neprijavljen>Ovaj dio je za nastavnike škole. Prijavi se školskim nalogom.</p>
-      <p class="lede" data-prijavljen hidden>Tvoj nalog nije nastavnički, pa ovaj dio ne možeš da otvoriš.
-         Ako predaješ u školi, javi se adminu da ti dodijeli ulogu nastavnika.</p>
-      <p><a href="prijava.html" class="btn btn-fill">Prijava</a></p>
-    </div>
-
-    <div id="alat">
-      <div class="rise trazilica-red">
-        <label class="trazilica">
-          <input type="search" id="trazi" placeholder="Traži po nazivu, predmetu ili opisu" autocomplete="off">
-          <b id="brojac">0 od 0</b>
-        </label>
-        <div class="tabovi" id="rubrike" role="group" aria-label="Rubrike"></div>
-      </div>
-
-      <p class="glas" id="glas" hidden></p>
-      <div class="spisak-dok rise" id="spisak"></div>
-      <p class="nista" id="prazno" hidden>Ovdje još nema dokumenata.</p>
-    </div>
-  </div>
-</section>
 
 <footer class="base">
   <div class="shell">
@@ -203,8 +166,8 @@
         <ul>
           <li><a href="moodle.html">Moodle</a></li>
           <li><a href="kutak-ucenika.html">Kutak učenika</a></li>
-          <li><a href="moodle.html?rubrika=Obavje%C5%A1tenja">Obavještenja</a></li>
-          <li><a href="moodle.html?rubrika=Dokumenta">Dokumenti u Moodle-u</a></li>
+          <li><a href="moodle.html#obavjestenja">Obavještenja</a></li>
+          <li><a href="moodle.html#dokumenta">Dokumenti u Moodle-u</a></li>
           <li><a href="novosti.html">Novosti</a></li>
         </ul>
       </div>
@@ -223,7 +186,7 @@
 
     <div class="base-end">
       <span>© <span id="god">2026</span> JU Srednja elektrotehnička škola „Vaso Aligrudić“</span>
-      <span><a href="moodle.html?rubrika=Dokumenta">Pristup informacijama</a> · <a href="moodle.html?rubrika=Dokumenta">Javni pozivi</a> · <a href="moodle.html?rubrika=Dokumenta">Etički kodeks</a></span>
+      <span><a href="moodle.html#dokumenta">Pristup informacijama</a> · <a href="moodle.html#dokumenta">Javni pozivi</a> · <a href="moodle.html#dokumenta">Etički kodeks</a></span>
     </div>
   </div>
 </footer>

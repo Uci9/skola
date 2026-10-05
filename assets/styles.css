@@ -714,19 +714,12 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
 .strazar p { margin-bottom: 14px; }
 .strazar code { font-family: ui-monospace, monospace; font-size: .9em; }
 
-.admin-vrh {
-  display: flex; align-items: flex-end; justify-content: space-between;
-  gap: 20px; flex-wrap: wrap; margin-bottom: 28px;
-}
-.admin-vrh h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin-bottom: 6px; }
-.pozdrav { margin: 0; font-size: .95rem; }
-.pozdrav b { color: var(--ink); font-weight: 600; }
-
 .admin-mreza { display: grid; grid-template-columns: 400px 1fr; gap: 24px; align-items: start; }
 .admin-forma, .admin-spisak {
-  background: var(--white); border-radius: var(--r);
-  padding: 26px 24px; box-shadow: var(--shadow);
+  background: var(--white); border-radius: 22px;
+  padding: 26px 24px; box-shadow: 0 1px 2px rgba(5,42,58,.05), 0 10px 30px -18px rgba(5,42,58,.22);
 }
+.admin-forma { position: sticky; top: 24px; }
 .admin-forma h3, .admin-spisak h3 { font-size: 1.2rem; margin-bottom: 18px; }
 .broj {
   display: inline-block; margin-left: 6px; padding: 2px 10px;
@@ -750,10 +743,13 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
 
 .admin-stavka {
   display: flex; align-items: center; gap: 14px;
-  padding: 13px 0; border-bottom: 1px solid var(--line);
+  padding: 12px 12px; margin: 0 -12px; border-radius: 14px;
+  transition: background-color .15s;
 }
-.admin-stavka:last-child { border-bottom: 0; }
-.admin-stavka img { width: 46px; height: 46px; object-fit: cover; border-radius: 10px; flex: none; }
+.admin-stavka + .admin-stavka { border-top: 1px solid #EEEAE5; }
+.admin-stavka:hover { background: #F7F5F2; }
+.admin-stavka:hover + .admin-stavka { border-top-color: transparent; }
+.admin-stavka img { width: 52px; height: 52px; object-fit: cover; border-radius: 12px; flex: none; }
 .admin-tekst { flex: 1 1 auto; min-width: 0; }
 .admin-tekst b { display: block; font-size: .98rem; color: var(--ink); font-weight: 600; }
 .admin-tekst span { display: block; font-size: .85rem; color: var(--ink-2); }
@@ -1450,40 +1446,6 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   .blok-natpis { animation: none; }
 }
 
-.prekidac { margin-bottom: 26px; }
-.kutija-straze {
-  padding: 26px 28px; border-radius: var(--r-sm);
-  background: var(--white); box-shadow: var(--shadow);
-}
-.kutija-straze .lede { margin-top: 0; }
-
-.spisak-dok { display: grid; gap: 12px; }
-.dok {
-  display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 18px; align-items: start;
-  padding: 18px 20px; border-radius: var(--r-sm);
-  background: var(--white); box-shadow: var(--shadow);
-}
-.dok.zakljucan { background: linear-gradient(180deg, rgba(64,126,140,.08), var(--white) 60%); }
-.dok-vrsta {
-  display: grid; place-items: center; height: 54px;
-  border-radius: 12px; background: var(--paper);
-  font: 700 .74rem/1 var(--grot); letter-spacing: .06em; color: var(--ink-2);
-}
-.dok.zakljucan .dok-vrsta { background: rgba(64,126,140,.14); color: var(--teal); }
-.dok-tijelo { min-width: 0; }
-.dok-gore { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-.dok h3 { margin: 0; font-size: 1.06rem; }
-.dok h3 a { color: var(--ink); text-decoration: none; }
-.dok h3 a:hover { color: var(--cobalt); }
-.dok p { margin: 6px 0 0; font-size: .94rem; }
-.dok-znak {
-  padding: 3px 10px; border-radius: var(--pill);
-  background: var(--teal); color: var(--white);
-  font-size: .72rem; font-weight: 600; letter-spacing: .04em;
-}
-.dok-uz { color: var(--ink-2); font-size: .86rem; }
-.dok-radnje { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-.dok-dno { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
 .kvaka { display: flex; align-items: center; gap: 10px; font-size: .94rem; }
 .kvaka input { width: 18px; height: 18px; accent-color: var(--teal); }
 .uloga-izbor {
@@ -1492,10 +1454,6 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   font: inherit; font-size: .88rem; color: var(--ink);
 }
 
-@media (max-width: 650px) {
-  .dok { grid-template-columns: 48px minmax(0, 1fr); gap: 12px; padding: 14px 15px; }
-  .dok-vrsta { height: 44px; font-size: .66rem; }
-}
 
 .slanje-pregled {
   display: block; width: 100%; max-width: 320px; margin-bottom: 4px;
@@ -1685,6 +1643,27 @@ html.ucitava, html.ucitava body { overflow: hidden; }
 .m-kurs-dno { padding: 14px 30px; border-top: 1px solid var(--line); background: var(--white); font-size: .9rem; }
 .m-kurs-dno a { color: var(--ink); font-weight: 600; text-decoration: none; }
 .m-kurs-dno a:hover { color: var(--teal); }
+.m-kurs-znak {
+  display: inline-block; margin: 12px 0 0; padding: 4px 12px; border-radius: var(--pill);
+  background: rgba(203,180,140,.18); color: var(--tirkiz-svijetli); font-size: .8rem; font-weight: 600;
+}
+
+.m-katanac {
+  display: inline-flex; align-items: center; gap: 6px; width: fit-content;
+  padding: 4px 10px 4px 8px; border-radius: var(--pill);
+  background: rgba(165,141,102,.16); color: #7A6440;
+  font: 600 .74rem/1 var(--sans); letter-spacing: .01em; vertical-align: middle;
+}
+.m-katanac svg { width: 14px; height: 14px; }
+.m-predmet h3 .m-katanac { margin-left: 10px; }
+.m-kurs-tijelo > .m-katanac { margin-top: 24px; }
+.m-kurs-tijelo > .btn { margin-top: 18px; }
+.m-karta-put { margin: -4px 0 0; font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: var(--teal); }
+.m-prva .m-karta-put { color: var(--tirkiz-svijetli); }
+.m-prva .m-katanac { background: rgba(255,255,255,.12); color: var(--tirkiz-svijetli); }
+.m-karta.m-zakljucan { background: linear-gradient(180deg, #F6F1E8, var(--white) 70%); }
+.m-prva .m-karta.m-zakljucan { background: linear-gradient(180deg, #0D4660, var(--cobalt) 70%); }
+.m-predmet.m-zakljucan { background: #EFE8DC; }
 
 @media (max-width: 650px) {
   .m-krug { padding-bottom: 44px; }
@@ -1708,4 +1687,161 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   .m-kurs-glava { padding: 24px 64px 18px 20px; }
   .m-kurs-tijelo { padding: 4px 20px 22px; }
   .m-kurs-dno { padding: 12px 20px; }
+}
+
+.adm { padding: 34px 0 96px; }
+.adm .strazar { margin: 40px auto 0; }
+.adm-okvir { display: grid; grid-template-columns: 252px minmax(0, 1fr); gap: 28px; align-items: start; }
+
+.adm-bok {
+  position: sticky; top: 112px;
+  display: flex; flex-direction: column; gap: 18px;
+  padding: 18px 14px; border-radius: 24px;
+  background: var(--cobalt); color: #BFCDD3;
+  box-shadow: 0 30px 60px -36px rgba(4,32,44,.7);
+}
+.adm-ja { display: flex; align-items: center; gap: 12px; padding: 6px 8px 16px; border-bottom: 1px solid rgba(255,255,255,.1); }
+.adm-ja b { display: block; color: var(--white); font-size: .98rem; line-height: 1.2; overflow-wrap: anywhere; }
+.adm-ja span:not(.adm-inicijal) { display: block; font-size: .76rem; line-height: 1.35; color: #9DB3BC; overflow-wrap: anywhere; }
+.adm-inicijal {
+  flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 14px;
+  background: var(--tirkiz); color: var(--ink); font: 800 1.15rem/1 var(--grot);
+}
+.adm-meni { display: grid; gap: 2px; }
+.adm-meni button, .adm-dno a, .adm-dno button {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  padding: 11px 12px; border: 0; border-radius: 12px; background: transparent;
+  font: 500 .94rem/1.2 var(--sans); color: #C9D7DD; text-align: left; text-decoration: none; cursor: pointer;
+  transition: background-color .15s, color .15s;
+}
+.adm-meni svg, .adm-dno svg { width: 20px; height: 20px; flex: none; opacity: .8; }
+.adm-meni button span, .adm-dno span { flex: 1; }
+.adm-meni button:hover, .adm-dno a:hover, .adm-dno button:hover { background: rgba(255,255,255,.07); color: var(--white); }
+.adm-meni button.on { background: var(--white); color: var(--ink); font-weight: 600; }
+.adm-meni button.on svg { opacity: 1; color: var(--teal); }
+.adm-znacka {
+  min-width: 22px; padding: 3px 7px; border-radius: var(--pill);
+  background: var(--tirkiz); color: var(--ink); font: 700 .72rem/1 var(--sans); text-align: center;
+}
+.adm-dno { display: grid; gap: 2px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.1); }
+.adm-dno a, .adm-dno button { font-size: .88rem; color: #9DB3BC; }
+
+.adm-glavno { min-width: 0; }
+.adm-glava { padding: 10px 0 26px; }
+.adm-staza { margin: 0 0 8px; font-size: .78rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--teal); }
+.adm-glava h1 { font-size: clamp(2.2rem, 4.4vw, 3.4rem); margin: 0 0 10px; }
+.adm-opis { margin: 0; max-width: 60ch; font-size: 1.02rem; }
+
+.adm-plocice { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 18px; }
+.adm-plocica {
+  display: grid; gap: 4px; align-content: start; min-height: 136px;
+  padding: 20px 20px 18px; border: 0; border-radius: 20px; background: var(--white);
+  font: inherit; text-align: left; cursor: pointer; color: var(--ink-2);
+  box-shadow: 0 1px 2px rgba(5,42,58,.05), 0 10px 30px -18px rgba(5,42,58,.22);
+  transition: transform .18s cubic-bezier(.2,.8,.3,1), box-shadow .18s;
+}
+.adm-plocica:hover { transform: translateY(-3px); box-shadow: var(--shadow-up); }
+.adm-plocica b { font: 800 2.4rem/1 var(--grot); letter-spacing: -.04em; color: var(--ink); margin-bottom: 6px; }
+.adm-plocica .ime { font-size: .94rem; font-weight: 600; color: var(--ink); }
+.adm-plocica .uz { font-size: .8rem; }
+.adm-plocica.glavna { background: var(--teal); color: #D6E6EA; }
+.adm-plocica.glavna b, .adm-plocica.glavna .ime { color: var(--white); }
+.adm-plocica.ceka { background: #F4ECDD; }
+.adm-plocica.ceka b { color: #7A6440; }
+
+.adm-kartica {
+  padding: 24px; border-radius: 22px; background: var(--white);
+  box-shadow: 0 1px 2px rgba(5,42,58,.05), 0 10px 30px -18px rgba(5,42,58,.22);
+}
+.adm-kartica + .adm-kartica { margin-top: 18px; }
+.adm-kartica h3 { font-size: 1.2rem; margin-bottom: 16px; }
+.adm-kartica-glava { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px 24px; flex-wrap: wrap; margin-bottom: 18px; }
+.adm-kartica-glava h3 { margin-bottom: 4px; }
+.adm-sitno { margin: 0; font-size: .88rem; }
+.adm-brzo { display: flex; flex-wrap: wrap; gap: 10px; }
+.adm-brzo .btn { padding: 12px 22px; font-size: .92rem; }
+
+.adm-trazi { flex: 0 1 340px; }
+.adm-trazi input {
+  width: 100%; padding: 12px 16px; border: 1px solid var(--line); border-radius: var(--pill);
+  background: #F7F5F2; font: inherit; font-size: .92rem; color: var(--ink);
+}
+.adm-trazi input:focus { outline: 0; border-color: var(--teal); background: var(--white); }
+
+.adm-cipovi { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.adm-cipovi button {
+  padding: 8px 14px; border: 1px solid var(--line); border-radius: var(--pill); background: var(--white);
+  font: 500 .86rem/1.2 var(--sans); color: var(--ink-2); cursor: pointer;
+  transition: background-color .15s, border-color .15s, color .15s;
+}
+.adm-cipovi button:hover { border-color: var(--ink); color: var(--ink); }
+.adm-cipovi button.on { background: var(--ink); border-color: var(--ink); color: var(--white); }
+.adm-cipovi.mali button { padding: 6px 12px; font-size: .8rem; }
+.adm-cipovi.mali button.on { background: var(--teal); border-color: var(--teal); }
+
+.adm-grupa {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px 18px; flex-wrap: wrap;
+  margin: 14px 0 6px; padding: 12px 14px; border-radius: 14px; background: #F7F5F2;
+}
+.adm-grupa p { margin: 0; font-size: .88rem; }
+.adm-grupa b { color: var(--ink); }
+.adm-grupa div { display: flex; gap: 8px; }
+.adm-grupa .btn:disabled { opacity: .4; cursor: default; transform: none; }
+
+.adm-kursevi { margin-top: 6px; }
+.adm-kurs {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 12px 12px; margin: 0 -12px; border-radius: 14px;
+}
+.adm-kurs + .adm-kurs { border-top: 1px solid #EEEAE5; }
+.adm-kurs:hover { background: #F7F5F2; }
+.adm-kurs.zakljucan { background: #F6F0E5; }
+.adm-put { font-size: .72rem !important; letter-spacing: .08em; text-transform: uppercase; color: var(--teal) !important; }
+
+.adm-prekidac { display: flex; align-items: center; gap: 10px; flex: none; cursor: pointer; font-size: .8rem; color: var(--ink-2); }
+.adm-prekidac input { position: absolute; opacity: 0; pointer-events: none; }
+.adm-prekidac i {
+  position: relative; width: 44px; height: 26px; border-radius: var(--pill); background: #D9D3CC;
+  transition: background-color .18s;
+}
+.adm-prekidac i::after {
+  content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--white); box-shadow: 0 1px 3px rgba(0,0,0,.2);
+  transition: transform .18s cubic-bezier(.2,.8,.3,1);
+}
+.adm-prekidac input:checked + i { background: var(--tirkiz); }
+.adm-prekidac input:checked + i::after { transform: translateX(18px); }
+.adm-prekidac input:focus-visible + i { outline: 3px solid var(--cobalt); outline-offset: 2px; }
+
+.adm .admin-mreza { grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); gap: 18px; }
+.adm .admin-spisak.siroko { max-width: none; }
+.adm .form { max-width: none; }
+.adm .f + .f { margin-top: 14px; }
+.adm .form input:not([type="file"]):not([type="radio"]):not([type="checkbox"]),
+.adm .form select, .adm .form textarea { padding: 12px 14px; background: #F7F5F2; }
+.adm .form input:focus, .adm .form select:focus, .adm .form textarea:focus { outline: 0; border-color: var(--teal); background: var(--white); }
+
+@media (max-width: 1100px) {
+  .adm-plocice { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .adm .admin-mreza { grid-template-columns: 1fr; }
+  .admin-forma { position: static; }
+}
+@media (max-width: 860px) {
+  .adm { padding-top: 14px; }
+  .adm-okvir { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .adm-bok { position: static; min-width: 0; padding: 14px 10px; gap: 12px; }
+  .adm-ja { padding: 2px 6px 12px; }
+  .adm-meni { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; margin: 0 -10px; padding: 0 10px; }
+  .adm-meni button { width: auto; flex: none; padding: 9px 12px; font-size: .86rem; }
+  .adm-meni svg { width: 18px; height: 18px; }
+  .adm-dno { display: flex; padding-top: 10px; }
+  .adm-dno a, .adm-dno button { width: auto; flex: 1; justify-content: center; }
+  .adm-dno span { flex: none; }
+  .adm-glava { padding: 4px 0 16px; }
+  .adm-plocica { min-height: 0; padding: 16px; }
+  .adm-plocica b { font-size: 2rem; }
+  .adm-kartica { padding: 18px 16px; }
+  .adm-trazi { flex-basis: 100%; }
+  .adm-kurs { align-items: flex-start; }
+  .adm-prekidac span { display: none; }
 }

@@ -1,6 +1,9 @@
+import { dokumenti, moodleArhiva } from './baza.js';
+
 const IZVOR = 'https://elektropg.online/ets/';
 
 const ZBIRKE = {
+  'Od nastavnika': 'od-nastavnika',
   'Obavještenja': 'obavjestenja',
   'Dokumenta': 'dokumenta',
   'Projekti': 'projekti',
@@ -44,7 +47,43 @@ function bezKvaka(t) {
 }
 
 function adresa(u) {
-  return /^https?:/.test(u) ? u : IZVOR + u;
+  return /^(https?:|\/)/.test(u) ? u : IZVOR + u;
+}
+
+function zakljucan(kurs) {
+  return Boolean(kurs.z) && !arhiva.vidi;
+}
+
+function katanac() {
+  const z = el('span', 'm-katanac');
+  z.innerHTML = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><rect x="4.5" y="9" width="11" height="8" rx="2"/><path d="M7 9V6.6a3 3 0 0 1 6 0V9"/></svg>';
+  z.appendChild(el('span', null, 'Samo nastavnici'));
+  return z;
+}
+
+const NASTAVCI = {
+  pdf: 'pdf', doc: 'doc', docx: 'doc', xls: 'xls', xlsx: 'xls', csv: 'xls', ppt: 'ppt', pptx: 'ppt',
+  zip: 'zip', txt: 'txt', jpg: 'slika', jpeg: 'slika', png: 'slika', webp: 'slika'
+};
+
+function izDokumenata(spisak) {
+  return spisak.map(d => {
+    const nastavak = (d.ime_datoteke.split('.').pop() || '').toLowerCase();
+    const kurs = {
+      i: 'd-' + d.id,
+      n: d.naslov,
+      t: d.postavio ? [d.postavio] : undefined,
+      z: d.zakljucan ? 1 : 0,
+      dok: [d.rubrika, d.razred, d.predmet].filter(Boolean)
+    };
+    if (!zakljucan(kurs)) {
+      kurs.s = [{
+        o: d.opis || undefined,
+        a: [{ n: d.opis || d.ime_datoteke, v: NASTAVCI[nastavak] || 'fajl', u: '/dokument/' + d.id }]
+      }];
+    }
+    return kurs;
+  });
 }
 
 function materijali(kurs) {
@@ -82,15 +121,15 @@ function svakiKurs(grana, put, posao) {
 }
 
 function napraviIndeks() {
-  arhiva.zbirke.forEach(z => svakiKurs(z, [z.n], (k, put) => putevi.set(k.i, put)));
-  arhiva.godine.forEach(g => svakiKurs(g, [g.n], (k, put) => putevi.set(k.i, put)));
+  arhiva.zbirke.forEach(z => svakiKurs(z, [z.n], (k, put) => putevi.set(String(k.i), put)));
+  arhiva.godine.forEach(g => svakiKurs(g, [g.n], (k, put) => putevi.set(String(k.i), put)));
 
   putevi.forEach((put, id) => {
     const kurs = nadjiKurs(id);
     indeks.push({
       kurs,
       put,
-      tekst: bezKvaka([kurs.n, (kurs.t || []).join(' '), put.join(' ')].join(' '))
+      tekst: bezKvaka([kurs.n, (kurs.t || []).join(' '), put.join(' '), (kurs.dok || []).join(' ')].join(' '))
     });
   });
 }
@@ -100,22 +139,23 @@ const kursevi = new Map();
 function nadjiKurs(id) {
   if (!kursevi.size) {
     const upisi = g => {
-      (g.k || []).forEach(k => kursevi.set(k.i, k));
+      (g.k || []).forEach(k => kursevi.set(String(k.i), k));
       (g.p || []).forEach(upisi);
     };
     arhiva.zbirke.forEach(upisi);
     arhiva.godine.forEach(upisi);
   }
-  return kursevi.get(id);
+  return kursevi.get(String(id));
 }
 
 function otvoriKurs(kurs) {
-  const put = putevi.get(kurs.i) || [];
+  const put = putevi.get(String(kurs.i)) || [];
   prozor.querySelector('#m-kurs-put').textContent = put.join(' · ');
   prozor.querySelector('#m-kurs-ime').textContent = kurs.n;
   const ljudi = prozor.querySelector('#m-kurs-ljudi');
   ljudi.textContent = kurs.t ? 'Predaje: ' + kurs.t.join(', ') : '';
   ljudi.hidden = !kurs.t;
+  prozor.querySelector('#m-kurs-znak').hidden = !kurs.z;
 
   const izvor = prozor.querySelector('#m-kurs-izvor');
   izvor.href = IZVOR + 'course/view.php?id=' + kurs.i;
@@ -123,7 +163,17 @@ function otvoriKurs(kurs) {
   const tijelo = prozor.querySelector('#m-kurs-tijelo');
   tijelo.textContent = '';
 
-  if (!kurs.s) {
+  izvor.hidden = String(kurs.i).startsWith('d-');
+
+  if (zakljucan(kurs)) {
+    izvor.hidden = true;
+    tijelo.appendChild(katanac());
+    tijelo.appendChild(el('p', 'm-zatvoren',
+      'Ovaj dio Moodle-a je zaključan — otvaraju ga samo nastavnici i admin škole. Ako predaješ u školi, prijavi se školskim nalogom.'));
+    const prijava = el('a', 'btn btn-fill', 'Prijava');
+    prijava.href = 'prijava.html';
+    tijelo.appendChild(prijava);
+  } else if (!kurs.s) {
     tijelo.appendChild(el('p', 'm-zatvoren',
       'Sadržaj ovog kursa je vidljiv samo upisanim učenicima i nastavnicima. Otvara se u Moodle-u, uz prijavu.'));
   } else if (!kurs.s.some(s => s.a.length || s.o)) {
@@ -171,7 +221,7 @@ function zapamti() {
 function karta(kurs) {
   const fajlovi = materijali(kurs);
   const sam = fajlovi.length === 1 && fajlovi[0];
-  const k = el(sam ? 'a' : 'button', 'm-karta');
+  const k = el(sam ? 'a' : 'button', 'm-karta' + (kurs.z ? ' m-zakljucan' : ''));
 
   if (sam) {
     k.href = adresa(sam.u);
@@ -186,8 +236,12 @@ function karta(kurs) {
   gore.appendChild(el('h3', null, kurs.n));
   if (sam) gore.appendChild(znacka(sam.v));
   k.appendChild(gore);
+  if (kurs.z) k.appendChild(katanac());
+  if (kurs.dok && kurs.dok.length) k.appendChild(el('p', 'm-karta-put', kurs.dok.join(' · ')));
 
-  if (sam) {
+  if (zakljucan(kurs)) {
+    k.appendChild(el('p', 'm-karta-uz', 'Otvaraju nastavnici i admin škole.'));
+  } else if (sam) {
     k.appendChild(el('p', 'm-karta-uz', sam.n));
   } else if (fajlovi.length) {
     const ul = el('ul', 'm-karta-spisak');
@@ -204,7 +258,7 @@ function karta(kurs) {
 
   const dno = el('p', 'm-karta-dno');
   dno.appendChild(el('span', null, fajlovi.length ? padez(fajlovi.length, 'materijal', 'materijala', 'materijala') : ''));
-  dno.appendChild(el('b', null, sam ? 'Otvori ↗' : 'Pogledaj →'));
+  dno.appendChild(el('b', null, zakljucan(kurs) ? 'Zaključano' : sam ? 'Otvori ↗' : 'Pogledaj →'));
   k.appendChild(dno);
   return k;
 }
@@ -224,8 +278,9 @@ function crtajZbirke() {
     let ukupno = 0;
     let fajlova = 0;
     svakiKurs(z, [], k => { ukupno++; fajlova += materijali(k).length; });
-    glava.appendChild(el('p', 'm-zbirka-broj',
-      padez(ukupno, 'kurs', 'kursa', 'kurseva') + ' · ' + padez(fajlova, 'materijal', 'materijala', 'materijala')));
+    glava.appendChild(el('p', 'm-zbirka-broj', z.i === 'od-nastavnika'
+      ? padez(ukupno, 'dokument', 'dokumenta', 'dokumenata')
+      : padez(ukupno, 'kurs', 'kursa', 'kurseva') + ' · ' + padez(fajlova, 'materijal', 'materijala', 'materijala')));
     dio.appendChild(glava);
 
     const mreza = el('div', 'm-karte');
@@ -299,15 +354,24 @@ function crtajGodine() {
 }
 
 function redPredmeta(kurs, put) {
-  const red = el('article', 'm-predmet');
+  const red = el('article', 'm-predmet' + (kurs.z ? ' m-zakljucan' : ''));
   const lijevo = el('div', 'm-predmet-tijelo');
   if (put) lijevo.appendChild(el('p', 'm-put', put.join(' · ')));
-  lijevo.appendChild(el('h3', null, kurs.n));
+  const naslov = el('h3', null, kurs.n);
+  if (kurs.z) naslov.appendChild(katanac());
+  lijevo.appendChild(naslov);
   lijevo.appendChild(el('p', 'm-ljudi', kurs.t ? kurs.t.join(', ') : 'Nastavnik nije upisan'));
   red.appendChild(lijevo);
 
   const fajlovi = materijali(kurs);
-  if (kurs.s) {
+  if (zakljucan(kurs)) {
+    const b = el('button', 'm-otvori m-uz-prijavu');
+    b.type = 'button';
+    b.appendChild(el('b', null, 'Zaključano'));
+    b.appendChild(el('span', null, 'Nastavnici'));
+    b.addEventListener('click', () => otvoriKurs(kurs));
+    red.appendChild(b);
+  } else if (kurs.s) {
     const b = el('button', 'm-otvori');
     b.type = 'button';
     b.appendChild(el('b', null, fajlovi.length ? padez(fajlovi.length, 'materijal', 'materijala', 'materijala') : 'Prazno'));
@@ -392,24 +456,26 @@ polje.addEventListener('input', () => {
 
 (async function kreni() {
   try {
-    const odgovor = await fetch('assets/moodle.json');
-    arhiva = await odgovor.json();
+    arhiva = await moodleArhiva();
   } catch (greska) {
     zbirkeEl.appendChild(el('p', 'nista', 'Arhiva Moodle-a se nije učitala. Osvježi stranu.'));
     return;
   }
 
+  const { dokumenti: spisak } = await dokumenti().catch(() => ({ dokumenti: [] }));
+  if (spisak.length) arhiva.zbirke.unshift({ i: 'od-nastavnika', n: 'Od nastavnika', k: izDokumenata(spisak) });
+
   napraviIndeks();
   crtajZbirke();
   crtajGodine();
 
-  const vec = Number(izbor.get('kurs'));
+  const vec = izbor.get('kurs');
   if (vec && nadjiKurs(vec)) otvoriKurs(nadjiKurs(vec));
 
   if (polje.value.trim()) trazi();
 
   if (location.hash) {
-    const cilj = document.getElementById(location.hash === '#nastavnici' ? 'ucenici' : location.hash.slice(1));
+    const cilj = document.getElementById(location.hash.slice(1));
     if (cilj) cilj.scrollIntoView({ behavior: 'instant' });
   }
 })();

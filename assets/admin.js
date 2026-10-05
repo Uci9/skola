@@ -2,7 +2,8 @@ import {
   imaBazu, jeAdmin, mojProfil, porukaGreske, posaljiSliku,
   spisak as izBaze, dodaj, izmijeni, obrisi as obrisiIzBaze, profili, postaviUlogu,
   prijedlozi, obrisiPrijedlog,
-  dokumenti, posaljiDokument, izmijeniDokument, obrisiDokument
+  dokumenti, posaljiDokument, izmijeniDokument, obrisiDokument,
+  pregled, zakljucajKurseve, moodleArhiva, odjaviSe
 } from './baza.js';
 import { RAZREDI, PREDMETI, SVI_RAZREDI, RUCNO } from './predmeti.js';
 
@@ -11,6 +12,20 @@ const panel = document.getElementById('panel');
 const tabovi = document.getElementById('tabovi');
 const sadrzaj = document.getElementById('sadrzaj');
 const pozdrav = document.getElementById('pozdrav');
+const naslovTaba = document.getElementById('naslov-taba');
+const opisTaba = document.getElementById('opis-taba');
+
+const TABOVI = {
+  pregled: ['Pregled', 'Stanje sajta na jednom mjestu.'],
+  moodle: ['Moodle', 'Zaključan kurs otvaraju samo nastavnici i admin. Ostali vide naziv i katanac.'],
+  dokumenti: ['Dokumenti', 'Fajlovi koje nastavnici postavljaju u Moodle sajta.'],
+  novosti: ['Novosti', 'Obavještenja i rokovi na strani Novosti.'],
+  kutak: ['Kutak učenika', 'Galerija đačkog života.'],
+  prijedlozi: ['Slike učenika', 'Slike koje su učenici poslali za kutak — prebaci ih ili obriši.'],
+  nastavnici: ['Nastavnici', 'Spisak na strani Nastavnici i osoblje.'],
+  poslodavci: ['Poslodavci', 'Partneri kod kojih učenici rade praksu.'],
+  nalozi: ['Nalozi', 'Ko ima nalog na sajtu i koju ulogu.']
+};
 
 const GRUPE = [
   ['uprava', 'Uprava i stručna služba'],
@@ -555,9 +570,291 @@ async function moodleDokumenti() {
   ucitaj();
 }
 
+function znacka(kljuc, broj) {
+  const z = tabovi.querySelector('[data-broj="' + kljuc + '"]');
+  if (!z) return;
+  z.textContent = broj;
+  z.hidden = !broj;
+}
+
+function padez(broj, jedan, dva, pet) {
+  const d = broj % 10;
+  const s = broj % 100;
+  if (d === 1 && s !== 11) return broj + ' ' + jedan;
+  if (d >= 2 && d <= 4 && (s < 12 || s > 14)) return broj + ' ' + dva;
+  return broj + ' ' + pet;
+}
+
+async function pocetna() {
+  sadrzaj.innerHTML = '';
+  let b;
+  try {
+    b = await pregled();
+  } catch (greska) {
+    sadrzaj.innerHTML = `<p class="glas lose">${tekst(porukaGreske(greska))}</p>`;
+    return;
+  }
+
+  znacka('prijedlozi', b.prijedlozi);
+  znacka('moodle', b.zakljucanih_kurseva);
+
+  const plocice = [
+    ['moodle', b.zakljucanih_kurseva, 'zaključanih kurseva', 'od ' + b.kurseva + ' u Moodle-u'],
+    ['dokumenti', b.dokumenti, 'dokumenata od nastavnika', b.zakljucanih_dokumenata + ' samo za nastavnike'],
+    ['prijedlozi', b.prijedlozi, 'slika čeka pregled', b.prijedlozi ? 'Pogledaj i prebaci u kutak' : 'Sve je pregledano'],
+    ['novosti', b.novosti, 'novosti', 'na strani Novosti'],
+    ['nalozi', b.nalozi, 'naloga', padez(b.nastavnika, 'nastavnik', 'nastavnika', 'nastavnika')],
+    ['nastavnici', b.zaposlenih, 'zaposlenih', 'na spisku osoblja'],
+    ['kutak', b.kutak, 'slika u kutku', 'galerija učenika'],
+    ['poslodavci', b.poslodavci, 'poslodavaca', 'partneri za praksu']
+  ];
+
+  const mreza = el('<div class="adm-plocice"></div>');
+  plocice.forEach(([kljuc, broj, ime, uz], i) => {
+    const p = el(`<button type="button" class="adm-plocica${i === 0 ? ' glavna' : ''}${kljuc === 'prijedlozi' && broj ? ' ceka' : ''}">
+      <b>${broj}</b>
+      <span class="ime">${tekst(ime)}</span>
+      <span class="uz">${tekst(uz)}</span>
+    </button>`);
+    p.addEventListener('click', () => prikazi(kljuc));
+    mreza.appendChild(p);
+  });
+  sadrzaj.appendChild(mreza);
+
+  const brzo = el(`<div class="adm-kartica">
+    <h3>Brze radnje</h3>
+    <div class="adm-brzo">
+      <button type="button" class="btn btn-fill" data-idi="novosti">Dodaj novost</button>
+      <button type="button" class="btn btn-line" data-idi="dokumenti">Postavi dokument</button>
+      <button type="button" class="btn btn-line" data-idi="moodle">Zaključaj kurs</button>
+      <a class="btn btn-line" href="moodle.html">Otvori Moodle</a>
+    </div>
+  </div>`);
+  brzo.querySelectorAll('[data-idi]').forEach(d => d.addEventListener('click', () => prikazi(d.dataset.idi)));
+  sadrzaj.appendChild(brzo);
+}
+
+function bezKvaka(t) {
+  return String(t || '').replace(/đ/g, 'd').replace(/Đ/g, 'D')
+    .normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+}
+
+async function moodleZakljucavanje() {
+  sadrzaj.innerHTML = '';
+  const okvir = el(`<div class="adm-moodle">
+    <div class="adm-kartica">
+      <div class="adm-kartica-glava">
+        <div>
+          <h3>Zaključavanje kurseva</h3>
+          <p class="adm-sitno" id="mStanje">Učitavam Moodle…</p>
+        </div>
+        <label class="adm-trazi">
+          <input type="search" id="mTrazi" placeholder="Traži kurs, nastavnika ili odjeljenje" autocomplete="off">
+        </label>
+      </div>
+      <div class="adm-cipovi" id="mDijelovi"></div>
+      <div class="adm-cipovi mali" id="mRazredi"></div>
+      <div class="adm-cipovi mali" id="mOdjeljenja"></div>
+      <div class="adm-grupa" id="mGrupa" hidden>
+        <p id="mGrupaIme"></p>
+        <div>
+          <button type="button" class="btn btn-line mali" id="mSveZ">Zaključaj sve</button>
+          <button type="button" class="btn btn-line mali" id="mSveO">Otključaj sve</button>
+        </div>
+      </div>
+      <p class="glas" id="mGlas" hidden></p>
+      <div class="adm-kursevi" id="mKursevi"></div>
+    </div>
+    <div class="adm-kartica">
+      <h3>Zaključano sada <span class="broj" id="mBroj"></span></h3>
+      <div id="mZakljucani"></div>
+    </div>
+  </div>`);
+  sadrzaj.appendChild(okvir);
+
+  const $ = id => okvir.querySelector('#' + id);
+  const glasnik = $('mGlas');
+
+  let arhiva;
+  try {
+    arhiva = await moodleArhiva();
+  } catch (greska) {
+    javi(glasnik, porukaGreske(greska));
+    return;
+  }
+
+  const svi = [];
+  const dijelovi = [];
+  const skupi = (grana, put, u) => {
+    (grana.k || []).forEach(k => { k.put = put; u.push(k); });
+    (grana.p || []).forEach(p => skupi(p, put.concat(p.n), u));
+  };
+  arhiva.zbirke.forEach(z => dijelovi.push({ grana: z, ime: z.n }));
+  arhiva.godine.forEach(g => dijelovi.push({ grana: g, ime: g.n }));
+  dijelovi.forEach(d => {
+    d.kursevi = [];
+    skupi(d.grana, [d.ime], d.kursevi);
+    svi.push(...d.kursevi);
+  });
+
+  let dio = dijelovi.find(d => /\d{4}/.test(d.ime)) || dijelovi[0];
+  let razred = null;
+  let odjeljenje = null;
+
+  function stanje() {
+    const z = svi.filter(k => k.z);
+    $('mStanje').textContent = padez(z.length, 'kurs zaključan', 'kursa zaključana', 'kurseva zaključano') + ' od ' + svi.length + '.';
+    $('mBroj').textContent = z.length;
+    znacka('moodle', z.length);
+
+    const spisak = $('mZakljucani');
+    spisak.innerHTML = '';
+    if (!z.length) {
+      spisak.innerHTML = '<p class="prazno">Ništa nije zaključano — sve u Moodle-u je otvoreno za sve.</p>';
+      return;
+    }
+    z.forEach(k => spisak.appendChild(redKursa(k, true)));
+  }
+
+  async function postavi(kursevi, zakljucan) {
+    const promjena = kursevi.filter(k => Boolean(k.z) !== zakljucan);
+    if (!promjena.length) return;
+    try {
+      await zakljucajKurseve(promjena.map(k => k.i), zakljucan);
+    } catch (greska) {
+      javi(glasnik, porukaGreske(greska));
+      return;
+    }
+    promjena.forEach(k => { k.z = zakljucan ? 1 : 0; });
+    javi(glasnik, (zakljucan ? 'Zaključano: ' : 'Otključano: ') + padez(promjena.length, 'kurs', 'kursa', 'kurseva') + '.', true);
+    crtajKurseve();
+    stanje();
+  }
+
+  function redKursa(k, saPutem) {
+    const red = el(`<div class="adm-kurs${k.z ? ' zakljucan' : ''}">
+      <div class="admin-tekst">
+        ${saPutem ? `<span class="adm-put">${tekst(k.put.join(' · '))}</span>` : ''}
+        <b>${tekst(k.n)}</b>
+        <span>${tekst((k.t || []).join(', ') || 'Nastavnik nije upisan')}</span>
+      </div>
+      <label class="adm-prekidac">
+        <span>${k.z ? 'Zaključan' : 'Otvoren'}</span>
+        <input type="checkbox" role="switch"${k.z ? ' checked' : ''}>
+        <i></i>
+      </label>
+    </div>`);
+    red.querySelector('input').addEventListener('change', e => postavi([k], e.target.checked));
+    return red;
+  }
+
+  function cipovi(gdje, spisak, aktivan, ime, posao) {
+    gdje.innerHTML = '';
+    gdje.hidden = spisak.length < 2;
+    spisak.forEach(x => {
+      const b = el(`<button type="button"${x === aktivan ? ' class="on"' : ''}></button>`);
+      b.textContent = ime(x);
+      b.addEventListener('click', () => posao(x));
+      gdje.appendChild(b);
+    });
+  }
+
+  function trenutni() {
+    const upit = bezKvaka($('mTrazi').value.trim());
+    if (upit.length >= 2) {
+      const rijeci = upit.split(/\s+/);
+      return {
+        ime: 'Pretraga',
+        kursevi: svi.filter(k => {
+          const t = bezKvaka([k.n, (k.t || []).join(' '), k.put.join(' ')].join(' '));
+          return rijeci.every(r => t.includes(r));
+        }),
+        put: true
+      };
+    }
+    if (odjeljenje && odjeljenje.i !== 'sve') return { ime: [dio.ime, razred.n, odjeljenje.n].join(' · '), kursevi: odjeljenje.u };
+    if (razred) return { ime: [dio.ime, razred.n].join(' · '), kursevi: razred.u };
+    return { ime: dio.ime, kursevi: dio.kursevi };
+  }
+
+  function crtajKurseve() {
+    const trazi = $('mTrazi').value.trim().length >= 2;
+    cipovi($('mDijelovi'), trazi ? [] : dijelovi, dio, d => d.ime, d => {
+      dio = d;
+      razred = null;
+      odjeljenje = null;
+      crtajKurseve();
+    });
+    $('mDijelovi').hidden = trazi;
+
+    const razredi = trazi ? [] : (dio.grana.p || []).map(p => {
+      const u = [];
+      skupi(p, [dio.ime, p.n], u);
+      return { ...p, u };
+    });
+    if (razredi.length && (!razred || !razredi.some(x => x.i === razred.i))) razred = razredi[0];
+    if (!razredi.length) razred = null;
+    cipovi($('mRazredi'), razredi, razredi.find(x => razred && x.i === razred.i), x => x.n, x => {
+      razred = x;
+      odjeljenje = null;
+      crtajKurseve();
+    });
+
+    const odjeljenja = razred && razred.p ? [{ i: 'sve', n: 'Cijeli razred', u: razred.u }].concat(razred.p.map(p => {
+      const u = [];
+      skupi(p, [dio.ime, razred.n, p.n], u);
+      return { ...p, u };
+    })) : [];
+    if (odjeljenja.length && (!odjeljenje || !odjeljenja.some(x => x.i === odjeljenje.i))) odjeljenje = odjeljenja[0];
+    if (!odjeljenja.length) odjeljenje = null;
+    cipovi($('mOdjeljenja'), odjeljenja, odjeljenja.find(x => odjeljenje && x.i === odjeljenje.i), x => x.n, x => {
+      odjeljenje = x;
+      crtajKurseve();
+    });
+
+    const t = trenutni();
+    const kursevi = t.kursevi;
+    $('mGrupa').hidden = !kursevi.length;
+    const zakljucanih = kursevi.filter(k => k.z).length;
+    $('mGrupaIme').innerHTML = `<b>${tekst(t.ime)}</b> · ${padez(kursevi.length, 'kurs', 'kursa', 'kurseva')}, zaključano ${zakljucanih}`;
+    $('mSveZ').disabled = zakljucanih === kursevi.length;
+    $('mSveO').disabled = !zakljucanih;
+    $('mSveZ').onclick = () => postavi(kursevi, true);
+    $('mSveO').onclick = () => postavi(kursevi, false);
+
+    const spisak = $('mKursevi');
+    spisak.innerHTML = '';
+    if (!kursevi.length) {
+      spisak.innerHTML = '<p class="prazno">Ništa ne odgovara pretrazi.</p>';
+      return;
+    }
+    kursevi.slice(0, 200).forEach(k => spisak.appendChild(redKursa(k, t.put)));
+    if (kursevi.length > 200) spisak.appendChild(el('<p class="prazno">Prikazano prvih 200 — suzi pretragu.</p>'));
+  }
+
+  let cekanje = null;
+  $('mTrazi').addEventListener('input', () => {
+    clearTimeout(cekanje);
+    cekanje = setTimeout(crtajKurseve, 120);
+  });
+
+  crtajKurseve();
+  stanje();
+}
+
 function prikazi(kljuc) {
-  [...tabovi.children].forEach(d => d.classList.toggle('on', d.dataset.tab === kljuc));
-  if (kljuc === 'nalozi') nalozi();
+  [...tabovi.children].forEach(d => {
+    const on = d.dataset.tab === kljuc;
+    d.classList.toggle('on', on);
+    if (on) d.setAttribute('aria-current', 'page');
+    else d.removeAttribute('aria-current');
+  });
+  naslovTaba.textContent = TABOVI[kljuc][0];
+  opisTaba.textContent = TABOVI[kljuc][1];
+  history.replaceState(null, '', '#' + kljuc);
+  if (kljuc === 'pregled') pocetna();
+  else if (kljuc === 'moodle') moodleZakljucavanje();
+  else if (kljuc === 'nalozi') nalozi();
   else if (kljuc === 'prijedlozi') poslateSlike();
   else if (kljuc === 'dokumenti') moodleDokumenti();
   else crud(kljuc);
@@ -582,8 +879,15 @@ async function kreni() {
     return;
   }
 
-  pozdrav.textContent = p.email;
+  pozdrav.textContent = p.ime || p.email;
+  document.getElementById('uloga').textContent = p.ime ? p.email : (admin ? 'Admin' : 'Nastavnik');
+  document.getElementById('inicijal').textContent = (p.ime || p.email).trim().charAt(0).toUpperCase();
   panel.hidden = false;
+
+  document.getElementById('odjava').addEventListener('click', async () => {
+    await odjaviSe();
+    location.href = 'index.html';
+  });
 
   [...tabovi.children].forEach(d => {
     if (!admin && d.dataset.tab !== 'dokumenti') {
@@ -593,7 +897,16 @@ async function kreni() {
     d.addEventListener('click', () => prikazi(d.dataset.tab));
   });
 
-  prikazi(admin ? 'nalozi' : 'dokumenti');
+  const trazen = location.hash.slice(1);
+  if (admin) {
+    prikazi(TABOVI[trazen] ? trazen : 'pregled');
+    if (trazen && trazen !== 'pregled') pregled().then(b => {
+      znacka('prijedlozi', b.prijedlozi);
+      znacka('moodle', b.zakljucanih_kurseva);
+    }).catch(() => {});
+  } else {
+    prikazi('dokumenti');
+  }
 }
 
 kreni();

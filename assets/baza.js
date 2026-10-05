@@ -158,3 +158,17 @@ export async function posaljiSliku(fajl) {
   });
   return adresa;
 }
+
+export async function pregled() {
+  return trazi('/pregled');
+}
+
+export async function zakljucajKurseve(kursevi, zakljucan) {
+  return trazi('/moodle/zakljucaj', { method: 'POST', body: JSON.stringify({ kursevi, zakljucan }) });
+}
+
+export async function moodleArhiva() {
+  const odgovor = await fetch('/moodle/arhiva.json', { credentials: 'same-origin' });
+  if (!odgovor.ok) throw new Error('Arhiva Moodle-a se nije učitala.');
+  return odgovor.json();
+}

@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=48ac5e59">
+<link rel="stylesheet" href="assets/styles.css?v=77ae642c">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
 <script type="module" src="assets/nalog.js?v=3db63d2c"></script>
 <script src="assets/tekst.js?v=4532f47f" defer></script>
@@ -33,7 +33,7 @@
             <a href="index.html#programi"><b>Obrazovni programi</b><span>Sedam smjerova, IV i III stepen.</span></a>
             <a href="profesori.html"><b>Nastavnici i osoblje</b><span>Sto ljudi koji drže školu.</span></a>
             <a href="poslodavci.html"><b>Poslodavci i partneri</b><span>Gdje učenici rade dok se školuju.</span></a>
-            <a href="moodle.html#nastavnici"><b>Moodle za nastavnike</b><span>Kursevi, ocjene i materijali.</span></a>
+            <a href="moodle.html"><b>Moodle</b><span>Kursevi, dokumenta i materijali.</span></a>
             </div>
           </div>
         </div>
@@ -53,7 +53,7 @@
             <div class="panel-karta">
             <a href="kutak-ucenika.html"><b>Kutak učenika</b><span>Trenuci van rasporeda časova.</span></a>
             <a href="novosti.html"><b>Novosti</b><span>Obavještenja i rokovi.</span></a>
-            <a href="moodle.html#ucenici"><b>Moodle za učenike</b><span>Gradivo, zadaci i obavještenja.</span></a>
+            <a href="moodle.html#godine"><b>Moodle po odjeljenjima</b><span>Predmeti i gradivo tvog odjeljenja.</span></a>
             <a href="index.html#dokumenti"><b>Dokumenti</b><span>Statut, pravilnici, planovi.</span></a>
             </div>
           </div>
@@ -66,30 +66,44 @@
   </div>
 </header>
 
-<section class="blk">
+<section class="adm">
   <div class="shell">
     <div class="strazar" id="strazar" hidden></div>
 
-    <div id="panel" hidden>
-      <div class="admin-vrh">
-        <div>
-          <h1>Admin panel</h1>
-          <p class="pozdrav">Prijavljen kao <b id="pozdrav"></b></p>
+    <div class="adm-okvir" id="panel" hidden>
+      <aside class="adm-bok">
+        <div class="adm-ja">
+          <span class="adm-inicijal" id="inicijal"></span>
+          <div>
+            <b id="pozdrav"></b>
+            <span id="uloga"></span>
+          </div>
         </div>
-        <a class="btn btn-line" href="index.html">Pogledaj sajt</a>
-      </div>
+        <nav class="adm-meni" id="tabovi" aria-label="Admin panel">
+        <button type="button" data-tab="pregled"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg><span>Pregled</span><b class="adm-znacka" data-broj="pregled" hidden></b></button>
+        <button type="button" data-tab="moodle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.2"/><path d="M8.5 10.5V7.5a3.5 3.5 0 0 1 7 0v3"/></svg><span>Moodle</span><b class="adm-znacka" data-broj="moodle" hidden></b></button>
+        <button type="button" data-tab="dokumenti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3.5h7l4.5 4.5v12.5H7z"/><path d="M14 3.5V8h4.5M9.8 13h5.4M9.8 16.4h5.4"/></svg><span>Dokumenti</span><b class="adm-znacka" data-broj="dokumenti" hidden></b></button>
+        <button type="button" data-tab="novosti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h13v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2z"/><path d="M17 9h3v9.5a2 2 0 0 1-4 0M7.5 9h6M7.5 12.5h6M7.5 16h4"/></svg><span>Novosti</span><b class="adm-znacka" data-broj="novosti" hidden></b></button>
+        <button type="button" data-tab="kutak"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.2"/><circle cx="9" cy="10" r="1.8"/><path d="m20.5 15.5-4.5-4.5-8.5 8"/></svg><span>Kutak učenika</span><b class="adm-znacka" data-broj="kutak" hidden></b></button>
+        <button type="button" data-tab="prijedlozi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3v10.5H4z"/><circle cx="12" cy="13.3" r="3.2"/></svg><span>Slike učenika</span><b class="adm-znacka" data-broj="prijedlozi" hidden></b></button>
+        <button type="button" data-tab="nastavnici"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0M15.5 5.6a3.2 3.2 0 0 1 0 5.8M17.5 14.2a5.5 5.5 0 0 1 3 5.3"/></svg><span>Nastavnici</span><b class="adm-znacka" data-broj="nastavnici" hidden></b></button>
+        <button type="button" data-tab="poslodavci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="7.5" width="17" height="12" rx="2"/><path d="M9 7.5V5.5h6v2M3.5 12.5h17"/></svg><span>Poslodavci</span><b class="adm-znacka" data-broj="poslodavci" hidden></b></button>
+        <button type="button" data-tab="nalozi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg><span>Nalozi</span><b class="adm-znacka" data-broj="nalozi" hidden></b></button>
+        </nav>
+        <div class="adm-dno">
+          <a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4.5h5.5V10M19.5 4.5 11 13M18 14v5.5H4.5V6H10"/></svg><span>Pogledaj sajt</span></a>
+          <button type="button" id="odjava"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 8V5.5h-10v13h10V16M9.5 12h11M17 8.5l3.5 3.5-3.5 3.5"/></svg><span>Odjava</span></button>
+        </div>
+      </aside>
 
-      <div class="tabovi" id="tabovi">
-        <button data-tab="nalozi" class="on">Nalozi</button>
-        <button data-tab="novosti">Novosti</button>
-        <button data-tab="kutak">Kutak učenika</button>
-        <button data-tab="prijedlozi">Slike učenika</button>
-        <button data-tab="dokumenti">Moodle dokumenti</button>
-        <button data-tab="nastavnici">Nastavnici</button>
-        <button data-tab="poslodavci">Poslodavci</button>
-      </div>
-
-      <div id="sadrzaj"></div>
+      <main class="adm-glavno">
+        <header class="adm-glava">
+          <p class="adm-staza">Admin panel</p>
+          <h1 id="naslov-taba">Pregled</h1>
+          <p class="adm-opis" id="opis-taba"></p>
+        </header>
+        <div id="sadrzaj"></div>
+      </main>
     </div>
   </div>
 </section>
@@ -133,8 +147,8 @@
         <ul>
           <li><a href="moodle.html">Moodle</a></li>
           <li><a href="kutak-ucenika.html">Kutak učenika</a></li>
-          <li><a href="moodle.html?rubrika=Obavje%C5%A1tenja">Obavještenja</a></li>
-          <li><a href="moodle.html?rubrika=Dokumenta">Dokumenti u Moodle-u</a></li>
+          <li><a href="moodle.html#obavjestenja">Obavještenja</a></li>
+          <li><a href="moodle.html#dokumenta">Dokumenti u Moodle-u</a></li>
           <li><a href="novosti.html">Novosti</a></li>
         </ul>
       </div>
@@ -153,7 +167,7 @@
 
     <div class="base-end">
       <span>© <span id="god">2026</span> JU Srednja elektrotehnička škola „Vaso Aligrudić“</span>
-      <span><a href="moodle.html?rubrika=Dokumenta">Pristup informacijama</a> · <a href="moodle.html?rubrika=Dokumenta">Javni pozivi</a> · <a href="moodle.html?rubrika=Dokumenta">Etički kodeks</a></span>
+      <span><a href="moodle.html#dokumenta">Pristup informacijama</a> · <a href="moodle.html#dokumenta">Javni pozivi</a> · <a href="moodle.html#dokumenta">Etički kodeks</a></span>
     </div>
   </div>
 </footer>
@@ -198,7 +212,7 @@ gore.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: smireno ? 'auto' : 'smooth' });
 });
 </script>
-<script type="module" src="assets/admin.js?v=d94dd928"></script>
+<script type="module" src="assets/admin.js?v=f0e5d404"></script>
 
 </body>
 </html>

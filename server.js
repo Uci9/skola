@@ -1,6 +1,7 @@
 const path = require('node:path');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
+const zlib = require('node:zlib');
 const express = require('express');
 const { Pool } = require('pg');
 
@@ -148,6 +149,11 @@ async function napraviShemu() {
       id text primary key,
       vrsta text not null,
       podaci bytea not null,
+      napravljeno timestamptz default now()
+    );
+    create table if not exists zakljucani_kursevi (
+      kurs int primary key,
+      zakljucao text,
       napravljeno timestamptz default now()
     );
     create table if not exists postavke (
@@ -465,8 +471,6 @@ app.get('/api/dokumenti', async (zahtjev, odgovor) => {
   const uslovi = [];
   const podaci = [];
 
-  if (!predaje(osoba)) uslovi.push('zakljucan = false');
-
   if (rubrika) {
     podaci.push(rubrika);
     uslovi.push('rubrika = $' + podaci.length);
@@ -602,6 +606,108 @@ app.delete('/api/dokumenti/:id', samoNastavnik, async (zahtjev, odgovor) => {
   await bazen.query('delete from dokumenti where id = $1', [red.id]);
   await bazen.query('delete from datoteke where id = $1', [red.datoteka]);
   odgovor.json({ gotovo: true });
+});
+
+const ARHIVA = JSON.parse(fs.readFileSync(path.join(koren, 'baza', 'moodle.json'), 'utf8'));
+const SVI_KURSEVI = new Map();
+
+function popisi(grana, put) {
+  (grana.k || []).forEach(k => SVI_KURSEVI.set(k.i, { kurs: k, put }));
+  (grana.p || []).forEach(p => popisi(p, put.concat(p.n)));
+}
+
+ARHIVA.zbirke.forEach(z => popisi(z, [z.n]));
+ARHIVA.godine.forEach(g => popisi(g, [g.n]));
+
+async function zakljucaniKursevi() {
+  if (!bazen) return new Set();
+  const { rows } = await bazen.query('select kurs from zakljucani_kursevi');
+  return new Set(rows.map(r => r.kurs));
+}
+
+function prepisiGranu(grana, zakljucani, vidi) {
+  const nova = { ...grana };
+  if (grana.k) {
+    nova.k = grana.k.map(k => {
+      if (!zakljucani.has(k.i)) return k;
+      const kopija = { ...k, z: 1 };
+      if (!vidi) delete kopija.s;
+      return kopija;
+    });
+  }
+  if (grana.p) nova.p = grana.p.map(p => prepisiGranu(p, zakljucani, vidi));
+  return nova;
+}
+
+app.get('/moodle/arhiva.json', async (zahtjev, odgovor) => {
+  let zakljucani = new Set();
+  let vidi = false;
+  if (bazen && KLJUC) {
+    zakljucani = await zakljucaniKursevi();
+    vidi = predaje(await ko(zahtjev));
+  }
+
+  const tijelo = JSON.stringify({
+    ...ARHIVA,
+    vidi,
+    zbirke: ARHIVA.zbirke.map(z => prepisiGranu(z, zakljucani, vidi)),
+    godine: ARHIVA.godine.map(g => prepisiGranu(g, zakljucani, vidi))
+  });
+
+  odgovor.set('Content-Type', 'application/json; charset=utf-8');
+  odgovor.set('Cache-Control', 'private, no-cache');
+  odgovor.set('Vary', 'Cookie, Accept-Encoding');
+  if (/\bgzip\b/.test(zahtjev.headers['accept-encoding'] || '')) {
+    odgovor.set('Content-Encoding', 'gzip');
+    odgovor.send(zlib.gzipSync(tijelo));
+    return;
+  }
+  odgovor.send(tijelo);
+});
+
+app.get('/api/moodle/zakljucani', samoAdmin, async (zahtjev, odgovor) => {
+  const { rows } = await bazen.query('select kurs, zakljucao, napravljeno from zakljucani_kursevi order by napravljeno desc');
+  odgovor.json(rows.filter(r => SVI_KURSEVI.has(r.kurs)).map(r => ({
+    ...r,
+    ime: SVI_KURSEVI.get(r.kurs).kurs.n,
+    put: SVI_KURSEVI.get(r.kurs).put
+  })));
+});
+
+app.post('/api/moodle/zakljucaj', samoAdmin, async (zahtjev, odgovor) => {
+  const kursevi = [].concat(zahtjev.body.kursevi || []).map(Number).filter(k => SVI_KURSEVI.has(k));
+  if (!kursevi.length) {
+    odgovor.status(400).json({ greska: 'Nijedan kurs nije izabran.' });
+    return;
+  }
+
+  if (zahtjev.body.zakljucan) {
+    await bazen.query(
+      `insert into zakljucani_kursevi (kurs, zakljucao)
+       select unnest($1::int[]), $2 on conflict (kurs) do nothing`,
+      [kursevi, zahtjev.osoba.ime || zahtjev.osoba.email]
+    );
+  } else {
+    await bazen.query('delete from zakljucani_kursevi where kurs = any($1::int[])', [kursevi]);
+  }
+  odgovor.json({ gotovo: true, broj: kursevi.length });
+});
+
+app.get('/api/pregled', samoAdmin, async (zahtjev, odgovor) => {
+  const { rows } = await bazen.query(`
+    select
+      (select count(*)::int from profili) as nalozi,
+      (select count(*)::int from profili where uloga = 'nastavnik') as nastavnika,
+      (select count(*)::int from novosti) as novosti,
+      (select count(*)::int from kutak) as kutak,
+      (select count(*)::int from prijedlozi) as prijedlozi,
+      (select count(*)::int from dokumenti) as dokumenti,
+      (select count(*)::int from dokumenti where zakljucan) as zakljucanih_dokumenata,
+      (select count(*)::int from zakljucani_kursevi) as zakljucanih_kurseva,
+      (select count(*)::int from nastavnici) as zaposlenih,
+      (select count(*)::int from poslodavci) as poslodavci
+  `);
+  odgovor.json({ ...rows[0], kurseva: SVI_KURSEVI.size });
 });
 
 app.get('/dokument/:id', async (zahtjev, odgovor) => {
