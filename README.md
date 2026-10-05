@@ -178,7 +178,7 @@ se računaju kao pregledane (kolona `vidjeno`). Panel provjerava nove svakih
 ## Čet
 
 `cet.html` je jedna soba za sve korisnike. Čitaju je i pišu u nju samo
-prijavljeni. Poruke stoje u tabeli `poruke` i brišu se poslije 48 sati.
+prijavljeni. Poruke stoje u tabeli `poruke` i brišu se poslije 7 dana.
 Poruka može imati 500 znakova, a između dvije poruke iste osobe moraju proći
 2 sekunde. Admin klikom na tuđu poruku dobija prozor gdje je briše, utišava
 osobu na 1 do 24 sata ili joj zabranjuje pisanje.

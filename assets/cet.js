@@ -266,7 +266,6 @@ async function osvjezi() {
 
   admin = ja.uloga === 'admin';
   soba.hidden = false;
-  document.getElementById('cet-ja').textContent = ja.ime || ja.email;
 
   try {
     dodaj(await porukeCeta());

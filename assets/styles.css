@@ -2079,3 +2079,14 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   background: #F5C518; color: var(--ink); font: 800 .72rem/1 var(--sans);
   box-shadow: 0 0 0 3px var(--paper);
 }
+
+.cet-strana { padding: 24px 0 20px; }
+.cet-strana .cet { max-width: none; }
+.cet-strana .cet-spisak { height: calc(100vh - 312px); min-height: 320px; }
+.cet-dno { padding: 18px 0 4px; }
+@media (max-width: 820px) {
+  .cet-strana { padding: 14px 0 12px; }
+  .cet-strana .cet-spisak { height: calc(100dvh - 250px); min-height: 280px; }
+}
+.cet-mali .cet-strana { padding: 0; }
+.cet-mali .cet-strana .cet-spisak { height: calc(100vh - 72px); min-height: 0; }

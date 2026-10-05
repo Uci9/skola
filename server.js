@@ -736,7 +736,7 @@ app.post('/api/novo/:vrsta', samoAdmin, async (zahtjev, odgovor) => {
   odgovor.json({ gotovo: true });
 });
 
-const TRAJANJE_PORUKE = 48 * 3600 * 1000;
+const TRAJANJE_PORUKE = 7 * 24 * 3600 * 1000;
 const NAJDUZA_PORUKA = 500;
 const RAZMAK_PORUKA = 2000;
 const PROZOR_CETA = 100;
