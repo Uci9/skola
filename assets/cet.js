@@ -124,6 +124,9 @@ function dodaj(nove, moje) {
   poruke = spoji(poruke, nove);
   if (poruke.length === prije) return;
   if (poruke.length) zadnji = Math.max(zadnji, poruke[poruke.length - 1].id);
+  try {
+    if (zadnji > Number(localStorage.getItem('cet-vidjeno') || 0)) localStorage.setItem('cet-vidjeno', zadnji);
+  } catch (g) {}
   if (moje) naDnu = true;
   if (!naDnu) nevidjene += poruke.length - prije;
   crtaj();

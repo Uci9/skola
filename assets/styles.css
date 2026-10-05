@@ -2070,3 +2070,9 @@ html.ucitava, html.ucitava body { overflow: hidden; }
 .cet-mali .cet-poruka { max-width: 90%; }
 .cet-mali .kutija { box-shadow: none; padding: 24px 20px; }
 .cet-mali .kutija h2 { font-size: 1.6rem; }
+.cet-tipka-broj {
+  position: absolute; top: -4px; right: -4px;
+  display: grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; border-radius: var(--pill);
+  background: #F5C518; color: var(--ink); font: 800 .72rem/1 var(--sans);
+  box-shadow: 0 0 0 3px var(--paper);
+}

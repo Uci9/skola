@@ -185,6 +185,8 @@ osobu na 1 do 24 sata ili joj zabranjuje pisanje.
 
 Na početnoj strani u donjem lijevom uglu stoji dugme koje prati skrol. Klik
 otvara mali prozor sa četom (`cet.html?mali`, bez zaglavlja i podnožja).
+Žuti kružić na dugmetu broji tuđe poruke koje stignu dok čet nije otvoren.
+Šta je viđeno pamti se u pregledaču (`localStorage`, ključ `cet-vidjeno`).
 
 ## Nalozi
 
