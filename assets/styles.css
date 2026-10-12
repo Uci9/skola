@@ -548,6 +548,11 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
   .panel h2 { font-size: 1.85rem; margin-bottom: 14px; }
   .reel { margin-top: -92px; height: 360vh; }
   .reel-stage { height: 100vh; height: 100lvh; min-height: 470px; padding: 0; }
+  .reel-shade {
+    background:
+      linear-gradient(100deg, rgba(12,12,14,.74) 0%, rgba(12,12,14,.56) 46%, rgba(12,12,14,.14) 100%),
+      linear-gradient(rgba(12,12,14,.42), rgba(12,12,14,0) 34%, rgba(12,12,14,.42));
+  }
   .panel { max-width: none; }
   .panel-list a { padding: 11px 16px; }
   .panel-list b { font-size: .96rem; }
