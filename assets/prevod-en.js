@@ -428,6 +428,10 @@ window.PREVOD_EN = {
   "Datum": "Date",
   "Naslov vijesti": "News headline",
   "Nekoliko rečenica o događaju.": "A few sentences about the event.",
+  "Događaji": "Events",
+  "Šta se sprema u školi: upisni rokovi, roditeljski sastanci, takmičenja, ekskurzije i svečanosti. Za sada je prazno; dopisuje se u": "What's coming up at school: enrolment deadlines, parent meetings, competitions, trips and celebrations. It is empty for now; events are added in",
+  "Naziv događaja": "Event name",
+  "Gdje, u koliko sati i za koga.": "Where, what time and who it is for.",
 
   "Poslodavci i partneri | ETŠ „Vaso Aligrudić“": "Employers and partners | ETŠ “Vaso Aligrudić”",
   "Preduzeća i projekti sa kojima Elektrotehnička škola „Vaso Aligrudić“ sarađuje kroz praktičnu nastavu i dualno obrazovanje.": "Companies and projects the “Vaso Aligrudić” Electrical Engineering School works with through practical training and dual education.",
