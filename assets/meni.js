@@ -57,4 +57,27 @@
   });
 
   siroko.addEventListener('change', zatvori);
+
+  const glava = meni.closest('.head-in');
+  if (!glava) return;
+  const NIVOI = ['meni-usko', 'meni-tijesno', 'meni-najuze'];
+
+  function uklopi() {
+    glava.classList.remove(...NIVOI);
+    if (!siroko.matches) return;
+    for (const nivo of NIVOI) {
+      if (meni.lastElementChild.getBoundingClientRect().right <= glava.getBoundingClientRect().right - 8) return;
+      glava.classList.add(nivo);
+    }
+  }
+
+  uklopi();
+  let sirina = 0;
+  new ResizeObserver(([u]) => {
+    if (Math.round(u.contentRect.width) === sirina) return;
+    sirina = Math.round(u.contentRect.width);
+    uklopi();
+  }).observe(glava);
+  new MutationObserver(uklopi).observe(meni, { childList: true, subtree: true, characterData: true });
+  document.fonts.ready.then(uklopi);
 })();
