@@ -162,11 +162,31 @@ export async function obrisiPrijedlog(id) {
   return trazi('/prijedlozi/' + id, { method: 'DELETE' });
 }
 
-export async function posaljiSliku(fajl) {
-  const podaci = await uBazu(fajl);
+async function smanji(fajl, najvise) {
+  if (!/^image\/(jpeg|png|webp)$/.test(fajl.type)) return fajl;
+  let slika;
+  try {
+    slika = await createImageBitmap(fajl);
+  } catch (g) {
+    return fajl;
+  }
+  const odnos = Math.min(1, najvise / Math.max(slika.width, slika.height));
+  if (odnos === 1 && fajl.size < 400 * 1024) return fajl;
+
+  const platno = document.createElement('canvas');
+  platno.width = Math.round(slika.width * odnos);
+  platno.height = Math.round(slika.height * odnos);
+  platno.getContext('2d').drawImage(slika, 0, 0, platno.width, platno.height);
+  const manja = await new Promise(kraj => platno.toBlob(kraj, 'image/webp', 0.85));
+  return manja && manja.size < fajl.size ? manja : fajl;
+}
+
+export async function posaljiSliku(fajl, najvise = 1600) {
+  const spremna = await smanji(fajl, najvise);
+  const podaci = await uBazu(spremna);
   const { adresa } = await trazi('/slike', {
     method: 'POST',
-    body: JSON.stringify({ vrsta: fajl.type, podaci })
+    body: JSON.stringify({ vrsta: spremna.type, podaci })
   });
   return adresa;
 }

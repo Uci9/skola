@@ -77,7 +77,7 @@ const SEKCIJE = {
       { k: 'email', o: 'Školska e-pošta', t: 'email', n: 'ime.prezime@ets-pg.edu.me' },
       { k: 'termin', o: 'Termin za saradnju', t: 'text', n: 'npr. utorak 10:45–11:30, kabinet 12' },
       { k: 'biografija', o: 'Biografija', t: 'textarea' },
-      { k: 'slika', o: 'Slika', t: 'slika' },
+      { k: 'slika', o: 'Slika', t: 'slika', max: 900 },
       { k: 'redoslijed', o: 'Redoslijed', t: 'number' }
     ],
     glavno: r => r.ime,
@@ -126,7 +126,7 @@ function poljeHTML(p, v) {
     return `<label class="f"><span>${p.o}</span><select name="${p.k}">${opcije}</select></label>`;
   }
   if (p.t === 'slika') {
-    return `<div class="f polje-slika">
+    return `<div class="f polje-slika"${p.max ? ` data-max="${p.max}"` : ''}>
       <span>${p.o}</span>
       <input type="hidden" name="${p.k}" value="${val}">
       <div class="slika-red">
@@ -153,7 +153,7 @@ function vezisliku(forma, glasnik) {
       if (!f) return;
       javi(glasnik, 'Šaljem sliku…');
       try {
-        const adresa = await posaljiSliku(f);
+        const adresa = await posaljiSliku(f, Number(polje.dataset.max) || undefined);
         skriveno.value = adresa;
         pregled.src = adresa;
         pregled.hidden = false;
@@ -377,7 +377,7 @@ async function mojProfilTab() {
     <h3>${tekst(ja.ime)}</h3>
     <p class="moj-profil-uz">${tekst([ja.zvanje, ja.email].filter(Boolean).join(' · '))}</p>
     <form class="form">
-      ${poljeHTML({ k: 'slika', o: 'Slika', t: 'slika' }, ja.slika)}
+      ${poljeHTML({ k: 'slika', o: 'Slika', t: 'slika', max: 900 }, ja.slika)}
       ${poljeHTML({ k: 'termin', o: 'Termin za saradnju', t: 'text', n: 'npr. utorak 10:45–11:30, kabinet 12' }, ja.termin)}
       ${poljeHTML({ k: 'biografija', o: 'Biografija', t: 'textarea' }, ja.biografija)}
       <div class="forma-dno">
