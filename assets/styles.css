@@ -545,7 +545,7 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
 
   .panel p { font-size: 1rem; margin-bottom: 22px; }
   .panel h1 { margin-bottom: 18px; }
-  .panel h2 { font-size: 1.55rem; margin-bottom: 14px; }
+  .panel h2 { font-size: 1.85rem; margin-bottom: 14px; }
   .reel { margin-top: -92px; height: 360vh; }
   .reel-stage { height: 100vh; height: 100lvh; min-height: 470px; padding: 0; }
   .panel { max-width: none; }
