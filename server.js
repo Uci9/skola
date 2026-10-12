@@ -212,6 +212,7 @@ async function napraviShemu() {
       opis text,
       napravljeno timestamptz default now()
     );
+    update nastavnici set zvanje = 'Direktorka škole' where zvanje = 'v.d. direktora škole';
     create unique index if not exists nastavnici_email on nastavnici (lower(email)) where email is not null;
   `);
 }
