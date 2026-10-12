@@ -50,7 +50,7 @@ const NAJVECA_DATOTEKA = 18 * 1024 * 1024;
 
 const TABELE = {
   nastavnici: {
-    polja: ['ime', 'zvanje', 'grupa', 'biografija', 'slika', 'redoslijed'],
+    polja: ['ime', 'zvanje', 'grupa', 'email', 'termin', 'biografija', 'slika', 'redoslijed'],
     red: 'redoslijed asc, ime asc'
   },
   novosti: {
@@ -195,6 +195,9 @@ async function napraviShemu() {
     create index if not exists poruke_napravljeno on poruke (napravljeno);
     alter table if exists profili add column if not exists cet_zabrana boolean not null default false;
     alter table if exists profili add column if not exists cet_utisan_do timestamptz;
+    alter table if exists nastavnici add column if not exists email text;
+    alter table if exists nastavnici add column if not exists termin text;
+    create unique index if not exists nastavnici_email on nastavnici (lower(email)) where email is not null;
   `);
 }
 
@@ -326,6 +329,25 @@ function predaje(osoba) {
   return Boolean(osoba && (osoba.uloga === 'nastavnik' || osoba.uloga === 'admin'));
 }
 
+async function samoOsoblje(zahtjev, odgovor, dalje) {
+  const osoba = await ko(zahtjev);
+  if (!predaje(osoba)) {
+    odgovor.status(403).json({ greska: 'Nemaš dozvolu za ovu radnju.' });
+    return;
+  }
+  zahtjev.osoba = osoba;
+  dalje();
+}
+
+async function poveziNastavnika(email) {
+  await bazen.query(
+    `update profili set uloga = 'nastavnik'
+     where lower(email) = lower($1) and uloga = 'korisnik'
+       and exists (select 1 from nastavnici where lower(email) = lower($1))`,
+    [email]
+  );
+}
+
 async function samoNastavnik(zahtjev, odgovor, dalje) {
   const osoba = await ko(zahtjev);
   if (!predaje(osoba)) {
@@ -351,8 +373,10 @@ app.post('/api/prijava', async (zahtjev, odgovor) => {
     return;
   }
 
+  await poveziNastavnika(email);
+  const osoba = await bazen.query('select id, email, ime, uloga from profili where id = $1', [rows[0].id]);
   upisiSesiju(odgovor, rows[0].id);
-  odgovor.json({ id: rows[0].id, email: rows[0].email, ime: rows[0].ime, uloga: rows[0].uloga });
+  odgovor.json(osoba.rows[0]);
 });
 
 app.post('/api/upis', async (zahtjev, odgovor) => {
@@ -384,8 +408,10 @@ app.post('/api/upis', async (zahtjev, odgovor) => {
     [email, ime, zamijesi(lozinka)]
   );
 
+  await poveziNastavnika(email);
+  const osoba = await bazen.query('select id, email, ime, uloga from profili where id = $1', [novi.rows[0].id]);
   upisiSesiju(odgovor, novi.rows[0].id);
-  odgovor.json(novi.rows[0]);
+  odgovor.json(osoba.rows[0]);
 });
 
 app.post('/api/odjava', (zahtjev, odgovor) => {
@@ -399,7 +425,9 @@ app.get('/api/ja', async (zahtjev, odgovor) => {
 
 app.get('/api/profili', samoAdmin, async (zahtjev, odgovor) => {
   const { rows } = await bazen.query(
-    'select id, email, ime, uloga, napravljeno from profili order by napravljeno desc'
+    `select p.id, p.email, p.ime, p.uloga, p.napravljeno, n.id as zaposleni, n.ime as zaposleni_ime
+     from profili p left join nastavnici n on lower(n.email) = lower(p.email)
+     order by p.napravljeno desc`
   );
   odgovor.json(rows);
 });
@@ -411,11 +439,56 @@ app.post('/api/profili/:id/uloga', samoAdmin, async (zahtjev, odgovor) => {
     odgovor.status(400).json({ greska: 'Sebi ne možeš skinuti admina.' });
     return;
   }
-  await bazen.query('update profili set uloga = $1 where id = $2', [uloga, zahtjev.params.id]);
+  const { rows } = await bazen.query(
+    'update profili set uloga = $1 where id = $2 returning email', [uloga, zahtjev.params.id]
+  );
+  if (rows.length && uloga === 'korisnik') {
+    await bazen.query('update nastavnici set email = null where lower(email) = lower($1)', [rows[0].email]);
+  }
   odgovor.json({ gotovo: true });
 });
 
-app.post('/api/slike', samoAdmin, async (zahtjev, odgovor) => {
+app.post('/api/profili/:id/zaposleni', samoAdmin, async (zahtjev, odgovor) => {
+  const { rows } = await bazen.query('select email from profili where id = $1', [zahtjev.params.id]);
+  if (!rows.length) { odgovor.status(404).json({ greska: 'Nema tog naloga.' }); return; }
+  const email = rows[0].email.toLowerCase();
+  const zaposleni = zahtjev.body.zaposleni || null;
+
+  await bazen.query('update nastavnici set email = null where lower(email) = $1', [email]);
+  if (zaposleni) {
+    await bazen.query('update nastavnici set email = $1 where id = $2', [email, zaposleni]);
+    await poveziNastavnika(email);
+  }
+  odgovor.json({ gotovo: true });
+});
+
+app.get('/api/moj-profil', samoOsoblje, async (zahtjev, odgovor) => {
+  const { rows } = await bazen.query(
+    'select id, ime, zvanje, email, termin, biografija, slika from nastavnici where lower(email) = lower($1)',
+    [zahtjev.osoba.email]
+  );
+  odgovor.json(rows[0] || null);
+});
+
+app.put('/api/moj-profil', samoOsoblje, async (zahtjev, odgovor) => {
+  const cisto = v => {
+    const t = String(v == null ? '' : v).trim();
+    return t || null;
+  };
+  const { rows } = await bazen.query(
+    `update nastavnici set biografija = $1, slika = $2, termin = $3
+     where lower(email) = lower($4)
+     returning id, ime, zvanje, email, termin, biografija, slika`,
+    [cisto(zahtjev.body.biografija), cisto(zahtjev.body.slika), cisto(zahtjev.body.termin), zahtjev.osoba.email]
+  );
+  if (!rows.length) {
+    odgovor.status(404).json({ greska: 'Tvoj nalog još nije povezan sa profilom na sajtu.' });
+    return;
+  }
+  odgovor.json(rows[0]);
+});
+
+app.post('/api/slike', samoOsoblje, async (zahtjev, odgovor) => {
   const vrsta = String(zahtjev.body.vrsta || '');
   const sadrzaj = String(zahtjev.body.podaci || '');
 
@@ -1009,6 +1082,7 @@ function vrijednosti(cfg, tijelo) {
     let v = tijelo[k];
     if (v === '' ) v = null;
     if (k === 'redoslijed') v = v == null ? 0 : Number(v);
+    if (k === 'email' && v) v = String(v).trim().toLowerCase();
     polja.push(k);
     podaci.push(v);
   });
@@ -1030,10 +1104,18 @@ app.post('/api/:tabela', samoAdmin, async (zahtjev, odgovor) => {
   if (!polja.length) { odgovor.status(400).json({ greska: 'Nema podataka.' }); return; }
 
   const mjesta = polja.map((_, i) => '$' + (i + 1)).join(', ');
-  const { rows } = await bazen.query(
-    'insert into ' + zahtjev.params.tabela + ' (' + polja.join(', ') + ') values (' + mjesta + ') returning *',
-    podaci
-  );
+  let rows;
+  try {
+    ({ rows } = await bazen.query(
+      'insert into ' + zahtjev.params.tabela + ' (' + polja.join(', ') + ') values (' + mjesta + ') returning *',
+      podaci
+    ));
+  } catch (greska) {
+    if (greska.code !== '23505') throw greska;
+    odgovor.status(409).json({ greska: 'Ta e-pošta je već upisana kod drugog zaposlenog.' });
+    return;
+  }
+  if (rows[0] && rows[0].email) await poveziNastavnika(rows[0].email);
   odgovor.json(rows[0]);
 });
 
@@ -1045,10 +1127,18 @@ app.put('/api/:tabela/:id', samoAdmin, async (zahtjev, odgovor) => {
   if (!polja.length) { odgovor.status(400).json({ greska: 'Nema podataka.' }); return; }
 
   const postavke = polja.map((k, i) => k + ' = $' + (i + 1)).join(', ');
-  const { rows } = await bazen.query(
-    'update ' + zahtjev.params.tabela + ' set ' + postavke + ' where id = $' + (polja.length + 1) + ' returning *',
-    [...podaci, zahtjev.params.id]
-  );
+  let rows;
+  try {
+    ({ rows } = await bazen.query(
+      'update ' + zahtjev.params.tabela + ' set ' + postavke + ' where id = $' + (polja.length + 1) + ' returning *',
+      [...podaci, zahtjev.params.id]
+    ));
+  } catch (greska) {
+    if (greska.code !== '23505') throw greska;
+    odgovor.status(409).json({ greska: 'Ta e-pošta je već upisana kod drugog zaposlenog.' });
+    return;
+  }
+  if (rows[0] && rows[0].email) await poveziNastavnika(rows[0].email);
   odgovor.json(rows[0] || null);
 });
 

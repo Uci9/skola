@@ -74,6 +74,12 @@ Arhiva u `baza/moodle.json` je preuzeta sa `elektropg.online/ets`
 koji se otvaraju bez prijave. Materijali se ne kopiraju — veze vode na
 originalne fajlove, a kursevi koji traže prijavu otvaraju se u Moodle-u.
 
+Profil zaposlenog (slika, biografija, termin za saradnju, školska e-pošta)
+stoji u tabeli `nastavnici`. Nalog čija se e-pošta poklapa sa e-poštom
+zaposlenog dobija ulogu nastavnika i u panelu vidi samo „Moj profil“ i
+„Dokumenti“. Admin e-poštu upisuje u tabu Nastavnici ili nalog veže za
+zaposlenog u tabu Nalozi.
+
 Server arhivu daje na `/moodle/arhiva.json`. Admin u panelu (tab Moodle)
 može zaključati bilo koji kurs, cijelo odjeljenje ili razred. Zaključani
 kursevi stoje u tabeli `zakljucani_kursevi`: svi vide naziv i katanac, a

@@ -535,6 +535,7 @@ window.PREVOD_EN = {
   "Biografija u pripremi.": "Biography in preparation.",
   "Biografija još nije dostavljena. Škola je unosi kroz admin panel.": "The biography has not been submitted yet. The school adds it through the admin panel.",
   "Niko ne odgovara pretrazi.": "Nobody matches your search.",
+  "Termin za saradnju": "Meeting hours",
   "v.d. direktora škole": "Acting principal",
   "Pomoćnik direktora škole": "Deputy principal",
   "Pomoćnica direktora škole": "Deputy principal",

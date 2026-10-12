@@ -1,6 +1,7 @@
 import {
   imaBazu, jeAdmin, mojProfil, porukaGreske, posaljiSliku,
   spisak as izBaze, dodaj, izmijeni, obrisi as obrisiIzBaze, profili, postaviUlogu,
+  poveziZaposlenog, mojZaposleni, sacuvajMojZaposleni,
   prijedlozi, obrisiPrijedlog,
   dokumenti, posaljiDokument, izmijeniDokument, obrisiDokument,
   pregled, zakljucajKurseve, moodleArhiva, odjaviSe,
@@ -17,6 +18,7 @@ const naslovTaba = document.getElementById('naslov-taba');
 const opisTaba = document.getElementById('opis-taba');
 
 const TABOVI = {
+  profil: ['Moj profil', 'Slika, biografija i termin za saradnju na strani Nastavnici i osoblje.'],
   pregled: ['Pregled', 'Stanje sajta na jednom mjestu.'],
   moodle: ['Moodle', 'Zaključan kurs otvaraju samo nastavnici i admin. Ostali vide naziv i katanac.'],
   dokumenti: ['Dokumenti', 'Fajlovi koje nastavnici postavljaju u Moodle sajta.'],
@@ -72,12 +74,14 @@ const SEKCIJE = {
       { k: 'ime', o: 'Ime i prezime', t: 'text', obavezno: true },
       { k: 'zvanje', o: 'Zvanje', t: 'text' },
       { k: 'grupa', o: 'Grupa', t: 'izbor', izbori: GRUPE },
+      { k: 'email', o: 'Školska e-pošta', t: 'email', n: 'ime.prezime@ets-pg.edu.me' },
+      { k: 'termin', o: 'Termin za saradnju', t: 'text', n: 'npr. utorak 10:45–11:30, kabinet 12' },
       { k: 'biografija', o: 'Biografija', t: 'textarea' },
       { k: 'slika', o: 'Slika', t: 'slika' },
       { k: 'redoslijed', o: 'Redoslijed', t: 'number' }
     ],
     glavno: r => r.ime,
-    uz: r => [r.zvanje, (GRUPE.find(g => g[0] === r.grupa) || [])[1]].filter(Boolean).join(' · ')
+    uz: r => [r.zvanje, r.email || 'bez e-pošte'].filter(Boolean).join(' · ')
   },
   poslodavci: {
     naziv: 'Poslodavci',
@@ -133,7 +137,8 @@ function poljeHTML(p, v) {
     </div>`;
   }
   const obavezno = p.obavezno ? ' required' : '';
-  return `<label class="f"><span>${p.o}</span><input type="${p.t}" name="${p.k}" value="${val}"${obavezno}></label>`;
+  const savjet = p.n ? ` placeholder="${tekst(p.n)}"` : '';
+  return `<label class="f"><span>${p.o}</span><input type="${p.t}" name="${p.k}" value="${val}"${savjet}${obavezno}></label>`;
 }
 
 function vezisliku(forma, glasnik) {
@@ -294,12 +299,14 @@ async function nalozi() {
   const broj = okvir.querySelector('#broj');
 
   let data;
+  let zaposleni;
   try {
-    data = await profili();
+    [data, zaposleni] = await Promise.all([profili(), izBaze('nastavnici')]);
   } catch (greska) {
     javi(glasnik, porukaGreske(greska));
     return;
   }
+  zaposleni.sort((a, b) => a.ime.localeCompare(b.ime, 'sr'));
 
   broj.textContent = data.length;
   if (!data.length) { spisak.innerHTML = '<p class="prazno">Još niko nije napravio nalog.</p>'; return; }
@@ -318,8 +325,22 @@ async function nalozi() {
           <option value="nastavnik"${p.uloga === 'nastavnik' ? ' selected' : ''}>Nastavnik</option>
           <option value="admin"${p.uloga === 'admin' ? ' selected' : ''}>Admin</option>
         </select>
+        <select class="zaposleni-izbor" aria-label="Profil na strani Nastavnici">
+          <option value="">Nije povezan sa profilom</option>
+          ${zaposleni.map(z => `<option value="${z.id}"${z.id === p.zaposleni ? ' selected' : ''}>${tekst(z.ime)}</option>`).join('')}
+        </select>
       </div>
     </div>`);
+
+    stavka.querySelector('.zaposleni-izbor').addEventListener('change', async ev => {
+      try {
+        await poveziZaposlenog(p.id, ev.target.value || null);
+      } catch (greska) {
+        javi(glasnik, porukaGreske(greska));
+        return;
+      }
+      nalozi();
+    });
 
     stavka.querySelector('.uloga-izbor').addEventListener('change', async ev => {
       try {
@@ -332,6 +353,59 @@ async function nalozi() {
     });
 
     spisak.appendChild(stavka);
+  });
+}
+
+async function mojProfilTab() {
+  sadrzaj.innerHTML = '';
+  let ja;
+  try {
+    ja = await mojZaposleni();
+  } catch (greska) {
+    sadrzaj.appendChild(el(`<p class="glas lose">${tekst(porukaGreske(greska))}</p>`));
+    return;
+  }
+
+  if (!ja) {
+    sadrzaj.appendChild(el(`<div class="admin-spisak siroko">
+      <p class="prazno">Tvoj nalog još nije povezan sa profilom na strani Nastavnici i osoblje. Javi se upravi škole da te povežu.</p>
+    </div>`));
+    return;
+  }
+
+  const okvir = el(`<div class="admin-forma moj-profil">
+    <h3>${tekst(ja.ime)}</h3>
+    <p class="moj-profil-uz">${tekst([ja.zvanje, ja.email].filter(Boolean).join(' · '))}</p>
+    <form class="form">
+      ${poljeHTML({ k: 'slika', o: 'Slika', t: 'slika' }, ja.slika)}
+      ${poljeHTML({ k: 'termin', o: 'Termin za saradnju', t: 'text', n: 'npr. utorak 10:45–11:30, kabinet 12' }, ja.termin)}
+      ${poljeHTML({ k: 'biografija', o: 'Biografija', t: 'textarea' }, ja.biografija)}
+      <div class="forma-dno">
+        <button type="submit" class="btn btn-fill">Sačuvaj</button>
+        <a class="btn btn-line" href="profesori.html" target="_blank" rel="noopener">Pogledaj na sajtu</a>
+      </div>
+    </form>
+    <p class="glas" hidden></p>
+  </div>`);
+  sadrzaj.appendChild(okvir);
+
+  const forma = okvir.querySelector('form');
+  const glasnik = okvir.querySelector('.glas');
+  vezisliku(forma, glasnik);
+
+  forma.addEventListener('submit', async e => {
+    e.preventDefault();
+    try {
+      await sacuvajMojZaposleni({
+        slika: forma.elements.slika.value,
+        termin: forma.elements.termin.value,
+        biografija: forma.elements.biografija.value
+      });
+    } catch (greska) {
+      javi(glasnik, porukaGreske(greska));
+      return;
+    }
+    javi(glasnik, 'Sačuvano. Profil je već vidljiv na sajtu.', true);
   });
 }
 
@@ -982,6 +1056,7 @@ function prikazi(kljuc) {
   opisTaba.textContent = TABOVI[kljuc][1];
   history.replaceState(null, '', '#' + kljuc);
   if (kljuc === 'pregled') pocetna();
+  else if (kljuc === 'profil') mojProfilTab();
   else if (kljuc === 'moodle') moodleZakljucavanje();
   else if (kljuc === 'nalozi') nalozi();
   else if (kljuc === 'prijedlozi') poslateSlike();
@@ -1020,7 +1095,8 @@ async function kreni() {
   });
 
   [...tabovi.children].forEach(d => {
-    if (!admin && d.dataset.tab !== 'dokumenti') {
+    const vidi = admin ? d.dataset.tab !== 'profil' : ['profil', 'dokumenti'].includes(d.dataset.tab);
+    if (!vidi) {
       d.hidden = true;
       return;
     }
@@ -1036,7 +1112,7 @@ async function kreni() {
     osvjeziNovo();
     setInterval(osvjeziNovo, 30000);
   } else {
-    prikazi('dokumenti');
+    prikazi(trazen === 'dokumenti' ? 'dokumenti' : 'profil');
   }
 }
 

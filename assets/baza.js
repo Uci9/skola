@@ -96,6 +96,18 @@ export async function postaviUlogu(id, uloga) {
   return trazi('/profili/' + id + '/uloga', { method: 'POST', body: JSON.stringify({ uloga }) });
 }
 
+export async function poveziZaposlenog(id, zaposleni) {
+  return trazi('/profili/' + id + '/zaposleni', { method: 'POST', body: JSON.stringify({ zaposleni }) });
+}
+
+export async function mojZaposleni() {
+  return trazi('/moj-profil');
+}
+
+export async function sacuvajMojZaposleni(podaci) {
+  return trazi('/moj-profil', { method: 'PUT', body: JSON.stringify(podaci) });
+}
+
 export async function dokumenti(upit, rubrika) {
   const pitanja = new URLSearchParams();
   if (upit) pitanja.set('q', upit);

@@ -8,9 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=497b6d53">
+<link rel="stylesheet" href="assets/styles.css?v=c496adfc">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
-<script src="assets/prevod-en.js?v=6330182b" defer></script>
+<script src="assets/prevod-en.js?v=3868b912" defer></script>
 <script src="assets/jezik.js?v=46bfbedf" defer></script>
 <script type="module" src="assets/nalog.js?v=03690671"></script>
 <script src="assets/tekst.js?v=4532f47f" defer></script>
@@ -1112,6 +1112,8 @@
       <h3 id="zavjesaIme"></h3>
       <span class="zavjesa-uloga" id="zavjesaUloga"></span>
       <p class="prazna" id="zavjesaTekst"></p>
+      <p class="zavjesa-podatak" id="zavjesaTermin" hidden><b>Termin za saradnju</b><span></span></p>
+      <p class="zavjesa-podatak" id="zavjesaPosta" hidden><b>E-pošta</b><a></a></p>
     </div>
   </div>
 </div>
@@ -1167,14 +1169,31 @@
   const zTekst = document.getElementById('zavjesaTekst');
   const zSlika = document.getElementById('zavjesaSlika');
   const zIni = document.getElementById('zavjesaInicijali');
+  const zTermin = document.getElementById('zavjesaTermin');
+  const zPosta = document.getElementById('zavjesaPosta');
   let vratiFokus = null;
 
   window.otvoriBio = function (karta) {
     vratiFokus = karta;
     zIme.textContent = karta.dataset.ime;
     zUloga.textContent = karta.dataset.zvanje;
-    zTekst.textContent = 'Biografija još nije dostavljena. Škola je unosi kroz admin panel.';
+    const bio = karta.dataset.bio || '';
+    zTekst.textContent = bio || 'Biografija još nije dostavljena. Škola je unosi kroz admin panel.';
+    zTekst.classList.toggle('prazna', !bio);
+    zTermin.hidden = !karta.dataset.termin;
+    zTermin.querySelector('span').textContent = karta.dataset.termin || '';
+    zPosta.hidden = !karta.dataset.email;
+    zPosta.querySelector('a').textContent = karta.dataset.email || '';
+    zPosta.querySelector('a').href = 'mailto:' + (karta.dataset.email || '');
     zIni.textContent = karta.querySelector('.osoba-inicijali').textContent;
+    zIni.hidden = Boolean(karta.dataset.slika);
+    zSlika.querySelectorAll('img').forEach(i => i.remove());
+    if (karta.dataset.slika) {
+      const img = document.createElement('img');
+      img.src = karta.dataset.slika;
+      img.alt = '';
+      zSlika.prepend(img);
+    }
     zSlika.style.setProperty('--ton', karta.dataset.ton);
     zavjesa.hidden = false;
     document.body.style.overflow = 'hidden';
@@ -1194,6 +1213,33 @@
   });
 
   karte.forEach(k => k.addEventListener('click', () => window.otvoriBio(k)));
+
+  fetch('/api/nastavnici').then(o => o.ok ? o.json() : []).then(spisak => {
+    if (!Array.isArray(spisak)) return;
+    const poImenu = new Map(spisak.map(z => [z.ime, z]));
+    karte.forEach(k => {
+      const z = poImenu.get(k.dataset.ime);
+      if (!z) return;
+      k.dataset.bio = z.biografija || '';
+      k.dataset.termin = z.termin || '';
+      k.dataset.email = z.email || '';
+      k.dataset.slika = z.slika || '';
+      if (z.slika) {
+        const img = document.createElement('img');
+        img.src = z.slika;
+        img.alt = '';
+        img.loading = 'lazy';
+        k.querySelector('.osoba-slika').prepend(img);
+        k.querySelector('.osoba-inicijali').hidden = true;
+      }
+      if (z.biografija) {
+        const kratko = z.biografija.length > 110 ? z.biografija.slice(0, 107).trimEnd() + '…' : z.biografija;
+        const polje = k.querySelector('.osoba-bio');
+        polje.textContent = kratko;
+        polje.classList.remove('prazna');
+      }
+    });
+  }).catch(() => {});
 })();
 </script>
 <footer class="base">
