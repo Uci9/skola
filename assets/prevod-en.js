@@ -429,6 +429,8 @@ window.PREVOD_EN = {
   "Naslov vijesti": "News headline",
   "Nekoliko rečenica o događaju.": "A few sentences about the event.",
   "Događaji": "Events",
+  "Šta se sprema u školi: upisni rokovi, roditeljski sastanci, takmičenja, ekskurzije i svečanosti.": "What's coming up at school: enrolment deadlines, parent meetings, competitions, trips and celebrations.",
+  "Trenutno nema najavljenih događaja.": "There are no upcoming events right now.",
   "Šta se sprema u školi: upisni rokovi, roditeljski sastanci, takmičenja, ekskurzije i svečanosti. Za sada je prazno; dopisuje se u": "What's coming up at school: enrolment deadlines, parent meetings, competitions, trips and celebrations. It is empty for now; events are added in",
   "Naziv događaja": "Event name",
   "Gdje, u koliko sati i za koga.": "Where, what time and who it is for.",

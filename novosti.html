@@ -8,15 +8,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=c496adfc">
+<link rel="stylesheet" href="assets/styles.css?v=86c14dfe">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
-<script src="assets/prevod-en.js?v=3868b912" defer></script>
+<script src="assets/prevod-en.js?v=1f548235" defer></script>
 <script src="assets/jezik.js?v=46bfbedf" defer></script>
 <script type="module" src="assets/nalog.js?v=03690671"></script>
 <script src="assets/tekst.js?v=4532f47f" defer></script>
 <script src="assets/leca.js?v=926f53a3" defer></script>
 <script src="assets/meni.js?v=6432c2a1" defer></script>
 <script src="assets/mreza.js?v=cb164972" defer></script>
+<script src="assets/dogadjaji.js?v=f9217d53" defer></script>
 </head>
 <body>
 <header class="head">
@@ -106,18 +107,12 @@
 
 <section class="blk blk-white" id="dogadjaji">
   <div class="shell">
-    <div class="rise"><h2>Događaji</h2></div>
-    <p class="flag rise">Šta se sprema u školi: upisni rokovi, roditeljski sastanci, takmičenja,
-       ekskurzije i svečanosti. Za sada je prazno; dopisuje se u <code>novosti.html</code>.</p>
-    <div class="stack rise">
-      <div class="tile void">
-        <span class="tile-chip">Datum</span>
-        <span class="tile-mid"><h3>Naziv događaja</h3><p>Gdje, u koliko sati i za koga.</p></span>
-      </div>
-      <div class="tile void">
-        <span class="tile-chip">Datum</span>
-        <span class="tile-mid"><h3>Naziv događaja</h3><p>Gdje, u koliko sati i za koga.</p></span>
-      </div>
+    <div class="rise">
+      <h2>Događaji</h2>
+      <p class="lede">Šta se sprema u školi: upisni rokovi, roditeljski sastanci, takmičenja, ekskurzije i svečanosti.</p>
+    </div>
+    <div class="stack rise" id="dogadjaji-spisak">
+      <p class="dogadjaji-prazno">Trenutno nema najavljenih događaja.</p>
     </div>
   </div>
 </section>

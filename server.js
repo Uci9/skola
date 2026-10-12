@@ -3,7 +3,9 @@ const fs = require('node:fs');
 const crypto = require('node:crypto');
 const zlib = require('node:zlib');
 const express = require('express');
-const { Pool } = require('pg');
+const { Pool, types } = require('pg');
+
+types.setTypeParser(1082, v => v);
 
 const koren = __dirname;
 const luka = process.env.PORT || 3000;
@@ -64,6 +66,10 @@ const TABELE = {
   poslodavci: {
     polja: ['naziv', 'oznaka', 'opis'],
     red: 'napravljeno desc'
+  },
+  dogadjaji: {
+    polja: ['naziv', 'datum', 'vrijeme', 'mjesto', 'opis'],
+    red: 'datum < current_date, datum asc, vrijeme asc nulls last'
   }
 };
 
@@ -197,6 +203,15 @@ async function napraviShemu() {
     alter table if exists profili add column if not exists cet_utisan_do timestamptz;
     alter table if exists nastavnici add column if not exists email text;
     alter table if exists nastavnici add column if not exists termin text;
+    create table if not exists dogadjaji (
+      id uuid primary key default gen_random_uuid(),
+      naziv text not null,
+      datum date not null,
+      vrijeme text,
+      mjesto text,
+      opis text,
+      napravljeno timestamptz default now()
+    );
     create unique index if not exists nastavnici_email on nastavnici (lower(email)) where email is not null;
   `);
 }
@@ -1111,6 +1126,10 @@ app.post('/api/:tabela', samoAdmin, async (zahtjev, odgovor) => {
       podaci
     ));
   } catch (greska) {
+    if (greska.code === '23502') {
+      odgovor.status(400).json({ greska: 'Popuni sva obavezna polja.' });
+      return;
+    }
     if (greska.code !== '23505') throw greska;
     odgovor.status(409).json({ greska: 'Ta e-pošta je već upisana kod drugog zaposlenog.' });
     return;
@@ -1134,6 +1153,10 @@ app.put('/api/:tabela/:id', samoAdmin, async (zahtjev, odgovor) => {
       [...podaci, zahtjev.params.id]
     ));
   } catch (greska) {
+    if (greska.code === '23502') {
+      odgovor.status(400).json({ greska: 'Popuni sva obavezna polja.' });
+      return;
+    }
     if (greska.code !== '23505') throw greska;
     odgovor.status(409).json({ greska: 'Ta e-pošta je već upisana kod drugog zaposlenog.' });
     return;

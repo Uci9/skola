@@ -23,6 +23,7 @@ const TABOVI = {
   moodle: ['Moodle', 'Zaključan kurs otvaraju samo nastavnici i admin. Ostali vide naziv i katanac.'],
   dokumenti: ['Dokumenti', 'Fajlovi koje nastavnici postavljaju u Moodle sajta.'],
   novosti: ['Novosti', 'Obavještenja i rokovi na strani Novosti.'],
+  dogadjaji: ['Događaji', 'Šta se sprema u školi. Na sajtu se vide samo događaji od danas nadalje.'],
   kutak: ['Kutak učenika', 'Galerija đačkog života.'],
   prijedlozi: ['Slike učenika', 'Slike koje su učenici poslali za kutak. Prebaci ih ili obriši.'],
   firme: ['Firme', 'Upitnici koje su firme poslale upravi škole.'],
@@ -52,6 +53,19 @@ const SEKCIJE = {
     ],
     glavno: r => r.naslov,
     uz: r => [r.rubrika, r.datum].filter(Boolean).join(' · ')
+  },
+  dogadjaji: {
+    naziv: 'Događaji',
+    tabela: 'dogadjaji',
+    polja: [
+      { k: 'naziv', o: 'Naziv događaja', t: 'text', obavezno: true, n: 'npr. Roditeljski sastanak za I razred' },
+      { k: 'datum', o: 'Datum', t: 'date', obavezno: true },
+      { k: 'vrijeme', o: 'Vrijeme', t: 'text', n: 'npr. 18:00' },
+      { k: 'mjesto', o: 'Mjesto', t: 'text', n: 'npr. svečana sala' },
+      { k: 'opis', o: 'Opis', t: 'textarea' }
+    ],
+    glavno: r => r.naziv,
+    uz: r => [datumLijepo(r.datum), r.vrijeme, r.mjesto].filter(Boolean).join(' · ') + (r.datum < danas() ? ' · prošao' : '')
   },
   kutak: {
     naziv: 'Kutak učenika',
@@ -96,6 +110,17 @@ const SEKCIJE = {
     uz: r => r.oznaka || ''
   }
 };
+
+function danas() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+function datumLijepo(iso) {
+  if (!iso) return '';
+  const [g, m, d] = iso.split('-');
+  return Number(d) + '. ' + Number(m) + '. ' + g + '.';
+}
 
 function el(html) {
   const d = document.createElement('div');

@@ -322,6 +322,11 @@ a.tile:hover { transform: translateX(5px); box-shadow: var(--shadow); }
 a.tile:hover .tile-go, a.tile:hover .tile-name { color: var(--cobalt); }
 .tile.void { box-shadow: none; background: rgba(255,255,255,.5); }
 .tile.void .tile-mid h3, .tile.void .tile-chip { color: #A7A29C; }
+.dogadjaj { align-items: flex-start; background: var(--paper); box-shadow: none; }
+.dogadjaj .tile-chip { width: 92px; text-align: center; background: var(--ink); color: var(--white); }
+.dogadjaj-gdje { color: var(--teal); font-weight: 600; }
+.dogadjaj-opis { margin-top: 6px !important; color: var(--ink-2); white-space: pre-line; }
+.dogadjaji-prazno { margin: 0; color: var(--ink-2); }
 
 .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
 .snap { position: relative; }

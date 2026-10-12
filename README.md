@@ -40,6 +40,7 @@ baza/moodle.json      preuzeta struktura starog Moodle-a (kursevi, nastavnici, m
 assets/predmeti.js    spisak razreda i predmeta za obrazac u panelu
 assets/blok.js        skicen-blok na početnoj (O nama)
 assets/jezik.js       prekidač SR/EN, prevodi tekst strane po rječniku
+assets/dogadjaji.js   predstojeći događaji iz baze na strani Novosti
 assets/prevod-en.js   engleski rječnik: srpski tekst → engleski
 assets/paralaks.js    slike koje se slažu na skrol (kutak učenika)
 assets/img/           grb + slika zgrade
