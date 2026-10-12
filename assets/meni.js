@@ -60,7 +60,7 @@
 
   const glava = meni.closest('.head-in');
   if (!glava) return;
-  const NIVOI = ['meni-usko', 'meni-tijesno', 'meni-najuze'];
+  const NIVOI = ['meni-blago', 'meni-usko', 'meni-tijesno', 'meni-najuze'];
 
   function uklopi() {
     glava.classList.remove(...NIVOI);

@@ -13,7 +13,7 @@ window.PREVOD_EN = {
   "Sto ljudi koji drže školu.": "The hundred people who keep the school running.",
   "Poslodavci i partneri": "Employers and partners",
   "Gdje učenici rade dok se školuju.": "Where students work while they study.",
-  "Upis": "Enrolment",
+  "Upis": "Enrol",
   "Kako se upisuje": "How to enrol",
   "Četiri koraka do prijave.": "Four steps to applying.",
   "Kalkulator poena": "Points calculator",
