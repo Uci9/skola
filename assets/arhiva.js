@@ -270,11 +270,7 @@ function crtajZbirke() {
     dio.id = ZBIRKE[z.n] || '';
 
     const glava = el('header', 'm-zbirka-glava');
-    const naslov = el('h2');
-    const rijeci = z.n.split(' ');
-    naslov.append(rijeci[0] + (rijeci.length > 1 ? ' ' : ''));
-    if (rijeci.length > 1) naslov.appendChild(el('span', 'it', rijeci.slice(1).join(' ')));
-    glava.appendChild(naslov);
+    glava.appendChild(el('h2', null, z.n));
 
     let ukupno = 0;
     let fajlova = 0;

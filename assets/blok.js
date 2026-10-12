@@ -147,6 +147,15 @@
     }
   ];
 
+  if (window.prevedi) {
+    const prevedi = vrijednost => typeof vrijednost === 'string' ? window.prevedi(vrijednost)
+      : Array.isArray(vrijednost) ? vrijednost.map(prevedi)
+      : vrijednost && typeof vrijednost === 'object'
+        ? Object.fromEntries(Object.entries(vrijednost).map(([k, v]) => [k, k === 'slika' ? v : prevedi(v)]))
+        : vrijednost;
+    STRANE.splice(0, STRANE.length, ...prevedi(STRANE));
+  }
+
   const BROJ = STRANE.length;
   const DOCEK = 3;
   const smireno = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -254,13 +263,13 @@
     k.fillText(strana.nadnaslov.toUpperCase(), px, vrh);
     vrh += 34 * mj * KRUPNO;
 
-    const serif = 'px "Instrument Serif", Georgia, serif';
-    let visinaNaslova = 46 * mj * KRUPNO;
+    const grot = 'px "Bricolage Grotesque", sans-serif';
+    let visinaNaslova = 40 * mj * KRUPNO;
     k.fillStyle = '#2B2721';
-    k.font = 'italic ' + visinaNaslova.toFixed(1) + serif;
+    k.font = '700 ' + visinaNaslova.toFixed(1) + grot;
     while (k.measureText(strana.naslov).width > ps && visinaNaslova > 24 * mj) {
       visinaNaslova -= mj;
-      k.font = 'italic ' + visinaNaslova.toFixed(1) + serif;
+      k.font = '700 ' + visinaNaslova.toFixed(1) + grot;
     }
     k.fillText(strana.naslov, px, vrh + 18 * mj * KRUPNO);
     vrh += 58 * mj * KRUPNO;
@@ -319,7 +328,7 @@
     k.stroke();
 
     k.fillStyle = 'rgba(64,50,26,.62)';
-    k.font = 'italic ' + (17 * mj).toFixed(1) + 'px "Instrument Serif", Georgia, serif';
+    k.font = '500 ' + (15 * mj).toFixed(1) + 'px "Instrument Sans", sans-serif';
     k.fillText(strana.potpis, rx, ry + rv + 24 * mj);
   }
 

@@ -8,8 +8,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=0818adee">
+<link rel="stylesheet" href="assets/styles.css?v=a7c8ff2c">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
+<script src="assets/prevod-en.js?v=7da576ef" defer></script>
+<script src="assets/jezik.js?v=46bfbedf" defer></script>
 <script type="module" src="assets/nalog.js?v=03690671"></script>
 <script src="assets/tekst.js?v=4532f47f" defer></script>
 <script src="assets/leca.js?v=926f53a3" defer></script>
@@ -17,7 +19,7 @@
 <script src="assets/cet-tipka.js?v=7c31c78f" defer></script>
 <script src="assets/mreza.js?v=cb164972" defer></script>
 <script src="assets/ucitavanje.js?v=484f4468" defer></script>
-<script src="assets/blok.js?v=1157a2a1" defer></script>
+<script src="assets/blok.js?v=1880d0e4" defer></script>
 </head>
 <body>
 <div class="ucitavanje" id="ucitavanje">
@@ -71,6 +73,11 @@
         <a href="moodle.html">Moodle</a>
         <a href="index.html#kontakt">Kontakt</a>
         <a href="prijava.html">Prijava</a>
+        <a class="dnevnik-tipka" href="https://dnevnik.edu.me" target="_blank" rel="noopener">e-Dnevnik</a>
+        <div class="jezik" role="group" aria-label="Jezik">
+          <button type="button" data-jezik="sr" aria-pressed="true">SR</button>
+          <button type="button" data-jezik="en" aria-pressed="false">EN</button>
+        </div>
       </nav>
       <button class="hamb" id="hamb" aria-label="Meni" aria-expanded="false"><i></i></button>
     </div>
@@ -95,14 +102,14 @@
         </article>
 
         <article class="panel">
-          <h2 data-magla>Škola koja <em>pravi</em> ljude za struku</h2>
+          <h2 data-magla>Škola koja pravi ljude za struku</h2>
           <p>Elektrotehnička škola igra važnu ulogu u razvoju tehnologije i inovacija.
              Učenici imaju mogućnost da razviju nove ideje i tehnologije koje pomažu
              u rješavanju problema u društvu i industriji.</p>
         </article>
 
         <article class="panel">
-          <h2 data-magla>Šta ti je <em>potrebno?</em></h2>
+          <h2 data-magla>Šta ti je potrebno?</h2>
           <ul class="panel-list">
             <li><a href="kalkulator.html"><b>Kalkulator poena</b><span>za upis u I razred</span></a></li>
             <li><a href="moodle.html"><b>Moodle</b><span>platforma za učenje</span></a></li>
@@ -112,7 +119,7 @@
         </article>
 
         <article class="panel">
-          <h2 data-magla>Ne radimo <em>sami</em></h2>
+          <h2 data-magla>Ne radimo sami</h2>
           <p>Kroz VET for Western Balkans škola radi sa zemljama Zapadnog Balkana i članicama
              Evropske unije. Kroz Regionalni Challenge Fond stiže oprema i infrastruktura,
              uz preduzeća koja uzimaju učenike na obuku.</p>
@@ -122,7 +129,7 @@
         </article>
 
         <article class="panel">
-          <h2 data-magla>Osnovne <em>informacije</em></h2>
+          <h2 data-magla>Osnovne informacije</h2>
           <ul class="panel-facts">
             <li><b>Ustanova</b><span>JU SEŠ „Vaso Aligrudić“</span></li>
             <li><b>Adresa</b><span>Vasa Raičkovića 26, 81000 Podgorica</span></li>
@@ -228,7 +235,7 @@
   <div class="shell">
     <div class="blok-uvod rise">
       <span class="kicker">O nama</span>
-      <h2>Osamdeset godina <span class="it">jedne struke</span></h2>
+      <h2>Osamdeset godina jedne struke</h2>
       <p class="blok-tekst">Škola prati strategiju razvoja stručnog obrazovanja u Crnoj Gori:
          savremeni programi, radionice i obuke za nastavnike, i oprema koja prati ono što se stvarno
          traži na poslu. Učenici i nastavnici izlaze na domaća i međunarodna takmičenja, a dio nastave

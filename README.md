@@ -39,6 +39,8 @@ assets/arhiva.js      Moodle: zbirke, godine → razredi → odjeljenja → pred
 baza/moodle.json      preuzeta struktura starog Moodle-a (kursevi, nastavnici, materijali)
 assets/predmeti.js    spisak razreda i predmeta za obrazac u panelu
 assets/blok.js        skicen-blok na početnoj (O nama)
+assets/jezik.js       prekidač SR/EN, prevodi tekst strane po rječniku
+assets/prevod-en.js   engleski rječnik: srpski tekst → engleski
 assets/paralaks.js    slike koje se slažu na skrol (kutak učenika)
 assets/img/           grb + slika zgrade
 assets/kadrovi/s/     141 slika za telefon, 720px (4,2 MB)
@@ -49,8 +51,8 @@ assets/kadrovi/l/     141 slika za desktop, 1200px (7,5 MB)
 
 Boja u punim blokovima — navy #083A4F, teal #407E8C, gold #A58D66, sand #E5E1DD i bijela —
 umjesto jedne podloge sa akcentom.
-Naslovi Bricolage Grotesque, po koja riječ u Instrument Serif kurzivu, tekst
-Instrument Sans. Meka zaobljenja, sjenke, fotografija koja se preklapa sa karticom.
+Naslovi Bricolage Grotesque, tekst Instrument Sans. Instrument Serif kurziv
+ostaje samo na „od 1946.“ u naslovu početne. Meka zaobljenja, sjenke, fotografija koja se preklapa sa karticom.
 
 Raniji dizajni stoje na granama i vraćaju se komandom ispod:
 

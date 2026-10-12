@@ -8,14 +8,16 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=0818adee">
+<link rel="stylesheet" href="assets/styles.css?v=a7c8ff2c">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
+<script src="assets/prevod-en.js?v=7da576ef" defer></script>
+<script src="assets/jezik.js?v=46bfbedf" defer></script>
 <script type="module" src="assets/nalog.js?v=03690671"></script>
 <script src="assets/tekst.js?v=4532f47f" defer></script>
 <script src="assets/leca.js?v=926f53a3" defer></script>
 <script src="assets/meni.js?v=dff45479" defer></script>
 <script src="assets/mreza.js?v=cb164972" defer></script>
-<script type="module" src="assets/arhiva.js?v=ac431e59"></script>
+<script type="module" src="assets/arhiva.js?v=bb7c8fcf"></script>
 </head>
 <body>
 <header class="head">
@@ -61,6 +63,11 @@
         <a href="moodle.html" class="on" aria-current="page">Moodle</a>
         <a href="index.html#kontakt">Kontakt</a>
         <a href="prijava.html">Prijava</a>
+        <a class="dnevnik-tipka" href="https://dnevnik.edu.me" target="_blank" rel="noopener">e-Dnevnik</a>
+        <div class="jezik" role="group" aria-label="Jezik">
+          <button type="button" data-jezik="sr" aria-pressed="true">SR</button>
+          <button type="button" data-jezik="en" aria-pressed="false">EN</button>
+        </div>
       </nav>
       <button class="hamb" id="hamb" aria-label="Meni" aria-expanded="false"><i></i></button>
     </div>
@@ -68,7 +75,7 @@
 </header>
 <section class="crown blk-cobalt m-krug">
   <div class="shell">
-    <h1>Moodle <span class="it">škole</span></h1>
+    <h1>Moodle škole</h1>
     <p>Obavještenja, dokumenta, projekti i predmeti svih odjeljenja <span class="isticanje" data-akcija="podvuci" data-boja="#CBB48C">na jednom mjestu</span>, sa pretragom.</p>
     <label class="m-trazi">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="8.6" cy="8.6" r="5.6"/><path d="M12.8 12.8 17.4 17.4"/></svg>
@@ -87,7 +94,7 @@
 
 <section class="blk m-rezultati" id="m-rezultati" hidden>
   <div class="shell">
-    <h2>Pretraga <span class="it" id="m-upit"></span></h2>
+    <h2>Pretraga <span id="m-upit"></span></h2>
     <p class="lede" id="m-broj"></p>
     <div id="m-nadjeno"></div>
   </div>
@@ -100,7 +107,7 @@
 <section class="blk blk-white m-arhiva" id="godine" data-van-pretrage>
   <div class="shell">
     <span class="kicker">Arhiva</span>
-    <h2>Po <span class="it">godinama</span></h2>
+    <h2>Po godinama</h2>
     <p class="lede">Školska godina, razred i odjeljenje, svaki predmet i ko ga je predavao, kako stoji u Moodle-u.</p>
     <div class="tabovi" id="m-godine" role="group" aria-label="Školska godina"></div>
     <div class="m-razredi" id="m-razredi" role="group" aria-label="Razred"></div>
