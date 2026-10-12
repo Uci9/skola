@@ -1232,7 +1232,7 @@ html.ucitava, html.ucitava body { overflow: hidden; }
 .blok-strelica.lijevo { right: calc(50% + (var(--sirina, 880px) * var(--zum, 1)) / 2 + 12px); }
 .blok-strelica.desno { left: calc(50% + (var(--sirina, 880px) * var(--zum, 1)) / 2 + 12px); }
 .blok-3d {
-  position: relative; flex: 1 1; min-width: 0; max-width: 900px;
+  position: relative; flex: 1 1; min-width: 0; max-width: max(900px, min(1060px, (100vh - 200px) * 1.42));
   perspective: 1750px; perspective-origin: 50% 46%;
 }
 .blok-nagib {
