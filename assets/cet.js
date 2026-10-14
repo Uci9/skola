@@ -164,6 +164,13 @@ forma.addEventListener('submit', async e => {
   e.preventDefault();
   const tekst = polje.value.trim();
   if (!tekst) return;
+  if (tekst.toLowerCase() === '/ghost') {
+    polje.value = '';
+    brojac.hidden = true;
+    forma.querySelector('button').disabled = true;
+    window.open('ghost.html', '_blank');
+    return;
+  }
   const dugme = forma.querySelector('button');
   dugme.disabled = true;
   javi(glas, '');

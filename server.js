@@ -200,6 +200,20 @@ async function napraviShemu() {
       napravljeno timestamptz not null default now()
     );
     create index if not exists poruke_napravljeno on poruke (napravljeno);
+    create table if not exists ghost_nadimci (
+      profil uuid primary key references profili(id) on delete cascade,
+      nadimak text not null,
+      napravljeno timestamptz default now()
+    );
+    create unique index if not exists ghost_nadimci_nadimak on ghost_nadimci (lower(nadimak));
+    create table if not exists ghost_poruke (
+      id serial primary key,
+      profil uuid references profili(id) on delete set null,
+      nadimak text not null,
+      tekst text not null,
+      napravljeno timestamptz not null default now()
+    );
+    create index if not exists ghost_poruke_napravljeno on ghost_poruke (napravljeno);
     create table if not exists cet_rijeci (
       rijec text primary key,
       dodao text,
@@ -893,8 +907,13 @@ async function procisti(tekst) {
   });
 }
 
+const TRAJANJE_GHOSTA = 12 * 3600 * 1000;
+const granicaGhosta = () => new Date(Date.now() - TRAJANJE_GHOSTA);
+const NADIMAK = /^[A-Za-zČčĆćŠšŽžĐđ]{4}$/;
+
 async function pocistiCet() {
   try {
+    await bazen.query('delete from ghost_poruke where napravljeno < $1', [granicaGhosta()]);
     await bazen.query('delete from poruke where napravljeno < $1', [granicaCeta()]);
   } catch (greska) {
     console.warn('Stare poruke nisu obrisane: ' + greska.message);
@@ -982,6 +1001,132 @@ app.post('/api/cet', async (zahtjev, odgovor) => {
     [osoba.id, ime, tekst]
   );
   odgovor.json(poruka(rows[0], osoba.id));
+});
+
+async function samoUcenik(zahtjev, odgovor, dalje) {
+  const osoba = await ko(zahtjev);
+  if (!osoba) {
+    odgovor.status(401).json({ greska: 'Prijavi se.' });
+    return;
+  }
+  if (osoba.uloga !== 'korisnik' && osoba.uloga !== 'admin') {
+    odgovor.status(403).json({ greska: 'Ova soba je samo za učenike.' });
+    return;
+  }
+  zahtjev.osoba = osoba;
+  dalje();
+}
+
+function ghostPoruka(red, osoba) {
+  const m = {
+    id: red.id,
+    nadimak: red.nadimak,
+    tekst: red.tekst,
+    napravljeno: red.napravljeno,
+    moja: red.profil === osoba.id
+  };
+  if (osoba.uloga === 'admin') m.profil = red.profil;
+  return m;
+}
+
+app.get('/api/ghost/ja', samoUcenik, async (zahtjev, odgovor) => {
+  const { rows } = await bazen.query('select nadimak from ghost_nadimci where profil = $1', [zahtjev.osoba.id]);
+  odgovor.json({ nadimak: rows.length ? rows[0].nadimak : null, admin: zahtjev.osoba.uloga === 'admin' });
+});
+
+app.post('/api/ghost/nadimak', samoUcenik, async (zahtjev, odgovor) => {
+  const nadimak = String(zahtjev.body.nadimak || '').trim();
+  if (!NADIMAK.test(nadimak)) {
+    odgovor.status(400).json({ greska: 'Nadimak mora imati tačno 4 slova.' });
+    return;
+  }
+  try {
+    await bazen.query(
+      `insert into ghost_nadimci (profil, nadimak) values ($1, $2)
+       on conflict (profil) do update set nadimak = excluded.nadimak, napravljeno = now()`,
+      [zahtjev.osoba.id, nadimak]
+    );
+  } catch (greska) {
+    if (greska.code !== '23505') throw greska;
+    odgovor.status(409).json({ greska: 'Taj nadimak je zauzet.' });
+    return;
+  }
+  odgovor.json({ nadimak });
+});
+
+app.get('/api/ghost', samoUcenik, async (zahtjev, odgovor) => {
+  const od = Number(zahtjev.query.od);
+  const { rows } = Number.isInteger(od) && od > 0
+    ? await bazen.query(
+        'select * from ghost_poruke where id > $1 and napravljeno > $2 order by id limit $3',
+        [od, granicaGhosta(), PROZOR_CETA]
+      )
+    : await bazen.query(
+        'select * from (select * from ghost_poruke where napravljeno > $1 order by id desc limit $2) p order by id',
+        [granicaGhosta(), PROZOR_CETA]
+      );
+  odgovor.json(rows.map(r => ghostPoruka(r, zahtjev.osoba)));
+});
+
+app.post('/api/ghost', samoUcenik, async (zahtjev, odgovor) => {
+  const { rows: ljudi } = await bazen.query('select * from profili where id = $1', [zahtjev.osoba.id]);
+  const osoba = ljudi[0];
+  const { rows: nadimci } = await bazen.query('select nadimak from ghost_nadimci where profil = $1', [osoba.id]);
+  if (!nadimci.length) {
+    odgovor.status(400).json({ greska: 'Prvo izaberi nadimak.' });
+    return;
+  }
+
+  const tekst = String(zahtjev.body.tekst || '').trim();
+  if (!tekst) {
+    odgovor.status(400).json({ greska: 'Napiši nešto prvo.' });
+    return;
+  }
+  if (tekst.length > NAJDUZA_PORUKA) {
+    odgovor.status(400).json({ greska: 'Poruka može imati najviše ' + NAJDUZA_PORUKA + ' znakova.' });
+    return;
+  }
+  if (osoba.cet_zabrana) {
+    odgovor.status(403).json({ greska: 'Ne možeš da pišeš u četu.' });
+    return;
+  }
+  if (osoba.cet_utisan_do && osoba.cet_utisan_do.getTime() > Date.now()) {
+    odgovor.status(403).json({ greska: 'Utišan si još neko vrijeme.' });
+    return;
+  }
+
+  const { rows: zadnja } = await bazen.query(
+    'select napravljeno from ghost_poruke where profil = $1 order by id desc limit 1',
+    [osoba.id]
+  );
+  if (zadnja.length && Date.now() - zadnja[0].napravljeno.getTime() < RAZMAK_PORUKA) {
+    odgovor.status(429).json({ greska: 'Polako, sačekaj trenutak.' });
+    return;
+  }
+
+  const { rows } = await bazen.query(
+    'insert into ghost_poruke (profil, nadimak, tekst) values ($1, $2, $3) returning *',
+    [osoba.id, nadimci[0].nadimak, tekst]
+  );
+  odgovor.json(ghostPoruka(rows[0], zahtjev.osoba));
+});
+
+app.get('/api/ghost/:id/ko', samoAdmin, async (zahtjev, odgovor) => {
+  const id = Number(zahtjev.params.id);
+  if (!Number.isInteger(id)) { odgovor.sendStatus(404); return; }
+  const { rows } = await bazen.query(
+    'select p.id, p.ime, p.email from ghost_poruke g join profili p on p.id = g.profil where g.id = $1',
+    [id]
+  );
+  if (!rows.length) { odgovor.status(404).json({ greska: 'Nema te poruke.' }); return; }
+  odgovor.json(rows[0]);
+});
+
+app.delete('/api/ghost/:id', samoAdmin, async (zahtjev, odgovor) => {
+  const id = Number(zahtjev.params.id);
+  if (!Number.isInteger(id)) { odgovor.sendStatus(404); return; }
+  await bazen.query('delete from ghost_poruke where id = $1', [id]);
+  odgovor.sendStatus(204);
 });
 
 app.get('/api/cet/rijeci', samoAdmin, async (zahtjev, odgovor) => {

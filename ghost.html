@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="sr-ME" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ghost | ETŠ „Vaso Aligrudić“</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css?v=a59be142">
+<script>document.documentElement.classList.replace('no-js', 'js');</script>
+<script src="assets/prevod-en.js?v=395ae11d" defer></script>
+<script src="assets/jezik.js?v=29f1ae43" defer></script>
+<script type="module" src="assets/nalog.js?v=03690671"></script>
+<script src="assets/tekst.js?v=4532f47f" defer></script>
+<script src="assets/leca.js?v=926f53a3" defer></script>
+<script src="assets/meni.js?v=da498ab3" defer></script>
+<script type="module" src="assets/ghost.js?v=8393e3e4"></script>
+<script src="assets/mreza.js?v=cb164972" defer></script>
+</head>
+<body class="ghost">
+<header class="head">
+  <div class="shell">
+    <div class="head-in">
+      <a class="brand" href="index.html">
+        <img src="assets/img/grb.svg" alt="">
+        <span><b>ETŠ „Vaso Aligrudić“</b><span>Podgorica · od 1946.</span></span>
+      </a>
+      <nav class="menu" id="meni">
+        <a class="pocetna-tipka" href="index.html">Početna</a>
+        <div class="stavka" data-meni="skola">
+          <button type="button" class="stavka-tipka" aria-expanded="false" aria-controls="panel-skola">Škola</button>
+          <div class="meni-panel" id="panel-skola">
+            <div class="panel-karta">
+            <a href="index.html#o-skoli"><b>O nama</b><span>Šta smo i otkud 1946.</span></a>
+            <a href="index.html#programi"><b>Obrazovni programi</b><span>Sedam smjerova, IV i III stepen.</span></a>
+            <a href="profesori.html"><b>Nastavnici i osoblje</b><span>Sto ljudi koji drže školu.</span></a>
+            <a href="poslodavci.html"><b>Poslodavci i partneri</b><span>Gdje učenici rade dok se školuju.</span></a>
+            <a href="moodle.html"><b>Moodle</b><span>Platforma za učenje i arhiva predmeta.</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="stavka" data-meni="upis">
+          <button type="button" class="stavka-tipka" aria-expanded="false" aria-controls="panel-upis">Upis</button>
+          <div class="meni-panel" id="panel-upis">
+            <div class="panel-karta">
+            <a href="index.html#upis"><b>Kako se upisuje</b><span>Četiri koraka do prijave.</span></a>
+            <a href="kalkulator.html"><b>Kalkulator poena</b><span>Provjeri gdje stojiš.</span></a>
+            <a href="index.html#pitanja"><b>Česta pitanja</b><span>Prag, poeni, dokumenta.</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="stavka" data-meni="ucenici">
+          <button type="button" class="stavka-tipka" aria-expanded="false" aria-controls="panel-ucenici">Učenici</button>
+          <div class="meni-panel" id="panel-ucenici">
+            <div class="panel-karta">
+            <a href="kutak-ucenika.html"><b>Kutak učenika</b><span>Trenuci van rasporeda časova.</span></a>
+            <a href="moodle.html#obavjestenja"><b>Obavještenja</b><span>Raspored, oglasna tabla, rokovi.</span></a>
+            </div>
+          </div>
+        </div>
+        <a href="novosti.html">Novosti</a>
+        <a href="index.html#dokumenti">Dokumenti</a>
+        <a href="index.html#kontakt">Kontakt</a>
+        <a href="prijava.html">Prijava</a>
+        <a class="dnevnik-tipka" href="https://dnevnik.edu.me" target="_blank" rel="noopener">e-Dnevnik</a>
+        <div class="jezik" role="group" aria-label="Jezik" translate="no">
+          <button type="button" data-jezik="lat" aria-pressed="true" title="Latinica">LAT</button>
+          <button type="button" data-jezik="cir" aria-pressed="false" title="Ћирилица">ЋИР</button>
+          <button type="button" data-jezik="en" aria-pressed="false" title="English">EN</button>
+        </div>
+      </nav>
+      <button class="hamb" id="hamb" aria-label="Meni" aria-expanded="false"><i></i></button>
+    </div>
+  </div>
+</header>
+<section class="blk cet-strana">
+  <div class="shell">
+    <div class="kutija" id="cet-zakljucano" hidden>
+      <h2>Prijavi se</h2>
+      <p>Čet vide i u njemu pišu samo oni koji imaju nalog na sajtu škole.</p>
+      <p><a href="prijava.html" class="btn btn-fill" target="_top">Prijava ili novi nalog</a></p>
+    </div>
+
+    <div class="ghost-glava">
+      <h1>Ghost</h1>
+      <p>Soba samo za učenike. Poruke se brišu posle 12 sati.</p>
+    </div>
+
+    <form class="kutija ghost-ime" id="ghost-ime" hidden>
+      <h2>Izaberi nadimak</h2>
+      <p>Tačno 4 slova. Drugi učenici vide samo nadimak.</p>
+      <div class="ghost-ime-red">
+        <input type="text" name="nadimak" minlength="4" maxlength="4" pattern="[A-Za-zČčĆćŠšŽžĐđ]{4}" required autocomplete="off" aria-label="Nadimak">
+        <button type="submit" class="btn btn-fill">Uđi</button>
+      </div>
+      <p class="glas" id="ghost-ime-glas" hidden></p>
+    </form>
+
+    <div id="cet" hidden>
+      <p class="ghost-ja">Pišeš kao <b id="ghost-ja"></b> · <button type="button" id="ghost-promijeni">promijeni nadimak</button></p>
+      <p class="glas" id="cet-obavjestenje" hidden></p>
+      <div class="cet">
+        <div class="cet-spisak" id="cet-spisak" aria-live="polite"></div>
+        <button type="button" class="cet-skok" id="cet-skok" hidden></button>
+        <form class="cet-forma" id="cet-forma">
+          <input type="text" maxlength="500" placeholder="Napiši poruku" aria-label="Poruka" autocomplete="off">
+          <span class="cet-brojac" id="cet-brojac" hidden></span>
+          <button type="submit" class="btn btn-fill" disabled>Pošalji</button>
+        </form>
+      </div>
+      <p class="glas" id="cet-glas" hidden></p>
+    </div>
+  </div>
+</section>
+
+<div class="cet-pozadina" id="cet-mod" hidden>
+  <div class="cet-mod" role="dialog" aria-modal="true" aria-labelledby="cet-mod-ime">
+    <button type="button" class="zatvori" aria-label="Zatvori">&times;</button>
+    <span class="kicker">Uređivanje četa</span>
+    <h3 class="cet-mod-ime" id="cet-mod-ime"></h3>
+    <p class="cet-mod-uputa" id="ghost-ko"></p>
+    <blockquote class="cet-mod-citat"></blockquote>
+    <button type="button" class="btn cet-brisi">Obriši ovu poruku</button>
+    <p class="cet-mod-uputa">Brisanje poruke ne dira osobu. Utišavanje prestaje samo kad istekne vrijeme, a zabrana ostaje dok je ne skineš.</p>
+    <p class="cet-mod-oznaka">Utišaj na</p>
+    <div class="cet-mod-sati"></div>
+    <div class="cet-mod-radnje">
+      <button type="button" class="btn cet-zabrani">Zabrani pisanje u četu</button>
+      <button type="button" class="btn btn-line cet-oslobodi">Skini utišavanje i zabranu</button>
+    </div>
+  </div>
+</div>
+
+<footer class="base cet-dno">
+  <div class="shell">
+    <details class="potpis">
+      <summary>made by Uros Bukilic</summary>
+      <div class="potpis-prozor">
+        <b>made by Uros Bukilic</b>
+        <p>u saradnji sa Alenom Adilovićem</p>
+        <span class="potpis-naslov">Napravio i</span>
+        <ul>
+          <li><a href="https://eurocourt.net" target="_blank" rel="noopener">Eurocourt.net</a></li>
+          <li><a href="https://eminentestate.me" target="_blank" rel="noopener">Eminentestate.me</a></li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</footer>
+<button class="top-btn" id="gore" aria-label="Na vrh">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+<script>
+const hamb = document.getElementById('hamb');
+const meni = document.getElementById('meni');
+
+hamb.addEventListener('click', () => {
+  hamb.setAttribute('aria-expanded', meni.classList.toggle('open'));
+});
+
+meni.addEventListener('click', e => {
+  if (e.target.tagName === 'A') {
+    meni.classList.remove('open');
+    hamb.setAttribute('aria-expanded', false);
+  }
+});
+
+document.getElementById('god').textContent = new Date().getFullYear();
+
+const smireno = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const gore = document.getElementById('gore');
+let ceka = false;
+
+function skrol() {
+  gore.classList.toggle('show', window.scrollY > 700);
+  ceka = false;
+}
+
+window.addEventListener('scroll', () => {
+  if (ceka) return;
+  ceka = true;
+  requestAnimationFrame(skrol);
+}, { passive: true });
+
+skrol();
+
+gore.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: smireno ? 'auto' : 'smooth' });
+});
+
+const zaDizanje = document.querySelectorAll('.rise, .rise-kids');
+
+if (smireno || !('IntersectionObserver' in window)) {
+  zaDizanje.forEach(el => el.classList.add('up'));
+} else {
+  const oko = new IntersectionObserver((ulazi, obs) => {
+    ulazi.forEach(u => {
+      if (!u.isIntersecting) return;
+      u.target.classList.add('up');
+      obs.unobserve(u.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: .1 });
+
+  zaDizanje.forEach(el => oko.observe(el));
+}
+</script>
+
+</body>
+</html>

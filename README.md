@@ -247,7 +247,7 @@ Poruka može imati 500 znakova, a između dvije poruke iste osobe moraju proći
 2 sekunde. Admin klikom na tuđu poruku dobija prozor gdje je briše, utišava
 osobu na 1 do 24 sata ili joj zabranjuje pisanje.
 
-Čet stoji u kutku učenika (`kutak-ucenika.html#cet`), učitan kao
+Čet stoji u kutku učenika (`kutak-ucenika.html#cet`) i nema ga u meniju, učitan kao
 `cet.html?mali`, bez zaglavlja i podnožja. Ko otvori `cet.html` direktno,
 prebaci se tamo. Admin u panelu, u tabu Čet, upisuje zabranjene riječi (tabela `cet_rijeci`).
 Server ih u novoj poruci zamijeni zvjezdicama. Poređenje ne gleda velika slova,
@@ -256,6 +256,19 @@ kvačice ni pismo, pa radi i za ćirilicu, a hvata i riječ koja zabranjenu sadr
 Na početnoj strani u donjem desnom uglu ostaje dugme koje vodi
 u kutak. Žuti kružić na dugmetu broji tuđe poruke koje još nisu viđene.
 Šta je viđeno pamti se u pregledaču (`localStorage`, ključ `cet-vidjeno`).
+
+## Ghost
+
+Ko u školskom četu pošalje `/ghost`, poruka se ne šalje nego se u novom tabu
+otvori `ghost.html`. To je posebna soba samo za učenike (uloga `korisnik`) i
+admina; nastavnici je ne mogu otvoriti. Pri ulasku se bira nadimak od tačno 4
+slova (tabela `ghost_nadimci`, nadimak je jedinstven), i drugi učenici vide samo
+njega. Poruke stoje u `ghost_poruke` i brišu se posle 12 sati. Filter
+zabranjenih riječi ovdje ne važi.
+
+Server ne šalje učenicima ko stoji iza nadimka. Admin klikom na poruku vidi
+nalog, može je obrisati, utišati osobu ili joj zabraniti pisanje, isto kao u
+običnom četu.
 
 ## Nalozi
 

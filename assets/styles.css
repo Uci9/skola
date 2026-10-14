@@ -2180,3 +2180,22 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   background: none; color: var(--ink-2); font-size: 1.1rem; line-height: 1;
 }
 .adm-rijec button:hover { background: var(--white); color: var(--ink); }
+
+.ghost { background: #0B1418; }
+.ghost .cet-strana { color: #B9C7CC; padding-top: 34px; }
+.ghost-glava { display: flex; align-items: baseline; gap: 8px 18px; flex-wrap: wrap; margin-bottom: 18px; }
+.ghost-glava h1 { margin: 0; font-size: clamp(2rem, 4vw, 2.8rem); color: var(--white); }
+.ghost-glava p { margin: 0; font-size: .95rem; }
+.ghost-ime { max-width: 460px; }
+.ghost-ime-red { display: flex; gap: 10px; }
+.ghost-ime-red input {
+  flex: 1; min-width: 0; padding: 13px 18px; border: 1px solid var(--line); border-radius: var(--pill);
+  font: 600 1.1rem var(--sans); letter-spacing: .12em; text-transform: none; color: var(--ink);
+}
+.ghost-ja { margin: 0 0 10px; font-size: .9rem; }
+.ghost-ja b { color: var(--white); }
+.ghost-ja button {
+  appearance: none; border: 0; background: none; padding: 0; cursor: pointer;
+  font: inherit; color: var(--struja-svijetla); text-decoration: underline;
+}
+.ghost .cet-dno { background: none; }

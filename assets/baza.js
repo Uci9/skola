@@ -245,6 +245,30 @@ export async function posaljiPoruku(tekst) {
   return trazi('/cet', { method: 'POST', body: JSON.stringify({ tekst }) });
 }
 
+export async function ghostJa() {
+  return trazi('/ghost/ja');
+}
+
+export async function ghostNadimak(nadimak) {
+  return trazi('/ghost/nadimak', { method: 'POST', body: JSON.stringify({ nadimak }) });
+}
+
+export async function ghostPoruke(od) {
+  return trazi('/ghost' + (od ? '?od=' + od : ''));
+}
+
+export async function ghostPosalji(tekst) {
+  return trazi('/ghost', { method: 'POST', body: JSON.stringify({ tekst }) });
+}
+
+export async function ghostKo(id) {
+  return trazi('/ghost/' + id + '/ko');
+}
+
+export async function ghostObrisi(id) {
+  return trazi('/ghost/' + id, { method: 'DELETE' });
+}
+
 export async function zabranjeneRijeci() {
   return trazi('/cet/rijeci');
 }
