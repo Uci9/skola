@@ -4,8 +4,9 @@ import {
   poveziZaposlenog, mojZaposleni, sacuvajMojZaposleni,
   prijedlozi, obrisiPrijedlog,
   dokumenti, posaljiDokument, izmijeniDokument, obrisiDokument,
-  pregled, zakljucajKurseve, moodleArhiva, odjaviSe,
-  firme, obrisiFirmu, novo, pregledano
+  pregled, zakljucajKurseve, moodleArhiva, kopijaMoodlea, odjaviSe,
+  firme, obrisiFirmu, novo, pregledano,
+  zabranjeneRijeci, zabraniRijec, dozvoliRijec
 } from './baza.js';
 import { RAZREDI, PREDMETI, SVI_RAZREDI, RUCNO } from './predmeti.js';
 
@@ -16,6 +17,8 @@ const sadrzaj = document.getElementById('sadrzaj');
 const pozdrav = document.getElementById('pozdrav');
 const naslovTaba = document.getElementById('naslov-taba');
 const opisTaba = document.getElementById('opis-taba');
+
+let jesamAdmin = false;
 
 const TABOVI = {
   profil: ['Moj profil', 'Slika, biografija i termin za saradnju na strani Nastavnici i osoblje.'],
@@ -29,10 +32,12 @@ const TABOVI = {
   firme: ['Firme', 'Upitnici koje su firme poslale upravi škole.'],
   nastavnici: ['Nastavnici', 'Spisak na strani Nastavnici i osoblje.'],
   poslodavci: ['Poslodavci', 'Partneri kod kojih učenici rade praksu.'],
+  cet: ['Čet', 'Zabranjene riječi se u četu zamijene zvjezdicama, i kad su napisane ćirilicom ili bez kvačica.'],
   nalozi: ['Nalozi', 'Ko ima nalog na sajtu i koju ulogu.']
 };
 
 const GRUPE = [
+  ['odbor', 'Školski odbor'],
   ['uprava', 'Uprava i stručna služba'],
   ['nastavno', 'Nastavno osoblje'],
   ['asistenti', 'Asistenti'],
@@ -307,6 +312,76 @@ async function crud(kljuc) {
   });
 
   crtajFormu(null);
+  ucitaj();
+}
+
+async function cetRijeci() {
+  sadrzaj.innerHTML = '';
+  const okvir = el(`<div class="admin-mreza">
+    <div class="admin-forma">
+      <h3>Zabrani riječ</h3>
+      <form id="formaRijec" class="form">
+        <label class="f"><span>Riječ</span>
+          <input type="text" name="rijec" maxlength="400" required autocomplete="off">
+          <small>Više riječi odvoji zarezom. Zabranjena je i svaka riječ koja je sadrži.</small></label>
+        <div class="forma-dno">
+          <button type="submit" class="btn btn-fill">Zabrani</button>
+        </div>
+      </form>
+      <p class="glas" id="glasRijec" hidden></p>
+    </div>
+    <div class="admin-spisak">
+      <h3>Zabranjene <span class="broj" id="brojRijeci"></span></h3>
+      <div class="adm-rijeci" id="spisakRijeci"></div>
+    </div>
+  </div>`);
+  sadrzaj.appendChild(okvir);
+
+  const forma = okvir.querySelector('#formaRijec');
+  const glasnik = okvir.querySelector('#glasRijec');
+  const spisak = okvir.querySelector('#spisakRijeci');
+
+  async function ucitaj() {
+    let rijeci;
+    try {
+      rijeci = await zabranjeneRijeci();
+    } catch (greska) {
+      javi(glasnik, porukaGreske(greska));
+      return;
+    }
+    okvir.querySelector('#brojRijeci').textContent = rijeci.length;
+    znacka('cet', rijeci.length);
+    spisak.innerHTML = rijeci.length ? '' : '<p class="prazno">Nijedna riječ nije zabranjena.</p>';
+    rijeci.forEach(r => {
+      const cip = el(`<span class="adm-rijec"><span></span><button type="button" aria-label="Dozvoli">&times;</button></span>`);
+      cip.querySelector('span').textContent = r.rijec;
+      cip.querySelector('button').addEventListener('click', async () => {
+        try {
+          await dozvoliRijec(r.rijec);
+        } catch (greska) {
+          javi(glasnik, porukaGreske(greska));
+          return;
+        }
+        javi(glasnik, '„' + r.rijec + '“ je opet dozvoljena.', true);
+        ucitaj();
+      });
+      spisak.appendChild(cip);
+    });
+  }
+
+  forma.addEventListener('submit', async e => {
+    e.preventDefault();
+    try {
+      await zabraniRijec(forma.elements.rijec.value);
+    } catch (greska) {
+      javi(glasnik, porukaGreske(greska));
+      return;
+    }
+    forma.reset();
+    javi(glasnik, 'Zabranjeno.', true);
+    ucitaj();
+  });
+
   ucitaj();
 }
 
@@ -667,7 +742,12 @@ async function moodleDokumenti() {
       <p class="glas" id="glasDok" hidden></p>
     </div>
     <div class="admin-spisak">
-      <h3>Postavljeni <span class="broj" id="brojDok"></span></h3>
+      <div class="adm-cipovi adm-izvor" id="izvorDok" hidden>
+        <button type="button" class="on" data-izvor="sajt">Postavljeni na sajtu</button>
+        <button type="button" data-izvor="moodle">Iz starog Moodle-a</button>
+      </div>
+      <h3><span id="naslovDok">Postavljeni</span> <span class="broj" id="brojDok"></span></h3>
+      <label class="adm-trazi"><input type="search" id="traziDok" placeholder="Traži po nazivu, predmetu ili fajlu" autocomplete="off"></label>
       <div id="spisakDok"></div>
     </div>
   </div>`);
@@ -700,10 +780,70 @@ async function moodleDokumenti() {
   });
   napuniPredmete();
 
+  let izvor = 'sajt';
+  const traziDok = okvir.querySelector('#traziDok');
+  const izvorDok = okvir.querySelector('#izvorDok');
+  izvorDok.hidden = !jesamAdmin;
+  izvorDok.addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (!b || b.dataset.izvor === izvor) return;
+    izvor = b.dataset.izvor;
+    izvorDok.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+    okvir.querySelector('#naslovDok').textContent = izvor === 'moodle' ? 'Kopirani iz Moodle-a' : 'Postavljeni';
+    ucitaj();
+  });
+  let cekanjeDok = null;
+  traziDok.addEventListener('input', () => {
+    clearTimeout(cekanjeDok);
+    cekanjeDok = setTimeout(ucitaj, 250);
+  });
+
+  function uredjivanje(red, stavka) {
+    const stara = stavka.querySelector('.adm-uredi');
+    if (stara) { stara.remove(); return; }
+    const forma = el(`<form class="form adm-uredi">
+      <label class="f"><span>Naziv</span><input type="text" name="naslov" maxlength="300" required></label>
+      <label class="f"><span>Opis</span><textarea name="opis" rows="2"></textarea></label>
+      <label class="f"><span>Rubrika</span><select name="rubrika"></select></label>
+      <label class="f"><span>Zamijeni fajl</span><input type="file" name="datoteka">
+        <small>Ostavi prazno da fajl ostane isti. Najviše 18 MB.</small></label>
+      <div class="forma-dno">
+        <button type="submit" class="btn btn-fill mali">Sačuvaj</button>
+        <button type="button" class="btn btn-line mali otkazi">Otkaži</button>
+      </div>
+    </form>`);
+    forma.elements.naslov.value = red.naslov;
+    forma.elements.opis.value = red.opis || '';
+    [...izbor.options].forEach(o => forma.elements.rubrika.add(new Option(o.text, o.value)));
+    forma.elements.rubrika.value = red.rubrika;
+    forma.querySelector('.otkazi').addEventListener('click', () => forma.remove());
+    forma.addEventListener('submit', async e => {
+      e.preventDefault();
+      const dugme = forma.querySelector('button[type=submit]');
+      dugme.disabled = true;
+      javi(glasnik, 'Čuvam…');
+      try {
+        await izmijeniDokument(red.id, {
+          naslov: forma.elements.naslov.value.trim(),
+          opis: forma.elements.opis.value.trim(),
+          rubrika: forma.elements.rubrika.value
+        }, forma.elements.datoteka.files[0]);
+      } catch (greska) {
+        dugme.disabled = false;
+        javi(glasnik, porukaGreske(greska));
+        return;
+      }
+      javi(glasnik, 'Sačuvano.', true);
+      ucitaj();
+    });
+    stavka.appendChild(forma);
+    forma.elements.naslov.focus();
+  }
+
   async function ucitaj() {
     let odgovor;
     try {
-      odgovor = await dokumenti();
+      odgovor = await dokumenti(traziDok.value.trim(), null, izvor === 'moodle');
     } catch (greska) {
       spisak.innerHTML = `<p class="glas lose">${tekst(porukaGreske(greska))}</p>`;
       return;
@@ -714,9 +854,13 @@ async function moodleDokumenti() {
       izbor.value = 'Dokumenta';
     }
 
-    broj.textContent = odgovor.dokumenti.length;
+    broj.textContent = odgovor.dokumenti.length + (izvor === 'moodle' && odgovor.dokumenti.length >= 300 ? '+' : '');
     if (!odgovor.dokumenti.length) {
-      spisak.innerHTML = '<p class="prazno">Još nema dokumenata.</p>';
+      spisak.innerHTML = traziDok.value.trim()
+        ? '<p class="prazno">Ništa ne odgovara pretrazi.</p>'
+        : izvor === 'moodle'
+          ? '<p class="prazno">Još ništa nije kopirano. Kopiranje se pokreće u tabu Moodle.</p>'
+          : '<p class="prazno">Još nema dokumenata.</p>';
       return;
     }
 
@@ -730,10 +874,13 @@ async function moodleDokumenti() {
         </div>
         <div class="admin-radnje">
           <a class="btn btn-line mali" href="/dokument/${red.id}" target="_blank" rel="noopener">Otvori</a>
+          <button class="btn btn-line mali uredi">Uredi</button>
           <button class="btn btn-line mali kljuc">${red.zakljucan ? 'Otključaj' : 'Zaključaj'}</button>
           <button class="btn btn-line mali obrisi">Obriši</button>
         </div>
       </div>`);
+
+      stavka.querySelector('.uredi').addEventListener('click', () => uredjivanje(red, stavka));
 
       stavka.querySelector('.kljuc').addEventListener('click', async () => {
         try {
@@ -867,8 +1014,92 @@ function bezKvaka(t) {
     .normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 }
 
+function velicina(bajtova) {
+  if (bajtova >= 1e9) return (bajtova / 1e9).toFixed(2).replace('.', ',') + ' GB';
+  if (bajtova >= 1e6) return Math.round(bajtova / 1e6) + ' MB';
+  return Math.round(bajtova / 1e3) + ' kB';
+}
+
+function karticaKopije() {
+  const kartica = el(`<div class="adm-kartica adm-kopija">
+    <div class="adm-kartica-glava">
+      <div>
+        <h3>Kopija starog Moodle-a</h3>
+        <p class="adm-sitno">Svi fajlovi, folderi, strane i veze sa elektropg.online/ets prepisuju se na server sajta.
+           Kad se kopiraju, arhiva na sajtu otvara kopiju, a ne stari Moodle, pa ostaju i ako se on ugasi ili obriše.</p>
+      </div>
+      <div class="adm-kopija-dugmad">
+        <button type="button" class="btn btn-fill mali" id="kPokreni">Pokreni kopiranje</button>
+        <button type="button" class="btn btn-line mali" id="kStani" hidden>Zaustavi</button>
+      </div>
+    </div>
+    <div class="adm-traka"><i id="kTraka"></i></div>
+    <p class="adm-sitno" id="kStanje">Učitavam…</p>
+    <p class="glas lose" id="kUpozorenje" hidden></p>
+    <details class="adm-kopija-greske" id="kGreske" hidden>
+      <summary>Šta nije prošlo</summary>
+      <ul></ul>
+    </details>
+  </div>`);
+
+  const $ = id => kartica.querySelector('#' + id);
+  let tajmer = null;
+
+  function crtaj(s) {
+    const obradjeno = s.gotovo + s.greska + s.prijava;
+    $('kTraka').style.width = (s.ukupno ? Math.round(obradjeno / s.ukupno * 100) : 0) + '%';
+    const djelovi = [
+      s.gotovo + ' od ' + s.ukupno + ' stavki kopirano',
+      s.fajlova + ' fajlova, ' + velicina(s.bajtova)
+    ];
+    if (s.greska) djelovi.push(s.greska + ' sa greškom');
+    if (s.prijava) djelovi.push(s.prijava + ' traži prijavu u stari Moodle');
+    if (s.slobodno != null) djelovi.push('slobodno na disku ' + velicina(s.slobodno));
+    $('kStanje').textContent = (s.radi ? 'Kopira se… ' : '') + djelovi.join(' · ') + '.';
+
+    const upozorenja = [];
+    if (s.poruka) upozorenja.push(s.poruka);
+    if (!s.trajno) upozorenja.push('Server nema trajni disk, pa se kopija briše pri svakom novom deployu. U Railway-u dodaj Volume ovom servisu, pa pokreni kopiranje.');
+    javi($('kUpozorenje'), upozorenja.join(' '));
+
+    $('kPokreni').hidden = s.radi;
+    $('kStani').hidden = !s.radi;
+    $('kPokreni').textContent = s.gotovo ? 'Nastavi kopiranje' : 'Pokreni kopiranje';
+    if (s.gotovo && !s.radi && s.gotovo + s.prijava >= s.ukupno) $('kPokreni').textContent = 'Ponovi neuspjele';
+
+    const greske = $('kGreske');
+    greske.hidden = !s.greske.length;
+    const spisak = greske.querySelector('ul');
+    spisak.innerHTML = '';
+    s.greske.forEach(g => {
+      const li = el(`<li><a target="_blank" rel="noopener"></a> <span></span></li>`);
+      li.querySelector('a').href = g.adresa;
+      li.querySelector('a').textContent = g.u;
+      li.querySelector('span').textContent = g.greska || '';
+      spisak.appendChild(li);
+    });
+
+    clearTimeout(tajmer);
+    if (s.radi && kartica.isConnected) tajmer = setTimeout(osvjezi, 3000);
+  }
+
+  async function osvjezi(radnja) {
+    try {
+      crtaj(await kopijaMoodlea(radnja));
+    } catch (greska) {
+      javi($('kUpozorenje'), porukaGreske(greska));
+    }
+  }
+
+  $('kPokreni').addEventListener('click', () => osvjezi('pokreni'));
+  $('kStani').addEventListener('click', () => osvjezi('stani'));
+  osvjezi();
+  return kartica;
+}
+
 async function moodleZakljucavanje() {
   sadrzaj.innerHTML = '';
+  sadrzaj.appendChild(karticaKopije());
   const okvir = el(`<div class="adm-moodle">
     <div class="adm-kartica">
       <div class="adm-kartica-glava">
@@ -1084,6 +1315,7 @@ function prikazi(kljuc) {
   else if (kljuc === 'profil') mojProfilTab();
   else if (kljuc === 'moodle') moodleZakljucavanje();
   else if (kljuc === 'nalozi') nalozi();
+  else if (kljuc === 'cet') cetRijeci();
   else if (kljuc === 'prijedlozi') poslateSlike();
   else if (kljuc === 'firme') poslateFirme();
   else if (kljuc === 'dokumenti') moodleDokumenti();
@@ -1099,6 +1331,7 @@ async function kreni() {
 
   const p = await mojProfil();
   const admin = await jeAdmin();
+  jesamAdmin = admin;
   const nastavnik = Boolean(p && p.uloga === 'nastavnik');
 
   if (!admin && !nastavnik) {

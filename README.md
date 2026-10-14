@@ -27,8 +27,9 @@ novosti.html          obavještenja
 kalkulator.html       bodovi za upis u I razred
 moodle.html           Moodle škole: dokumenti nastavnika, zbirke, arhiva po godinama, pretraga
 saradnja.html         upitnik za firme koje žele učenike na praksi
-cet.html              školski čet za sve sa nalogom
+cet.html              školski čet; sam vodi na kutak učenika, a kutak ga učitava kao cet.html?mali
 server.js             server: statika, API za panel, prijava, slike
+moodle-kopija.js      kopiranje starog Moodle-a na server sajta
 assets/styles.css     stilovi za sve strane
 assets/baza.js        razgovor sa API-jem
 assets/slanje.js      slanje slike sa strane kutka u admin panel
@@ -39,11 +40,12 @@ assets/arhiva.js      Moodle: zbirke, godine → razredi → odjeljenja → pred
 baza/moodle.json      preuzeta struktura starog Moodle-a (kursevi, nastavnici, materijali)
 assets/predmeti.js    spisak razreda i predmeta za obrazac u panelu
 assets/blok.js        skicen-blok na početnoj (O nama)
-assets/jezik.js       prekidač SR/EN, prevodi tekst strane po rječniku
+assets/jezik.js       prekidač LAT/ЋИР/EN: ćirilicu preslovljava, engleski prevodi po rječniku
 assets/dogadjaji.js   predstojeći događaji iz baze na strani Novosti
 assets/prevod-en.js   engleski rječnik: srpski tekst → engleski
 assets/paralaks.js    slike koje se slažu na skrol (kutak učenika)
 assets/img/           grb + slika zgrade
+assets/programi/      obrazovni programi svih sedam smjerova (PDF iz starog Moodle-a)
 assets/kadrovi/s/     141 slika za telefon, 720px (4,2 MB)
 assets/kadrovi/l/     141 slika za desktop, 1200px (7,5 MB)
 ```
@@ -184,6 +186,59 @@ broj stoji i pored linka „Admin“ u meniju sajta. Kad admin otvori tab, poruk
 se računaju kao pregledane (kolona `vidjeno`). Panel provjerava nove svakih
 30 sekundi.
 
+## Zaglavlje
+
+Isti meni stoji u svim stranama: Početna (obična stavka, samo istaknuta bojom),
+Škola, Upis i Učenici (sa strelicom, otvaraju padajući meni), Novosti, Dokumenti, Kontakt, Prijava, e-Dnevnik i
+prekidač jezika. Koja je strana otvorena, označava `assets/meni.js`, pa se to
+ne piše ručno. Ispod 1180px meni ide iza hamburgera.
+
+Jezik se pamti u pregledaču (`localStorage`, ključ `jezik`: `lat`, `cir` ili
+`en`). Ćirilica se ne prevodi rječnikom nego preslovljava slovo po slovo (lj, nj
+i dž kao jedno slovo). Adrese, rimski brojevi i imena kao Moodle ostaju latinicom.
+Što ne treba dirati, dobija `translate="no"`.
+
+## Zaposleni
+
+Tabovi na strani zaposlenih: Svi, Uprava, Školski odbor, Nastavnici, Asistenti
+i Održavanje. U meniju Škola stoji samo „Nastavnici i osoblje“; Uprava i Školski odbor su
+tabovi na toj strani. Članove školskog odbora admin upisuje u tabu Nastavnici, sa
+grupom „Školski odbor“. Svaka osoba iz baze koje nema na statičnom spisku dobije
+karticu sama, pa za nove ljude ne treba dirati HTML.
+
+## Kontakt i smjerovi
+
+„Pošalji poruku“ i školska adresa otvaraju Gmail sa već upisanim primaocem
+skola@ets-pg.edu.me. Kartica svakog smjera na početnoj otvara njegov obrazovni
+program iz `assets/programi/`.
+
+## Kopija Moodle-a
+
+Stari Moodle je jednom već obrisan, pa se sve što je javno na
+`elektropg.online/ets` prepisuje na server sajta. Kopiranje se pokreće u panelu,
+u tabu Moodle (kartica „Kopija starog Moodle-a“). Ide u pozadini, po tri fajla
+odjednom, i nastavlja samo ako se server restartuje. Za cijeli javni dio treba
+oko sat vremena i oko 4,5 GB.
+
+- fajlovi i folderi: svaki fajl postaje dokument u tabeli `dokumenti`
+  (`moodle_u` pamti odakle je, `moodle_kurs` iz kog kursa)
+- strane: sačuvaju se kao HTML, a slike iz njih idu na `/moodle/fajl/:id`
+- veze: zapamti se prava adresa, bez prolaska kroz stari Moodle
+- forumi, četovi, zadaci i testovi se ne kopiraju
+
+Sami fajlovi ne idu u Postgres nego na disk, imenovani po sha256 sadržaja, pa
+se isti fajl iz više kurseva čuva jednom. Disk se bira ovako: `ARHIVA_DIR`, pa
+Railway volume (`RAILWAY_VOLUME_MOUNT_PATH`), pa `arhiva-moodle/` pored servera.
+**Na Railway-u servisu sajta treba dodati Volume** (npr. 10 GB, putanja `/data`),
+inače se kopija briše sa svakim deployem. Panel na to upozorava.
+
+Kad je stavka kopirana, `/moodle/arhiva.json` umjesto veze ka starom Moodle-u
+daje `/dokument/:id`, sa nazivom iz baze. U tabu Dokumenti admin prebacuje
+„Iz starog Moodle-a“ i tamo traži, preimenuje, zamjenjuje fajl, zaključava ili
+briše. Obrisan dokument nestaje i iz arhive.
+
+Kursevi koji u starom Moodle-u traže prijavu ne mogu se kopirati bez naloga.
+
 ## Čet
 
 `cet.html` je jedna soba za sve korisnike. Čitaju je i pišu u nju samo
@@ -192,9 +247,14 @@ Poruka može imati 500 znakova, a između dvije poruke iste osobe moraju proći
 2 sekunde. Admin klikom na tuđu poruku dobija prozor gdje je briše, utišava
 osobu na 1 do 24 sata ili joj zabranjuje pisanje.
 
-Na početnoj strani u donjem desnom uglu stoji dugme koje prati skrol. Klik
-otvara mali prozor sa četom (`cet.html?mali`, bez zaglavlja i podnožja).
-Žuti kružić na dugmetu broji tuđe poruke koje stignu dok čet nije otvoren.
+Čet stoji u kutku učenika (`kutak-ucenika.html#cet`), učitan kao
+`cet.html?mali`, bez zaglavlja i podnožja. Ko otvori `cet.html` direktno,
+prebaci se tamo. Admin u panelu, u tabu Čet, upisuje zabranjene riječi (tabela `cet_rijeci`).
+Server ih u novoj poruci zamijeni zvjezdicama. Poređenje ne gleda velika slova,
+kvačice ni pismo, pa radi i za ćirilicu, a hvata i riječ koja zabranjenu sadrži.
+
+Na početnoj strani u donjem desnom uglu ostaje dugme koje vodi
+u kutak. Žuti kružić na dugmetu broji tuđe poruke koje još nisu viđene.
 Šta je viđeno pamti se u pregledaču (`localStorage`, ključ `cet-vidjeno`).
 
 ## Nalozi

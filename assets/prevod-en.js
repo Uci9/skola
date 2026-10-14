@@ -1,4 +1,13 @@
 window.PREVOD_EN = {
+  "Početna": "Home",
+  "Direktorka, pomoćnici i stručna služba.": "The principal, assistants and support staff.",
+  "Školski odbor": "School board",
+  "Ko upravlja školom.": "Who governs the school.",
+  "Raspored, oglasna tabla, rokovi.": "Timetable, notice board, deadlines.",
+  "Obrazovni program, PDF": "Education programme, PDF",
+  "Sastav školskog odbora biće objavljen uskoro.": "The members of the school board will be published soon.",
+  "Jedna soba za sve sa nalogom. Poruke stoje sedam dana.": "One room for everyone with an account. Messages stay for seven days.",
+  "Školski čet u kutku učenika": "School chat in the student corner",
   "Elektrotehnička škola „Vaso Aligrudić“, Podgorica": "“Vaso Aligrudić” Electrical Engineering School, Podgorica",
   "Srednja elektrotehnička škola „Vaso Aligrudić“ u Podgorici. Sedam obrazovnih programa, praktična nastava u preduzećima, kalkulator poena za upis.": "“Vaso Aligrudić” Secondary Electrical Engineering School in Podgorica. Seven education programmes, practical training in companies, enrolment points calculator.",
   "Učitavanje…": "Loading…",

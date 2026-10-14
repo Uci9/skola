@@ -8,15 +8,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=86c14dfe">
+<link rel="stylesheet" href="assets/styles.css?v=3ddeedad">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
-<script src="assets/prevod-en.js?v=ee7a38af" defer></script>
-<script src="assets/jezik.js?v=46bfbedf" defer></script>
+<script src="assets/prevod-en.js?v=395ae11d" defer></script>
+<script src="assets/jezik.js?v=29f1ae43" defer></script>
 <script type="module" src="assets/nalog.js?v=03690671"></script>
 <script src="assets/tekst.js?v=4532f47f" defer></script>
 <script src="assets/leca.js?v=926f53a3" defer></script>
-<script src="assets/meni.js?v=6432c2a1" defer></script>
-<script src="assets/cet-tipka.js?v=7c31c78f" defer></script>
+<script src="assets/meni.js?v=da498ab3" defer></script>
+<script src="assets/cet-tipka.js?v=370d32c0" defer></script>
 <script src="assets/mreza.js?v=cb164972" defer></script>
 <script src="assets/ucitavanje.js?v=484f4468" defer></script>
 <script src="assets/blok.js?v=1880d0e4" defer></script>
@@ -38,6 +38,7 @@
         <span><b>ETŠ „Vaso Aligrudić“</b><span>Podgorica · od 1946.</span></span>
       </a>
       <nav class="menu" id="meni">
+        <a class="pocetna-tipka" href="index.html">Početna</a>
         <div class="stavka" data-meni="skola">
           <button type="button" class="stavka-tipka" aria-expanded="false" aria-controls="panel-skola">Škola</button>
           <div class="meni-panel" id="panel-skola">
@@ -65,18 +66,20 @@
           <div class="meni-panel" id="panel-ucenici">
             <div class="panel-karta">
             <a href="kutak-ucenika.html"><b>Kutak učenika</b><span>Trenuci van rasporeda časova.</span></a>
-            <a href="novosti.html"><b>Novosti</b><span>Obavještenja i rokovi.</span></a>
-            <a href="cet.html"><b>Čet</b><span>Razgovor za sve sa nalogom.</span></a>
+            <a href="kutak-ucenika.html#cet"><b>Čet</b><span>Razgovor za sve sa nalogom.</span></a>
+            <a href="moodle.html#obavjestenja"><b>Obavještenja</b><span>Raspored, oglasna tabla, rokovi.</span></a>
             </div>
           </div>
         </div>
+        <a href="novosti.html">Novosti</a>
         <a href="index.html#dokumenti">Dokumenti</a>
         <a href="index.html#kontakt">Kontakt</a>
         <a href="prijava.html">Prijava</a>
         <a class="dnevnik-tipka" href="https://dnevnik.edu.me" target="_blank" rel="noopener">e-Dnevnik</a>
-        <div class="jezik" role="group" aria-label="Jezik">
-          <button type="button" data-jezik="sr" aria-pressed="true">SR</button>
-          <button type="button" data-jezik="en" aria-pressed="false">EN</button>
+        <div class="jezik" role="group" aria-label="Jezik" translate="no">
+          <button type="button" data-jezik="lat" aria-pressed="true" title="Latinica">LAT</button>
+          <button type="button" data-jezik="cir" aria-pressed="false" title="Ћирилица">ЋИР</button>
+          <button type="button" data-jezik="en" aria-pressed="false" title="English">EN</button>
         </div>
       </nav>
       <button class="hamb" id="hamb" aria-label="Meni" aria-expanded="false"><i></i></button>
@@ -172,6 +175,7 @@
           <li>Trajanje <b>4 godine</b></li>
           <li>Završetak <b>stručna matura</b></li>
         </ul>
+        <a class="card-pdf" href="assets/programi/elektrotehnicar-za-razvoj-veb-i-mobilnih-aplikacija.pdf" target="_blank" rel="noopener">Obrazovni program, PDF</a>
       </article>
       <article class="card">
         <span class="card-tag">IV stepen</span>
@@ -181,6 +185,7 @@
           <li>Trajanje <b>4 godine</b></li>
           <li>Završetak <b>stručna matura</b></li>
         </ul>
+        <a class="card-pdf" href="assets/programi/elektrotehnicar-racunarskih-sistema-i-mreza.pdf" target="_blank" rel="noopener">Obrazovni program, PDF</a>
       </article>
       <article class="card">
         <span class="card-tag">IV stepen</span>
@@ -190,6 +195,7 @@
           <li>Trajanje <b>4 godine</b></li>
           <li>Završetak <b>stručna matura</b></li>
         </ul>
+        <a class="card-pdf" href="assets/programi/elektrotehnicar-elektronike.pdf" target="_blank" rel="noopener">Obrazovni program, PDF</a>
       </article>
       <article class="card">
         <span class="card-tag">IV stepen</span>
@@ -199,6 +205,7 @@
           <li>Trajanje <b>4 godine</b></li>
           <li>Završetak <b>stručna matura</b></li>
         </ul>
+        <a class="card-pdf" href="assets/programi/elektrotehnicar-elektronskih-komunikacija.pdf" target="_blank" rel="noopener">Obrazovni program, PDF</a>
       </article>
       <article class="card">
         <span class="card-tag">IV stepen</span>
@@ -208,6 +215,7 @@
           <li>Trajanje <b>4 godine</b></li>
           <li>Završetak <b>stručna matura</b></li>
         </ul>
+        <a class="card-pdf" href="assets/programi/elektrotehnicar-energetike.pdf" target="_blank" rel="noopener">Obrazovni program, PDF</a>
       </article>
       <article class="card">
         <span class="card-tag">III stepen</span>
@@ -217,6 +225,7 @@
           <li>Trajanje <b>3 godine</b></li>
           <li>Završetak <b>stručni ispit</b></li>
         </ul>
+        <a class="card-pdf" href="assets/programi/elektroinstalater.pdf" target="_blank" rel="noopener">Obrazovni program, PDF</a>
       </article>
       <article class="card">
         <span class="card-tag">III stepen</span>
@@ -226,6 +235,7 @@
           <li>Trajanje <b>3 godine</b></li>
           <li>Završetak <b>stručni ispit</b></li>
         </ul>
+        <a class="card-pdf" href="assets/programi/monter-elektronske-komunikacione-infrastrukture.pdf" target="_blank" rel="noopener">Obrazovni program, PDF</a>
       </article>
     </div>
   </div>
@@ -540,13 +550,13 @@
             <tr><th>Ustanova</th><td>JU Srednja elektrotehnička škola „Vaso Aligrudić“</td></tr>
             <tr><th>Adresa</th><td>Vasa Raičkovića 26, 81000 Podgorica</td></tr>
             <tr><th>Telefon</th><td><a href="tel:+38220237120">020 237 120</a></td></tr>
-            <tr><th>E-pošta</th><td><a href="mailto:skola@ets-pg.edu.me">skola@ets-pg.edu.me</a></td></tr>
+            <tr><th>E-pošta</th><td><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=skola@ets-pg.edu.me" target="_blank" rel="noopener">skola@ets-pg.edu.me</a></td></tr>
             <tr><th>Djelatnost</th><td>8532, srednje stručno i tehničko obrazovanje</td></tr>
             <tr><th>Sekretarijat</th><td>Ponedjeljak do petka, od 08.00 do 14.00</td></tr>
           </tbody>
         </table>
         <p class="kontakt-do">
-          <a href="mailto:skola@ets-pg.edu.me" class="btn btn-white">Pošalji poruku</a>
+          <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=skola@ets-pg.edu.me" target="_blank" rel="noopener" class="btn btn-white">Pošalji poruku</a>
           <a href="https://www.google.com/maps/search/?api=1&amp;query=Vasa+Rai%C4%8Dkovi%C4%87a+26%2C+Podgorica" class="btn btn-onwhite">Otvori na mapi</a>
         </p>
       </div>
@@ -572,7 +582,7 @@
         <address>
           Vasa Raičkovića 26, 81000 Podgorica<br>
           <a href="tel:+38220237120">020 237 120</a><br>
-          <a href="mailto:skola@ets-pg.edu.me">skola@ets-pg.edu.me</a>
+          <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=skola@ets-pg.edu.me" target="_blank" rel="noopener">skola@ets-pg.edu.me</a>
         </address>
         <div class="base-mreze">
           <a href="https://instagram.com/elektrotehnicka_skola_pg" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
@@ -601,7 +611,7 @@
           <li><a href="moodle.html#dokumenta">Dokumenti u Moodle-u</a></li>
           <li><a href="novosti.html">Novosti</a></li>
           <li><a href="novosti.html#dogadjaji">Događaji</a></li>
-          <li><a href="cet.html">Čet</a></li>
+          <li><a href="kutak-ucenika.html#cet">Čet</a></li>
         </ul>
       </div>
 
@@ -635,17 +645,10 @@
     </details>
   </div>
 </footer>
-<button class="cet-tipka" id="cet-tipka" type="button" aria-label="Otvori čet" aria-expanded="false" aria-controls="cet-prozor">
+<a class="cet-tipka" id="cet-tipka" href="kutak-ucenika.html#cet" aria-label="Školski čet u kutku učenika">
   <svg class="otvoren" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.5a8 8 0 0 1-11.6 7.1L3.5 20l1.5-4.6A8 8 0 1 1 20.5 11.5Z"/><path d="M8.5 10.5h7M8.5 13.8h4.5"/></svg>
-  <svg class="zatvoren" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
   <b class="cet-tipka-broj" id="cet-tipka-broj" hidden></b>
-</button>
-<div class="cet-prozor" id="cet-prozor" hidden>
-  <div class="cet-prozor-glava">
-    <b>Školski čet</b>
-    <a href="cet.html">Otvori cijeli</a>
-  </div>
-</div>
+</a>
 <button class="top-btn" id="gore" aria-label="Na vrh">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>

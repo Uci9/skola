@@ -2,10 +2,19 @@
   const meni = document.getElementById('meni');
   if (!meni) return;
 
+  const ovdje = (location.pathname.split('/').pop() || 'index.html') + location.search;
+  meni.querySelectorAll('a[href]').forEach(a => {
+    if (a.getAttribute('href') !== ovdje) return;
+    a.setAttribute('aria-current', 'page');
+    const stavka = a.closest('.stavka');
+    if (stavka) stavka.querySelector('button').classList.add('on');
+    else a.classList.add('on');
+  });
+
   const stavke = [...meni.querySelectorAll('.stavka')];
   if (!stavke.length) return;
 
-  const siroko = matchMedia('(min-width: 901px)');
+  const siroko = matchMedia('(min-width: 1181px)');
   let zatvaranje = null;
 
   function otvori(stavka) {

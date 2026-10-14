@@ -131,6 +131,10 @@ p { margin: 0 0 1.1em; }
 .menu a.on { background: var(--ink); color: var(--white); }
 .menu a, .stavka > button { white-space: nowrap; }
 .menu a.dnevnik-tipka { background: var(--teal); color: var(--white); font-weight: 600; }
+.menu a.pocetna-tipka { font-weight: 600; color: var(--teal); }
+.menu a.pocetna-tipka:hover { background: var(--paper); color: var(--ink); }
+.menu a.pocetna-tipka.on { background: none; color: var(--teal); }
+.menu a.pocetna-tipka.on:hover { background: var(--paper); color: var(--ink); }
 .menu a.dnevnik-tipka:hover { background: var(--cobalt); }
 
 .jezik {
@@ -157,6 +161,24 @@ p { margin: 0 0 1.1em; }
 .hamb i { top: 21px; }
 .hamb i::before { top: -6px; left: 0; }
 .hamb i::after { top: 6px; left: 0; }
+
+.head > .shell { max-width: 1480px; }
+
+@media (max-width: 1180px) {
+  .menu {
+    display: none; position: absolute; left: 0; right: 0; top: calc(100% + 10px); margin: 0;
+    transform: none; max-height: calc(100dvh - 130px); overflow-y: auto;
+    flex-direction: column; gap: 2px; align-items: stretch;
+    background: var(--white); border: 1px solid var(--line);
+    border-radius: var(--r); padding: 10px; box-shadow: var(--shadow-up);
+  }
+  .menu.open { display: flex; }
+  .menu a { padding: 13px 16px; border-radius: var(--r-sm); }
+  .menu a.dnevnik-tipka { margin-top: 6px; text-align: center; }
+  .jezik { align-self: center; margin-top: 8px; }
+  .jezik button { padding: 9px 18px; font-size: .9rem; }
+  .hamb { display: block; }
+}
 
 .reel { position: relative; margin-top: -114px; height: 460vh; background: var(--ink); }
 .reel-stage {
@@ -290,6 +312,18 @@ p { margin: 0 0 1.1em; }
 .card-hi ul { border-top-color: rgba(255,255,255,.22); }
 .card li { display: flex; justify-content: space-between; gap: 14px; font-size: .9rem; padding: 4px 0; }
 .card li b { color: var(--ink); font-weight: 600; }
+.card:has(.card-pdf) { position: relative; cursor: pointer; }
+.card-pdf {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 16px;
+  font-size: .88rem; font-weight: 600; color: var(--teal); text-decoration: none;
+}
+.card-pdf::before {
+  content: "PDF"; padding: 3px 7px; border-radius: 6px;
+  background: var(--ink); color: var(--white); font-size: .68rem; letter-spacing: .04em;
+}
+.card-pdf::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.card:hover .card-pdf { text-decoration: underline; }
+.card-hi .card-pdf { color: var(--ink); }
 
 .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 26px; }
 .flow-item { position: relative; padding-top: 62px; }
@@ -571,23 +605,10 @@ html.js .rise-kids.up > *:nth-child(6) { transition-delay: .35s; }
   .reel-dots i { width: 7px; height: 7px; }
   .reel-cue { bottom: 20px; bottom: calc(100lvh - 100svh + 16px); font-size: .78rem; }
 
-  .menu {
-    display: none; position: absolute; left: 0; right: 0; top: calc(100% + 10px); margin: 0;
-    transform: none; max-height: calc(100dvh - 130px); overflow-y: auto;
-    flex-direction: column; gap: 2px; align-items: stretch;
-    background: var(--white); border: 1px solid var(--line);
-    border-radius: var(--r); padding: 10px; box-shadow: var(--shadow-up);
-  }
-  .menu.open { display: flex; }
-  .menu a { padding: 13px 16px; border-radius: var(--r-sm); }
-  .menu a.dnevnik-tipka { margin-top: 6px; text-align: center; }
-  .jezik { align-self: center; margin-top: 8px; }
-  .jezik button { padding: 9px 18px; font-size: .9rem; }
   #kontakt .pair { display: flex; flex-direction: column; align-items: stretch; }
   #kontakt .kontakt-mapa { order: -1; }
 
-  .head-in { position: relative; padding: 9px 9px 9px 16px; }
-  .hamb { display: block; }
+  .head-in { padding: 9px 9px 9px 16px; }
   .brand img { width: 40px; height: 40px; margin: -3px 0; }
   .brand b { font-size: 1.14rem; }
   .brand span { font-size: .78rem; margin-top: 2px; }
@@ -1043,6 +1064,13 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   transition: background-color .15s, color .15s;
 }
 .stavka > button:hover { background: var(--paper); }
+.stavka > button::after {
+  content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 1px 3px 8px;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg); opacity: .65;
+  transition: transform .22s ease;
+}
+.stavka.otvorena > button::after { transform: translateY(3px) rotate(-135deg); }
 .stavka > button.on { background: var(--ink); color: var(--white); }
 
 .meni-panel {
@@ -1082,22 +1110,7 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   display: block; margin-top: 2px; color: var(--ink-2); font-size: .84rem;
 }
 
-@media (min-width: 821px) and (max-width: 1100px) {
-  .menu { gap: 0; }
-  .menu a, .stavka > button { padding: 10px 9px; font-size: .92rem; }
-  .head-in { gap: 10px; }
-  .brand span span { display: none; }
-}
-@media (min-width: 821px) and (max-width: 960px) {
-  .menu a, .stavka > button { padding: 9px 6px; font-size: .86rem; }
-  .menu a.dnevnik-tipka { padding: 9px 11px; }
-  .brand b { font-size: 1.15rem; }
-  .jezik button { padding: 6px 7px; }
-}
-@media (min-width: 821px) and (max-width: 900px) {
-  .brand > span { display: none; }
-}
-@media (min-width: 821px) {
+@media (min-width: 1181px) {
   .head-in.meni-blago .menu { gap: 2px; }
   .head-in.meni-blago .menu a, .head-in.meni-blago .stavka > button { padding-left: 11px; padding-right: 11px; }
   .head-in.meni-usko { gap: 10px; }
@@ -1108,7 +1121,7 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   .head-in.meni-najuze .jezik button { padding: 6px 7px; }
 }
 
-@media (max-width: 820px) {
+@media (max-width: 1180px) {
   .stavka { display: block; }
   .stavka > button {
     display: flex; align-items: center; justify-content: space-between;
@@ -1116,10 +1129,11 @@ html.ucitava, html.ucitava body { overflow: hidden; }
     font-weight: 500;
   }
   .stavka > button::after {
-    content: "+"; font-size: 1.3rem; line-height: 1; color: var(--cobalt);
+    content: "+"; width: auto; height: auto; margin: 0; border: 0; transform: none; opacity: 1;
+    font-size: 1.3rem; line-height: 1; color: var(--cobalt);
   }
   .stavka.otvorena > button { background: var(--paper); }
-  .stavka.otvorena > button::after { content: "\2212"; }
+  .stavka.otvorena > button::after { content: "\2212"; transform: none; }
   .meni-panel, .stavka.otvorena .meni-panel {
     position: static; display: block; padding: 0;
     opacity: 1; visibility: visible; transform: none;
@@ -2133,3 +2147,36 @@ html.ucitava, html.ucitava body { overflow: hidden; }
 }
 .cet-mali .cet-strana { padding: 0; }
 .cet-mali .cet-strana .cet-spisak { height: calc(100vh - 72px); min-height: 0; }
+
+.kutak-cet-okvir {
+  height: min(640px, calc(100vh - 160px)); min-height: 440px;
+  border-radius: var(--r); overflow: hidden; background: var(--white); box-shadow: var(--shadow-up);
+}
+.kutak-cet-okvir iframe { display: block; width: 100%; height: 100%; border: 0; }
+
+.adm-kopija { margin-bottom: 18px; }
+.adm-kopija .adm-kartica-glava p { max-width: 62ch; }
+.adm-kopija-dugmad { display: flex; gap: 8px; }
+.adm-traka { height: 8px; margin: 4px 0 12px; border-radius: var(--pill); background: var(--paper); overflow: hidden; }
+.adm-traka i { display: block; height: 100%; width: 0; background: var(--teal); transition: width .4s ease; }
+.adm-kopija .glas { margin-top: 12px; }
+.adm-kopija-greske { margin-top: 12px; font-size: .86rem; }
+.adm-kopija-greske summary { cursor: pointer; color: var(--ink); font-weight: 600; }
+.adm-kopija-greske ul { margin: 8px 0 0; padding-left: 18px; }
+.adm-kopija-greske li { margin: 3px 0; word-break: break-word; }
+.adm-kopija-greske span { color: var(--ink-2); }
+.adm-izvor { margin-bottom: 16px; }
+.admin-spisak .adm-trazi { display: block; margin: 0 0 12px; }
+.admin-stavka:has(.adm-uredi) { flex-wrap: wrap; background: #F7F5F2; }
+.adm-uredi { flex: 1 0 100%; max-width: none; padding: 8px 0 4px; }
+
+.adm-rijeci { display: flex; flex-wrap: wrap; gap: 8px; }
+.adm-rijec {
+  display: inline-flex; align-items: center; gap: 4px; padding: 6px 6px 6px 14px;
+  border-radius: var(--pill); background: var(--paper); color: var(--ink); font-size: .9rem;
+}
+.adm-rijec button {
+  appearance: none; border: 0; cursor: pointer; width: 24px; height: 24px; border-radius: 50%;
+  background: none; color: var(--ink-2); font-size: 1.1rem; line-height: 1;
+}
+.adm-rijec button:hover { background: var(--white); color: var(--ink); }

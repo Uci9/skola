@@ -108,10 +108,11 @@ export async function sacuvajMojZaposleni(podaci) {
   return trazi('/moj-profil', { method: 'PUT', body: JSON.stringify(podaci) });
 }
 
-export async function dokumenti(upit, rubrika) {
+export async function dokumenti(upit, rubrika, izMoodlea) {
   const pitanja = new URLSearchParams();
   if (upit) pitanja.set('q', upit);
   if (rubrika) pitanja.set('rubrika', rubrika);
+  if (izMoodlea) pitanja.set('moodle', '1');
   const rep = pitanja.toString();
   return trazi('/dokumenti' + (rep ? '?' + rep : ''));
 }
@@ -129,8 +130,19 @@ export async function posaljiDokument(fajl, podaci) {
   });
 }
 
-export async function izmijeniDokument(id, podaci) {
-  return trazi('/dokumenti/' + id, { method: 'PUT', body: JSON.stringify(podaci) });
+export async function izmijeniDokument(id, podaci, fajl) {
+  const tijelo = { ...podaci };
+  if (fajl) {
+    tijelo.podaci = await uBazu(fajl);
+    tijelo.ime = fajl.name;
+    tijelo.vrsta = fajl.type || 'application/octet-stream';
+  }
+  return trazi('/dokumenti/' + id, { method: 'PUT', body: JSON.stringify(tijelo) });
+}
+
+export async function kopijaMoodlea(radnja) {
+  if (!radnja) return trazi('/moodle/kopija');
+  return trazi('/moodle/kopija', { method: 'POST', body: JSON.stringify({ radnja }) });
 }
 
 export async function obrisiDokument(id) {
@@ -231,6 +243,18 @@ export async function porukeCeta(od) {
 
 export async function posaljiPoruku(tekst) {
   return trazi('/cet', { method: 'POST', body: JSON.stringify({ tekst }) });
+}
+
+export async function zabranjeneRijeci() {
+  return trazi('/cet/rijeci');
+}
+
+export async function zabraniRijec(rijec) {
+  return trazi('/cet/rijeci', { method: 'POST', body: JSON.stringify({ rijec }) });
+}
+
+export async function dozvoliRijec(rijec) {
+  return trazi('/cet/rijeci/' + encodeURIComponent(rijec), { method: 'DELETE' });
 }
 
 export async function obrisiPoruku(id) {

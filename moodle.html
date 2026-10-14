@@ -8,14 +8,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=86c14dfe">
+<link rel="stylesheet" href="assets/styles.css?v=3ddeedad">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
-<script src="assets/prevod-en.js?v=ee7a38af" defer></script>
-<script src="assets/jezik.js?v=46bfbedf" defer></script>
+<script src="assets/prevod-en.js?v=395ae11d" defer></script>
+<script src="assets/jezik.js?v=29f1ae43" defer></script>
 <script type="module" src="assets/nalog.js?v=03690671"></script>
 <script src="assets/tekst.js?v=4532f47f" defer></script>
 <script src="assets/leca.js?v=926f53a3" defer></script>
-<script src="assets/meni.js?v=6432c2a1" defer></script>
+<script src="assets/meni.js?v=da498ab3" defer></script>
 <script src="assets/mreza.js?v=cb164972" defer></script>
 <script type="module" src="assets/arhiva.js?v=bb7c8fcf"></script>
 </head>
@@ -28,15 +28,16 @@
         <span><b>ETŠ „Vaso Aligrudić“</b><span>Podgorica · od 1946.</span></span>
       </a>
       <nav class="menu" id="meni">
+        <a class="pocetna-tipka" href="index.html">Početna</a>
         <div class="stavka" data-meni="skola">
-          <button type="button" class="stavka-tipka on" aria-expanded="false" aria-controls="panel-skola">Škola</button>
+          <button type="button" class="stavka-tipka" aria-expanded="false" aria-controls="panel-skola">Škola</button>
           <div class="meni-panel" id="panel-skola">
             <div class="panel-karta">
             <a href="index.html#o-skoli"><b>O nama</b><span>Šta smo i otkud 1946.</span></a>
             <a href="index.html#programi"><b>Obrazovni programi</b><span>Sedam smjerova, IV i III stepen.</span></a>
             <a href="profesori.html"><b>Nastavnici i osoblje</b><span>Sto ljudi koji drže školu.</span></a>
             <a href="poslodavci.html"><b>Poslodavci i partneri</b><span>Gdje učenici rade dok se školuju.</span></a>
-            <a href="moodle.html" aria-current="page"><b>Moodle</b><span>Platforma za učenje i arhiva predmeta.</span></a>
+            <a href="moodle.html"><b>Moodle</b><span>Platforma za učenje i arhiva predmeta.</span></a>
             </div>
           </div>
         </div>
@@ -55,18 +56,20 @@
           <div class="meni-panel" id="panel-ucenici">
             <div class="panel-karta">
             <a href="kutak-ucenika.html"><b>Kutak učenika</b><span>Trenuci van rasporeda časova.</span></a>
-            <a href="novosti.html"><b>Novosti</b><span>Obavještenja i rokovi.</span></a>
-            <a href="cet.html"><b>Čet</b><span>Razgovor za sve sa nalogom.</span></a>
+            <a href="kutak-ucenika.html#cet"><b>Čet</b><span>Razgovor za sve sa nalogom.</span></a>
+            <a href="moodle.html#obavjestenja"><b>Obavještenja</b><span>Raspored, oglasna tabla, rokovi.</span></a>
             </div>
           </div>
         </div>
+        <a href="novosti.html">Novosti</a>
         <a href="index.html#dokumenti">Dokumenti</a>
         <a href="index.html#kontakt">Kontakt</a>
         <a href="prijava.html">Prijava</a>
         <a class="dnevnik-tipka" href="https://dnevnik.edu.me" target="_blank" rel="noopener">e-Dnevnik</a>
-        <div class="jezik" role="group" aria-label="Jezik">
-          <button type="button" data-jezik="sr" aria-pressed="true">SR</button>
-          <button type="button" data-jezik="en" aria-pressed="false">EN</button>
+        <div class="jezik" role="group" aria-label="Jezik" translate="no">
+          <button type="button" data-jezik="lat" aria-pressed="true" title="Latinica">LAT</button>
+          <button type="button" data-jezik="cir" aria-pressed="false" title="Ћирилица">ЋИР</button>
+          <button type="button" data-jezik="en" aria-pressed="false" title="English">EN</button>
         </div>
       </nav>
       <button class="hamb" id="hamb" aria-label="Meni" aria-expanded="false"><i></i></button>
@@ -148,7 +151,7 @@
         <address>
           Vasa Raičkovića 26, 81000 Podgorica<br>
           <a href="tel:+38220237120">020 237 120</a><br>
-          <a href="mailto:skola@ets-pg.edu.me">skola@ets-pg.edu.me</a>
+          <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=skola@ets-pg.edu.me" target="_blank" rel="noopener">skola@ets-pg.edu.me</a>
         </address>
         <div class="base-mreze">
           <a href="https://instagram.com/elektrotehnicka_skola_pg" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
@@ -177,7 +180,7 @@
           <li><a href="moodle.html#dokumenta">Dokumenti u Moodle-u</a></li>
           <li><a href="novosti.html">Novosti</a></li>
           <li><a href="novosti.html#dogadjaji">Događaji</a></li>
-          <li><a href="cet.html">Čet</a></li>
+          <li><a href="kutak-ucenika.html#cet">Čet</a></li>
         </ul>
       </div>
 

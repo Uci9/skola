@@ -4,6 +4,7 @@ const crypto = require('node:crypto');
 const zlib = require('node:zlib');
 const express = require('express');
 const { Pool, types } = require('pg');
+const { napraviKopiju } = require('./moodle-kopija');
 
 types.setTypeParser(1082, v => v);
 
@@ -199,6 +200,11 @@ async function napraviShemu() {
       napravljeno timestamptz not null default now()
     );
     create index if not exists poruke_napravljeno on poruke (napravljeno);
+    create table if not exists cet_rijeci (
+      rijec text primary key,
+      dodao text,
+      napravljeno timestamptz default now()
+    );
     alter table if exists profili add column if not exists cet_zabrana boolean not null default false;
     alter table if exists profili add column if not exists cet_utisan_do timestamptz;
     alter table if exists nastavnici add column if not exists email text;
@@ -607,11 +613,14 @@ app.get('/api/dokumenti', async (zahtjev, odgovor) => {
       ' or razred ilike ' + m + ' or ime_datoteke ilike ' + m + ')');
   }
 
+  const izMoodlea = zahtjev.query.moodle === '1';
+  uslovi.push(izMoodlea ? 'moodle_u is not null' : 'moodle_u is null');
+
   const { rows } = await bazen.query(
     `select id, naslov, opis, rubrika, predmet, razred, ime_datoteke, vrsta, velicina,
-            zakljucan, postavio, vlasnik, napravljeno
-     from dokumenti` + (uslovi.length ? ' where ' + uslovi.join(' and ') : '') +
-    ' order by napravljeno desc',
+            zakljucan, postavio, vlasnik, napravljeno, moodle_u
+     from dokumenti where ` + uslovi.join(' and ') +
+    ' order by napravljeno desc' + (izMoodlea ? ' limit 300' : ''),
     podaci
   );
 
@@ -705,6 +714,35 @@ app.put('/api/dokumenti/:id', samoNastavnik, async (zahtjev, odgovor) => {
     return;
   }
 
+  let nova = null;
+  if (zahtjev.body.podaci) {
+    const vrsta = String(zahtjev.body.vrsta || '');
+    if (!VRSTE_DATOTEKA.has(vrsta)) {
+      odgovor.status(400).json({ greska: 'Ta vrsta datoteke nije dozvoljena.' });
+      return;
+    }
+    const bajtovi = Buffer.from(String(zahtjev.body.podaci), 'base64');
+    if (!bajtovi.length || bajtovi.length > NAJVECA_DATOTEKA) {
+      odgovor.status(400).json({ greska: 'Datoteka mora biti manja od 18 MB.' });
+      return;
+    }
+    nova = {
+      id: Date.now().toString(36) + '-' + crypto.randomBytes(5).toString('hex'),
+      ime: (String(zahtjev.body.ime || '').trim() || 'dokument').slice(0, 180),
+      vrsta,
+      velicina: bajtovi.length
+    };
+    await bazen.query(
+      'insert into datoteke (id, vrsta, ime, velicina, podaci) values ($1, $2, $3, $4, $5)',
+      [nova.id, nova.vrsta, nova.ime, nova.velicina, bajtovi]
+    );
+    await bazen.query(
+      'update dokumenti set datoteka = $1, ime_datoteke = $2, vrsta = $3, velicina = $4 where id = $5',
+      [nova.id, nova.ime, nova.vrsta, nova.velicina, red.id]
+    );
+    await kopija.ocisti(red.datoteka);
+  }
+
   const rubrika = RUBRIKE.includes(zahtjev.body.rubrika) ? zahtjev.body.rubrika : red.rubrika;
   const { rows } = await bazen.query(
     `update dokumenti set naslov = $1, opis = $2, rubrika = $3, predmet = $4, razred = $5, zakljucan = $6
@@ -720,6 +758,7 @@ app.put('/api/dokumenti/:id', samoNastavnik, async (zahtjev, odgovor) => {
     ]
   );
 
+  if (red.moodle_u) kopija.zastarjelo();
   odgovor.json(rows[0]);
 });
 
@@ -728,7 +767,8 @@ app.delete('/api/dokumenti/:id', samoNastavnik, async (zahtjev, odgovor) => {
   if (!red) return;
 
   await bazen.query('delete from dokumenti where id = $1', [red.id]);
-  await bazen.query('delete from datoteke where id = $1', [red.datoteka]);
+  await kopija.ocisti(red.datoteka);
+  if (red.moodle_u) kopija.zastarjelo();
   odgovor.json({ gotovo: true });
 });
 
@@ -831,6 +871,27 @@ const RAZMAK_PORUKA = 2000;
 const PROZOR_CETA = 100;
 
 const granicaCeta = () => new Date(Date.now() - TRAJANJE_PORUKE);
+const CIRILICA = {
+  а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', ђ: 'dj', е: 'e', ж: 'z', з: 'z', и: 'i', ј: 'j', к: 'k',
+  л: 'l', љ: 'lj', м: 'm', н: 'n', њ: 'nj', о: 'o', п: 'p', р: 'r', с: 's', т: 't', ћ: 'c', у: 'u',
+  ф: 'f', х: 'h', ц: 'c', ч: 'c', џ: 'dz', ш: 's'
+};
+
+function zaPoredjenje(t) {
+  return String(t).toLowerCase()
+    .replace(/[а-яђјљњћџ]/g, s => CIRILICA[s] || s)
+    .replace(/đ/g, 'dj').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+async function procisti(tekst) {
+  const { rows } = await bazen.query('select rijec from cet_rijeci');
+  if (!rows.length) return tekst;
+  const zabranjene = rows.map(r => zaPoredjenje(r.rijec)).filter(Boolean);
+  return tekst.replace(/[\p{L}\p{N}]+/gu, rijec => {
+    const cista = zaPoredjenje(rijec);
+    return zabranjene.some(z => cista.includes(z)) ? '*'.repeat(rijec.length) : rijec;
+  });
+}
 
 async function pocistiCet() {
   try {
@@ -883,7 +944,7 @@ app.post('/api/cet', async (zahtjev, odgovor) => {
     return;
   }
 
-  const tekst = String((zahtjev.body && zahtjev.body.tekst) || '').trim();
+  let tekst = String((zahtjev.body && zahtjev.body.tekst) || '').trim();
   if (!tekst) {
     odgovor.status(400).json({ greska: 'Napiši nešto prvo.' });
     return;
@@ -913,12 +974,38 @@ app.post('/api/cet', async (zahtjev, odgovor) => {
     return;
   }
 
+  tekst = await procisti(tekst);
+
   const ime = osoba.ime || osoba.email.split('@')[0];
   const { rows } = await bazen.query(
     'insert into poruke (profil, ime, tekst) values ($1, $2, $3) returning *',
     [osoba.id, ime, tekst]
   );
   odgovor.json(poruka(rows[0], osoba.id));
+});
+
+app.get('/api/cet/rijeci', samoAdmin, async (zahtjev, odgovor) => {
+  const { rows } = await bazen.query('select rijec, dodao, napravljeno from cet_rijeci order by rijec');
+  odgovor.json(rows);
+});
+
+app.post('/api/cet/rijeci', samoAdmin, async (zahtjev, odgovor) => {
+  const rijeci = String(zahtjev.body.rijec || '')
+    .split(/[,\n]+/).map(r => r.trim().toLowerCase()).filter(r => r && r.length <= 60);
+  if (!rijeci.length) {
+    odgovor.status(400).json({ greska: 'Upiši riječ.' });
+    return;
+  }
+  await bazen.query(
+    'insert into cet_rijeci (rijec, dodao) select unnest($1::text[]), $2 on conflict (rijec) do nothing',
+    [rijeci, zahtjev.osoba.ime || zahtjev.osoba.email]
+  );
+  odgovor.json({ gotovo: true, broj: rijeci.length });
+});
+
+app.delete('/api/cet/rijeci/:rijec', samoAdmin, async (zahtjev, odgovor) => {
+  await bazen.query('delete from cet_rijeci where rijec = $1', [zahtjev.params.rijec]);
+  odgovor.json({ gotovo: true });
 });
 
 app.delete('/api/cet/:id', samoAdmin, async (zahtjev, odgovor) => {
@@ -959,6 +1046,7 @@ app.post('/api/cet/kazna', samoAdmin, async (zahtjev, odgovor) => {
 });
 
 const ARHIVA = JSON.parse(fs.readFileSync(path.join(koren, 'baza', 'moodle.json'), 'utf8'));
+const kopija = napraviKopiju({ bazen, arhiva: ARHIVA, rubrike: RUBRIKE });
 const SVI_KURSEVI = new Map();
 
 function popisi(grana, put) {
@@ -975,24 +1063,30 @@ async function zakljucaniKursevi() {
   return new Set(rows.map(r => r.kurs));
 }
 
-function prepisiGranu(grana, zakljucani, vidi) {
+async function prepisiGranu(grana, zakljucani, vidi, saKopijom) {
   const nova = { ...grana };
   if (grana.k) {
-    nova.k = grana.k.map(k => {
-      if (!zakljucani.has(k.i)) return k;
-      const kopija = { ...k, z: 1 };
-      if (!vidi) delete kopija.s;
-      return kopija;
-    });
+    nova.k = await Promise.all(grana.k.map(async k => {
+      const kurs = { ...k };
+      if (zakljucani.has(k.i)) {
+        kurs.z = 1;
+        if (!vidi) delete kurs.s;
+      }
+      if (saKopijom && kurs.s) {
+        kurs.s = await Promise.all(kurs.s.map(async s => ({ ...s, a: await kopija.prepisiAktivnosti(s.a || [], vidi) })));
+      }
+      return kurs;
+    }));
   }
-  if (grana.p) nova.p = grana.p.map(p => prepisiGranu(p, zakljucani, vidi));
+  if (grana.p) nova.p = await Promise.all(grana.p.map(p => prepisiGranu(p, zakljucani, vidi, saKopijom)));
   return nova;
 }
 
 app.get('/moodle/arhiva.json', async (zahtjev, odgovor) => {
   let zakljucani = new Set();
   let vidi = false;
-  if (bazen && KLJUC) {
+  const saKopijom = Boolean(bazen && KLJUC);
+  if (saKopijom) {
     zakljucani = await zakljucaniKursevi();
     vidi = predaje(await ko(zahtjev));
   }
@@ -1000,8 +1094,8 @@ app.get('/moodle/arhiva.json', async (zahtjev, odgovor) => {
   const tijelo = JSON.stringify({
     ...ARHIVA,
     vidi,
-    zbirke: ARHIVA.zbirke.map(z => prepisiGranu(z, zakljucani, vidi)),
-    godine: ARHIVA.godine.map(g => prepisiGranu(g, zakljucani, vidi))
+    zbirke: await Promise.all(ARHIVA.zbirke.map(z => prepisiGranu(z, zakljucani, vidi, saKopijom))),
+    godine: await Promise.all(ARHIVA.godine.map(g => prepisiGranu(g, zakljucani, vidi, saKopijom)))
   });
 
   odgovor.set('Content-Type', 'application/json; charset=utf-8');
@@ -1043,6 +1137,25 @@ app.post('/api/moodle/zakljucaj', samoAdmin, async (zahtjev, odgovor) => {
   odgovor.json({ gotovo: true, broj: kursevi.length });
 });
 
+app.get('/api/moodle/kopija', samoAdmin, async (zahtjev, odgovor) => {
+  odgovor.json(await kopija.stanje());
+});
+
+app.post('/api/moodle/kopija', samoAdmin, async (zahtjev, odgovor) => {
+  if (zahtjev.body.radnja === 'stani') await kopija.stani();
+  else kopija.pokreni();
+  odgovor.json(await kopija.stanje());
+});
+
+app.get('/moodle/fajl/:id', async (zahtjev, odgovor) => {
+  if (!bazen || !/^[0-9a-f]{64}$/.test(zahtjev.params.id)) { odgovor.sendStatus(404); return; }
+  const { rows } = await bazen.query('select vrsta, putanja from datoteke where id = $1', [zahtjev.params.id]);
+  if (!rows.length || !rows[0].putanja || !/^image\//.test(rows[0].vrsta)) { odgovor.sendStatus(404); return; }
+  odgovor.set('Content-Type', rows[0].vrsta);
+  odgovor.set('Cache-Control', 'public, max-age=31536000, immutable');
+  odgovor.sendFile(kopija.putanjaFajla(rows[0].putanja), { dotfiles: 'allow' }, err => { if (err && !odgovor.headersSent) odgovor.sendStatus(404); });
+});
+
 app.get('/api/pregled', samoAdmin, async (zahtjev, odgovor) => {
   const { rows } = await bazen.query(`
     select
@@ -1051,7 +1164,8 @@ app.get('/api/pregled', samoAdmin, async (zahtjev, odgovor) => {
       (select count(*)::int from novosti) as novosti,
       (select count(*)::int from kutak) as kutak,
       (select count(*)::int from prijedlozi) as prijedlozi,
-      (select count(*)::int from dokumenti) as dokumenti,
+      (select count(*)::int from dokumenti where moodle_u is null) as dokumenti,
+      (select count(*)::int from dokumenti where moodle_u is not null) as moodle_dokumenti,
       (select count(*)::int from dokumenti where zakljucan) as zakljucanih_dokumenata,
       (select count(*)::int from zakljucani_kursevi) as zakljucanih_kurseva,
       (select count(*)::int from nastavnici) as zaposlenih,
@@ -1065,23 +1179,34 @@ app.get('/dokument/:id', async (zahtjev, odgovor) => {
   if (!bazen || !UUID.test(zahtjev.params.id)) { odgovor.sendStatus(404); return; }
 
   const { rows } = await bazen.query(
-    `select d.zakljucan, f.vrsta, f.ime, f.podaci
+    `select d.zakljucan, d.moodle_kurs, d.ime_datoteke as ime, f.vrsta, f.podaci, f.putanja
      from dokumenti d join datoteke f on f.id = d.datoteka where d.id = $1`,
     [zahtjev.params.id]
   );
   if (!rows.length) { odgovor.sendStatus(404); return; }
+  const red = rows[0];
 
-  if (rows[0].zakljucan && !predaje(await ko(zahtjev))) {
+  const kursZakljucan = red.moodle_kurs != null && (await zakljucaniKursevi()).has(red.moodle_kurs);
+  if ((red.zakljucan || kursZakljucan) && !predaje(await ko(zahtjev))) {
     odgovor.status(403).send('Ovaj dokument je zaključan. Otvaraju ga nastavnici škole.');
     return;
   }
 
-  const ugradivo = /^(application\/pdf|image\/|text\/plain)/.test(rows[0].vrsta);
-  odgovor.set('Content-Type', rows[0].vrsta);
+  const strana = red.vrsta === 'text/html';
+  const ugradivo = strana || /^(application\/pdf|image\/|text\/plain)/.test(red.vrsta);
+  odgovor.set('Content-Type', strana ? 'text/html; charset=utf-8' : red.vrsta);
   odgovor.set('Content-Disposition',
-    (ugradivo ? 'inline' : 'attachment') + "; filename*=UTF-8''" + encodeURIComponent(rows[0].ime));
+    (ugradivo ? 'inline' : 'attachment') + "; filename*=UTF-8''" + encodeURIComponent(red.ime));
   odgovor.set('Cache-Control', 'private, max-age=60');
-  odgovor.send(rows[0].podaci);
+  odgovor.set('X-Content-Type-Options', 'nosniff');
+  if (strana) {
+    odgovor.set('Content-Security-Policy', "sandbox allow-popups; default-src 'none'; img-src 'self' https: data:; style-src 'unsafe-inline'");
+  }
+
+  if (!red.putanja) { odgovor.send(red.podaci); return; }
+  odgovor.sendFile(kopija.putanjaFajla(red.putanja), { dotfiles: 'allow' }, err => {
+    if (err && !odgovor.headersSent) odgovor.status(404).send('Fajl nije pronađen na disku.');
+  });
 });
 
 function opis(ime) {
@@ -1182,7 +1307,7 @@ app.get('/slike/:ime', async (zahtjev, odgovor) => {
 });
 
 app.use((zahtjev, odgovor, dalje) => {
-  if (/^\/(server\.js|package(-lock)?\.json|baza\/|\.)/.test(zahtjev.path)) {
+  if (/^\/(server\.js|moodle-kopija\.js|arhiva-moodle(\/|$)|package(-lock)?\.json|baza\/|\.)/.test(zahtjev.path)) {
     odgovor.sendStatus(404);
     return;
   }
@@ -1222,6 +1347,7 @@ async function sacekajBazu() {
     try {
       if (await sacekajBazu()) {
         await napraviShemu();
+        await kopija.nastaviAkoJeRadila();
         await posijZaposlene();
         await napraviAdmina();
         KLJUC = await tajna();
