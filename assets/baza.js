@@ -221,6 +221,18 @@ export async function posaljiFirmu(podaci) {
   return trazi('/firme', { method: 'POST', body: JSON.stringify(podaci) });
 }
 
+export async function posaljiSkoli(podaci) {
+  return trazi('/kontakt', { method: 'POST', body: JSON.stringify(podaci) });
+}
+
+export async function porukeSkoli() {
+  return trazi('/kontakt');
+}
+
+export async function obrisiPorukuSkoli(id) {
+  return trazi('/kontakt/' + id, { method: 'DELETE' });
+}
+
 export async function firme() {
   return trazi('/firme');
 }

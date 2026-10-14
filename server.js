@@ -24,7 +24,6 @@ const bazen = adresaBaze ? new Pool({
 const SKOLSKI_DOMEN = '@ets-pg.edu.me';
 
 const RUBRIKE = [
-  'Obavještenja',
   'Dokumenta',
   'Obrazovni programi',
   'Gradivo',
@@ -217,6 +216,17 @@ async function napraviShemu() {
     create table if not exists ghost_bez_pristupa (
       email text primary key,
       napravljeno timestamptz default now()
+    );
+    create table if not exists kontakt (
+      id serial primary key,
+      ime text not null,
+      email text not null,
+      naslov text,
+      poruka text not null,
+      poslato boolean not null default false,
+      greska text,
+      vidjeno boolean not null default false,
+      napravljeno timestamptz not null default now()
     );
     create table if not exists cet_rijeci (
       rijec text primary key,
@@ -871,15 +881,112 @@ app.get('/api/novo', samoAdmin, async (zahtjev, odgovor) => {
   const { rows } = await bazen.query(`
     select
       (select count(*)::int from firme where not vidjeno) as firme,
-      (select count(*)::int from prijedlozi where not vidjeno) as prijedlozi
+      (select count(*)::int from prijedlozi where not vidjeno) as prijedlozi,
+      (select count(*)::int from kontakt where not vidjeno) as kontakt
   `);
   odgovor.json(rows[0]);
 });
 
 app.post('/api/novo/:vrsta', samoAdmin, async (zahtjev, odgovor) => {
   const vrsta = zahtjev.params.vrsta;
-  if (vrsta !== 'firme' && vrsta !== 'prijedlozi') { odgovor.sendStatus(404); return; }
+  if (!['firme', 'prijedlozi', 'kontakt'].includes(vrsta)) { odgovor.sendStatus(404); return; }
   await bazen.query('update ' + vrsta + ' set vidjeno = true where not vidjeno');
+  odgovor.json({ gotovo: true });
+});
+
+const SKOLSKA_POSTA = process.env.KONTAKT_EMAIL || 'skola@ets-pg.edu.me';
+const zadnjiKontakt = new Map();
+
+async function posaljiSkoli(red) {
+  const kljuc = process.env.RESEND_API_KEY;
+  if (!kljuc) throw new Error('Nije podešen RESEND_API_KEY.');
+  const tekstPoruke = [
+    'Poruka sa sajta škole',
+    '',
+    'Od: ' + red.ime + ' <' + red.email + '>',
+    red.naslov ? 'Naslov: ' + red.naslov : null,
+    '',
+    red.poruka,
+    '',
+    'Odgovor na ovaj mejl ide pošiljaocu.'
+  ].filter(v => v !== null).join('\n');
+
+  const odgovor = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + kljuc, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from: process.env.KONTAKT_OD || 'Sajt škole <onboarding@resend.dev>',
+      to: [SKOLSKA_POSTA],
+      reply_to: red.email,
+      subject: 'Sajt: ' + (red.naslov || 'poruka od ' + red.ime),
+      text: tekstPoruke
+    }),
+    signal: AbortSignal.timeout(20000)
+  });
+  if (!odgovor.ok) {
+    const tijelo = await odgovor.text().catch(() => '');
+    throw new Error('Resend ' + odgovor.status + ' ' + tijelo.slice(0, 200));
+  }
+}
+
+app.post('/api/kontakt', async (zahtjev, odgovor) => {
+  const tijelo = zahtjev.body || {};
+  if (tijelo.web) {
+    odgovor.json({ gotovo: true });
+    return;
+  }
+
+  const ip = zahtjev.ip || '';
+  if (Date.now() - (zadnjiKontakt.get(ip) || 0) < 60 * 1000) {
+    odgovor.status(429).json({ greska: 'Poruka je upravo poslata. Sačekajte minut pa pošaljite sljedeću.' });
+    return;
+  }
+
+  const red = {
+    ime: String(tijelo.ime || '').trim().slice(0, 120),
+    email: String(tijelo.email || '').trim().toLowerCase().slice(0, 160),
+    naslov: String(tijelo.naslov || '').trim().slice(0, 160) || null,
+    poruka: String(tijelo.poruka || '').trim().slice(0, 4000)
+  };
+  if (!red.ime) {
+    odgovor.status(400).json({ greska: 'Upišite ime.' });
+    return;
+  }
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(red.email)) {
+    odgovor.status(400).json({ greska: 'Upišite ispravnu e-poštu, da škola može da odgovori.' });
+    return;
+  }
+  if (red.poruka.length < 5) {
+    odgovor.status(400).json({ greska: 'Napišite poruku.' });
+    return;
+  }
+
+  const { rows } = await bazen.query(
+    'insert into kontakt (ime, email, naslov, poruka) values ($1, $2, $3, $4) returning id',
+    [red.ime, red.email, red.naslov, red.poruka]
+  );
+  zadnjiKontakt.set(ip, Date.now());
+
+  try {
+    await posaljiSkoli(red);
+    await bazen.query('update kontakt set poslato = true where id = $1', [rows[0].id]);
+  } catch (greska) {
+    console.warn('Poruka ' + rows[0].id + ' nije poslata e-poštom: ' + greska.message);
+    await bazen.query('update kontakt set greska = $2 where id = $1', [rows[0].id, greska.message.slice(0, 300)]);
+  }
+
+  odgovor.json({ gotovo: true });
+});
+
+app.get('/api/kontakt', samoAdmin, async (zahtjev, odgovor) => {
+  const { rows } = await bazen.query('select * from kontakt order by napravljeno desc limit 300');
+  odgovor.json(rows);
+});
+
+app.delete('/api/kontakt/:id', samoAdmin, async (zahtjev, odgovor) => {
+  const id = Number(zahtjev.params.id);
+  if (!Number.isInteger(id)) { odgovor.sendStatus(404); return; }
+  await bazen.query('delete from kontakt where id = $1', [id]);
   odgovor.json({ gotovo: true });
 });
 
@@ -1278,7 +1385,7 @@ app.get('/moodle/arhiva.json', async (zahtjev, odgovor) => {
   const tijelo = JSON.stringify({
     ...ARHIVA,
     vidi,
-    zbirke: await Promise.all(ARHIVA.zbirke.map(z => prepisiGranu(z, zakljucani, vidi, saKopijom))),
+    zbirke: await Promise.all(ARHIVA.zbirke.filter(z => z.n !== 'Obavještenja').map(z => prepisiGranu(z, zakljucani, vidi, saKopijom))),
     godine: await Promise.all(ARHIVA.godine.map(g => prepisiGranu(g, zakljucani, vidi, saKopijom)))
   });
 

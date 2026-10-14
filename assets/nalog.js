@@ -21,7 +21,7 @@ if (meni) {
       meni.insertBefore(a, veza);
       if (p.uloga === 'admin') {
         novo().then(n => {
-          const svega = n.firme + n.prijedlozi;
+          const svega = n.firme + n.prijedlozi + (n.kontakt || 0);
           if (!svega) return;
           const z = document.createElement('b');
           z.className = 'adm-novo meni-novo';

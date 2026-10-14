@@ -2199,3 +2199,11 @@ html.ucitava, html.ucitava body { overflow: hidden; }
   font: inherit; color: var(--struja-svijetla); text-decoration: underline;
 }
 .ghost .cet-dno { background: none; }
+
+.kontakt-forma { max-width: 760px; }
+.kontakt-forma .btn { margin-top: 6px; }
+.kontakt-hvala { max-width: 760px; }
+.adm-poruka-tekst { white-space: pre-wrap; margin: 12px 0; color: var(--ink); }
+.kontakt-forma { display: grid; gap: 18px; }
+.kontakt-forma .fgrid { gap: 18px; }
+.kontakt-forma .btn { justify-self: start; }

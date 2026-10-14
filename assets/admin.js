@@ -7,7 +7,8 @@ import {
   pregled, zakljucajKurseve, moodleArhiva, kopijaMoodlea, odjaviSe,
   firme, obrisiFirmu, novo, pregledano,
   zabranjeneRijeci, zabraniRijec, dozvoliRijec,
-  ghostBezPristupa, ghostZabraniAdrese, ghostDozvoliAdresu
+  ghostBezPristupa, ghostZabraniAdrese, ghostDozvoliAdresu,
+  porukeSkoli, obrisiPorukuSkoli
 } from './baza.js';
 import { RAZREDI, PREDMETI, SVI_RAZREDI, RUCNO } from './predmeti.js';
 
@@ -26,13 +27,14 @@ const TABOVI = {
   pregled: ['Pregled', 'Stanje sajta na jednom mjestu.'],
   moodle: ['Moodle', 'Zaključan kurs otvaraju samo nastavnici i admin. Ostali vide naziv i katanac.'],
   dokumenti: ['Dokumenti', 'Fajlovi koje nastavnici postavljaju u Moodle sajta.'],
-  novosti: ['Novosti', 'Obavještenja i rokovi na strani Novosti.'],
+  novosti: ['Novosti', 'Vijesti i rokovi na strani Novosti.'],
   dogadjaji: ['Događaji', 'Šta se sprema u školi. Na sajtu se vide samo događaji od danas nadalje.'],
   kutak: ['Kutak učenika', 'Galerija đačkog života.'],
   prijedlozi: ['Slike učenika', 'Slike koje su učenici poslali za kutak. Prebaci ih ili obriši.'],
   firme: ['Firme', 'Upitnici koje su firme poslale upravi škole.'],
   nastavnici: ['Nastavnici', 'Spisak na strani Nastavnici i osoblje.'],
   poslodavci: ['Poslodavci', 'Partneri kod kojih učenici rade praksu.'],
+  kontakt: ['Poruke', 'Poruke poslate sa sajta. Svaka ide i na školsku e-poštu, a ovdje ostaje kao rezerva.'],
   cet: ['Čet', 'Zabranjene riječi se u četu zamijene zvjezdicama. Ovdje je i spisak nastavnika koji ne ulaze u Ghost sobu.'],
   nalozi: ['Nalozi', 'Ko ima nalog na sajtu i koju ulogu.']
 };
@@ -314,6 +316,62 @@ async function crud(kljuc) {
 
   crtajFormu(null);
   ucitaj();
+}
+
+async function porukeSajta() {
+  sadrzaj.innerHTML = '<p class="adm-sitno">Učitavam…</p>';
+  let data;
+  try {
+    data = await porukeSkoli();
+  } catch (greska) {
+    sadrzaj.innerHTML = `<p class="glas lose">${tekst(porukaGreske(greska))}</p>`;
+    return;
+  }
+
+  sadrzaj.innerHTML = '';
+  const glasnik = el('<p class="glas" hidden></p>');
+  sadrzaj.appendChild(glasnik);
+  if (!data.length) {
+    sadrzaj.appendChild(el('<p class="prazno">Još nema poruka sa sajta.</p>'));
+    return;
+  }
+
+  const spisak = el('<div class="admin-spisak siroko"></div>');
+  sadrzaj.appendChild(spisak);
+  data.forEach(m => {
+    const kad = new Date(m.napravljeno).toLocaleString('sr-Latn', { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    const stanje = m.poslato ? 'stiglo na e-poštu' : 'nije otišlo e-poštom';
+    const stavka = el(`<details class="adm-firma"${m.vidjeno ? '' : ' open'}>
+      <summary>
+        <span class="admin-tekst">
+          <b>${m.vidjeno ? '' : '<em class="adm-svjeze">Novo</em> '}${tekst(m.naslov || 'Poruka od ' + m.ime)}</b>
+          <span>${tekst([m.ime, m.email, kad, stanje].join(' · '))}</span>
+        </span>
+      </summary>
+      <p class="adm-poruka-tekst"></p>
+      ${m.greska ? `<p class="adm-sitno">Greška pri slanju: ${tekst(m.greska)}</p>` : ''}
+      <div class="admin-radnje">
+        <a class="btn btn-line mali" target="_blank" rel="noopener">Odgovori</a>
+        <button class="btn btn-line mali obrisi">Obriši</button>
+      </div>
+    </details>`);
+    stavka.querySelector('.adm-poruka-tekst').textContent = m.poruka;
+    stavka.querySelector('a').href = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(m.email) +
+      '&su=' + encodeURIComponent('Re: ' + (m.naslov || 'poruka sa sajta škole'));
+    stavka.querySelector('.obrisi').addEventListener('click', async () => {
+      if (!confirm('Obrisati poruku od ' + m.ime + '?')) return;
+      try {
+        await obrisiPorukuSkoli(m.id);
+      } catch (greska) {
+        javi(glasnik, porukaGreske(greska));
+        return;
+      }
+      porukeSajta();
+    });
+    spisak.appendChild(stavka);
+  });
+
+  if (data.some(m => !m.vidjeno)) pregledano('kontakt').then(osvjeziNovo).catch(() => {});
 }
 
 async function cetRijeci() {
@@ -765,10 +823,10 @@ async function osvjeziNovo() {
     z.hidden = !broj;
   });
 
-  const svega = n.firme + n.prijedlozi;
+  const svega = n.firme + n.prijedlozi + n.kontakt;
   ukupnoNovo.hidden = !svega;
   ukupnoNovo.querySelector('span').textContent = padez(svega, 'nova poruka', 'nove poruke', 'novih poruka');
-  ukupnoNovo.onclick = () => prikazi(n.firme ? 'firme' : 'prijedlozi');
+  ukupnoNovo.onclick = () => prikazi(n.kontakt ? 'kontakt' : n.firme ? 'firme' : 'prijedlozi');
   document.title = svega ? '(' + svega + ') ' + naslovStrane : naslovStrane;
 }
 
@@ -1379,6 +1437,7 @@ function prikazi(kljuc) {
   else if (kljuc === 'moodle') moodleZakljucavanje();
   else if (kljuc === 'nalozi') nalozi();
   else if (kljuc === 'cet') cetRijeci();
+  else if (kljuc === 'kontakt') porukeSajta();
   else if (kljuc === 'prijedlozi') poslateSlike();
   else if (kljuc === 'firme') poslateFirme();
   else if (kljuc === 'dokumenti') moodleDokumenti();

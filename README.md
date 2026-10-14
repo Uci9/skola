@@ -128,6 +128,17 @@ Ako canvas ne prođe, umjesto bloka se pokaže običan tekst (`#blok-rezerva`).
 Sekcija „Gdje smo“ je tabela sa podacima škole, a pored nje Google mapa sa
 adresom.
 
+Ispod nje je obrazac „Pošalji poruku školi“ (`#poruka`), a na njega vode dugme
+„Pošalji poruku“ i školska adresa na svim stranama. Poruka se prvo upiše u
+tabelu `kontakt` i vidi u panelu (tab Poruke, sa žutim brojem novih), pa se
+pošalje na skola@ets-pg.edu.me preko Resend-a, sa adresom pošiljaoca kao
+reply-to. Railway na Hobby planu ne pušta SMTP, zato HTTP servis.
+
+Za slanje e-poštom na Railway-u treba promjenljiva `RESEND_API_KEY`. Bez
+verifikovanog domena Resend šalje samo na adresu sa kojom je nalog otvoren,
+pa nalog treba otvoriti sa skola@ets-pg.edu.me. `KONTAKT_EMAIL` mijenja
+primaoca, `KONTAKT_OD` pošiljaoca. Sa jedne adrese ide jedna poruka u minuti.
+
 ## Slike od učenika
 
 Na dnu kutka učenika stoji obrazac za slanje slike. Radi samo prijavljenom
@@ -208,8 +219,7 @@ karticu sama, pa za nove ljude ne treba dirati HTML.
 
 ## Kontakt i smjerovi
 
-„Pošalji poruku“ i školska adresa otvaraju Gmail sa već upisanim primaocem
-skola@ets-pg.edu.me. Kartica svakog smjera na početnoj otvara njegov obrazovni
+„Pošalji poruku“ i školska adresa vode na obrazac za poruke (vidi Kontakt). Kartica svakog smjera na početnoj otvara njegov obrazovni
 program iz `assets/programi/`.
 
 ## Kopija Moodle-a

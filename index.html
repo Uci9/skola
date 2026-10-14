@@ -8,17 +8,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&amp;family=Instrument+Sans:wght@400;500;600&amp;family=Instrument+Serif:ital@0;1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=a59be142">
+<link rel="stylesheet" href="assets/styles.css?v=6a5f770c">
 <script>document.documentElement.classList.replace('no-js', 'js');</script>
-<script src="assets/prevod-en.js?v=395ae11d" defer></script>
+<script src="assets/prevod-en.js?v=27188002" defer></script>
 <script src="assets/jezik.js?v=29f1ae43" defer></script>
-<script type="module" src="assets/nalog.js?v=03690671"></script>
+<script type="module" src="assets/nalog.js?v=f9b9c852"></script>
 <script src="assets/tekst.js?v=4532f47f" defer></script>
 <script src="assets/leca.js?v=926f53a3" defer></script>
 <script src="assets/meni.js?v=da498ab3" defer></script>
 <script src="assets/cet-tipka.js?v=370d32c0" defer></script>
 <script src="assets/mreza.js?v=cb164972" defer></script>
 <script src="assets/ucitavanje.js?v=484f4468" defer></script>
+<script type="module" src="assets/kontakt.js?v=51aa9c80"></script>
 <script src="assets/blok.js?v=1880d0e4" defer></script>
 </head>
 <body>
@@ -66,7 +67,6 @@
           <div class="meni-panel" id="panel-ucenici">
             <div class="panel-karta">
             <a href="kutak-ucenika.html"><b>Kutak učenika</b><span>Trenuci van rasporeda časova.</span></a>
-            <a href="moodle.html#obavjestenja"><b>Obavještenja</b><span>Raspored, oglasna tabla, rokovi.</span></a>
             </div>
           </div>
         </div>
@@ -115,7 +115,7 @@
           <ul class="panel-list">
             <li><a href="kalkulator.html"><b>Kalkulator poena</b><span>za upis u I razred</span></a></li>
             <li><a href="moodle.html"><b>Moodle</b><span>platforma za učenje</span></a></li>
-            <li><a href="moodle.html#obavjestenja"><b>Obavještenja</b><span>budi na vrijeme obaviješten</span></a></li>
+            <li><a href="novosti.html"><b>Novosti</b><span>budi na vrijeme obaviješten</span></a></li>
             <li><a href="moodle.html#dokumenta"><b>Dokumenti</b><span>pravilnici, planovi, javni pozivi</span></a></li>
           </ul>
         </article>
@@ -422,11 +422,11 @@
       </details>
 
       <details class="pitanje">
-        <summary>Gdje su obavještenja i dokumenti?</summary>
+        <summary>Gdje su novosti i dokumenti?</summary>
         <div class="pitanje-tijelo">
-          <p>Tekuća obavještenja, raspored i školska dokumenta, kao što su statut, pravilnici, javni pozivi
-             i planovi, stoje u <a href="moodle.html">Moodle-u škole</a>. Najvažnije je prekopirano
-             i <a href="#dokumenti">ovdje na sajtu</a>.</p>
+          <p>Vijesti, rokovi i događaji stoje na strani <a href="novosti.html">Novosti</a>. Školska
+             dokumenta, kao što su statut, pravilnici, javni pozivi i planovi, stoje u
+             <a href="#dokumenti">Dokumentima</a>.</p>
         </div>
       </details>
 
@@ -445,27 +445,15 @@
   <div class="shell">
     <div class="rise">
       <h2>Šta je novo</h2>
-      <p class="lede red-tel">Tekuća obavještenja škola objavljuje <span class="isticanje" data-akcija="oboji">u Moodle-u</span>.</p>
+      <p class="lede red-tel">Vijesti, rokovi i događaji stoje <span class="isticanje" data-akcija="oboji">na strani Novosti</span>.</p>
     </div>
     <div class="stack rise">
-      <a class="tile" href="moodle.html#obavjestenja">
-        <span class="tile-chip">Moodle</span>
-        <span class="tile-mid"><h3>Oglasna tabla škole</h3><p>Obavještenja za učenike i roditelje.</p></span>
-        <span class="tile-go">Otvori &rarr;</span>
-      </a>
-      <a class="tile" href="moodle.html#obavjestenja">
-        <span class="tile-chip">Moodle</span>
-        <span class="tile-mid"><h3>Raspored za prvi dan škole</h3><p>Po odjeljenjima i učionicama.</p></span>
-        <span class="tile-go">Otvori &rarr;</span>
-      </a>
-      <a class="tile" href="moodle.html#obavjestenja">
-        <span class="tile-chip">Moodle</span>
-        <span class="tile-mid"><h3>Android aplikacija ETŠ.me</h3><p>Uputstvo za preuzimanje.</p></span>
-        <span class="tile-go">Otvori &rarr;</span>
-      </a>
       <a class="tile" href="novosti.html">
-        <span class="tile-chip">Sajt</span>
-        <span class="tile-mid"><h3>Sve novosti škole</h3><p>Takmičenja, projekti i događaji.</p></span>
+        <span class="tile-mid"><h3>Sve novosti škole</h3><p>Takmičenja, projekti, upis i rokovi.</p></span>
+        <span class="tile-go">Otvori &rarr;</span>
+      </a>
+      <a class="tile" href="novosti.html#dogadjaji">
+        <span class="tile-mid"><h3>Događaji</h3><p>Šta se sprema u školi.</p></span>
         <span class="tile-go">Otvori &rarr;</span>
       </a>
     </div>
@@ -499,14 +487,14 @@
   <div class="shell">
     <div class="rise">
       <h2>Moodle</h2>
-      <p class="lede jedan-red">Obavještenja, dokumenta i gradivo svih odjeljenja stoje <span class="isticanje" data-akcija="oboji">na jednom mjestu</span>, sa pretragom.</p>
+      <p class="lede jedan-red">Dokumenta i gradivo svih odjeljenja stoje <span class="isticanje" data-akcija="oboji">na jednom mjestu</span>, sa pretragom.</p>
     </div>
     <div class="duet rise-kids">
       <article class="mate">
         <span class="card-tag">Škola</span>
-        <h3>Obavještenja i dokumenta</h3>
-        <p>Raspored, oglasna tabla, pravilnici, obrazovni programi, projekti i vanredni ispiti.</p>
-        <p><a href="moodle.html#obavjestenja" class="btn btn-line">Otvori</a></p>
+        <h3>Dokumenta i projekti</h3>
+        <p>Pravilnici, obrazovni programi, projekti i vanredni ispiti.</p>
+        <p><a href="moodle.html#dokumenta" class="btn btn-line">Otvori</a></p>
       </article>
       <article class="mate">
         <span class="card-tag">Odjeljenja</span>
@@ -525,15 +513,15 @@
       <p class="lede">Statut, pravilnici, javni pozivi i planovi, <span class="isticanje" data-akcija="podvuci">sve javno dostupno</span>.</p>
     </div>
     <div class="stack rise">
-      <a class="tile" href="moodle.html#dokumenta"><span class="tile-chip">Moodle</span><span class="tile-name">Obrazovni programi</span><span class="tile-go">Otvori &rarr;</span></a>
-      <a class="tile" href="moodle.html#dokumenta"><span class="tile-chip">Moodle</span><span class="tile-name">Predlog Godišnjeg programa rada</span><span class="tile-go">Otvori &rarr;</span></a>
-      <a class="tile" href="moodle.html#dokumenta"><span class="tile-chip">Moodle</span><span class="tile-name">Maturski i stručni ispit</span><span class="tile-go">Otvori &rarr;</span></a>
-      <a class="tile" href="moodle.html#dokumenta"><span class="tile-chip">Moodle</span><span class="tile-name">Etički kodeks</span><span class="tile-go">Otvori &rarr;</span></a>
-      <a class="tile" href="moodle.html#dokumenta"><span class="tile-chip">Moodle</span><span class="tile-name">Vodič za pristup informacijama</span><span class="tile-go">Otvori &rarr;</span></a>
-      <a class="tile" href="moodle.html#dokumenta"><span class="tile-chip">Moodle</span><span class="tile-name">Javni pozivi</span><span class="tile-go">Otvori &rarr;</span></a>
-      <a class="tile" href="moodle.html#dokumenta"><span class="tile-chip">Moodle</span><span class="tile-name">Spisak zaposlenih sa zvanjima</span><span class="tile-go">Otvori &rarr;</span></a>
-      <a class="tile" href="moodle.html#dokumenta"><span class="tile-chip">Moodle</span><span class="tile-name">Pravilnik o kućnom redu škole</span><span class="tile-go">Otvori &rarr;</span></a>
-      <a class="tile" href="moodle.html#dokumenta"><span class="tile-chip">Moodle</span><span class="tile-name">Plan integriteta</span><span class="tile-go">Otvori &rarr;</span></a>
+      <a class="tile" href="moodle.html#dokumenta"><span class="tile-name">Obrazovni programi</span><span class="tile-go">Otvori &rarr;</span></a>
+      <a class="tile" href="moodle.html#dokumenta"><span class="tile-name">Predlog Godišnjeg programa rada</span><span class="tile-go">Otvori &rarr;</span></a>
+      <a class="tile" href="moodle.html#dokumenta"><span class="tile-name">Maturski i stručni ispit</span><span class="tile-go">Otvori &rarr;</span></a>
+      <a class="tile" href="moodle.html#dokumenta"><span class="tile-name">Etički kodeks</span><span class="tile-go">Otvori &rarr;</span></a>
+      <a class="tile" href="moodle.html#dokumenta"><span class="tile-name">Vodič za pristup informacijama</span><span class="tile-go">Otvori &rarr;</span></a>
+      <a class="tile" href="moodle.html#dokumenta"><span class="tile-name">Javni pozivi</span><span class="tile-go">Otvori &rarr;</span></a>
+      <a class="tile" href="moodle.html#dokumenta"><span class="tile-name">Spisak zaposlenih sa zvanjima</span><span class="tile-go">Otvori &rarr;</span></a>
+      <a class="tile" href="moodle.html#dokumenta"><span class="tile-name">Pravilnik o kućnom redu škole</span><span class="tile-go">Otvori &rarr;</span></a>
+      <a class="tile" href="moodle.html#dokumenta"><span class="tile-name">Plan integriteta</span><span class="tile-go">Otvori &rarr;</span></a>
     </div>
     <p class="tail">Svi dokumenti stoje u <a href="moodle.html#dokumenta">Moodle-u škole</a>.</p>
   </div>
@@ -549,13 +537,13 @@
             <tr><th>Ustanova</th><td>JU Srednja elektrotehnička škola „Vaso Aligrudić“</td></tr>
             <tr><th>Adresa</th><td>Vasa Raičkovića 26, 81000 Podgorica</td></tr>
             <tr><th>Telefon</th><td><a href="tel:+38220237120">020 237 120</a></td></tr>
-            <tr><th>E-pošta</th><td><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=skola@ets-pg.edu.me" target="_blank" rel="noopener">skola@ets-pg.edu.me</a></td></tr>
+            <tr><th>E-pošta</th><td><a href="#poruka">skola@ets-pg.edu.me</a></td></tr>
             <tr><th>Djelatnost</th><td>8532, srednje stručno i tehničko obrazovanje</td></tr>
             <tr><th>Sekretarijat</th><td>Ponedjeljak do petka, od 08.00 do 14.00</td></tr>
           </tbody>
         </table>
         <p class="kontakt-do">
-          <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=skola@ets-pg.edu.me" target="_blank" rel="noopener" class="btn btn-white">Pošalji poruku</a>
+          <a href="#poruka" class="btn btn-white">Pošalji poruku</a>
           <a href="https://www.google.com/maps/search/?api=1&amp;query=Vasa+Rai%C4%8Dkovi%C4%87a+26%2C+Podgorica" class="btn btn-onwhite">Otvori na mapi</a>
         </p>
       </div>
@@ -563,6 +551,36 @@
         <iframe title="Mapa, lokacija škole" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
           src="https://www.google.com/maps?q=Vasa%20Rai%C4%8Dkovi%C4%87a%2026%2C%20Podgorica&amp;hl=sr&amp;z=16&amp;output=embed"></iframe>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk blk-white" id="poruka">
+  <div class="shell">
+    <div class="rise">
+      <h2>Pošalji poruku školi</h2>
+      <p class="lede">Poruka stiže na <b>skola@ets-pg.edu.me</b>, a odgovor dobijate na e-poštu koju upišete.</p>
+    </div>
+    <form class="form kontakt-forma rise" id="kontakt-forma" novalidate>
+      <div class="fgrid f2">
+        <label class="f"><span>Ime i prezime *</span>
+          <input type="text" name="ime" maxlength="120" autocomplete="name" required></label>
+        <label class="f"><span>E-pošta *</span>
+          <input type="email" name="email" maxlength="160" autocomplete="email" required></label>
+      </div>
+      <label class="f"><span>Naslov</span>
+        <input type="text" name="naslov" maxlength="160"></label>
+      <label class="f"><span>Poruka *</span>
+        <textarea name="poruka" rows="6" maxlength="4000" required></textarea></label>
+      <label class="f mamac" aria-hidden="true"><span>Ne popunjavati</span>
+        <input type="text" name="web" tabindex="-1" autocomplete="off"></label>
+      <button type="submit" class="btn btn-fill">Pošalji poruku</button>
+      <p class="glas" id="kontakt-glas" hidden></p>
+    </form>
+    <div class="kutija kontakt-hvala" id="kontakt-hvala" hidden>
+      <h3>Poruka je poslata</h3>
+      <p>Hvala. Škola će vam odgovoriti na e-poštu koju ste upisali.</p>
+      <p><button type="button" class="btn btn-line" id="kontakt-jos">Pošalji još jednu</button></p>
     </div>
   </div>
 </section>
@@ -581,7 +599,7 @@
         <address>
           Vasa Raičkovića 26, 81000 Podgorica<br>
           <a href="tel:+38220237120">020 237 120</a><br>
-          <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=skola@ets-pg.edu.me" target="_blank" rel="noopener">skola@ets-pg.edu.me</a>
+          <a href="#poruka">skola@ets-pg.edu.me</a>
         </address>
         <div class="base-mreze">
           <a href="https://instagram.com/elektrotehnicka_skola_pg" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></a>
@@ -606,7 +624,6 @@
         <ul>
           <li><a href="moodle.html">Moodle</a></li>
           <li><a href="kutak-ucenika.html">Kutak učenika</a></li>
-          <li><a href="moodle.html#obavjestenja">Obavještenja</a></li>
           <li><a href="moodle.html#dokumenta">Dokumenti u Moodle-u</a></li>
           <li><a href="novosti.html">Novosti</a></li>
           <li><a href="novosti.html#dogadjaji">Događaji</a></li>
