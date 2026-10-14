@@ -221,6 +221,13 @@ imeForma.addEventListener('submit', async e => {
 
 document.getElementById('ghost-promijeni').addEventListener('click', () => traziIme(jaEl.textContent));
 
+function samoUcenici() {
+  zakljucano.querySelector('h2').textContent = 'Samo za učenike';
+  zakljucano.querySelector('p').textContent = 'Ova soba je otvorena samo za učenike.';
+  zakljucano.querySelector('a').hidden = true;
+  zakljucano.hidden = false;
+}
+
 (async function kreni() {
   if (!(await imaBazu())) {
     zakljucano.querySelector('p').textContent = 'Soba trenutno ne radi jer baza nije podešena.';
@@ -235,10 +242,7 @@ document.getElementById('ghost-promijeni').addEventListener('click', () => trazi
     return;
   }
   if (ja.uloga === 'nastavnik') {
-    zakljucano.querySelector('h2').textContent = 'Samo za učenike';
-    zakljucano.querySelector('p').textContent = 'Ova soba je otvorena samo za učenike.';
-    zakljucano.querySelector('a').hidden = true;
-    zakljucano.hidden = false;
+    samoUcenici();
     return;
   }
 
@@ -248,6 +252,10 @@ document.getElementById('ghost-promijeni').addEventListener('click', () => trazi
     if (stanje.nadimak) pokaziSobu(stanje.nadimak);
     else traziIme();
   } catch (greska) {
+    if (greska.stanje === 403) {
+      samoUcenici();
+      return;
+    }
     javi(imeGlas, porukaGreske(greska));
     imeForma.hidden = false;
   }

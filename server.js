@@ -214,6 +214,10 @@ async function napraviShemu() {
       napravljeno timestamptz not null default now()
     );
     create index if not exists ghost_poruke_napravljeno on ghost_poruke (napravljeno);
+    create table if not exists ghost_bez_pristupa (
+      email text primary key,
+      napravljeno timestamptz default now()
+    );
     create table if not exists cet_rijeci (
       rijec text primary key,
       dodao text,
@@ -1009,13 +1013,48 @@ async function samoUcenik(zahtjev, odgovor, dalje) {
     odgovor.status(401).json({ greska: 'Prijavi se.' });
     return;
   }
-  if (osoba.uloga !== 'korisnik' && osoba.uloga !== 'admin') {
+  let zabranjen = osoba.uloga !== 'korisnik' && osoba.uloga !== 'admin';
+  if (!zabranjen && osoba.uloga === 'korisnik') {
+    const { rows } = await bazen.query(
+      `select 1 from ghost_bez_pristupa where email = lower($1)
+       union all select 1 from nastavnici where lower(email) = lower($1) limit 1`,
+      [osoba.email]
+    );
+    zabranjen = rows.length > 0;
+  }
+  if (zabranjen) {
     odgovor.status(403).json({ greska: 'Ova soba je samo za učenike.' });
     return;
   }
   zahtjev.osoba = osoba;
   dalje();
 }
+
+app.get('/api/ghost/bez-pristupa', samoAdmin, async (zahtjev, odgovor) => {
+  const { rows } = await bazen.query('select email from ghost_bez_pristupa order by email');
+  odgovor.json(rows.map(r => r.email));
+});
+
+app.post('/api/ghost/bez-pristupa', samoAdmin, async (zahtjev, odgovor) => {
+  const adrese = [...new Set(
+    String(zahtjev.body.adrese || '').toLowerCase().split(/[\s,;]+/)
+      .filter(a => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(a))
+  )];
+  if (!adrese.length) {
+    odgovor.status(400).json({ greska: 'Nema nijedne ispravne e-pošte.' });
+    return;
+  }
+  const { rowCount } = await bazen.query(
+    'insert into ghost_bez_pristupa (email) select unnest($1::text[]) on conflict (email) do nothing',
+    [adrese]
+  );
+  odgovor.json({ dodato: rowCount, ukupno: adrese.length });
+});
+
+app.delete('/api/ghost/bez-pristupa/:email', samoAdmin, async (zahtjev, odgovor) => {
+  await bazen.query('delete from ghost_bez_pristupa where email = lower($1)', [zahtjev.params.email]);
+  odgovor.json({ gotovo: true });
+});
 
 function ghostPoruka(red, osoba) {
   const m = {

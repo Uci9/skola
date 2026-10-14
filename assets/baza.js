@@ -269,6 +269,18 @@ export async function ghostObrisi(id) {
   return trazi('/ghost/' + id, { method: 'DELETE' });
 }
 
+export async function ghostBezPristupa() {
+  return trazi('/ghost/bez-pristupa');
+}
+
+export async function ghostZabraniAdrese(adrese) {
+  return trazi('/ghost/bez-pristupa', { method: 'POST', body: JSON.stringify({ adrese }) });
+}
+
+export async function ghostDozvoliAdresu(email) {
+  return trazi('/ghost/bez-pristupa/' + encodeURIComponent(email), { method: 'DELETE' });
+}
+
 export async function zabranjeneRijeci() {
   return trazi('/cet/rijeci');
 }

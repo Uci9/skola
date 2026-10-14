@@ -266,6 +266,10 @@ slova (tabela `ghost_nadimci`, nadimak je jedinstven), i drugi učenici vide sam
 njega. Poruke stoje u `ghost_poruke` i brišu se posle 12 sati. Filter
 zabranjenih riječi ovdje ne važi.
 
+Nastavnici ne ulaze ni kad im nalog nije vezan za zaposlenog: admin u tabu Čet
+zalijepi njihove e-pošte (tabela `ghost_bez_pristupa`). Ne ulazi ni ko je sa
+e-poštom upisan u tabu Nastavnici.
+
 Server ne šalje učenicima ko stoji iza nadimka. Admin klikom na poruku vidi
 nalog, može je obrisati, utišati osobu ili joj zabraniti pisanje, isto kao u
 običnom četu.

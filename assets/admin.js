@@ -6,7 +6,8 @@ import {
   dokumenti, posaljiDokument, izmijeniDokument, obrisiDokument,
   pregled, zakljucajKurseve, moodleArhiva, kopijaMoodlea, odjaviSe,
   firme, obrisiFirmu, novo, pregledano,
-  zabranjeneRijeci, zabraniRijec, dozvoliRijec
+  zabranjeneRijeci, zabraniRijec, dozvoliRijec,
+  ghostBezPristupa, ghostZabraniAdrese, ghostDozvoliAdresu
 } from './baza.js';
 import { RAZREDI, PREDMETI, SVI_RAZREDI, RUCNO } from './predmeti.js';
 
@@ -32,7 +33,7 @@ const TABOVI = {
   firme: ['Firme', 'Upitnici koje su firme poslale upravi škole.'],
   nastavnici: ['Nastavnici', 'Spisak na strani Nastavnici i osoblje.'],
   poslodavci: ['Poslodavci', 'Partneri kod kojih učenici rade praksu.'],
-  cet: ['Čet', 'Zabranjene riječi se u četu zamijene zvjezdicama, i kad su napisane ćirilicom ili bez kvačica.'],
+  cet: ['Čet', 'Zabranjene riječi se u četu zamijene zvjezdicama. Ovdje je i spisak nastavnika koji ne ulaze u Ghost sobu.'],
   nalozi: ['Nalozi', 'Ko ima nalog na sajtu i koju ulogu.']
 };
 
@@ -334,8 +335,70 @@ async function cetRijeci() {
       <h3>Zabranjene <span class="broj" id="brojRijeci"></span></h3>
       <div class="adm-rijeci" id="spisakRijeci"></div>
     </div>
+    <div class="admin-forma">
+      <h3>Nastavnici bez Ghost sobe</h3>
+      <form id="formaAdrese" class="form">
+        <label class="f"><span>E-pošte nastavnika</span>
+          <textarea name="adrese" rows="6" required></textarea>
+          <small>Zalijepi spisak, jednu ispod druge ili odvojene zarezom. Ko je upisan u tabu Nastavnici sa e-poštom, ne ulazi ni bez ovoga.</small></label>
+        <div class="forma-dno">
+          <button type="submit" class="btn btn-fill">Zabrani ulaz</button>
+        </div>
+      </form>
+      <p class="glas" id="glasAdrese" hidden></p>
+    </div>
+    <div class="admin-spisak">
+      <h3>Ne ulaze u Ghost <span class="broj" id="brojAdresa"></span></h3>
+      <div class="adm-rijeci" id="spisakAdresa"></div>
+    </div>
   </div>`);
   sadrzaj.appendChild(okvir);
+
+  const formaAdrese = okvir.querySelector('#formaAdrese');
+  const glasAdrese = okvir.querySelector('#glasAdrese');
+  const spisakAdresa = okvir.querySelector('#spisakAdresa');
+
+  async function ucitajAdrese() {
+    let adrese;
+    try {
+      adrese = await ghostBezPristupa();
+    } catch (greska) {
+      javi(glasAdrese, porukaGreske(greska));
+      return;
+    }
+    okvir.querySelector('#brojAdresa').textContent = adrese.length;
+    spisakAdresa.innerHTML = adrese.length ? '' : '<p class="prazno">Spisak je prazan.</p>';
+    adrese.forEach(email => {
+      const cip = el(`<span class="adm-rijec"><span></span><button type="button" aria-label="Pusti u Ghost">&times;</button></span>`);
+      cip.querySelector('span').textContent = email;
+      cip.querySelector('button').addEventListener('click', async () => {
+        try {
+          await ghostDozvoliAdresu(email);
+        } catch (greska) {
+          javi(glasAdrese, porukaGreske(greska));
+          return;
+        }
+        ucitajAdrese();
+      });
+      spisakAdresa.appendChild(cip);
+    });
+  }
+
+  formaAdrese.addEventListener('submit', async e => {
+    e.preventDefault();
+    let o;
+    try {
+      o = await ghostZabraniAdrese(formaAdrese.elements.adrese.value);
+    } catch (greska) {
+      javi(glasAdrese, porukaGreske(greska));
+      return;
+    }
+    formaAdrese.reset();
+    javi(glasAdrese, 'Dodato: ' + o.dodato + (o.ukupno > o.dodato ? ', ostale su već bile na spisku.' : '.'), true);
+    ucitajAdrese();
+  });
+
+  ucitajAdrese();
 
   const forma = okvir.querySelector('#formaRijec');
   const glasnik = okvir.querySelector('#glasRijec');
